@@ -21,6 +21,7 @@ class Patient {
   double weight;
   String ssn;
   int conditionId;
+  int incubatorId;
   DateTime createdDate;
   PatientPhone patientPhone;
 
@@ -53,6 +54,7 @@ class Patient {
     this.ssn,
     this.conditionId,
     this.createdDate,
+    this.incubatorId,
     this.patientPhone,
   );
 
