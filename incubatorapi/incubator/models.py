@@ -29,7 +29,7 @@ class Analysis(models.Model):
 class Bill(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     paid = models.FloatField()
-    daycost = models.FloatField()
+    dayCost = models.FloatField()
     staying = models.FloatField()
     incubatorClean = models.FloatField()
     consumable = models.FloatField()

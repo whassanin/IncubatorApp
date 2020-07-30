@@ -1,25 +1,67 @@
-from django.shortcuts import render
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser
-from rest_framework import status
 from incubator.models import Incubator
+from incubator.models import Analysis
+from incubator.models import Condition
+from incubator.models import Patient
+from incubator.models import Bill
+
 from incubator.serializer import IncubatorSerializer
-from rest_framework.decorators import api_view 
+from incubator.serializer import AnalysisSerializer
+from incubator.serializer import ConditionSerializer
+from incubator.serializer import PatientSerializer
+from incubator.serializer import BillSerializer
+
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
-# incubator functions
-@api_view(['GET'])
-def readAllIncubator(request):
-    incubatorData = Incubator.objects.all()
-    incubator_serializer_Data = IncubatorSerializer(incubatorData,many=True)
-    return JsonResponse(incubator_serializer_Data.data,safe=False)
+# Incubator Class
+class IncubatorList(generics.ListCreateAPIView):
+    queryset = Incubator.objects.all()
+    serializer_class = IncubatorSerializer
 
-@api_view(['POST'])
-def addIncubator(request):
-    incubatorData = JSONParser().parse(request)
-    incubator_serializer_Data = IncubatorSerializer(data=incubatorData)
-    if incubator_serializer_Data.is_valid():
-        incubator_serializer_Data.save()
-        return JsonResponse(incubator_serializer_Data,status=status.HTTP_201_CREATED)
-    return JsonResponse(incubator_serializer_Data.errors,status=status.HTTP_400_BAD_REQUEST)
+class IncubatorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Incubator.objects.all()
+    serializer_class = IncubatorSerializer
+
+# Condition CLass
+class ConditionList(generics.ListCreateAPIView):
+    queryset = Condition.objects.all()
+    serializer_class = ConditionSerializer
+
+class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Condition.objects.all()
+    serializer_class = ConditionSerializer
+
+# Patient CLass
+class PatientList(generics.ListCreateAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+# Analysis Class
+class AnalysisList(generics.ListCreateAPIView):
+    queryset = Analysis.objects.all()
+    serializer_class = AnalysisSerializer
+
+class AnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Analysis.objects.all()
+    serializer_class = AnalysisSerializer
+
+# Bill Class
+class BillList(generics.ListCreateAPIView):
+    serializer_class = BillSerializer
+    def get_queryset(self):
+        patientId = self.kwargs['pId']
+        return Bill.objects.filter(patientId=patientId)
+
+class BillDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BillSerializer
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        return Bill.objects.filter(id=id)

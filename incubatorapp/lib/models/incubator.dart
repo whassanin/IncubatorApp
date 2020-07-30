@@ -7,12 +7,12 @@ part 'incubator.g.dart';
 
 class Incubator {
   int id;
-  String companyName;
+  String name;
 
   @JsonKey(ignore: true)
   List<Patient> patientList = [];
 
-  Incubator(this.id,this.companyName);
+  Incubator(this.id,this.name);
 
   factory Incubator.fromJson(Map<String, dynamic> json) => _$IncubatorFromJson(json);
 
