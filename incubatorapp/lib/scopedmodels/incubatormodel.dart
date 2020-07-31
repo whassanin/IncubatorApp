@@ -1,30 +1,50 @@
-import 'dart:convert';
-
+import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/incubator.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
 
 class IncubatorModel extends Model {
-  void readAll() async {
-    final data = await http.get(
-      'http://192.168.1.8:8000/incubator',
-      headers: {
-        'content-type': 'application/json',
-      },
-    );
+  Api _api = new Api('incubator');
 
-    List<Incubator> incubatorList = [];
-    List<dynamic> incubatorListMap = jsonDecode(data.body);
-    incubatorList = incubatorListMap.map((e) => Incubator.fromJson(e)).toList();
-    incubatorList.forEach((element) {
-      print(element.id);
-      print(element.name);
-    });
+  List<Incubator> incubatorList;
+
+  Incubator currentIncubator;
+
+  void createIncubator() {
+    currentIncubator = new Incubator(0, '');
   }
 
-  void create() {}
+  void setName(String val) {
+    currentIncubator.name = val;
+    notifyListeners();
+  }
 
-  void update() {}
+  void readAll() async {
+    List<dynamic> incubatorListMap = await _api.get();
+    incubatorList = incubatorListMap.map((e) => Incubator.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  Future<bool> create() async {
+    int code = await _api.post(currentIncubator.toJson());
+    if (code == 201) {
+
+      readAll();
+
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> update() async {
+    int code = await _api.post(currentIncubator.toJson());
+    if (code == 201) {
+
+      notifyListeners();
+
+      return true;
+    }
+    return false;
+  }
 
   void delete() {}
 }
