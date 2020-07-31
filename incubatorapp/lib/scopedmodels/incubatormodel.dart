@@ -7,15 +7,23 @@ class IncubatorModel extends Model {
 
   List<Incubator> incubatorList;
 
-  Incubator currentIncubator;
+  Incubator _currentIncubator;
 
   void createIncubator() {
-    currentIncubator = new Incubator(0, '');
+    _currentIncubator = new Incubator(0, '');
+  }
+
+  void editIncubator(Incubator editIncubator) {
+    _currentIncubator = editIncubator;
   }
 
   void setName(String val) {
-    currentIncubator.name = val;
+    _currentIncubator.name = val;
     notifyListeners();
+  }
+
+  String getName() {
+    return _currentIncubator.name;
   }
 
   void readAll() async {
@@ -25,9 +33,8 @@ class IncubatorModel extends Model {
   }
 
   Future<bool> create() async {
-    int code = await _api.post(currentIncubator.toJson());
+    int code = await _api.post(_currentIncubator.toJson());
     if (code == 201) {
-
       readAll();
 
       return true;
@@ -36,9 +43,10 @@ class IncubatorModel extends Model {
   }
 
   Future<bool> update() async {
-    int code = await _api.post(currentIncubator.toJson());
-    if (code == 201) {
+    int code = await _api.put(
+        _currentIncubator.toJson(), _currentIncubator.id.toString());
 
+    if (code == 200) {
       notifyListeners();
 
       return true;

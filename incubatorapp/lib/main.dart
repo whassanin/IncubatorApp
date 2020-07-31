@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
+import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+
+IncubatorModel incubatorModel = new IncubatorModel();
 
 void main() {
   runApp(MyApp());
@@ -18,6 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
+        EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
       },
       home: IncubatorScreen(),
     );

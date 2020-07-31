@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/incubator.dart';
+import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 
 class IncubatorRowWidget extends StatefulWidget {
   final Incubator incubator;
@@ -10,8 +12,8 @@ class IncubatorRowWidget extends StatefulWidget {
 
 class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
 
-  Widget row(){
 
+  Widget row() {
     Widget rowData = Row(
       children: <Widget>[
         Text('Id: ' + widget.incubator.id.toString()),
@@ -24,10 +26,7 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
 
     Widget rowContainer = Container(
       height: 50,
-      child: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: rowData
-      ),
+      child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
     Widget rowCard = Card(
@@ -40,10 +39,27 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
       child: rowContainer,
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 8,right: 8,top: 2,bottom: 2),
-      child: rowCard,
+    return GestureDetector(
+      onTap: () {
+        incubatorModel.editIncubator(widget.incubator);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditIncubatorScreen(),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+        child: rowCard,
+      ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

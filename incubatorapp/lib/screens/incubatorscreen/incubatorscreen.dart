@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/widgets/List/incubatorlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class IncubatorScreen extends StatelessWidget {
-  final IncubatorModel incubatorModel = new IncubatorModel();
   @override
   Widget build(BuildContext context) {
     incubatorModel.readAll();
@@ -26,15 +26,13 @@ class IncubatorScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NewIncubatorScreen(
-                      incubatorModel: incubatorModel,
-                    ),
+                    builder: (context) => NewIncubatorScreen(),
                   ),
                 );
               },
             ),
             body: IncubatorListWidget(
-              incubatorList: incubatorModel.incubatorList,
+              incubatorModel: incubatorModel,
             ),
           );
         },

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
+import 'package:incubatorapp/main.dart';
 
 class IncubatorFormWidget extends StatefulWidget {
-  final IncubatorModel incubatorModel;
-
-  IncubatorFormWidget({this.incubatorModel});
+  final bool isEdit;
+  IncubatorFormWidget({this.isEdit});
 
   @override
   _IncubatorFormWidgetState createState() => _IncubatorFormWidgetState();
@@ -12,16 +11,28 @@ class IncubatorFormWidget extends StatefulWidget {
 
 class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
   final _formKey = new GlobalKey<FormState>();
+  TextEditingController nameTED = new TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.incubatorModel.createIncubator();
+    nameTED.text = incubatorModel.getName();
   }
 
   void save() async {
-    bool isCheck = await widget.incubatorModel.create();
+    bool isCheck = false;
+
+    if (widget.isEdit != null) {
+      if (widget.isEdit) {
+        isCheck = await incubatorModel.update();
+      } else {
+        isCheck = await incubatorModel.create();
+      }
+    } else {
+      isCheck = await incubatorModel.create();
+    }
+
     await Future.delayed(Duration(seconds: 1));
     if (isCheck) {
       Navigator.pop(context);
@@ -31,6 +42,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
   @override
   Widget build(BuildContext context) {
     Widget nameField = TextFormField(
+      controller: nameTED,
       decoration: InputDecoration(
         labelText: 'Name',
         border: OutlineInputBorder(
@@ -44,30 +56,51 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
         if (v.isEmpty || v == null) {
           return 'Required';
         } else {
-          widget.incubatorModel.setName(v);
+          incubatorModel.setName(v);
         }
         return null;
       },
       onChanged: (v) {
-        widget.incubatorModel.setName(v);
+        incubatorModel.setName(v);
       },
       onFieldSubmitted: (v) {
-        widget.incubatorModel.setName(v);
+        incubatorModel.setName(v);
       },
     );
 
-    Widget saveButton = Row(
-      children: <Widget>[
-        Expanded(
+    Widget saveButton = Expanded(
+      child: RaisedButton(
+        child: Text('Save'),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            save();
+          }
+        },
+      ),
+    );
+
+    Widget deleteButton = Container();
+
+    if (widget.isEdit != null) {
+      if (widget.isEdit) {
+        deleteButton = Expanded(
           child: RaisedButton(
-            child: Text('Save'),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                save();
-              }
-            },
+            child: Text('Delete'),
+            onPressed: () {},
           ),
-        )
+        );
+      }
+    }
+
+    Widget rowButtons = Row(
+      children: <Widget>[
+        deleteButton,
+        (widget.isEdit != null
+            ? SizedBox(
+                width: 10,
+              )
+            : Container()),
+        saveButton
       ],
     );
 
@@ -78,7 +111,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
         child: Column(
           children: <Widget>[
             nameField,
-            saveButton,
+            rowButtons,
           ],
         ),
       ),
