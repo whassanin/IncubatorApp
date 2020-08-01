@@ -39,6 +39,15 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
     }
   }
 
+  void delete() async {
+    bool isCheck = false;
+    isCheck = await incubatorModel.delete();
+    await Future.delayed(Duration(seconds: 1));
+    if (isCheck) {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget nameField = TextFormField(
@@ -86,7 +95,9 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
         deleteButton = Expanded(
           child: RaisedButton(
             child: Text('Delete'),
-            onPressed: () {},
+            onPressed: () {
+              delete();
+            },
           ),
         );
       }

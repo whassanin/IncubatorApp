@@ -54,5 +54,16 @@ class IncubatorModel extends Model {
     return false;
   }
 
-  void delete() {}
+  Future<bool> delete() async {
+    int code = await _api.delete(_currentIncubator.id.toString());
+
+    if (code == 204) {
+      incubatorList.remove(_currentIncubator);
+      notifyListeners();
+
+      return true;
+    }
+    return false;
+  }
+
 }

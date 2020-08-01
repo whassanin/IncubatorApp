@@ -18,6 +18,24 @@ urlpatterns = [
 
     path('bill/<int:pId>', views.BillList.as_view()),
     path('bill/edit/<int:pk>', views.BillDetail.as_view()),
+
+    path('consumable/', views.ConsumableList.as_view()),
+    path('consumable/<int:pk>', views.ConsumableDetail.as_view()),
+
+    path('xray/', views.XRayList.as_view()),
+    path('xray/<int:pk>', views.XRayDetail.as_view()),
+
+    path('shift/', views.ShiftList.as_view()),
+    path('shift/<int:pk>', views.ShiftDetail.as_view()),
+
+    path('doctor/', views.DoctorList.as_view()),
+    path('doctor/<int:pk>', views.DoctorDetail.as_view()),
+
+    path('nurse/', views.NurseList.as_view()),
+    path('nurse/<int:pk>', views.NurseDetail.as_view()),
+
+    path('medicine/', views.MedicineList.as_view()),
+    path('medicine/<int:pk>', views.MedicineDetail.as_view()),
     
 ]
 

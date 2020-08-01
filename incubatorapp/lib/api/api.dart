@@ -45,4 +45,15 @@ class Api {
     return data.statusCode;
   }
 
+  Future<int> delete(String valueId) async {
+    final data = await http.delete(
+      _url + '/'+valueId,
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+    return data.statusCode;
+  }
+
+
 }
