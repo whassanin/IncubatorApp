@@ -4,12 +4,48 @@ from django.db import models
 
 # main tables
 
+# basic data
+
 class Incubator(models.Model):
     name = models.CharField(max_length=200)
 
 class Condition(models.Model):
     colorId = models.IntegerField()
     cost = models.FloatField()
+
+class Analysis(models.Model):
+    name = models.CharField(max_length=200)
+
+class Consumable(models.Model):
+    name = models.CharField(max_length=200)
+    amount = models.FloatField()
+
+class Medicine(models.Model):
+    name = models.CharField(max_length=200)
+    amount = models.FloatField()
+
+class XRay(models.Model):
+    name = models.CharField(max_length=200)
+
+class Shift(models.Model):
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+
+# non basic data
+
+class Doctor(models.Model): 
+    firstName = models.CharField(max_length=100)
+    lastName = models.CharField(max_length=100)
+    dateOfBirth = models.DateTimeField()
+    createdDate = models.DateTimeField(auto_now=True)
+
+class Nurse(models.Model):
+    firstName = models.CharField(max_length=100)
+    lastName = models.CharField(max_length=100)
+    dateOfBirth = models.DateTimeField()
+    createdDate = models.DateTimeField(auto_now=True)
+
+# 1 to many
 
 class Patient(models.Model):
     motherName = models.CharField(max_length=100)
@@ -23,9 +59,6 @@ class Patient(models.Model):
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
 
-class Analysis(models.Model):
-    name = models.CharField(max_length=200)
-
 class Bill(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     paid = models.FloatField()
@@ -38,33 +71,6 @@ class Bill(models.Model):
     lightRays = models.FloatField()
     medicine = models.FloatField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='bills')
-
-class Consumable(models.Model):
-    name = models.CharField(max_length=200)
-    amount = models.FloatField()
-
-class Doctor(models.Model): 
-    firstName = models.CharField(max_length=100)
-    lastName = models.CharField(max_length=100)
-    dateOfBirth = models.DateTimeField()
-    createdDate = models.DateTimeField(auto_now=True)
-
-class Medicine(models.Model):
-    name = models.CharField(max_length=200)
-    amount = models.FloatField()
-
-class Nurse(models.Model):
-    firstName = models.CharField(max_length=100)
-    lastName = models.CharField(max_length=100)
-    dateOfBirth = models.DateTimeField()
-    createdDate = models.DateTimeField(auto_now=True)
-
-class XRay(models.Model):
-    name = models.CharField(max_length=200)
-
-class Shift(models.Model):
-    startDate = models.DateTimeField()
-    endDate = models.DateTimeField()
 
 class Status(models.Model):
     urine = models.FloatField()
