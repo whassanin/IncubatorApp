@@ -16,6 +16,8 @@ from incubator.models import PatientAnalysis
 from incubator.models import PatientXRay
 from incubator.models import PatientConsumableNurse
 from incubator.models import PatientMedicineDoctor
+from incubator.models import PatientPhone
+from incubator.models import BillExtra
 
 from incubator.serializer import IncubatorSerializer
 from incubator.serializer import AnalysisSerializer
@@ -35,6 +37,8 @@ from incubator.serializer import PatientAnalysisSerializer
 from incubator.serializer import PatientXRaySerializer
 from incubator.serializer import PatientConsumableNurseSerializer
 from incubator.serializer import PatientMedicineDoctorSerializer
+from incubator.serializer import PatientPhoneSerializer
+from incubator.serializer import BillExtraSerializer
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -268,3 +272,25 @@ class PatientMedicineDoctorList(generics.ListCreateAPIView):
 class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientMedicineDoctor.objects.all()
     serializer_class = PatientMedicineDoctorSerializer
+
+# Multi value
+
+class PatientPhoneList(generics.ListCreateAPIView):
+    serializer_class = PatientPhoneSerializer
+    def get_queryset(self):
+       patientId = self.kwargs['pId']
+       return PatientPhone.objects.filter(patientId=patientId)
+
+class PatientPhoneDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PatientPhone.objects.all()
+    serializer_class = PatientPhoneSerializer
+
+class BillExtraList(generics.ListCreateAPIView):
+    serializer_class = BillExtraSerializer
+    def get_queryset(self):
+       billId = self.kwargs['billId']
+       return BillExtra.objects.filter(billId=billId)
+
+class BillExtraDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = BillExtra.objects.all()
+    serializer_class = BillExtraSerializer

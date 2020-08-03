@@ -8,8 +8,9 @@ part 'patientphone.g.dart';
 class PatientPhone{
   int id;
   String phone;
+  int patientId;
 
-  PatientPhone(this.id,this.phone);
+  PatientPhone(this.id,this.phone,this.patientId);
 
   factory PatientPhone.fromJson(Map<String, dynamic> json) => _$PatientPhoneFromJson(json);
 

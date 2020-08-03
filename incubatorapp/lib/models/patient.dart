@@ -25,7 +25,8 @@ class Patient {
   DateTime createdDate;
   int conditionId;
   int incubatorId;
-  PatientPhone patientPhone;
+  @JsonKey(name: 'patientphone')
+  List<PatientPhone> patientPhone;
 
   @JsonKey(ignore: true)
   List<PatientAnalysis> patientAnalysisList = [];

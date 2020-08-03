@@ -26,7 +26,12 @@ from incubator.models import PatientConsumableNurse
 class BillExtraSerializer(serializers.ModelSerializer):
     class Meta: 
         model = BillExtra
-        fields = ['billId','name','cost',]
+        fields = [
+            'id',
+            'billId',
+            'name',
+            'cost',
+            ]
 
 class PatientPhoneSerializer(serializers.ModelSerializer):
     
@@ -151,6 +156,7 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Patient
         fields = [
+        'id',
         'motherName',
         'fatherName',
         'gender',
@@ -204,6 +210,7 @@ class StatusSerializer(serializers.ModelSerializer):
             'patientId',
             'nurseId'
             ]
+
 
 # main serializers
 

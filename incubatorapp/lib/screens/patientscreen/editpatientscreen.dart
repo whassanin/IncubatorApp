@@ -3,25 +3,33 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/widgets/form/patientformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+class EditPatientScreen extends StatelessWidget {
 
-class NewPatientScreen extends StatelessWidget {
-  static const routeName = '/newpatientscreen';
+  EditPatientScreen(){
+    patientModel.readById('2');
+  }
 
   @override
   Widget build(BuildContext context) {
-    patientModel.createPatient();
+
+    Widget progressIndicator = Center(
+      child: Container(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     return ScopedModel(
       model: patientModel,
       child: ScopedModelDescendant(builder: (BuildContext context, Widget childWidget,
           PatientModel patientModel){
         return Scaffold(
           appBar: AppBar(
-            title: Text('Register Patient'),
+            title: Text('Edit Patient Profile'),
           ),
-          body: PatientFormWidget(
+          body: (patientModel.currentPatient!=null?PatientFormWidget(
             patientModel: patientModel,
-            isEdit: false,
-          ),
+            isEdit: true,
+          ):progressIndicator)
         );
       },),
     );

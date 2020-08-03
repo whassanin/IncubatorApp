@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
+import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
-import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientscreen.dart';
 
 IncubatorModel incubatorModel = new IncubatorModel();
-
+PatientModel patientModel = new PatientModel();
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
       },
-      home: NewPatientScreen(),
+      home: EditPatientScreen(),
     );
   }
 }

@@ -73,6 +73,14 @@ urlpatterns = [
     path('patientmedicinedoctor/<int:pId>', views.PatientMedicineDoctorList.as_view()),
     path('patientmedicinedoctor/edit/<int:pk>', views.PatientMedicineDoctortDetail.as_view()),
 
+    # Multi value
+
+    path('patientphone/<int:pId>', views.PatientPhoneList.as_view()),
+    path('patientphone/edit/<int:pk>', views.PatientPhoneDetail.as_view()),
+
+    path('billextra/<int:billId>', views.BillExtraList.as_view()),
+    path('billextra/edit/<int:pk>', views.BillExtraDetail.as_view()),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
