@@ -48,6 +48,8 @@ from rest_framework.response import Response
 class IncubatorList(generics.ListCreateAPIView):
     queryset = Incubator.objects.all()
     serializer_class = IncubatorSerializer
+    ordering_fields = ['id']
+    ordering = ['id']
 
 class IncubatorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incubator.objects.all()

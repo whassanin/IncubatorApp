@@ -35,8 +35,9 @@ class IncubatorModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentIncubator.toJson());
     if (code == 201) {
-      readAll();
+      incubatorList.add(_currentIncubator);
 
+      notifyListeners();
       return true;
     }
     return false;

@@ -1,25 +1,74 @@
+import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/models/analysis.dart' as analysisName;
 import 'package:scoped_model/scoped_model.dart';
 
 class Analysis extends Model{
+  Api _api = new Api('analysis');
 
-  void readAll(){
+  List<analysisName.Analysis> analysisList;
 
+  analysisName.Analysis _currentAnalysis;
+
+  void createAnalysis(){
+    _currentAnalysis = new analysisName.Analysis(0, '');
+  }
+
+  void editAnalysis(analysisName.Analysis editAnalysis){
+    _currentAnalysis = editAnalysis;
+  }
+
+  void setName(String val){
+    _currentAnalysis.name = val;
+    notifyListeners();
+  }
+
+  String getName(){
+    return _currentAnalysis.name;
+  }
+
+  void readAll() async{
+    List<dynamic> analysisListMap = await _api.get();
+    analysisList = analysisListMap.map((e) => analysisName.Analysis.fromJson(e)).toList();
+    notifyListeners();
   }
 
   void search(){
 
   }
 
-  void create(){
+  Future<bool> create() async{
+    int code = await _api.post(_currentAnalysis.toJson());
+    if (code == 201) {
+      analysisList.add(_currentAnalysis);
 
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
-  void update(){
+  Future<bool> update() async{
+    int code = await _api.put(
+        _currentAnalysis.toJson(), _currentAnalysis.id.toString());
 
+    if (code == 200) {
+      notifyListeners();
+
+      return true;
+    }
+    return false;
   }
 
-  void delete(){
+  Future<bool> delete() async{
+    int code = await _api.delete(_currentAnalysis.id.toString());
 
+    if (code == 204) {
+      analysisList.remove(_currentAnalysis);
+      notifyListeners();
+
+      return true;
+    }
+    return false;
   }
 
 }
