@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
       },
-      home: IncubatorScreen(),
+      home: NewPatientScreen(),
     );
   }
 }

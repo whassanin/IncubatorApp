@@ -5,12 +5,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'doctor.g.dart';
 
 @JsonSerializable()
-class Doctor{
-
+class Doctor {
   int id;
   String firstName;
   String lastName;
   DateTime dateOfBirth;
+  String username;
+  String password;
   DateTime createdDate;
 
   @JsonKey(ignore: true)
@@ -19,7 +20,15 @@ class Doctor{
   @JsonKey(ignore: true)
   List<DoctorShift> doctorShiftList = [];
 
-  Doctor(this.id,this.firstName,this.lastName,this.dateOfBirth,this.createdDate);
+  Doctor(
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.dateOfBirth,
+    this.username,
+    this.password,
+    this.createdDate,
+  );
 
   factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);
 

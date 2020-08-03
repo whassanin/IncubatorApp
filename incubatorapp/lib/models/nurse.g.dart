@@ -14,6 +14,8 @@ Nurse _$NurseFromJson(Map<String, dynamic> json) {
     json['dateOfBirth'] == null
         ? null
         : DateTime.parse(json['dateOfBirth'] as String),
+    json['username'] as String,
+    json['password'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -25,5 +27,7 @@ Map<String, dynamic> _$NurseToJson(Nurse instance) => <String, dynamic>{
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
+      'username': instance.username,
+      'password': instance.password,
       'createdDate': instance.createdDate?.toIso8601String(),
     };

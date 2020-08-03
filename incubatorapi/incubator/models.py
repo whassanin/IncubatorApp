@@ -19,13 +19,16 @@ class Analysis(models.Model):
 class Consumable(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
+    price = models.FloatField()
 
 class Medicine(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
+    price = models.FloatField()
 
 class XRay(models.Model):
     name = models.CharField(max_length=200)
+    price = models.FloatField()
 
 class Shift(models.Model):
     startDate = models.DateTimeField()
@@ -37,12 +40,17 @@ class Doctor(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     dateOfBirth = models.DateTimeField()
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
+
 
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     dateOfBirth = models.DateTimeField()
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
 
 # 1 to many
@@ -55,6 +63,9 @@ class Patient(models.Model):
     address = models.CharField(max_length=500)
     weight = models.FloatField()
     ssn = models.CharField(max_length=100)
+    isOut = models.BooleanField()
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')

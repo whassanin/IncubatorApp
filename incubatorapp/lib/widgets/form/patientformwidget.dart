@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 
 enum PatientColumns {
   motherName,
@@ -8,12 +9,18 @@ enum PatientColumns {
   dateOfBirth,
   address,
   weight,
-  SSN
+  SSN,
+  isOut,
+  username,
+  password,
+  incubator,
+  condition
 }
 
 class PatientFormWidget extends StatefulWidget {
   final bool isEdit;
-  PatientFormWidget({this.isEdit});
+  final PatientModel patientModel;
+  PatientFormWidget({this.isEdit, this.patientModel});
   @override
   _PatientFormWidgetState createState() => _PatientFormWidgetState();
 }
@@ -21,12 +28,61 @@ class PatientFormWidget extends StatefulWidget {
 class _PatientFormWidgetState extends State<PatientFormWidget> {
   final _formKey = new GlobalKey<FormState>();
 
-  Widget columnTextField(
-      String name, bool isNumber, PatientColumns patientColumns,
+  TextEditingController motherNameTEC = new TextEditingController();
+  TextEditingController fatherNameTEC = new TextEditingController();
+  TextEditingController genderTEC = new TextEditingController();
+  TextEditingController dateOfBirthTEC = new TextEditingController();
+  TextEditingController addressTEC = new TextEditingController();
+  TextEditingController weightTEC = new TextEditingController();
+  TextEditingController ssnTEC = new TextEditingController();
+  TextEditingController isOutTEC = new TextEditingController();
+  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController passwordTEC = new TextEditingController();
+
+  void setData(PatientColumns patientColumns, Object val) {
+    if (patientColumns == PatientColumns.motherName) {
+      widget.patientModel.setMotherName(val);
+    } else if (patientColumns == PatientColumns.fatherName) {
+      widget.patientModel.setFatherName(val);
+    } else if (patientColumns == PatientColumns.gender) {
+      bool a;
+      if (val == 'Male') {
+        a = true;
+      } else {
+        a = false;
+      }
+      widget.patientModel.setGender(a);
+    } else if (patientColumns == PatientColumns.dateOfBirth) {
+      widget.patientModel.setDateOfBirth(val);
+    } else if (patientColumns == PatientColumns.address) {
+      widget.patientModel.setAddress(val);
+    } else if (patientColumns == PatientColumns.weight) {
+      widget.patientModel.setWeight(val);
+    } else if (patientColumns == PatientColumns.SSN) {
+      widget.patientModel.setSSN(val);
+    } else if (patientColumns == PatientColumns.isOut) {
+      bool a;
+      if (val == 'In') {
+        a = true;
+      } else {
+        a = false;
+      }
+      widget.patientModel.setIsOut(a);
+    } else if (patientColumns == PatientColumns.username) {
+      widget.patientModel.setUserName(val);
+    } else if (patientColumns == PatientColumns.password) {
+      widget.patientModel.setPassword(val);
+    }
+  }
+
+  Widget columnTextField(String name, bool isNumber,
+      PatientColumns patientColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+        controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(
@@ -45,8 +101,12 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
         validator: (v) {
           return null;
         },
-        onChanged: (v) {},
-        onFieldSubmitted: (v) {},
+        onChanged: (v) {
+          setData(patientColumns, v);
+        },
+        onFieldSubmitted: (v) {
+          setData(patientColumns, v);
+        },
         onTap: () {
           if (fun != null) {
             fun();
@@ -56,7 +116,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     );
   }
 
-  void showDialogSelectUserType() {
+  void showDialogDatePicker() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -69,10 +129,45 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 initialDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
+                  dateOfBirthTEC.text = d.toString();
                   Navigator.pop(context);
                 },
               ),
             ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showGenderPicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            Container(
+                width: 150,
+                height: 130,
+                child: ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Male'),
+                      onTap: (){
+                        genderTEC.text = 'Male';
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('Female'),
+                      onTap: (){
+                        genderTEC.text = 'Female';
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )),
           ],
         );
       },
@@ -89,56 +184,73 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
-                  30,
+                  10,
                 ),
               ),
             ),
             child: Text('Save'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {}
+              if (_formKey.currentState.validate()) {
+                if(widget.isEdit!=null){
+                  if(widget.isEdit){
+                    widget.patientModel.update();
+                  }else {
+                    widget.patientModel.setCreatedDate(DateTime.now());
+                    widget.patientModel.setConditionId(1);
+                    widget.patientModel.setIncubatorId(1);
+                    widget.patientModel.create();
+                  }
+                }
+              }
             },
           ),
         ),
       ),
     );
 
-    Widget deleteButton = Container();
-
-    if (widget.isEdit != null) {
-      if (widget.isEdit) {
-        deleteButton = Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Container(
-              height: 60,
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      30,
-                    ),
-                  ),
+    Widget deleteButton = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
                 ),
-                child: Text('Delete'),
-                onPressed: () {},
               ),
             ),
+            child: Text('Delete'),
+            onPressed: () {},
           ),
-        );
-      }
-    }
+        ),
+      ),
+    );
 
-    Widget rowButtons = Row(
+    Widget rowCreateButtons = Row(
       children: <Widget>[
-        deleteButton,
-        (widget.isEdit != null
-            ? SizedBox(
-                width: 10,
-              )
-            : Container()),
         saveButton
       ],
     );
+
+    Widget rowEditButtons = Row(
+      children: <Widget>[
+        deleteButton,
+        saveButton
+      ],
+    );
+
+    Widget rowButtons = Container();
+
+    if(widget.isEdit!=null){
+      if(widget.isEdit){
+        rowButtons = rowEditButtons;
+      }
+      else {
+        rowButtons = rowCreateButtons;
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -150,18 +262,37 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            columnTextField('Social Security Number', true, PatientColumns.SSN),
-            columnTextField('Mother Name', false, PatientColumns.motherName),
-            columnTextField('Father Name', false, PatientColumns.fatherName),
-            columnTextField('Weight Name', true, PatientColumns.weight),
-            columnTextField('Address Name', false, PatientColumns.address),
-            columnTextField('Date of Birth', false, PatientColumns.dateOfBirth,
-                fun: showDialogSelectUserType),
-            editButtons(),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              columnTextField(
+                  'Social Security Number', true, PatientColumns.SSN, ssnTEC),
+              columnTextField(
+                  'Mother Name', false, PatientColumns.motherName, motherNameTEC),
+              columnTextField(
+                  'Father Name', false, PatientColumns.fatherName, fatherNameTEC),
+              columnTextField(
+                'Gender',
+                false,
+                PatientColumns.gender,
+                genderTEC,
+                fun: showGenderPicker,
+              ),
+              columnTextField('Date of Birth', false, PatientColumns.dateOfBirth,
+                  dateOfBirthTEC,
+                  fun: showDialogDatePicker),
+              columnTextField('Weight', true, PatientColumns.weight, weightTEC),
+              columnTextField(
+                  'Address', false, PatientColumns.address, addressTEC),
+              columnTextField(
+                  'Username', false, PatientColumns.username, usernameTEC),
+              columnTextField(
+                  'Password', false, PatientColumns.password, passwordTEC),
+              editButtons(),
+            ],
+          ),
         ),
       ),
     );

@@ -6,12 +6,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'nurse.g.dart';
 
 @JsonSerializable()
-
-class Nurse{
+class Nurse {
   int id;
   String firstName;
   String lastName;
   DateTime dateOfBirth;
+  String username;
+  String password;
   DateTime createdDate;
 
   @JsonKey(ignore: true)
@@ -23,11 +24,17 @@ class Nurse{
   @JsonKey(ignore: true)
   List<NurseShift> nurseShiftList = [];
 
-  Nurse(this.id,this.firstName,this.lastName,this.dateOfBirth,this.createdDate);
+  Nurse(
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.dateOfBirth,
+    this.username,
+    this.password,
+    this.createdDate,
+  );
 
   factory Nurse.fromJson(Map<String, dynamic> json) => _$NurseFromJson(json);
 
   Map<String, dynamic> toJson() => _$NurseToJson(this);
-
-
 }

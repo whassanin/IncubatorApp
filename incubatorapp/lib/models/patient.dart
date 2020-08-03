@@ -10,7 +10,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'patient.g.dart';
 
 @JsonSerializable()
-
 class Patient {
   int id;
   String motherName;
@@ -20,9 +19,12 @@ class Patient {
   String address;
   double weight;
   String ssn;
+  bool isOut;
+  String username;
+  String password;
+  DateTime createdDate;
   int conditionId;
   int incubatorId;
-  DateTime createdDate;
   PatientPhone patientPhone;
 
   @JsonKey(ignore: true)
@@ -52,13 +54,17 @@ class Patient {
     this.address,
     this.weight,
     this.ssn,
-    this.conditionId,
+    this.isOut,
+    this.username,
+    this.password,
     this.createdDate,
+    this.conditionId,
     this.incubatorId,
     this.patientPhone,
   );
 
-  factory Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
+  factory Patient.fromJson(Map<String, dynamic> json) =>
+      _$PatientFromJson(json);
 
   Map<String, dynamic> toJson() => _$PatientToJson(this);
 }
