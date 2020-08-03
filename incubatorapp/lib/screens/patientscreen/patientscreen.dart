@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
+import 'package:incubatorapp/widgets/row/patientdetailrowwidget.dart';
 
 class PatientScreen extends StatelessWidget {
   static const routeName = '/patientscreen';
@@ -8,9 +10,8 @@ class PatientScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Patient Profile'),
       ),
-      body: Container(
-        child: Text('Patient Screen'),
-      ),
+      body: PatientDetailRowWidget(),
+      bottomNavigationBar: BottomNavigatorWidget(),
     );
   }
 }

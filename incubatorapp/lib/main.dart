@@ -5,9 +5,11 @@ import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/patientscreen.dart';
 
 IncubatorModel incubatorModel = new IncubatorModel();
 PatientModel patientModel = new PatientModel();
+
 void main() {
   runApp(MyApp());
 }
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
       },
-      home: EditPatientScreen(),
+      home: PatientScreen(),
     );
   }
 }
