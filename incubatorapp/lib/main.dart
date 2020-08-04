@@ -3,6 +3,8 @@ import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
+import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -16,9 +18,11 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 
 IncubatorModel incubatorModel = new IncubatorModel();
 AnalysisModel analysisModel = AnalysisModel();
+XRayModel xRayModel = XRayModel();
 
 PatientModel patientModel = new PatientModel();
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
+PatientXRayModel patientXRayModel = new PatientXRayModel();
 
 void main() {
   runApp(MyApp());
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     analysisModel.readAll();
+    xRayModel.readAll();
 
     return MaterialApp(
       title: 'Flutter Demo',

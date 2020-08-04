@@ -235,7 +235,7 @@ class PatientXRayList(generics.ListCreateAPIView):
     serializer_class = PatientXRaySerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientXRay.objects.filter(patientId=nurseId)
+       return PatientXRay.objects.filter(patientId=patientId)
 
 class PatientXRayDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientXRay.objects.all()

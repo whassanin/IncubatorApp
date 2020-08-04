@@ -1,10 +1,10 @@
 import 'package:incubatorapp/api/api.dart';
-import 'package:incubatorapp/models/xRay.dart';
+import 'package:incubatorapp/models/xray.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class XRayModel extends Model{
 
-  Api _api = new Api('xRay');
+  Api _api = new Api('xray');
 
   List<XRay> xRayList;
 

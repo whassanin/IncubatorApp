@@ -243,7 +243,7 @@ class MedicineSerializer(serializers.ModelSerializer):
 class XRaySerializer(serializers.ModelSerializer):
     class Meta: 
         model = XRay
-        fields = ['id','name']
+        fields = ['id','name','price']
 
 class ShiftSerializer(serializers.ModelSerializer):
     class Meta: 

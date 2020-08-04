@@ -28,7 +28,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToXRayScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PatientXRayScreen()),
+      MaterialPageRoute(builder: (context) => PatientXRayScreen(patientId: widget.patient.id,)),
     );
   }
 
