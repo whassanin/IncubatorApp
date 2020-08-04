@@ -15,6 +15,7 @@ class Condition(models.Model):
 
 class Analysis(models.Model):
     name = models.CharField(max_length=200)
+    price = models.FloatField()
 
 class Consumable(models.Model):
     name = models.CharField(max_length=200)

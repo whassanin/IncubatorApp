@@ -8,11 +8,12 @@ part 'analysis.g.dart';
 class Analysis {
   int id;
   String name;
+  double price;
 
   @JsonKey(ignore: true)
   List<PatientAnalysis> patientAnalysisList = [];
 
-  Analysis(this.id,this.name);
+  Analysis(this.id,this.name,this.price);
 
   factory Analysis.fromJson(Map<String, dynamic> json) => _$AnalysisFromJson(json);
 

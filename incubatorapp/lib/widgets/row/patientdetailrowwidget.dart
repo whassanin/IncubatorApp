@@ -1,24 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/status.dart';
+import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
+  final Patient patient;
   final Status status;
-  PatientDetailRowWidget({this.status});
+  PatientDetailRowWidget({this.patient,this.status});
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
 }
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
-  void goToAnalysisScreen() {}
+  void goToAnalysisScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PatientAnalysisScreen(patientId: widget.patient.id,)),
+    );
+  }
 
-  void goToXRayScreen() {}
+  void goToXRayScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PatientXRayScreen()),
+    );
+  }
 
-  void goToMedicineScreen() {}
+  void goToMedicineScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PatientMedicineDoctorScreen()),
+    );
+  }
 
-  void goToConsumableScreen() {}
+  void goToConsumableScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PatientConsumableNurseScreen()),
+    );
+  }
 
   Widget patientColumn(String title, String val) {
     return Center(
@@ -67,7 +93,12 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  Widget statusColumn(Icon icon,double iconSize, String title, String val,) {
+  Widget statusColumn(
+    Icon icon,
+    double iconSize,
+    String title,
+    String val,
+  ) {
     Widget rowIcon = Padding(
       padding:
           const EdgeInsets.only(left: 10, right: 8.0, bottom: 8.0, top: 8.0),
@@ -96,7 +127,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(width: iconSize,child: rowIcon),
+          Container(width: iconSize, child: rowIcon),
           Expanded(child: rowText),
         ],
       ),

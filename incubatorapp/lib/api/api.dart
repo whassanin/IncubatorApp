@@ -11,11 +11,7 @@ class Api {
     _url += '/' + this.name;
   }
 
-  Future<List<dynamic>> get({docId}) async {
-    if (docId != null) {
-      _url += '/' + docId;
-    }
-
+  Future<List<dynamic>> get() async {
     final data = await http.get(
       _url,
       headers: {
@@ -36,7 +32,20 @@ class Api {
       },
     );
 
-    Map<String,dynamic> listMap = jsonDecode(data.body);
+    Map<String, dynamic> listMap = jsonDecode(data.body);
+
+    return listMap;
+  }
+
+  Future<List<dynamic>> filter(String columnId) async {
+    final data = await http.get(
+      _url + '/' + columnId,
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+
+    List<dynamic> listMap = jsonDecode(data.body);
 
     return listMap;
   }
@@ -52,9 +61,10 @@ class Api {
     return data.statusCode;
   }
 
-  Future<int> postSubValue(Map<String, dynamic> jsonBody,String mainDocId) async {
+  Future<int> postSubValue(
+      Map<String, dynamic> jsonBody, String mainDocId) async {
     final data = await http.post(
-      _url + '/'+mainDocId,
+      _url + '/' + mainDocId,
       headers: {
         'content-type': 'application/json',
       },
@@ -74,7 +84,8 @@ class Api {
     return data.statusCode;
   }
 
-  Future<int> putSubValue(Map<String, dynamic> jsonBody, String columnId) async {
+  Future<int> putSubValue(
+      Map<String, dynamic> jsonBody, String columnId) async {
     final data = await http.put(
       _url + '/edit/' + columnId,
       headers: {

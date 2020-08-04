@@ -214,7 +214,7 @@ class PatientAnalysisList(generics.ListCreateAPIView):
     serializer_class = PatientAnalysisSerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientAnalysis.objects.filter(patientId=nurseId)
+       return PatientAnalysis.objects.filter(patientId=patientId)
 
 class PatientAnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientAnalysis.objects.all()

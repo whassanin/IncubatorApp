@@ -1,25 +1,100 @@
+import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientAnalysisModel extends Model{
+class PatientAnalysisModel extends Model {
 
-  void readByPatientId(){
+  Api _api = new Api('patientanalysis');
 
+  Api _apiReverse = new Api('analysispatient');
+
+  List<PatientAnalysis> patientAnalysisList;
+
+  PatientAnalysis _currentPatientAnalysis;
+
+  PatientAnalysis get patientAnalysis => _currentPatientAnalysis;
+
+  void createPatientAnalysis() {
+    _currentPatientAnalysis = new PatientAnalysis(0, 0, 0, '', DateTime.now());
   }
 
-  void readByAnalysisId(){
-
+  void editPatientAnalysis(PatientAnalysis editPatientAnalysis) {
+    _currentPatientAnalysis = editPatientAnalysis;
   }
 
-  void create(){
-
+  void setPatientId(int patientId){
+    _currentPatientAnalysis.patientId = patientId;
   }
 
-  void update(){
-
+  int getPatientId(){
+    return _currentPatientAnalysis.patientId;
   }
 
-  void delete(){
-
+  void setAnalysisId(int analysisId){
+    _currentPatientAnalysis.analysisId = analysisId;
   }
 
+  int getAnalysisId(){
+    return _currentPatientAnalysis.analysisId;
+  }
+
+  void setResult(String result){
+    _currentPatientAnalysis.result = result;
+  }
+
+  String getResult(){
+    return _currentPatientAnalysis.result;
+  }
+
+  DateTime getCreatedDate(){
+    return _currentPatientAnalysis.createdDate;
+  }
+
+  void readByPatientId() async {
+    List<dynamic> patientAnalysisMap = await _api.filter(_currentPatientAnalysis.patientId.toString());
+    patientAnalysisList = patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  void readByAnalysisId() async {
+    List<dynamic> patientAnalysisMap = await _apiReverse.filter(_currentPatientAnalysis.analysisId.toString());
+    patientAnalysisMap.forEach((element) {print(element);});
+    patientAnalysisList = patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  Future<bool> create() async{
+    int code = await _api.post(_currentPatientAnalysis.toJson());
+    if (code == 201) {
+      patientAnalysisList.add(_currentPatientAnalysis);
+
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> update() async{
+    int code = await _api.put(
+        _currentPatientAnalysis.toJson(), _currentPatientAnalysis.id.toString());
+
+    if (code == 200) {
+      notifyListeners();
+
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> delete() async{
+    int code = await _api.delete(_currentPatientAnalysis.id.toString());
+
+    if (code == 204) {
+      patientAnalysisList.remove(_currentPatientAnalysis);
+      notifyListeners();
+
+      return true;
+    }
+    return false;
+  }
 }

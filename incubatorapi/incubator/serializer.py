@@ -75,7 +75,7 @@ class ShiftNurseSerializer(serializers.ModelSerializer):
 class PatientAnalysisSerializer(serializers.ModelSerializer):
     
     class Meta: 
-        model = Status
+        model = PatientAnalysis
         fields = [
             'id',
             'patientId',
@@ -87,7 +87,7 @@ class PatientAnalysisSerializer(serializers.ModelSerializer):
 class AnalysisPatientSerializer(serializers.ModelSerializer):
     
     class Meta: 
-        model = Status
+        model = PatientAnalysis
         fields = [
             'id',
             'patientId',
@@ -228,17 +228,17 @@ class ConditionSerializer(serializers.ModelSerializer):
 class AnalysisSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Analysis
-        fields = ['id','name']
+        fields = ['id','name','price']
 
 class ConsumableSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Consumable
-        fields = ['id','name','amount']
+        fields = ['id','name','amount','price']
 
 class MedicineSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Medicine
-        fields = ['id','name','amount']
+        fields = ['id','name','amount','price']
 
 class XRaySerializer(serializers.ModelSerializer):
     class Meta: 
@@ -255,9 +255,9 @@ class ShiftSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Doctor
-        fields = ['id','firstName','lastName','dateOfBirth','createdDate']
+        fields = ['id','firstName','lastName','username','password','dateOfBirth','createdDate']
 
 class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
-        fields = ['id','firstName','lastName','dateOfBirth','createdDate']
+        fields = ['id','firstName','lastName','username','password','dateOfBirth','createdDate']

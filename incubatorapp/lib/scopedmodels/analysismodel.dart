@@ -2,7 +2,7 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/analysis.dart' as analysisName;
 import 'package:scoped_model/scoped_model.dart';
 
-class Analysis extends Model{
+class AnalysisModel extends Model{
   Api _api = new Api('analysis');
 
   List<analysisName.Analysis> analysisList;
@@ -10,7 +10,7 @@ class Analysis extends Model{
   analysisName.Analysis _currentAnalysis;
 
   void createAnalysis(){
-    _currentAnalysis = new analysisName.Analysis(0, '');
+    _currentAnalysis = new analysisName.Analysis(0, '',0);
   }
 
   void editAnalysis(analysisName.Analysis editAnalysis){
@@ -24,6 +24,14 @@ class Analysis extends Model{
 
   String getName(){
     return _currentAnalysis.name;
+  }
+
+  void setPrice(double val){
+    _currentAnalysis.price = val;
+  }
+
+  double getPrice(){
+    return _currentAnalysis.price;
   }
 
   void readAll() async{

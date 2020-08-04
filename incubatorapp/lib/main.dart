@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
+import 'package:incubatorapp/scopedmodels/analysismodel.dart';
+import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientscreen.dart';
+import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 IncubatorModel incubatorModel = new IncubatorModel();
+AnalysisModel analysisModel = AnalysisModel();
+
 PatientModel patientModel = new PatientModel();
+PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
 
 void main() {
   runApp(MyApp());
@@ -20,6 +29,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    analysisModel.readAll();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -29,6 +40,10 @@ class MyApp extends StatelessWidget {
       routes: {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
+        PatientAnalysisScreen.routeName:(context)=>PatientAnalysisScreen(),
+        PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
+        PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
+        PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
       },
       home: PatientScreen(),
     );
