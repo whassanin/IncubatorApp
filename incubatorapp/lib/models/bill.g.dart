@@ -9,9 +9,7 @@ part of 'bill.dart';
 Bill _$BillFromJson(Map<String, dynamic> json) {
   return Bill(
     json['id'] as int,
-    json['createdDate'] == null
-        ? null
-        : DateTime.parse(json['createdDate'] as String),
+    json['date'] == null ? null : DateTime.parse(json['date'] as String),
     (json['paid'] as num)?.toDouble(),
     (json['dayCost'] as num)?.toDouble(),
     (json['staying'] as num)?.toDouble(),
@@ -22,7 +20,7 @@ Bill _$BillFromJson(Map<String, dynamic> json) {
     (json['lightRays'] as num)?.toDouble(),
     (json['medicine'] as num)?.toDouble(),
     json['patientId'] as int,
-    (json['billExtra'] as List)
+    (json['billextra'] as List)
         ?.map((e) =>
             e == null ? null : BillExtra.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -31,7 +29,7 @@ Bill _$BillFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BillToJson(Bill instance) => <String, dynamic>{
       'id': instance.id,
-      'createdDate': instance.createdDate?.toIso8601String(),
+      'date': instance.createdDate?.toIso8601String(),
       'paid': instance.paid,
       'dayCost': instance.dayCost,
       'staying': instance.staying,
@@ -42,5 +40,5 @@ Map<String, dynamic> _$BillToJson(Bill instance) => <String, dynamic>{
       'lightRays': instance.lightRays,
       'medicine': instance.medicine,
       'patientId': instance.patientId,
-      'billExtra': instance.billExtraList,
+      'billextra': instance.billExtraList,
     };

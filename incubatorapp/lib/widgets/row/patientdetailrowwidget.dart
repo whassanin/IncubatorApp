@@ -362,6 +362,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: ScrollPhysics(),
       child: Column(
         children: <Widget>[
           rowTitle('Information'),

@@ -34,7 +34,7 @@ class PatientProfileScreen extends StatelessWidget {
                   PatientDetailRowWidget(
                     patient: patientModel.currentPatient,
                   ),
-                  BillScreen(),
+                  BillScreen(patientId: patientModel.currentPatient.id,),
                   EditPatientScreen()
                 ],
               );

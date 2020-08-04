@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
@@ -9,6 +10,7 @@ import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
+import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -20,17 +22,23 @@ import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
+// basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
 AnalysisModel analysisModel = new AnalysisModel();
 XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
 
+// 1 to many
 PatientModel patientModel = new PatientModel();
+BillModel billModel = new BillModel();
+
+// many to many
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
 PatientXRayModel patientXRayModel = new PatientXRayModel();
 PatientMedicineDoctorModel patientMedicineDoctorModel = new PatientMedicineDoctorModel();
 PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableNurseModel();
+
 
 void main() {
   runApp(MyApp());
@@ -60,6 +68,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
+        BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
       home: PatientProfileScreen(),
     );

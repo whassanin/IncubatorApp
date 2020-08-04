@@ -201,8 +201,6 @@ class PatientModel extends Model {
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    print(_currentPatient.toJson().toString());
-
     notifyListeners();
   }
 

@@ -72,7 +72,7 @@ class Patient(models.Model):
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
 
 class Bill(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     paid = models.FloatField()
     dayCost = models.FloatField()
     staying = models.FloatField()

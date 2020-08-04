@@ -6,7 +6,10 @@ part 'bill.g.dart';
 @JsonSerializable()
 class Bill {
   int id;
+
+  @JsonKey(name: 'date')
   DateTime createdDate;
+
   double paid;
   double dayCost;
   double staying;
@@ -18,7 +21,7 @@ class Bill {
   double medicine;
   int patientId;
 
-  @JsonKey(name: 'billExtra')
+  @JsonKey(name: 'billextra')
   List<BillExtra> billExtraList = [];
 
   Bill(
