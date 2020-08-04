@@ -12,13 +12,14 @@ class PatientAnalysisRowWidget extends StatefulWidget {
 }
 
 class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
+
   Widget patientAnalysisRow() {
     Analysis analysis = analysisModel.analysisList
         .where((element) => element.id == widget.patientAnalysis.analysisId)
         .toList()[0];
 
     Widget analysisNameWidget = Container(
-      child: Text('Name: '+analysis.name),
+      child: Text('Name: '+analysis.name+':'+analysis.price.toString()),
     );
 
     Widget resultWidget = Container(

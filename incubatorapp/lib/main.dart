@@ -7,6 +7,7 @@ import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
       },
-      home: PatientScreen(),
+      home: PatientProfileScreen(),
     );
   }
 }
