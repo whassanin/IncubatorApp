@@ -10,13 +10,13 @@ PatientMedicineDoctor _$PatientMedicineDoctorFromJson(
     Map<String, dynamic> json) {
   return PatientMedicineDoctor(
     json['id'] as int,
-    json['consumableId'] as int,
+    json['medicineId'] as int,
     json['patientId'] as int,
     json['doctorId'] as int,
     json['quantity'] as int,
-    json['createDate'] == null
+    json['createdDate'] == null
         ? null
-        : DateTime.parse(json['createDate'] as String),
+        : DateTime.parse(json['createdDate'] as String),
   );
 }
 
@@ -24,9 +24,9 @@ Map<String, dynamic> _$PatientMedicineDoctorToJson(
         PatientMedicineDoctor instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'consumableId': instance.consumableId,
+      'medicineId': instance.medicineId,
       'patientId': instance.patientId,
       'doctorId': instance.doctorId,
       'quantity': instance.quantity,
-      'createDate': instance.createDate?.toIso8601String(),
+      'createdDate': instance.createdDate?.toIso8601String(),
     };

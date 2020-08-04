@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/patientxray.dart';
-import 'package:incubatorapp/models/xray.dart';
-import 'package:incubatorapp/widgets/row/patientxrayrowwidget.dart';
+import 'package:incubatorapp/models/medicine.dart';
+import 'package:incubatorapp/models/patientmedicinedoctor.dart';
+import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 
-class PatientXRayListWidget extends StatefulWidget {
-  final List<PatientXRay> patientXRayList;
-  PatientXRayListWidget({this.patientXRayList});
+class PatientMedicineDoctorListWidget extends StatefulWidget {
+  final List<PatientMedicineDoctor> patientMedicineDoctorList;
+  PatientMedicineDoctorListWidget({this.patientMedicineDoctorList});
 
   @override
-  _PatientXRayListWidgetState createState() =>
-      _PatientXRayListWidgetState();
+  _PatientMedicineDoctorListWidgetState createState() =>
+      _PatientMedicineDoctorListWidgetState();
 }
 
-class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
-  List<PatientXRay> addCalculatedList = [];
+class _PatientMedicineDoctorListWidgetState extends State<PatientMedicineDoctorListWidget> {
+  List<PatientMedicineDoctor> addCalculatedList = [];
 
   double calculate() {
     double total = 0;
-    if (widget.patientXRayList != null) {
-      if (widget.patientXRayList.length > 0) {
-        widget.patientXRayList.forEach((px) {
-          int index = addCalculatedList.indexOf(px);
+    if (widget.patientMedicineDoctorList != null) {
+      if (widget.patientMedicineDoctorList.length > 0) {
+        widget.patientMedicineDoctorList.forEach((pmd) {
+          int index = addCalculatedList.indexOf(pmd);
 
           if (index < 0) {
-            XRay xRay = xRayModel.xRayList
-                .where((x) => x.id == px.xRayId)
+            Medicine medicine = medicineModel.medicineList
+                .where((a) => a.id == pmd.medicineId)
                 .toList()[0];
-            total += xRay.price;
+            total += (medicine.price * pmd.quantity);
           }
         });
       }
@@ -42,13 +42,13 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
       ),
     );
 
-    if (widget.patientXRayList != null) {
-      if (widget.patientXRayList.length > 0) {
+    if (widget.patientMedicineDoctorList != null) {
+      if (widget.patientMedicineDoctorList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.patientXRayList.length,
+          itemCount: widget.patientMedicineDoctorList.length,
           itemBuilder: (BuildContext context, int i) {
-            return PatientXRayRowWidget(
-              patientXRay: widget.patientXRayList[i],
+            return PatientMedicineDoctorRowWidget(
+              patientMedicineDoctor: widget.patientMedicineDoctorList[i],
             );
           },
         );

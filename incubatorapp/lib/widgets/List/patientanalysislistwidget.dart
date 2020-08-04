@@ -89,7 +89,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
           ),
           child: Center(
             child: Text(
-              'Total:' + calculate().toString(),
+              'Total: ' + calculate().toString(),
               style: TextStyle(fontSize: 16),
             ),
           ),

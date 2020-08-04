@@ -11,7 +11,7 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
   final Status status;
-  PatientDetailRowWidget({this.patient,this.status});
+  PatientDetailRowWidget({this.patient, this.status});
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
@@ -21,29 +21,52 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToAnalysisScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PatientAnalysisScreen(patientId: widget.patient.id,)),
+      MaterialPageRoute(
+        builder: (context) => PatientAnalysisScreen(
+          patientId: widget.patient.id,
+        ),
+      ),
     );
   }
 
   void goToXRayScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PatientXRayScreen(patientId: widget.patient.id,)),
+      MaterialPageRoute(
+        builder: (context) => PatientXRayScreen(
+          patientId: widget.patient.id,
+        ),
+      ),
     );
   }
 
   void goToMedicineScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PatientMedicineDoctorScreen()),
+      MaterialPageRoute(
+        builder: (context) => PatientMedicineDoctorScreen(
+          patientId: widget.patient.id,
+        ),
+      ),
     );
   }
 
   void goToConsumableScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PatientConsumableNurseScreen()),
+      MaterialPageRoute(
+        builder: (context) => PatientConsumableNurseScreen(
+          patientId: widget.patient.id,
+        ),
+      ),
     );
+  }
+
+  String dateFormat() {
+    String v = widget.patient.dateOfBirth.day.toString();
+    v = v + '/' + widget.patient.dateOfBirth.month.toString();
+    v = v + '/' + widget.patient.dateOfBirth.year.toString();
+    return v;
   }
 
   Widget patientColumn(String title, String val) {
@@ -67,9 +90,12 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 child: Text(title),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             Center(
               child: Container(
-                child: Text(val),
+                child: Center(child: Text(val)),
               ),
             ),
           ],
@@ -85,10 +111,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       crossAxisCount: 2,
       childAspectRatio: 2,
       children: <Widget>[
-        patientColumn('Mother Name:', ''),
-        patientColumn('Father Name:', ''),
-        patientColumn('Gender:', ''),
-        patientColumn('Date of Birth:', ''),
+        patientColumn('Mother Name:', widget.patient.motherName),
+        patientColumn('Father Name:', widget.patient.fatherName),
+        patientColumn('Gender:', (widget.patient.gender ? 'Male' : 'Female')),
+        patientColumn('Date of Birth:', dateFormat()),
       ],
     );
   }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
+import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
+import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
+import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
@@ -17,12 +21,16 @@ import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 IncubatorModel incubatorModel = new IncubatorModel();
-AnalysisModel analysisModel = AnalysisModel();
-XRayModel xRayModel = XRayModel();
+AnalysisModel analysisModel = new AnalysisModel();
+XRayModel xRayModel = new XRayModel();
+MedicineModel medicineModel = new MedicineModel();
+ConsumableModel consumableModel = new ConsumableModel();
 
 PatientModel patientModel = new PatientModel();
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
 PatientXRayModel patientXRayModel = new PatientXRayModel();
+PatientMedicineDoctorModel patientMedicineDoctorModel = new PatientMedicineDoctorModel();
+PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableNurseModel();
 
 void main() {
   runApp(MyApp());
@@ -36,6 +44,8 @@ class MyApp extends StatelessWidget {
 
     analysisModel.readAll();
     xRayModel.readAll();
+    medicineModel.readAll();
+    consumableModel.readAll();
 
     return MaterialApp(
       title: 'Flutter Demo',

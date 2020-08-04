@@ -7,13 +7,13 @@ part 'patientmedicinedoctor.g.dart';
 
 class PatientMedicineDoctor{
   int id;
-  int consumableId;
+  int medicineId;
   int patientId;
   int doctorId;
   int quantity;
-  DateTime createDate;
+  DateTime createdDate;
 
-  PatientMedicineDoctor(this.id,this.consumableId,this.patientId,this.doctorId,this.quantity,this.createDate);
+  PatientMedicineDoctor(this.id,this.medicineId,this.patientId,this.doctorId,this.quantity,this.createdDate);
 
   factory PatientMedicineDoctor.fromJson(Map<String, dynamic> json) => _$PatientMedicineDoctorFromJson(json);
 

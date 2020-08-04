@@ -14,9 +14,9 @@ PatientConsumableNurse _$PatientConsumableNurseFromJson(
     json['patientId'] as int,
     json['nurseId'] as int,
     json['quantity'] as int,
-    json['createDate'] == null
+    json['createdDate'] == null
         ? null
-        : DateTime.parse(json['createDate'] as String),
+        : DateTime.parse(json['createdDate'] as String),
   );
 }
 
@@ -28,5 +28,5 @@ Map<String, dynamic> _$PatientConsumableNurseToJson(
       'patientId': instance.patientId,
       'nurseId': instance.nurseId,
       'quantity': instance.quantity,
-      'createDate': instance.createDate?.toIso8601String(),
+      'createdDate': instance.createdDate?.toIso8601String(),
     };
