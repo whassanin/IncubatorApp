@@ -9,11 +9,22 @@ class PatientModel extends Model {
 
   PatientPhoneModel patientPhoneModel = new PatientPhoneModel();
 
+  int _currentTab = 0;
+
   List<Patient> patientList;
 
   Patient _currentPatient;
 
   Patient get currentPatient => _currentPatient;
+
+  int get currentTab =>_currentTab;
+
+  void setCurrentTab(int v){
+    _currentTab = v;
+    notifyListeners();
+  }
+
+
 
   void createPatient() {
     _currentPatient = new Patient(

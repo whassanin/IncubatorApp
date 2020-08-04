@@ -13,6 +13,13 @@ class PatientXRayRowWidget extends StatefulWidget {
 
 class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
 
+  String dateFormat() {
+    String v = widget.patientXRay.createdDate.day.toString();
+    v = v + '/' + widget.patientXRay.createdDate.month.toString();
+    v = v + '/' + widget.patientXRay.createdDate.year.toString();
+    return v;
+  }
+
   Widget patientAnalysisRow() {
     XRay xRay = xRayModel.xRayList.where((element) => element.id == widget.patientXRay.xRayId).toList()[0];
 
@@ -25,7 +32,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     );
 
     Widget createdDateWidget = Container(
-      child: Text('Date: '+widget.patientXRay.createdDate.toLocal().toString()),
+      child: Text('Date: '+dateFormat()),
     );
 
     Widget displayCol = Column(

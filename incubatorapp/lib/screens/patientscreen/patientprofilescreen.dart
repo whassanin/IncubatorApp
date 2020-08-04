@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
+import 'package:incubatorapp/screens/billscreen/billscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:incubatorapp/widgets/row/patientdetailrowwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 class PatientProfileScreen extends StatelessWidget {
   static const routeName = '/patientprofilescreen';
+  PatientProfileScreen(){
+    patientModel.readById('2');
+  }
   @override
   Widget build(BuildContext context) {
-    patientModel.readById('2');
 
     return ScopedModel(
       model: patientModel,
@@ -23,15 +28,32 @@ class PatientProfileScreen extends StatelessWidget {
 
           if (patientModel.currentPatient != null) {
             if (patientModel.currentPatient.id != null) {
-              currentWidget = PatientDetailRowWidget(
-                patient: patientModel.currentPatient,
+              currentWidget = IndexedStack(
+                index: patientModel.currentTab,
+                children: <Widget>[
+                  PatientDetailRowWidget(
+                    patient: patientModel.currentPatient,
+                  ),
+                  BillScreen(),
+                  EditPatientScreen()
+                ],
               );
             }
           }
 
+          String title = 'Profile';
+
+          if(patientModel.currentTab == 0){
+            title = 'Patient Profile';
+          }else if(patientModel.currentTab == 1){
+            title = 'Patient Bills';
+          }else if(patientModel.currentTab == 2){
+            title = 'Patient Account';
+          }
+
           return Scaffold(
             appBar: AppBar(
-              title: Text('Patient Profile'),
+              title: Text(title),
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(),

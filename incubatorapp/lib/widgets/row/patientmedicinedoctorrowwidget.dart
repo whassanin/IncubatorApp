@@ -13,6 +13,13 @@ class PatientMedicineDoctorRowWidget extends StatefulWidget {
 
 class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRowWidget> {
 
+  String dateFormat() {
+    String v = widget.patientMedicineDoctor.createdDate.day.toString();
+    v = v + '/' + widget.patientMedicineDoctor.createdDate.month.toString();
+    v = v + '/' + widget.patientMedicineDoctor.createdDate.year.toString();
+    return v;
+  }
+
   Widget patientMedicineDoctorRow() {
     Medicine medicine = medicineModel.medicineList
         .where((element) => element.id == widget.patientMedicineDoctor.medicineId)
@@ -27,7 +34,7 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
     );
 
     Widget createdDateWidget = Container(
-      child: Text('Date: '+widget.patientMedicineDoctor.createdDate.toLocal().toString()),
+      child: Text('Date: '+dateFormat()),
     );
 
     Widget displayCol = Column(

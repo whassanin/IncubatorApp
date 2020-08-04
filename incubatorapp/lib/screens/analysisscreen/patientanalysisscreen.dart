@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';

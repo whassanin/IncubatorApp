@@ -14,6 +14,13 @@ class PatientConsumableNurseRowWidget extends StatefulWidget {
 
 class _PatientConsumableNurseRowWidgetState extends State<PatientConsumableNurseRowWidget> {
 
+  String dateFormat() {
+    String v = widget.patientConsumableNurse.createdDate.day.toString();
+    v = v + '/' + widget.patientConsumableNurse.createdDate.month.toString();
+    v = v + '/' + widget.patientConsumableNurse.createdDate.year.toString();
+    return v;
+  }
+
   Widget patientConsumableNurseRow() {
     Consumable consumable = consumableModel.consumableList
         .where((element) => element.id == widget.patientConsumableNurse.consumableId)
@@ -28,7 +35,7 @@ class _PatientConsumableNurseRowWidgetState extends State<PatientConsumableNurse
     );
 
     Widget createdDateWidget = Container(
-      child: Text('Date: '+widget.patientConsumableNurse.createdDate.toLocal().toString()),
+      child: Text('Date: '+dateFormat()),
     );
 
     Widget displayCol = Column(

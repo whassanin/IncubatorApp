@@ -64,6 +64,13 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     }
   }
 
+  String dateFormat() {
+    String v = widget.patientModel.getDateOfBirth().day.toString();
+    v = v + '/' + widget.patientModel.getDateOfBirth().month.toString();
+    v = v + '/' + widget.patientModel.getDateOfBirth().year.toString();
+    return v;
+  }
+
   void getData() {
     ssnTEC.text = widget.patientModel.getSSN();
     motherNameTEC.text = widget.patientModel.getMotherName();
@@ -73,7 +80,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     } else {
       genderTEC.text = 'Female';
     }
-    dateOfBirthTEC.text = widget.patientModel.getDateOfBirth().toString();
+    dateOfBirthTEC.text = dateFormat();
     weightTEC.text = widget.patientModel.getWeight().toString();
     addressTEC.text = widget.patientModel.getAddress();
     phoneTEC.text = widget.patientModel.getPhone();
@@ -133,7 +140,12 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 initialDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
-                  dateOfBirthTEC.text = d.toString();
+
+                  String v = d.day.toString();
+                  v = v + '/' + d.month.toString();
+                  v = v + '/' + d.year.toString();
+
+                  dateOfBirthTEC.text = v;
                   Navigator.pop(context);
                 },
               ),
