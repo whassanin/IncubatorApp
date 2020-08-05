@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/widgets/row/incubatorrowwidget.dart';
 

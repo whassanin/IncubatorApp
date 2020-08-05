@@ -13,10 +13,8 @@ import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
+
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
-import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 
 class PatientConsumableNurseRowWidget extends StatefulWidget {
