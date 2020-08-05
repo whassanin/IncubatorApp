@@ -19,14 +19,18 @@ class Patient {
   String address;
   double weight;
   String ssn;
-  bool isOut;
+  String state;
   String username;
   String password;
   DateTime createdDate;
   int conditionId;
   int incubatorId;
+
   @JsonKey(name: 'patientphone')
   List<PatientPhone> patientPhone;
+
+  @JsonKey(name: 'status')
+  List<Status> statusList = [];
 
   @JsonKey(ignore: true)
   List<PatientAnalysis> patientAnalysisList = [];
@@ -43,9 +47,6 @@ class Patient {
   @JsonKey(ignore: true)
   List<PatientConsumableNurse> patientConsumableNurseList = [];
 
-  @JsonKey(ignore: true)
-  List<Status> statusList = [];
-
   Patient(
     this.id,
     this.motherName,
@@ -55,13 +56,14 @@ class Patient {
     this.address,
     this.weight,
     this.ssn,
-    this.isOut,
+    this.state,
     this.username,
     this.password,
     this.createdDate,
     this.conditionId,
     this.incubatorId,
     this.patientPhone,
+    this.statusList,
   );
 
   factory Patient.fromJson(Map<String, dynamic> json) =>

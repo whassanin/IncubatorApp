@@ -12,7 +12,6 @@ class Bill {
 
   double paid;
   double dayCost;
-  double staying;
   double incubatorClean;
   double consumable;
   double analysis;
@@ -29,7 +28,6 @@ class Bill {
     this.createdDate,
     this.paid,
     this.dayCost,
-    this.staying,
     this.incubatorClean,
     this.consumable,
     this.analysis,

@@ -22,7 +22,6 @@ class _BillListWidgetState extends State<BillListWidget> {
 
           if (i < 0) {
             double sum = b.dayCost +
-                b.staying +
                 b.incubatorClean +
                 b.consumable +
                 b.analysis +

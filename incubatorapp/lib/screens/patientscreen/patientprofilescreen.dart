@@ -9,6 +9,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 class PatientProfileScreen extends StatelessWidget {
   static const routeName = '/patientprofilescreen';
+
   PatientProfileScreen(){
     patientModel.readById('2');
   }

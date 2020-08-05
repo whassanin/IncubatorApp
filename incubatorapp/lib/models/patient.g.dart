@@ -18,7 +18,7 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     json['address'] as String,
     (json['weight'] as num)?.toDouble(),
     json['ssn'] as String,
-    json['isOut'] as bool,
+    json['state'] as String,
     json['username'] as String,
     json['password'] as String,
     json['createdDate'] == null
@@ -29,6 +29,10 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     (json['patientphone'] as List)
         ?.map((e) =>
             e == null ? null : PatientPhone.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['status'] as List)
+        ?.map((e) =>
+            e == null ? null : Status.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -42,11 +46,12 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'address': instance.address,
       'weight': instance.weight,
       'ssn': instance.ssn,
-      'isOut': instance.isOut,
+      'state': instance.state,
       'username': instance.username,
       'password': instance.password,
       'createdDate': instance.createdDate?.toIso8601String(),
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,
       'patientphone': instance.patientPhone,
+      'status': instance.statusList,
     };

@@ -19,7 +19,6 @@ class _BillRowWidgetState extends State<BillRowWidget> {
     v = v + '/' + widget.bill.createdDate.year.toString();
 
     double total = widget.bill.dayCost +
-        widget.bill.staying +
         widget.bill.incubatorClean +
         widget.bill.consumable +
         widget.bill.analysis +

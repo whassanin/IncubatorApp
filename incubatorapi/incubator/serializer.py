@@ -151,8 +151,30 @@ class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
 
 # 1 to many serializer
 
+class StatusSerializer(serializers.ModelSerializer):
+    
+    class Meta: 
+        model = Status
+        fields = [
+            'id',
+            'heartRate',
+            'pulseRate',
+            'oxygen',
+            'weight',
+            'sugar',
+            'urine',
+            'stool',
+            'bloodPressure',
+            'temperature',
+            'incubatorTemperature',
+            'createdDate',
+            'patientId',
+            'nurseId'
+            ]
+
 class PatientSerializer(serializers.ModelSerializer):
     patientphone = PatientPhoneSerializer(many=True,read_only=True)
+    status = StatusSerializer(many=True,read_only=True)
     class Meta: 
         model = Patient
         fields = [
@@ -164,13 +186,14 @@ class PatientSerializer(serializers.ModelSerializer):
         'address',
         'weight',
         'ssn',
-        'isOut',
+        'state',
         'username',
         'password',
         'createdDate',
         'conditionId',
         'incubatorId',
         'patientphone',
+        'status'
         ]
 
 class BillSerializer(serializers.ModelSerializer):
@@ -182,7 +205,6 @@ class BillSerializer(serializers.ModelSerializer):
             'date',
             'paid',
             'dayCost',
-            'staying',
             'incubatorClean',
             'consumable',
             'analysis',
@@ -192,25 +214,6 @@ class BillSerializer(serializers.ModelSerializer):
             'patientId',
             'billextra'
             ]
-
-class StatusSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = Status
-        fields = [
-            'id',
-            'urine',
-            'stool',
-            'sugar',
-            'weight',
-            'pulse',
-            'temperature',
-            'incubatorTemperature',
-            'createdDate',
-            'patientId',
-            'nurseId'
-            ]
-
 
 # main serializers
 

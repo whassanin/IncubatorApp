@@ -125,7 +125,6 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
     double total = 0;
 
     double sum = widget.bill.dayCost +
-        widget.bill.staying +
         widget.bill.incubatorClean +
         widget.bill.consumable +
         widget.bill.analysis +
@@ -157,7 +156,6 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
         children: <Widget>[
           rowTitle('Basic'),
           rowDetailData('Day Cost', widget.bill.dayCost.toString()),
-          rowDetailData('Staying', widget.bill.staying.toString()),
           rowDetailData('Cleaning', widget.bill.incubatorClean.toString()),
           rowDetailData('Consumable', widget.bill.consumable.toString()),
           rowDetailData('Analysis', widget.bill.analysis.toString()),

@@ -217,9 +217,10 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                     widget.patientModel.setCreatedDate(DateTime.now());
                     widget.patientModel.setConditionId(1);
                     widget.patientModel.setIncubatorId(1);
+                    widget.patientModel.setState('In');
                     widget.patientModel.create();
                   }
-                  widget.patientModel.updatePatientPhone();
+                  //widget.patientModel.updatePatientPhone();
                 }
               }
             },

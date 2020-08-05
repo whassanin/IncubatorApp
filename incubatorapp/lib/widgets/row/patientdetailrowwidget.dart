@@ -10,8 +10,9 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
-  final Status status;
-  PatientDetailRowWidget({this.patient, this.status});
+  PatientDetailRowWidget({
+    this.patient,
+  });
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
@@ -62,10 +63,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  String dateFormat() {
-    String v = widget.patient.dateOfBirth.day.toString();
-    v = v + '/' + widget.patient.dateOfBirth.month.toString();
-    v = v + '/' + widget.patient.dateOfBirth.year.toString();
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
     return v;
   }
 
@@ -114,7 +115,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         patientColumn('Mother Name:', widget.patient.motherName),
         patientColumn('Father Name:', widget.patient.fatherName),
         patientColumn('Gender:', (widget.patient.gender ? 'Male' : 'Female')),
-        patientColumn('Date of Birth:', dateFormat()),
+        patientColumn('Date of Birth:', dateFormat(widget.patient.dateOfBirth)),
       ],
     );
   }
@@ -177,90 +178,127 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   Widget statusRow() {
-    return Column(
-      children: <Widget>[
-        GridView.count(
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 2,
-          childAspectRatio: 2,
-          children: <Widget>[
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.heart,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Hear Rate',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.signal,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Pulse',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.temperatureHigh,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Urine',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.temperatureHigh,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Sugar',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.heart,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Stool',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.heart,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Weight',
-                '56'),
-          ],
-        ),
-        GridView.count(
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 1,
-          childAspectRatio: 4,
-          children: <Widget>[
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.temperatureHigh,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Temperature',
-                '56'),
-            statusColumn(
-                Icon(
-                  FontAwesomeIcons.temperatureHigh,
-                  color: Colors.blueAccent,
-                ),
-                50,
-                'Incubator Temperature',
-                '56'),
-          ],
-        )
-      ],
+    Widget currentWidget = Center(
+      child: Container(
+        child: Text('No Status Ye'),
+      ),
     );
+
+    if (widget.patient.statusList != null) {
+      if (widget.patient.statusList.length > 0) {
+        currentWidget = Column(
+          children: <Widget>[
+            GridView.count(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              childAspectRatio: 2,
+              children: <Widget>[
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.heart,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Heart Rate',
+                    widget.patient.statusList[0].heartRate.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.heartbeat,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Pulse Rate',
+                    widget.patient.statusList[0].pulseRate.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.lungs,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Oxygen',
+                    widget.patient.statusList[0].oxygen.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.weight,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Weight',
+                    widget.patient.statusList[0].weight.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.burn,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Sugar',
+                    widget.patient.statusList[0].sugar.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.filePrescription,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Blood Pressure',
+                    widget.patient.statusList[0].bloodPressure.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.poop,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Urine',
+                    widget.patient.statusList[0].urine.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.poop,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Stool',
+                    widget.patient.statusList[0].stool.toString()),
+              ],
+            ),
+            GridView.count(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 1,
+              childAspectRatio: 4,
+              children: <Widget>[
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.temperatureHigh,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Temperature',
+                    widget.patient.statusList[0].temperature.toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.temperatureHigh,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Incubator Temperature',
+                    widget.patient.statusList[0].incubatorTemperature
+                        .toString()),
+                statusColumn(
+                    Icon(
+                      FontAwesomeIcons.calendar,
+                      color: Colors.blueAccent,
+                    ),
+                    50,
+                    'Latest Date',
+                    dateFormat(widget.patient.statusList[0].createdDate))
+              ],
+            )
+          ],
+        );
+      }
+    }
+
+    return currentWidget;
   }
 
   Widget rowTitle(String title) {

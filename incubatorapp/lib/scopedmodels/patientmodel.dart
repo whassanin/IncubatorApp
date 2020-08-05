@@ -36,12 +36,13 @@ class PatientModel extends Model {
       '',
       0,
       '',
-      false,
+      '',
       '',
       '',
       DateTime.now(),
-      0,
-      0,
+      1,
+      1,
+      null,
       null,
     );
   }
@@ -96,9 +97,7 @@ class PatientModel extends Model {
   }
 
   void setWeight(double val) {
-    print('weight val:' + val.toString());
     _currentPatient.weight = val;
-    print(_currentPatient.weight.toString());
     notifyListeners();
   }
 
@@ -115,13 +114,13 @@ class PatientModel extends Model {
     return _currentPatient.ssn;
   }
 
-  void setIsOut(bool val) {
-    _currentPatient.isOut = val;
+  void setState(String state) {
+    _currentPatient.state = state;
     notifyListeners();
   }
 
-  bool getIsOut() {
-    return _currentPatient.isOut;
+  String getIsOut() {
+    return _currentPatient.state;
   }
 
   void setUserName(String val) {
@@ -205,6 +204,9 @@ class PatientModel extends Model {
   }
 
   Future<bool> create() async {
+
+    print(_currentPatient.toJson().toString());
+
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
       notifyListeners();

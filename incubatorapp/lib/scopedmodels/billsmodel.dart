@@ -13,7 +13,7 @@ class BillModel extends Model{
   Bill get currentBill => _currentBill;
   
   void createBill(){
-    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
   }
 
   void editBill(Bill editBill){
@@ -38,14 +38,6 @@ class BillModel extends Model{
 
   double getDayCost(){
     return _currentBill.dayCost;
-  }
-
-  void setStaying(double staying){
-    _currentBill.staying = staying;
-  }
-
-  double getStaying(){
-    return _currentBill.staying;
   }
 
   void setIncubatorClean(double incubatorClean){
