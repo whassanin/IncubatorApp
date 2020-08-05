@@ -9,13 +9,13 @@ part of 'condition.dart';
 Condition _$ConditionFromJson(Map<String, dynamic> json) {
   return Condition(
     json['id'] as int,
-    json['colorId'] as int,
+    json['name'] as String,
     (json['cost'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$ConditionToJson(Condition instance) => <String, dynamic>{
       'id': instance.id,
-      'colorId': instance.colorId,
+      'name': instance.name,
       'cost': instance.cost,
     };

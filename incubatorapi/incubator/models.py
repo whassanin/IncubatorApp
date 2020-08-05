@@ -10,7 +10,7 @@ class Incubator(models.Model):
     name = models.CharField(max_length=200)
 
 class Condition(models.Model):
-    colorId = models.IntegerField()
+    name = models.CharField(max_length=20)
     cost = models.FloatField()
 
 class Analysis(models.Model):
@@ -44,7 +44,6 @@ class Doctor(models.Model):
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
-
 
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)

@@ -204,12 +204,22 @@ class PatientModel extends Model {
   }
 
   Future<bool> create() async {
-
-    print(_currentPatient.toJson().toString());
-
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
-      notifyListeners();
+      List<dynamic> newPatientMap = await _api.getCount();
+
+      List<Patient> patientList = newPatientMap.map((e) => Patient.fromJson(e)).toList();
+
+      if(patientList!=null){
+        if(patientList.length > 0){
+          _currentPatient.id = patientList[0].id;
+
+          await Future.delayed(Duration(seconds: 1));
+
+          updatePatientPhone();
+        }
+      }
+
       return true;
     }
     return false;
@@ -230,7 +240,7 @@ class PatientModel extends Model {
   void updatePatientPhone() {
     _currentPatient.patientPhone.forEach((element) {
       patientPhoneModel.editPatientPhone(element);
-      print(element.toJson().toString());
+      element.patientId = _currentPatient.id;
       if (element.id == 0) {
         patientPhoneModel.create();
       } else {

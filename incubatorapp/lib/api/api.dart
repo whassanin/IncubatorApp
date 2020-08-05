@@ -50,6 +50,19 @@ class Api {
     return listMap;
   }
 
+  Future<List<dynamic>> getCount() async {
+    final data = await http.get(
+      _url + '/count',
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+
+    List<dynamic> listMap = jsonDecode(data.body);
+
+    return listMap;
+  }
+
   Future<int> post(Map<String, dynamic> jsonBody) async {
     final data = await http.post(
       _url + '/',

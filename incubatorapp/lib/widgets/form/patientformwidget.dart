@@ -220,7 +220,6 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                     widget.patientModel.setState('In');
                     widget.patientModel.create();
                   }
-                  //widget.patientModel.updatePatientPhone();
                 }
               }
             },

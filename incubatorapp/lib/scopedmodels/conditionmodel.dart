@@ -10,20 +10,20 @@ class Condition extends Model{
   conditionName.Condition _currentCondition;
 
   void createCondition(){
-    _currentCondition = new conditionName.Condition(0, 0, 0);
+    _currentCondition = new conditionName.Condition(0, '', 0);
   }
 
   void editCondition(conditionName.Condition editCondition){
     _currentCondition = editCondition;
   }
 
-  void setColorId(int colorId){
-    _currentCondition.colorId = colorId;
+  void setName(String name){
+    _currentCondition.name = name;
     notifyListeners();
   }
 
-  int colorId(){
-    return _currentCondition.colorId;
+  String getName(){
+    return _currentCondition.name;
   }
 
   void setCost(double cost){

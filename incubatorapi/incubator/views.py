@@ -144,6 +144,11 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
+class PatientCount(generics.ListAPIView):
+    queryset = Patient.objects.order_by('-createdDate')[:1]
+    serializer_class = PatientSerializer
+
+
 # Bill Views Class
 class BillList(generics.ListCreateAPIView):
     serializer_class = BillSerializer

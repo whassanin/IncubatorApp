@@ -5,10 +5,10 @@ part 'condition.g.dart';
 @JsonSerializable()
 class Condition {
   int id;
-  int colorId;
+  String name;
   double cost;
 
-  Condition(this.id, this.colorId, this.cost);
+  Condition(this.id, this.name, this.cost);
 
   factory Condition.fromJson(Map<String, dynamic> json) => _$ConditionFromJson(json);
 
