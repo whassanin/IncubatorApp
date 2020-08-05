@@ -193,7 +193,11 @@ class PatientModel extends Model {
 
   void search() {}
 
-  void filterByStatus() {}
+  void filterByStatus(String status) async {
+    List<dynamic> patientListMap = await _api.filter(status);
+    patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
+    notifyListeners();
+  }
 
   void readById(String id) async {
     Map<String, dynamic> patientMap = await _api.getById(id);

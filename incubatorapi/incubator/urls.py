@@ -34,7 +34,7 @@ urlpatterns = [
     path('nurse/<int:pk>', views.NurseDetail.as_view()),
 
     # 1 to many data
-    path('patient/', views.PatientList.as_view()),
+    path('patient/<state>', views.PatientList.as_view()),
     path('patient/<int:pk>', views.PatientDetail.as_view()),
     path('patient/count/', views.PatientCount.as_view()),
 

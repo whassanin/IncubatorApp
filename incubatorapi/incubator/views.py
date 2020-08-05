@@ -137,8 +137,11 @@ class NurseDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Patient Views CLass
 class PatientList(generics.ListCreateAPIView):
-    queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+
+    def get_queryset(self):
+       state = self.kwargs['state']
+       return Patient.objects.filter(state=state).order_by('-createdDate')
 
 class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()

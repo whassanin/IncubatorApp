@@ -37,9 +37,9 @@ class Api {
     return listMap;
   }
 
-  Future<List<dynamic>> filter(String columnId) async {
+  Future<List<dynamic>> filter(String val) async {
     final data = await http.get(
-      _url + '/' + columnId,
+      _url + '/' + val,
       headers: {
         'content-type': 'application/json',
       },
