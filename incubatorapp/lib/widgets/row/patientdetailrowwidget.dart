@@ -223,7 +223,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                   color: Colors.blueAccent,
                 ),
                 50,
-                'Hear Rate',
+                'Stool',
                 '56'),
             statusColumn(
                 Icon(
@@ -231,7 +231,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                   color: Colors.blueAccent,
                 ),
                 50,
-                'Hear Rate',
+                'Weight',
                 '56'),
           ],
         ),
