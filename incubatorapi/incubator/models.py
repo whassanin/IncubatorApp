@@ -112,7 +112,7 @@ class NurseShift(models.Model):
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
     analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
-    result = models.CharField(max_length=200)
+    result = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField(auto_now=True)
 
 class PatientXRay(models.Model):

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
+import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -28,12 +29,21 @@ class PatientAnalysisScreen extends StatelessWidget {
             ),
             floatingActionButton: (isPatient == false
                 ? FloatingActionButton(
-                  child: IconButton(
-                      icon: Icon(Icons.add,color: Colors.white,),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
                       color: Colors.blueAccent,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NewPatientAnalysisScreen()),
+                        );
+                      },
                     ),
-                )
+                  )
                 : Container()),
             body: PatientAnalysisListWidget(
               patientAnalysisList: patientAnalysisModel.patientAnalysisList,
