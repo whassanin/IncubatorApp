@@ -3,18 +3,17 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
+import 'package:incubatorapp/screens/xrayscreen/editpatientxrayscreen.dart';
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;
   final UserPermission userPermission;
-  PatientXRayRowWidget({this.patientXRay,this.userPermission});
+  PatientXRayRowWidget({this.patientXRay, this.userPermission});
   @override
-  _PatientXRayRowWidgetState createState() =>
-      _PatientXRayRowWidgetState();
+  _PatientXRayRowWidgetState createState() => _PatientXRayRowWidgetState();
 }
 
 class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
-
   String dateFormat() {
     String v = widget.patientXRay.createdDate.day.toString();
     v = v + '/' + widget.patientXRay.createdDate.month.toString();
@@ -23,10 +22,12 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
   }
 
   Widget patientAnalysisRow() {
-    XRay xRay = xRayModel.xRayList.where((element) => element.id == widget.patientXRay.xRayId).toList()[0];
+    XRay xRay = xRayModel.xRayList
+        .where((element) => element.id == widget.patientXRay.xRayId)
+        .toList()[0];
 
     Widget xRayNameWidget = Container(
-      child: Text('Name: '+xRay.name),
+      child: Text('Name: ' + xRay.name),
     );
 
     Widget priceWidget = Container(
@@ -34,14 +35,14 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     );
 
     Widget resultWidget = Container(
-      child: Text('Comment: '+widget.patientXRay.comment),
+      child: Text('Comment: ' + widget.patientXRay.comment),
     );
 
     Widget createdDateWidget = Container(
-      child: Text('Date: '+dateFormat()),
+      child: Text('Date: ' + dateFormat()),
     );
 
-    Widget deleteButtonWidget = Row(
+    Widget editButtonWidget = Row(
       children: <Widget>[
         Expanded(
           child: RaisedButton(
@@ -52,10 +53,18 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
                 ),
               ),
             ),
-            child: Text('Delete'),
-            onPressed: (){
+            child: Text('Edit'),
+            onPressed: () {
               patientXRayModel.editPatientXRay(widget.patientXRay);
-              patientXRayModel.delete();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditPatientXRayScreen(
+                    patientXRay: widget.patientXRay,
+                    xRay: xRay,
+                  ),
+                ),
+              );
             },
           ),
         ),
@@ -70,28 +79,32 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: xRayNameWidget,
         ),
-        SizedBox(height: 5,),
+        SizedBox(
+          height: 5,
+        ),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
         (widget.userPermission.isPatient
             ? Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: priceWidget,
-        )
+                padding: const EdgeInsets.all(2.0),
+                child: priceWidget,
+              )
             : Container()),
         (widget.userPermission.isPatient
             ? SizedBox(
-          height: 5,
-        )
+                height: 5,
+              )
             : Container()),
-        SizedBox(height: 5,),
+        SizedBox(
+          height: 5,
+        ),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (widget.userPermission.isDoctor ? deleteButtonWidget : Container)
+        (widget.userPermission.isDoctor ? editButtonWidget : Container)
       ],
     );
 
@@ -101,8 +114,11 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
         child: displayCol,
       ),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10,),)
-      ),
+          borderRadius: BorderRadius.all(
+        Radius.circular(
+          10,
+        ),
+      )),
       elevation: 4,
     );
 

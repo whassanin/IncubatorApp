@@ -27,25 +27,24 @@ class PatientXRayScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text('XRay'),
-            ),
-            floatingActionButton: (userPermission.isDoctor == true
-                ? FloatingActionButton(
-              child: IconButton(
-                icon: Icon(Icons.add,color: Colors.white,),
-                color: Colors.blueAccent,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewPatientXRayScreen(
-                        userPermission: userPermission,
+              actions: <Widget>[
+                (userPermission.isDoctor == true?IconButton(
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewPatientXRayScreen(
+                          userPermission: userPermission,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            )
-                : Container()),
+                    );
+                  },
+                ):Container())
+              ],
+            ),
             body: PatientXRayListWidget(
               patientXRayList: patientXRayModel.patientXRayList,
               userPermission: userPermission,

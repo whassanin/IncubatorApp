@@ -85,7 +85,7 @@ class PatientXRayModel extends Model{
   }
 
   Future<bool> update() async{
-    int code = await _api.put(
+    int code = await _api.putSubValue(
         _currentPatientXRay.toJson(), _currentPatientXRay.id.toString());
 
     if (code == 200) {

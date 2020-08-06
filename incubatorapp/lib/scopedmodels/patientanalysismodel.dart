@@ -90,7 +90,7 @@ class PatientAnalysisModel extends Model {
   }
 
   Future<bool> update() async {
-    int code = await _api.put(_currentPatientAnalysis.toJson(),
+    int code = await _api.putSubValue(_currentPatientAnalysis.toJson(),
         _currentPatientAnalysis.id.toString());
 
     if (code == 200) {

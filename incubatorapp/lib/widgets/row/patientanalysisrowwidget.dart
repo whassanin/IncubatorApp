@@ -3,6 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
 
 class PatientAnalysisRowWidget extends StatefulWidget {
   final PatientAnalysis patientAnalysis;
@@ -42,7 +43,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
       child: Text('Date: ' + dateFormat()),
     );
 
-    Widget deleteButtonWidget = Row(
+    Widget editButtonWidget = Row(
       children: <Widget>[
         Expanded(
           child: RaisedButton(
@@ -53,10 +54,18 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
                 ),
               ),
             ),
-            child: Text('Delete'),
+            child: Text('Edit'),
             onPressed: () {
               patientAnalysisModel.editPatientAnalysis(widget.patientAnalysis);
-              patientAnalysisModel.delete();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditPatientAnalysisScreen(
+                    patientAnalysis: widget.patientAnalysis,
+                    analysis: analysis,
+                  ),
+                ),
+              );
             },
           ),
         ),
@@ -96,7 +105,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (widget.userPermission.isDoctor ? deleteButtonWidget : Container)
+        (widget.userPermission.isDoctor ? editButtonWidget : Container)
       ],
     );
 

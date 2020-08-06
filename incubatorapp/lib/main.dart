@@ -12,6 +12,7 @@ import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
+import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
 
         PatientAnalysisScreen.routeName:(context)=>PatientAnalysisScreen(),
         NewPatientAnalysisScreen.routeName:(context)=>NewPatientAnalysisScreen(),
+        EditPatientAnalysisScreen.routeName:(context)=>EditPatientAnalysisScreen(),
 
         PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
         NewPatientXRayScreen.routeName:(context)=>NewPatientXRayScreen(),
