@@ -30,7 +30,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         SizedBox(
           width: 10,
         ),
-        Text('Name: ' + widget.analysis.name),
+        Expanded(child: Container(child: Text('Name: ' + widget.analysis.name))),
         (widget.isPatientAnalysis
             ? Checkbox(
                 value: isSelected,

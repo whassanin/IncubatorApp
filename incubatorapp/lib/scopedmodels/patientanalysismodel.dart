@@ -21,6 +21,15 @@ class PatientAnalysisModel extends Model {
     _currentPatientAnalysis = editPatientAnalysis;
   }
 
+  void clearList(){
+    if(patientAnalysisList!=null){
+      if(patientAnalysisList.length > 0){
+        patientAnalysisList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   void setPatientId(int patientId) {
     _currentPatientAnalysis.patientId = patientId;
   }

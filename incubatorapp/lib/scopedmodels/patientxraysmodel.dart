@@ -21,6 +21,16 @@ class PatientXRayModel extends Model{
     _currentPatientXRay = editPatientXRay;
   }
 
+  void clearList(){
+    if(patientXRayList!=null){
+      if(patientXRayList.length > 0){
+        patientXRayList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
+
   void setPatientId(int patientId){
     _currentPatientXRay.patientId = patientId;
   }

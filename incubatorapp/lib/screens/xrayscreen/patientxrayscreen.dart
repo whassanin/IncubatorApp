@@ -32,7 +32,9 @@ class PatientXRayScreen extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.add,color: Colors.white,),
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: () {
+
+                },
               ),
             )
                 : Container()),

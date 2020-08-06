@@ -19,6 +19,15 @@ class PatientMedicineDoctorModel extends Model{
     _currentPatientMedicineDoctor = editPatientMedicineDoctor;
   }
 
+  void clearList(){
+    if(patientMedicineDoctorList!=null){
+      if(patientMedicineDoctorList.length > 0){
+        patientMedicineDoctorList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   void setPatientId(int patientId){
     _currentPatientMedicineDoctor.patientId = patientId;
   }

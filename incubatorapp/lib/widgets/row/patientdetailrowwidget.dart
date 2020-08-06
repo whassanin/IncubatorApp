@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
@@ -23,6 +24,9 @@ class PatientDetailRowWidget extends StatefulWidget {
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToAnalysisScreen() {
+
+    patientAnalysisModel.clearList();
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -35,6 +39,9 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToXRayScreen() {
+
+    patientXRayModel.clearList();
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -47,6 +54,9 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToMedicineScreen() {
+
+    patientMedicineDoctorModel.clearList();
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -59,6 +69,9 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToConsumableScreen() {
+
+    patientConsumableNurseModel.clearList();
+
     Navigator.push(
       context,
       MaterialPageRoute(

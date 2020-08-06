@@ -22,6 +22,15 @@ class PatientConsumableNurseModel extends Model {
     _currentPatientConsumableNurse = editPatientConsumableNurse;
   }
 
+  void clearList(){
+    if(patientConsumableNurseList!=null){
+      if(patientConsumableNurseList.length > 0){
+        patientConsumableNurseList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   void setPatientId(int patientId) {
     _currentPatientConsumableNurse.patientId = patientId;
   }

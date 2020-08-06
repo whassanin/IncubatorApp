@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
     consumableModel.readAll();
 
     UserPermission userPermission = new UserPermission();
-    userPermission.setPermission(UserType.nurse);
+    userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',

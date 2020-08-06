@@ -31,7 +31,7 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
         SizedBox(
           width: 10,
         ),
-        Text('Name: ' + widget.consumable.name),
+        Expanded(child: Container(child: Text('Name: ' + widget.consumable.name))),
         (widget.isPatientConsumableNurse
             ? Checkbox(
           value: isSelected,
