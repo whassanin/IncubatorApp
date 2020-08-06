@@ -4,16 +4,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
-  final bool isPatient;
+  final UserPermission userPermission;
   PatientDetailRowWidget({
     this.patient,
-    this.isPatient
+    this.userPermission
   });
 
   @override
@@ -27,7 +28,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientAnalysisScreen(
           patientId: widget.patient.id,
-          isPatient: widget.isPatient,
+          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -39,7 +40,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientXRayScreen(
           patientId: widget.patient.id,
-          isPatient: widget.isPatient,
+          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -51,7 +52,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
           patientId: widget.patient.id,
-          isPatient: widget.isPatient,
+          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -63,7 +64,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientConsumableNurseScreen(
           patientId: widget.patient.id,
-          isPatient: widget.isPatient,
+          userPermission: widget.userPermission,
         ),
       ),
     );

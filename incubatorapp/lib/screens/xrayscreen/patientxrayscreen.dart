@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 class PatientXRayScreen extends StatelessWidget {
   static const routeName = '/patientxrayscreen';
 
   final int patientId;
-  final bool isPatient;
-  PatientXRayScreen({this.patientId,this.isPatient}){
+  final UserPermission userPermission;
+  PatientXRayScreen({this.patientId,this.userPermission}){
     patientXRayModel.createPatientXRay();
     patientXRayModel.setPatientId(patientId);
     patientXRayModel.readByPatientId();
@@ -25,7 +27,7 @@ class PatientXRayScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('XRay'),
             ),
-            floatingActionButton: (isPatient == false
+            floatingActionButton: (userPermission.isDoctor == true
                 ? FloatingActionButton(
               child: IconButton(
                 icon: Icon(Icons.add,color: Colors.white,),
@@ -36,7 +38,7 @@ class PatientXRayScreen extends StatelessWidget {
                 : Container()),
             body: PatientXRayListWidget(
               patientXRayList: patientXRayModel.patientXRayList,
-              isPatient: isPatient,
+              userPermission: userPermission,
             ),
           );
         },

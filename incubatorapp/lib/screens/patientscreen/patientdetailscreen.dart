@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientdetailrowwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PatientDetailScreen extends StatelessWidget {
   static const routeName = '/patientdetailscreen';
 
-  final bool isPatient;
-  PatientDetailScreen({this.isPatient});
+  final UserPermission userPermission;
+  PatientDetailScreen({this.userPermission});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,10 @@ class PatientDetailScreen extends StatelessWidget {
 
           if (patientModel.currentPatient != null) {
             if (patientModel.currentPatient.id != null) {
-              if (isPatient) {
+              if (userPermission.isPatient) {
                 currentWidget = PatientDetailRowWidget(
                   patient: patientModel.currentPatient,
-                  isPatient: isPatient,
+                  userPermission: userPermission,
                 );
               } else {
                 currentWidget = Scaffold(
@@ -33,7 +34,7 @@ class PatientDetailScreen extends StatelessWidget {
                   ),
                   body: PatientDetailRowWidget(
                     patient: patientModel.currentPatient,
-                    isPatient: isPatient,
+                    userPermission: userPermission,
                   ),
                 );
               }

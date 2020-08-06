@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;
-  PatientMedicineDoctorRowWidget({this.patientMedicineDoctor});
+  final UserPermission userPermission;
+  PatientMedicineDoctorRowWidget({this.patientMedicineDoctor,this.userPermission});
   @override
   _PatientMedicineDoctorRowWidgetState createState() =>
       _PatientMedicineDoctorRowWidgetState();
@@ -26,7 +28,11 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
         .toList()[0];
 
     Widget medicineNameWidget = Container(
-      child: Text('Name: '+medicine.name+': '+medicine.price.toString()),
+      child: Text('Name: '+medicine.name),
+    );
+
+    Widget priceWidget = Container(
+      child: Text('Price: ' + medicine.price.toString()),
     );
 
     Widget resultWidget = Container(
@@ -50,6 +56,17 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
+        (widget.userPermission.isPatient
+            ? Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: priceWidget,
+        )
+            : Container()),
+        (widget.userPermission.isPatient
+            ? SizedBox(
+          height: 5,
+        )
+            : Container()),
         SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.all(2.0),

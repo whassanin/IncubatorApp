@@ -2,78 +2,82 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientConsumableNurseModel extends Model{
+class PatientConsumableNurseModel extends Model {
   Api _api = new Api('patientconsumablenurse');
 
   List<PatientConsumableNurse> patientConsumableNurseList;
 
   PatientConsumableNurse _currentPatientConsumableNurse;
 
-  PatientConsumableNurse get currentPatientConsumableNurse => _currentPatientConsumableNurse;
+  PatientConsumableNurse get currentPatientConsumableNurse =>
+      _currentPatientConsumableNurse;
 
-  void createPatientConsumableNurse(){
-    _currentPatientConsumableNurse = new PatientConsumableNurse(0,0,0,0,0,DateTime.now());
+  void createPatientConsumableNurse() {
+    _currentPatientConsumableNurse =
+        new PatientConsumableNurse(0, 0, 0, 0, 0, DateTime.now());
   }
 
-  void editPatientConsumableNurse(PatientConsumableNurse editPatientConsumableNurse){
+  void editPatientConsumableNurse(
+      PatientConsumableNurse editPatientConsumableNurse) {
     _currentPatientConsumableNurse = editPatientConsumableNurse;
   }
 
-  void setPatientId(int patientId){
+  void setPatientId(int patientId) {
     _currentPatientConsumableNurse.patientId = patientId;
   }
 
-  int getPatientId(){
+  int getPatientId() {
     return _currentPatientConsumableNurse.patientId;
   }
 
-  void setNurseId(int nurseId){
+  void setNurseId(int nurseId) {
     _currentPatientConsumableNurse.nurseId = nurseId;
   }
 
-  int getNurseId(){
+  int getNurseId() {
     return _currentPatientConsumableNurse.nurseId;
   }
 
-  void setConsumableId(int consumableId){
+  void setConsumableId(int consumableId) {
     _currentPatientConsumableNurse.consumableId = consumableId;
   }
 
-  int getConsumableId(){
+  int getConsumableId() {
     return _currentPatientConsumableNurse.consumableId;
   }
 
-  void setQuantity(int quantity){
+  void setQuantity(int quantity) {
     _currentPatientConsumableNurse.quantity = quantity;
   }
 
-  int getQuantity(){
+  int getQuantity() {
     return _currentPatientConsumableNurse.quantity;
   }
 
-  DateTime getCreatedDate(){
+  DateTime getCreatedDate() {
     return _currentPatientConsumableNurse.createdDate;
   }
 
-  void readByPatientId() async{
-    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(_currentPatientConsumableNurse.patientId.toString());
-    patientConsumableNurseList = patientAnalysisMap.map((e) => PatientConsumableNurse.fromJson(e)).toList();
+  void readByPatientId() async {
+    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(
+        _currentPatientConsumableNurse.patientId.toString());
+    patientConsumableNurseList = patientAnalysisMap
+        .map((e) => PatientConsumableNurse.fromJson(e))
+        .toList();
 
     await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
   }
 
-  void readByConsumableId(){
+  void readByConsumableId() {}
 
-  }
+  void readByNurseId() {}
 
-  void readByNurseId(){
-
-  }
-
-  Future<bool> create() async{
-    int code = await _api.post(_currentPatientConsumableNurse.toJson());
+  Future<bool> create() async {
+    print(_currentPatientConsumableNurse.toJson().toString());
+    int code = await _api.postSubValue(_currentPatientConsumableNurse.toJson(),
+        _currentPatientConsumableNurse.patientId.toString());
     if (code == 201) {
       patientConsumableNurseList.add(_currentPatientConsumableNurse);
 
@@ -83,9 +87,9 @@ class PatientConsumableNurseModel extends Model{
     return false;
   }
 
-  Future<bool> update() async{
-    int code = await _api.put(
-        _currentPatientConsumableNurse.toJson(), _currentPatientConsumableNurse.id.toString());
+  Future<bool> update() async {
+    int code = await _api.put(_currentPatientConsumableNurse.toJson(),
+        _currentPatientConsumableNurse.id.toString());
 
     if (code == 200) {
       notifyListeners();
@@ -95,7 +99,7 @@ class PatientConsumableNurseModel extends Model{
     return false;
   }
 
-  Future<bool> delete() async{
+  Future<bool> delete() async {
     int code = await _api.delete(_currentPatientConsumableNurse.id.toString());
 
     if (code == 204) {
@@ -106,5 +110,4 @@ class PatientConsumableNurseModel extends Model{
     }
     return false;
   }
-
 }

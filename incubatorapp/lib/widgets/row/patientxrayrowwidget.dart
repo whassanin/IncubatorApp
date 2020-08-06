@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/xray.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;
-  PatientXRayRowWidget({this.patientXRay});
+  final UserPermission userPermission;
+  PatientXRayRowWidget({this.patientXRay,this.userPermission});
   @override
   _PatientXRayRowWidgetState createState() =>
       _PatientXRayRowWidgetState();
@@ -24,7 +26,11 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     XRay xRay = xRayModel.xRayList.where((element) => element.id == widget.patientXRay.xRayId).toList()[0];
 
     Widget xRayNameWidget = Container(
-      child: Text('Name: '+xRay.name+':'+xRay.price.toString()),
+      child: Text('Name: '+xRay.name),
+    );
+
+    Widget priceWidget = Container(
+      child: Text('Price: ' + xRay.price.toString()),
     );
 
     Widget resultWidget = Container(
@@ -48,6 +54,17 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
+        (widget.userPermission.isPatient
+            ? Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: priceWidget,
+        )
+            : Container()),
+        (widget.userPermission.isPatient
+            ? SizedBox(
+          height: 5,
+        )
+            : Container()),
         SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.all(2.0),

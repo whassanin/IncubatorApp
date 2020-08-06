@@ -13,6 +13,7 @@ import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -22,6 +23,7 @@ import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
@@ -61,6 +63,9 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
 
+    UserPermission userPermission = new UserPermission();
+    userPermission.setPermission(UserType.nurse);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -70,15 +75,21 @@ class MyApp extends StatelessWidget {
       routes: {
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
+
         PatientAnalysisScreen.routeName:(context)=>PatientAnalysisScreen(),
         NewPatientAnalysisScreen.routeName:(context)=>NewPatientAnalysisScreen(),
+
         PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
+
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
+
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
+        NewPatientConsumableNurseScreen.routeName:(context)=>NewPatientConsumableNurseScreen(),
+
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: PatientListScreen(),
+      home: PatientListScreen(userPermission: userPermission,),
     );
   }
 }

@@ -69,7 +69,6 @@ class PatientAnalysisModel extends Model {
   }
 
   Future<bool> create() async {
-    print(_currentPatientAnalysis.toJson().toString());
     int code = await _api.postSubValue(_currentPatientAnalysis.toJson(),
         _currentPatientAnalysis.patientId.toString());
     if (code == 201) {

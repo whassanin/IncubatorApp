@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientanalysisrowwidget.dart';
 
 class PatientAnalysisListWidget extends StatefulWidget {
   final List<PatientAnalysis> patientAnalysisList;
-  final bool isPatient;
-  PatientAnalysisListWidget({this.patientAnalysisList,this.isPatient});
+  final UserPermission userPermission;
+  PatientAnalysisListWidget({this.patientAnalysisList,this.userPermission});
 
   @override
   _PatientAnalysisListWidgetState createState() =>
@@ -52,6 +53,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
           itemBuilder: (BuildContext context, int i) {
             return PatientAnalysisRowWidget(
               patientAnalysis: widget.patientAnalysisList[i],
+              userPermission: widget.userPermission,
             );
           },
         );
@@ -110,7 +112,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
     return Stack(
       children: <Widget>[
         positionList,
-        (widget.isPatient?positionTotal:Container()),
+        (widget.userPermission.isPatient?positionTotal:Container()),
       ],
     );
   }

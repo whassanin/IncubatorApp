@@ -118,7 +118,7 @@ class PatientAnalysis(models.Model):
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
-    comment = models.CharField(max_length=200)
+    comment = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField(auto_now=True)
 
 class PatientConsumableNurse(models.Model):

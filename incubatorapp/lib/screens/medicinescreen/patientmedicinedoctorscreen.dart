@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/List/patientmedicinedoctorlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 class PatientMedicineDoctorScreen extends StatelessWidget {
   static const routeName = '/patientmedicinedoctorscreen';
 
   final int patientId;
-  final bool isPatient;
-  PatientMedicineDoctorScreen({this.patientId,this.isPatient}){
+  final UserPermission userPermission;
+  PatientMedicineDoctorScreen({this.patientId,this.userPermission}){
     patientMedicineDoctorModel.createPatientMedicineDoctor();
     patientMedicineDoctorModel.setPatientId(patientId);
     patientMedicineDoctorModel.readByPatientId();
@@ -25,7 +26,7 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Medicine'),
             ),
-            floatingActionButton: (isPatient == false
+            floatingActionButton: (userPermission.isDoctor == true
                 ? FloatingActionButton(
               child: IconButton(
                 icon: Icon(Icons.add,color: Colors.white,),
@@ -36,7 +37,7 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
                 : Container()),
             body: PatientMedicineDoctorListWidget(
                patientMedicineDoctorList: patientMedicineDoctorModel.patientMedicineDoctorList,
-              isPatient: isPatient,
+              userPermission: userPermission,
             ),
           );
         },

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
+import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/List/patientconsumablenurselistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 class PatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final int patientId;
-  final bool isPatient;
-  PatientConsumableNurseScreen({this.patientId,this.isPatient}){
+  final UserPermission userPermission;
+  PatientConsumableNurseScreen({this.patientId,this.userPermission}){
     patientConsumableNurseModel.createPatientConsumableNurse();
     patientConsumableNurseModel.setPatientId(patientId);
     patientConsumableNurseModel.readByPatientId();
@@ -25,18 +27,24 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Consumable'),
             ),
-            floatingActionButton: (isPatient == false
+            floatingActionButton: (userPermission.isNurse == true
                 ? FloatingActionButton(
               child: IconButton(
                 icon: Icon(Icons.add,color: Colors.white,),
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewPatientConsumableNurseScreen()),
+                  );
+                },
               ),
             )
                 : Container()),
             body: PatientConsumableNurseListWidget(
               patientConsumableNurseList: patientConsumableNurseModel.patientConsumableNurseList,
-              isPatient: isPatient,
+              userPermission: userPermission,
             ),
           );
         },

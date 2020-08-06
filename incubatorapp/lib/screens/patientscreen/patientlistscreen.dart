@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
+import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/List/patientlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PatientListScreen extends StatelessWidget {
   static const routeName = '/patientListscreen';
 
-  PatientListScreen(){
+  final UserPermission userPermission;
+  PatientListScreen({this.userPermission}){
     patientModel.filterByState('in');
   }
 
@@ -25,6 +27,7 @@ class PatientListScreen extends StatelessWidget {
             ),
             body:  PatientListWidget(
               patientList: patientModel.patientList,
+              userPermission: userPermission,
             ),
           );
         },
