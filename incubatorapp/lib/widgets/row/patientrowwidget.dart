@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
+
 class PatientRowWidget extends StatefulWidget {
   final Patient patient;
   PatientRowWidget({this.patient});
@@ -8,7 +12,6 @@ class PatientRowWidget extends StatefulWidget {
 }
 
 class _PatientRowWidgetState extends State<PatientRowWidget> {
-
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -16,12 +19,12 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
     return v;
   }
 
-  Widget patientContent(String title,String val){
+  Widget patientContent(String title, String val) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         border: Border(
-          top: BorderSide.none,
+          top: BorderSide(width: 1, color: Colors.black),
           left: BorderSide(width: 1, color: Colors.black),
           bottom: BorderSide(width: 1, color: Colors.black),
           right: BorderSide(width: 1, color: Colors.black),
@@ -30,19 +33,20 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-           Padding(
-             padding: const EdgeInsets.only(right: 10),
-             child: Container(
-               child: Text(title,style: TextStyle(fontSize: 14),),
-             ),
-           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(val,style: TextStyle(fontSize: 14)),
+          Container(
+            width: 120,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 14),
               ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(val, style: TextStyle(fontSize: 14)),
             ),
           ),
         ],
@@ -50,27 +54,61 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
     );
   }
 
-  Widget getRow(){
-    Widget contentCol = Column(
-      children: <Widget>[
-        patientContent('Mother Name', widget.patient.motherName),
-        patientContent('Father Name', widget.patient.fatherName),
-        patientContent('Gender Name', (widget.patient.gender?'Male':'Female')),
-        patientContent('Entered Date', dateFormat(widget.patient.createdDate)),
-      ],
-    );
+  Widget getRow() {
+    Condition condition;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 10,right: 10),
-      child: Card(
-        child: contentCol,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
-        elevation: 5,
+    if (conditionModel.conditionList != null) {
+      List<Condition> list = conditionModel.conditionList
+          .where((c) => c.id == widget.patient.conditionId)
+          .toList();
+      if (list.length > 0) {
+        condition = list[0];
+      }
+    }
+
+    Widget currentWidget = Center(
+      child: Container(
+        child: CircularProgressIndicator(),
       ),
     );
 
+    Widget contentCol = Column(
+      children: <Widget>[
+        patientContent('Mother Name:', widget.patient.motherName),
+        patientContent('Father Name:', widget.patient.fatherName),
+        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female')),
+        patientContent('Entered Date:', dateFormat(widget.patient.createdDate)),
+        patientContent('Incubator Id:', widget.patient.incubatorId.toString()),
+        (condition != null
+            ? patientContent('Condition Id:', condition.name)
+            : Container()),
+      ],
+    );
+
+    if (condition != null) {
+      currentWidget = contentCol;
+    }
+
+    return GestureDetector(
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Card(
+          child: contentCol,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                10,
+              ),
+            ),
+          ),
+          elevation: 5,
+        ),
+      ),
+      onTap: () {
+        patientModel.editPatient(widget.patient);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientDetailScreen(isPatient: false,)));
+      },
+    );
   }
 
   @override

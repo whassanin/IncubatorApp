@@ -10,8 +10,10 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
+  final bool isPatient;
   PatientDetailRowWidget({
     this.patient,
+    this.isPatient
   });
 
   @override
@@ -25,6 +27,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientAnalysisScreen(
           patientId: widget.patient.id,
+          isPatient: widget.isPatient,
         ),
       ),
     );
@@ -36,6 +39,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientXRayScreen(
           patientId: widget.patient.id,
+          isPatient: widget.isPatient,
         ),
       ),
     );
@@ -47,6 +51,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
           patientId: widget.patient.id,
+          isPatient: widget.isPatient,
         ),
       ),
     );
@@ -58,6 +63,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientConsumableNurseScreen(
           patientId: widget.patient.id,
+          isPatient: widget.isPatient,
         ),
       ),
     );
@@ -178,10 +184,29 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   Widget statusRow() {
-    Widget currentWidget = Center(
-      child: Container(
-        child: Text('No Status Ye'),
-      ),
+    Widget currentWidget = Row(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              border: Border(
+                top: BorderSide.none,
+                left: BorderSide(width: 1, color: Colors.black),
+                bottom: BorderSide(width: 1, color: Colors.black),
+                right: BorderSide(width: 1, color: Colors.black),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'No Status Yet',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        )
+      ],
     );
 
     if (widget.patient.statusList != null) {
@@ -317,10 +342,11 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
             ),
             height: 70,
             child: Center(
-                child: Text(
-              title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            )),
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ),
       ],

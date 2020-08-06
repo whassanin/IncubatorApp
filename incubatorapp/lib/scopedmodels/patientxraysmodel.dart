@@ -50,14 +50,14 @@ class PatientXRayModel extends Model{
   }
 
   void readByPatientId() async {
-    List<dynamic> patientXRayMap = await _api.filter(_currentPatientXRay.patientId.toString());
+    List<dynamic> patientXRayMap = await _api.filterByForeignKey(_currentPatientXRay.patientId.toString());
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
     await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
   void readByXRayId() async {
-    List<dynamic> patientXRayMap = await _apiReverse.filter(_currentPatientXRay.xRayId.toString());
+    List<dynamic> patientXRayMap = await _apiReverse.filterByForeignKey(_currentPatientXRay.xRayId.toString());
     patientXRayMap.forEach((element) {print(element);});
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
     notifyListeners();

@@ -8,7 +8,7 @@ class PatientListScreen extends StatelessWidget {
   static const routeName = '/patientListscreen';
 
   PatientListScreen(){
-    patientModel.filterByStatus('in');
+    patientModel.filterByState('in');
   }
 
   @override
@@ -18,23 +18,14 @@ class PatientListScreen extends StatelessWidget {
       child: ScopedModelDescendant(
         builder:
             (BuildContext context, Widget child, PatientModel patientModel) {
-          Widget currentWidget = Center(
-            child: Container(
-              child: CircularProgressIndicator(),
-            ),
-          );
-
-          if (patientModel.patientList != null) {
-            currentWidget = PatientListWidget(
-              patientList: patientModel.patientList,
-            );
-          }
 
           return Scaffold(
             appBar: AppBar(
               title: Text('Patient List'),
             ),
-            body: currentWidget,
+            body:  PatientListWidget(
+              patientList: patientModel.patientList,
+            ),
           );
         },
       ),

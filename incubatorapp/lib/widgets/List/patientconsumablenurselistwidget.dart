@@ -6,7 +6,8 @@ import 'package:incubatorapp/widgets/row/patientconsumablenurserowwidget.dart';
 
 class PatientConsumableNurseListWidget extends StatefulWidget {
   final List<PatientConsumableNurse> patientConsumableNurseList;
-  PatientConsumableNurseListWidget({this.patientConsumableNurseList});
+  final bool isPatient;
+  PatientConsumableNurseListWidget({this.patientConsumableNurseList,this.isPatient});
 
   @override
   _PatientConsumableNurseListWidgetState createState() =>
@@ -100,7 +101,7 @@ class _PatientConsumableNurseListWidgetState extends State<PatientConsumableNurs
     return Stack(
       children: <Widget>[
         positionList,
-        positionTotal,
+        (widget.isPatient?positionTotal:Container()),
       ],
     );
   }

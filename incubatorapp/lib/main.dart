@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
+import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
@@ -13,6 +14,7 @@ import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
@@ -25,6 +27,7 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
+ConditionModel conditionModel = ConditionModel();
 AnalysisModel analysisModel = new AnalysisModel();
 XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    conditionModel.readAll();
     analysisModel.readAll();
     xRayModel.readAll();
     medicineModel.readAll();
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
+        PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
       home: PatientListScreen(),

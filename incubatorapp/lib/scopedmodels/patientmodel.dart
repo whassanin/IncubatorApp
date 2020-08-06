@@ -193,9 +193,19 @@ class PatientModel extends Model {
 
   void search() {}
 
-  void filterByStatus(String status) async {
-    List<dynamic> patientListMap = await _api.filter(status);
+  void filterByState(String state) async {
+
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('state');
+    values.add(state);
+
+    List<dynamic> patientListMap = await _api.filterByNonForeignKey(fields,values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
+
+    await Future.delayed(Duration(seconds: 3));
+
     notifyListeners();
   }
 
@@ -210,7 +220,7 @@ class PatientModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
-      List<dynamic> newPatientMap = await _api.getCount();
+/*      List<dynamic> newPatientMap = await _api.getCount();
 
       List<Patient> patientList = newPatientMap.map((e) => Patient.fromJson(e)).toList();
 
@@ -222,7 +232,7 @@ class PatientModel extends Model {
 
           updatePatientPhone();
         }
-      }
+      }*/
 
       return true;
     }

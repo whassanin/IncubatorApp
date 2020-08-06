@@ -51,14 +51,14 @@ class PatientAnalysisModel extends Model {
   }
 
   void readByPatientId() async {
-    List<dynamic> patientAnalysisMap = await _api.filter(_currentPatientAnalysis.patientId.toString());
+    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(_currentPatientAnalysis.patientId.toString());
     patientAnalysisList = patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
     await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
   void readByAnalysisId() async {
-    List<dynamic> patientAnalysisMap = await _apiReverse.filter(_currentPatientAnalysis.analysisId.toString());
+    List<dynamic> patientAnalysisMap = await _apiReverse.filterByForeignKey(_currentPatientAnalysis.analysisId.toString());
     patientAnalysisList = patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 
     notifyListeners();

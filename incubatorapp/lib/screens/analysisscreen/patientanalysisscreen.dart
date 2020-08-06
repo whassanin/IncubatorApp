@@ -8,7 +8,8 @@ class PatientAnalysisScreen extends StatelessWidget {
   static const routeName = '/patientanalysisscreen';
 
   final int patientId;
-  PatientAnalysisScreen({this.patientId}){
+  final bool isPatient;
+  PatientAnalysisScreen({this.patientId,this.isPatient}){
     patientAnalysisModel.createPatientAnalysis();
     patientAnalysisModel.setPatientId(patientId);
     patientAnalysisModel.readByPatientId();
@@ -28,6 +29,7 @@ class PatientAnalysisScreen extends StatelessWidget {
             ),
             body: PatientAnalysisListWidget(
               patientAnalysisList: patientAnalysisModel.patientAnalysisList,
+              isPatient: isPatient,
             ),
           );
         },

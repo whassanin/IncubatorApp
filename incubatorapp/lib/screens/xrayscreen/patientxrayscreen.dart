@@ -7,7 +7,8 @@ class PatientXRayScreen extends StatelessWidget {
   static const routeName = '/patientxrayscreen';
 
   final int patientId;
-  PatientXRayScreen({this.patientId}){
+  final bool isPatient;
+  PatientXRayScreen({this.patientId,this.isPatient}){
     patientXRayModel.createPatientXRay();
     patientXRayModel.setPatientId(patientId);
     patientXRayModel.readByPatientId();
@@ -26,6 +27,7 @@ class PatientXRayScreen extends StatelessWidget {
             ),
             body: PatientXRayListWidget(
               patientXRayList: patientXRayModel.patientXRayList,
+              isPatient: isPatient,
             ),
           );
         },

@@ -119,7 +119,7 @@ class StatusModel extends Model{
   }
 
   void readByPatientId() async{
-    List<dynamic> billsMap = await _api.filter(_currentStatus.patientId.toString());
+    List<dynamic> billsMap = await _api.filterByForeignKey(_currentStatus.patientId.toString());
     statusList = billsMap.map((e) => Status.fromJson(e)).toList();
     await Future.delayed(Duration(seconds: 2));
     notifyListeners();

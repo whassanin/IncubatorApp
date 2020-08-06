@@ -37,7 +37,7 @@ class Api {
     return listMap;
   }
 
-  Future<List<dynamic>> filter(String val) async {
+  Future<List<dynamic>> filterByForeignKey(String val) async {
     final data = await http.get(
       _url + '/' + val,
       headers: {
@@ -50,9 +50,18 @@ class Api {
     return listMap;
   }
 
-  Future<List<dynamic>> getCount() async {
+  Future<List<dynamic>> filterByNonForeignKey(List<String> fields,List<String> values) async {
+
+    String filterString = '';
+
+    if(fields.length == values.length){
+      for(int i=0;i<fields.length;i++){
+        filterString+=fields[i]+'='+values[i];
+      }
+    }
+
     final data = await http.get(
-      _url + '/count',
+      _url + '/?' + filterString,
       headers: {
         'content-type': 'application/json',
       },

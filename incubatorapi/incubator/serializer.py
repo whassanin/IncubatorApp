@@ -226,7 +226,7 @@ class IncubatorSerializer(serializers.ModelSerializer):
 class ConditionSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Condition
-        fields = ['name','cost',]
+        fields = ['id','name','cost',]
 
 class AnalysisSerializer(serializers.ModelSerializer):
     class Meta: 

@@ -43,6 +43,7 @@ from incubator.serializer import BillExtraSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -133,24 +134,19 @@ class NurseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Nurse.objects.all()
     serializer_class = NurseSerializer
 
+
 # 1 to many data
 
 # Patient Views CLass
 class PatientList(generics.ListCreateAPIView):
+    queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-
-    def get_queryset(self):
-       state = self.kwargs['state']
-       return Patient.objects.filter(state=state).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['state','username','password']
 
 class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-
-class PatientCount(generics.ListAPIView):
-    queryset = Patient.objects.order_by('-createdDate')[:1]
-    serializer_class = PatientSerializer
-
 
 # Bill Views Class
 class BillList(generics.ListCreateAPIView):

@@ -56,7 +56,7 @@ class PatientConsumableNurseModel extends Model{
   }
 
   void readByPatientId() async{
-    List<dynamic> patientAnalysisMap = await _api.filter(_currentPatientConsumableNurse.patientId.toString());
+    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(_currentPatientConsumableNurse.patientId.toString());
     patientConsumableNurseList = patientAnalysisMap.map((e) => PatientConsumableNurse.fromJson(e)).toList();
 
     await Future.delayed(Duration(seconds: 1));

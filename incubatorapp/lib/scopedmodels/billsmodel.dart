@@ -97,7 +97,7 @@ class BillModel extends Model{
   }
   
   void readByPatientId() async{
-    List<dynamic> billsMap = await _api.filter(_currentBill.patientId.toString());
+    List<dynamic> billsMap = await _api.filterByForeignKey(_currentBill.patientId.toString());
     billList = billsMap.map((e) => Bill.fromJson(e)).toList();
     await Future.delayed(Duration(seconds: 2));
     notifyListeners();

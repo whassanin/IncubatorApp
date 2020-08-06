@@ -7,7 +7,8 @@ class PatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final int patientId;
-  PatientConsumableNurseScreen({this.patientId}){
+  final bool isPatient;
+  PatientConsumableNurseScreen({this.patientId,this.isPatient}){
     patientConsumableNurseModel.createPatientConsumableNurse();
     patientConsumableNurseModel.setPatientId(patientId);
     patientConsumableNurseModel.readByPatientId();
@@ -26,6 +27,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             ),
             body: PatientConsumableNurseListWidget(
               patientConsumableNurseList: patientConsumableNurseModel.patientConsumableNurseList,
+              isPatient: isPatient,
             ),
           );
         },

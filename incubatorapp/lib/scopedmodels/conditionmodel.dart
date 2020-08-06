@@ -2,8 +2,8 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/condition.dart' as conditionName;
 import 'package:scoped_model/scoped_model.dart';
 
-class Condition extends Model{
-  Api _api = new Api('incubator');
+class ConditionModel extends Model{
+  Api _api = new Api('condition');
 
   List<conditionName.Condition> conditionList;
 

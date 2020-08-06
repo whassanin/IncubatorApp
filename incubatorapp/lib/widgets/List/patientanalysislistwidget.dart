@@ -6,7 +6,8 @@ import 'package:incubatorapp/widgets/row/patientanalysisrowwidget.dart';
 
 class PatientAnalysisListWidget extends StatefulWidget {
   final List<PatientAnalysis> patientAnalysisList;
-  PatientAnalysisListWidget({this.patientAnalysisList});
+  final bool isPatient;
+  PatientAnalysisListWidget({this.patientAnalysisList,this.isPatient});
 
   @override
   _PatientAnalysisListWidgetState createState() =>
@@ -20,16 +21,18 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
     double total = 0;
     if (widget.patientAnalysisList != null) {
       if (widget.patientAnalysisList.length > 0) {
-        widget.patientAnalysisList.forEach((pa) {
-          int index = addCalculatedList.indexOf(pa);
+        widget.patientAnalysisList.forEach(
+          (pa) {
+            int index = addCalculatedList.indexOf(pa);
 
-          if (index < 0) {
-            Analysis analysis = analysisModel.analysisList
-                .where((a) => a.id == pa.analysisId)
-                .toList()[0];
-            total += analysis.price;
-          }
-        });
+            if (index < 0) {
+              Analysis analysis = analysisModel.analysisList
+                  .where((a) => a.id == pa.analysisId)
+                  .toList()[0];
+              total += analysis.price;
+            }
+          },
+        );
       }
     }
     return total;
@@ -100,7 +103,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
     return Stack(
       children: <Widget>[
         positionList,
-        positionTotal,
+        (widget.isPatient?positionTotal:Container()),
       ],
     );
   }
