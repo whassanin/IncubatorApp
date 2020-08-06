@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -27,25 +27,24 @@ class PatientAnalysisScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text('Analysis'),
-            ),
-            floatingActionButton: (userPermission.isDoctor == true
-                ? FloatingActionButton(
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white,
+              actions: <Widget>[
+                (userPermission.isDoctor == true?IconButton(
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewPatientAnalysisScreen(
+                          userPermission: userPermission,
+                        ),
                       ),
-                      color: Colors.blueAccent,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewPatientAnalysisScreen()),
-                        );
-                      },
-                    ),
-                  )
-                : Container()),
+                    );
+                  },
+                ):Container())
+              ],
+            ),
             body: PatientAnalysisListWidget(
               patientAnalysisList: patientAnalysisModel.patientAnalysisList,
               userPermission: userPermission,

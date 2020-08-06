@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
+import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -33,7 +34,14 @@ class PatientXRayScreen extends StatelessWidget {
                 icon: Icon(Icons.add,color: Colors.white,),
                 color: Colors.blueAccent,
                 onPressed: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewPatientXRayScreen(
+                        userPermission: userPermission,
+                      ),
+                    ),
+                  );
                 },
               ),
             )

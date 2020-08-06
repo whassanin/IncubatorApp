@@ -74,7 +74,7 @@ class PatientXRayModel extends Model{
   }
 
   Future<bool> create() async{
-    int code = await _api.post(_currentPatientXRay.toJson());
+    int code = await _api.postSubValue(_currentPatientXRay.toJson(),_currentPatientXRay.patientId.toString());
     if (code == 201) {
       patientXRayList.add(_currentPatientXRay);
 
@@ -97,7 +97,7 @@ class PatientXRayModel extends Model{
   }
 
   Future<bool> delete() async{
-    int code = await _api.delete(_currentPatientXRay.id.toString());
+    int code = await _api.deleteSubValue(_currentPatientXRay.id.toString());
 
     if (code == 204) {
       patientXRayList.remove(_currentPatientXRay);

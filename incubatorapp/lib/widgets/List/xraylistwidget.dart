@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/widgets/row/analysisrowwidget.dart';
+import 'package:incubatorapp/models/xray.dart';
+import 'package:incubatorapp/widgets/row/xrayrowwidget.dart';
 
-class AnalysisListWidget extends StatefulWidget {
-  final List<Analysis> analysisList;
+
+class XRayListWidget extends StatefulWidget {
+  final List<XRay> xRayList;
   final UserPermission userPermission;
-  AnalysisListWidget({this.analysisList, this.userPermission});
+  XRayListWidget({this.xRayList, this.userPermission});
 
   @override
-  _AnalysisListWidgetState createState() => _AnalysisListWidgetState();
+  _XRayListWidgetState createState() => _XRayListWidgetState();
 }
 
-class _AnalysisListWidgetState extends State<AnalysisListWidget> {
+class _XRayListWidgetState extends State<XRayListWidget> {
   Widget _getList() {
     Widget currentWidget = Center(
       child: Container(
@@ -20,13 +22,13 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       ),
     );
 
-    if (widget.analysisList != null) {
-      if (widget.analysisList.length > 0) {
+    if (widget.xRayList != null) {
+      if (widget.xRayList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.analysisList.length,
+          itemCount: widget.xRayList.length,
           itemBuilder: (BuildContext context, int index) {
-            return AnalysisRowWidget(
-              analysis: widget.analysisList[index],
+            return XRayRowWidget(
+              xRay: widget.xRayList[index],
               userPermission: widget.userPermission,
             );
           },
@@ -34,7 +36,7 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Analysis(s) Available'),
+            child: Text('No XRay(s) Available'),
           ),
         );
       }

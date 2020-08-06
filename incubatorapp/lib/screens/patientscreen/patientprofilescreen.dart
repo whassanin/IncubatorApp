@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
-import 'package:incubatorapp/widgets/row/patientdetailrowwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PatientProfileScreen extends StatelessWidget {

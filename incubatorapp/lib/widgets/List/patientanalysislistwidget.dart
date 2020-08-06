@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientanalysisrowwidget.dart';
 
 class PatientAnalysisListWidget extends StatefulWidget {
@@ -67,10 +67,14 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 75),
-      child: currentWidget,
-    );
+    if(widget.userPermission.isPatient){
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(bottom: 75),
+        child: currentWidget,
+      );
+    }
+
+    return currentWidget;
   }
 
   @override
@@ -83,6 +87,8 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
   @override
   Widget build(BuildContext context) {
     calculate();
+
+    Widget currentWidget = getList();
 
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
@@ -109,11 +115,15 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
       ),
     );
 
-    return Stack(
-      children: <Widget>[
-        positionList,
-        (widget.userPermission.isPatient?positionTotal:Container()),
-      ],
-    );
+    if(widget.userPermission.isPatient){
+      currentWidget = Stack(
+        children: <Widget>[
+          positionList,
+          positionTotal
+        ],
+      );
+    }
+
+    return currentWidget;
   }
 }

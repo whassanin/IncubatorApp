@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;
@@ -41,6 +41,27 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
       child: Text('Date: '+dateFormat()),
     );
 
+    Widget deleteButtonWidget = Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text('Delete'),
+            onPressed: (){
+              patientXRayModel.editPatientXRay(widget.patientXRay);
+              patientXRayModel.delete();
+            },
+          ),
+        ),
+      ],
+    );
+
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +90,8 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
-        )
+        ),
+        (widget.userPermission.isDoctor ? deleteButtonWidget : Container)
       ],
     );
 

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 
 class AnalysisRowWidget extends StatefulWidget {
   final Analysis analysis;
-  final bool isPatientAnalysis;
-  AnalysisRowWidget({this.analysis, this.isPatientAnalysis});
+  final UserPermission userPermission;
+  AnalysisRowWidget({this.analysis, this.userPermission});
   @override
   _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
 }
@@ -15,6 +16,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   bool isSelected = false;
 
   Widget row() {
+    PatientAnalysis selectedPatientAnalysis;
     List<PatientAnalysis> selectedList = patientAnalysisModel
         .patientAnalysisList
         .where((pa) => pa.analysisId == widget.analysis.id)
@@ -22,6 +24,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     if (selectedList.length > 0) {
       isSelected = true;
+      selectedPatientAnalysis = selectedList[0];
     }
 
     Widget rowData = Row(
@@ -30,14 +33,24 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         SizedBox(
           width: 10,
         ),
-        Expanded(child: Container(child: Text('Name: ' + widget.analysis.name))),
-        (widget.isPatientAnalysis
+        Expanded(
+            child: Container(child: Text('Name: ' + widget.analysis.name))),
+        (widget.userPermission.isDoctor
             ? Checkbox(
                 value: isSelected,
                 onChanged: (b) {
                   isSelected = b;
-                  patientAnalysisModel.setAnalysisId(widget.analysis.id);
-                  patientAnalysisModel.create();
+                  if (b == true) {
+                    patientAnalysisModel.createPatientAnalysis();
+                    patientAnalysisModel
+                        .setPatientId(patientModel.currentPatient.id);
+                    patientAnalysisModel.setAnalysisId(widget.analysis.id);
+                    patientAnalysisModel.create();
+                  } else {
+                    patientAnalysisModel
+                        .editPatientAnalysis(selectedPatientAnalysis);
+                    patientAnalysisModel.delete();
+                  }
                 },
               )
             : Container())
@@ -61,16 +74,8 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.isPatientAnalysis) {
+        if (widget.userPermission.isFrontDesk) {
         } else {}
-
-        /*incubatorModel.editIncubator(widget.incubator);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditIncubatorScreen(),
-          ),
-        );*/
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

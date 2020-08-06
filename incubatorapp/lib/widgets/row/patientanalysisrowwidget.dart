@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 
 class PatientAnalysisRowWidget extends StatefulWidget {
   final PatientAnalysis patientAnalysis;
@@ -22,7 +22,6 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
   }
 
   Widget patientAnalysisRow() {
-
     Analysis analysis = analysisModel.analysisList
         .where((element) => element.id == widget.patientAnalysis.analysisId)
         .toList()[0];
@@ -41,6 +40,27 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
 
     Widget createdDateWidget = Container(
       child: Text('Date: ' + dateFormat()),
+    );
+
+    Widget deleteButtonWidget = Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text('Delete'),
+            onPressed: () {
+              patientAnalysisModel.editPatientAnalysis(widget.patientAnalysis);
+              patientAnalysisModel.delete();
+            },
+          ),
+        ),
+      ],
     );
 
     Widget displayCol = Column(
@@ -75,7 +95,8 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
-        )
+        ),
+        (widget.userPermission.isDoctor ? deleteButtonWidget : Container)
       ],
     );
 
@@ -85,11 +106,12 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
         child: displayCol,
       ),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-        Radius.circular(
-          10,
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            10,
+          ),
         ),
-      )),
+      ),
       elevation: 4,
     );
 

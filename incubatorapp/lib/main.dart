@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
@@ -23,7 +24,7 @@ import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
+import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
         NewPatientAnalysisScreen.routeName:(context)=>NewPatientAnalysisScreen(),
 
         PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
+        NewPatientXRayScreen.routeName:(context)=>NewPatientXRayScreen(),
 
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
 

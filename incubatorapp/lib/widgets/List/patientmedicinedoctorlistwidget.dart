@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
-import 'package:incubatorapp/screens/user/userpermission.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 
 class PatientMedicineDoctorListWidget extends StatefulWidget {

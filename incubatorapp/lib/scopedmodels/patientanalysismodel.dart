@@ -102,7 +102,7 @@ class PatientAnalysisModel extends Model {
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentPatientAnalysis.id.toString());
+    int code = await _api.deleteSubValue(_currentPatientAnalysis.id.toString());
 
     if (code == 204) {
       patientAnalysisList.remove(_currentPatientAnalysis);
