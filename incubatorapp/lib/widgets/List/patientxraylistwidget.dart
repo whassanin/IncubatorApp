@@ -7,11 +7,10 @@ import 'package:incubatorapp/widgets/row/patientxrayrowwidget.dart';
 class PatientXRayListWidget extends StatefulWidget {
   final List<PatientXRay> patientXRayList;
   final bool isPatient;
-  PatientXRayListWidget({this.patientXRayList,this.isPatient});
+  PatientXRayListWidget({this.patientXRayList, this.isPatient});
 
   @override
-  _PatientXRayListWidgetState createState() =>
-      _PatientXRayListWidgetState();
+  _PatientXRayListWidgetState createState() => _PatientXRayListWidgetState();
 }
 
 class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
@@ -25,9 +24,8 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
           int index = addCalculatedList.indexOf(px);
 
           if (index < 0) {
-            XRay xRay = xRayModel.xRayList
-                .where((x) => x.id == px.xRayId)
-                .toList()[0];
+            XRay xRay =
+                xRayModel.xRayList.where((x) => x.id == px.xRayId).toList()[0];
             total += xRay.price;
           }
         });
@@ -52,6 +50,12 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
               patientXRay: widget.patientXRayList[i],
             );
           },
+        );
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No XRay(s) Available'),
+          ),
         );
       }
     }
@@ -101,7 +105,7 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
     return Stack(
       children: <Widget>[
         positionList,
-        (widget.isPatient?positionTotal:Container()),
+        (widget.isPatient ? positionTotal : Container()),
       ],
     );
   }

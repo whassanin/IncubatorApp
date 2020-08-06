@@ -25,6 +25,15 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Consumable'),
             ),
+            floatingActionButton: (isPatient == false
+                ? FloatingActionButton(
+              child: IconButton(
+                icon: Icon(Icons.add,color: Colors.white,),
+                color: Colors.blueAccent,
+                onPressed: () {},
+              ),
+            )
+                : Container()),
             body: PatientConsumableNurseListWidget(
               patientConsumableNurseList: patientConsumableNurseModel.patientConsumableNurseList,
               isPatient: isPatient,

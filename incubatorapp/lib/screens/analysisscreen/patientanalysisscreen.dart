@@ -9,7 +9,7 @@ class PatientAnalysisScreen extends StatelessWidget {
 
   final int patientId;
   final bool isPatient;
-  PatientAnalysisScreen({this.patientId,this.isPatient}){
+  PatientAnalysisScreen({this.patientId, this.isPatient}) {
     patientAnalysisModel.createPatientAnalysis();
     patientAnalysisModel.setPatientId(patientId);
     patientAnalysisModel.readByPatientId();
@@ -17,7 +17,6 @@ class PatientAnalysisScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel(
       model: patientAnalysisModel,
       child: ScopedModelDescendant(
@@ -27,6 +26,15 @@ class PatientAnalysisScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Analysis'),
             ),
+            floatingActionButton: (isPatient == false
+                ? FloatingActionButton(
+                  child: IconButton(
+                      icon: Icon(Icons.add,color: Colors.white,),
+                      color: Colors.blueAccent,
+                      onPressed: () {},
+                    ),
+                )
+                : Container()),
             body: PatientAnalysisListWidget(
               patientAnalysisList: patientAnalysisModel.patientAnalysisList,
               isPatient: isPatient,

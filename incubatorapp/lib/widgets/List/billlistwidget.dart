@@ -94,6 +94,12 @@ class _BillListWidgetState extends State<BillListWidget> {
             );
           },
         );
+      }else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Bills(s) Available'),
+          ),
+        );
       }
     }
 

@@ -7,14 +7,16 @@ import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 class PatientMedicineDoctorListWidget extends StatefulWidget {
   final List<PatientMedicineDoctor> patientMedicineDoctorList;
   final bool isPatient;
-  PatientMedicineDoctorListWidget({this.patientMedicineDoctorList,this.isPatient});
+  PatientMedicineDoctorListWidget(
+      {this.patientMedicineDoctorList, this.isPatient});
 
   @override
   _PatientMedicineDoctorListWidgetState createState() =>
       _PatientMedicineDoctorListWidgetState();
 }
 
-class _PatientMedicineDoctorListWidgetState extends State<PatientMedicineDoctorListWidget> {
+class _PatientMedicineDoctorListWidgetState
+    extends State<PatientMedicineDoctorListWidget> {
   List<PatientMedicineDoctor> addCalculatedList = [];
 
   double calculate() {
@@ -52,6 +54,12 @@ class _PatientMedicineDoctorListWidgetState extends State<PatientMedicineDoctorL
               patientMedicineDoctor: widget.patientMedicineDoctorList[i],
             );
           },
+        );
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Medicine(s) Available'),
+          ),
         );
       }
     }
@@ -101,7 +109,7 @@ class _PatientMedicineDoctorListWidgetState extends State<PatientMedicineDoctorL
     return Stack(
       children: <Widget>[
         positionList,
-        (widget.isPatient?positionTotal:Container()),
+        (widget.isPatient ? positionTotal : Container()),
       ],
     );
   }

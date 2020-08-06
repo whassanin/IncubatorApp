@@ -25,6 +25,15 @@ class PatientXRayScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('XRay'),
             ),
+            floatingActionButton: (isPatient == false
+                ? FloatingActionButton(
+              child: IconButton(
+                icon: Icon(Icons.add,color: Colors.white,),
+                color: Colors.blueAccent,
+                onPressed: () {},
+              ),
+            )
+                : Container()),
             body: PatientXRayListWidget(
               patientXRayList: patientXRayModel.patientXRayList,
               isPatient: isPatient,

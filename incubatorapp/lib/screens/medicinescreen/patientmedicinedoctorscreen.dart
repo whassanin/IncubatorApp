@@ -25,6 +25,15 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Medicine'),
             ),
+            floatingActionButton: (isPatient == false
+                ? FloatingActionButton(
+              child: IconButton(
+                icon: Icon(Icons.add,color: Colors.white,),
+                color: Colors.blueAccent,
+                onPressed: () {},
+              ),
+            )
+                : Container()),
             body: PatientMedicineDoctorListWidget(
                patientMedicineDoctorList: patientMedicineDoctorModel.patientMedicineDoctorList,
               isPatient: isPatient,

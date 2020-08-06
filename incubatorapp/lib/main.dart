@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: PatientListScreen(),
+      home: PatientProfileScreen(),
     );
   }
 }
