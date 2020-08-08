@@ -35,7 +35,22 @@ class _BottomNavigatorWidgetState extends State<BottomNavigatorWidget> {
     );
   }
 
-  Widget nurseBottomNavigatorBar(){}
+  Widget nurseBottomNavigatorBar(){
+    return BottomNavigationBar(
+      currentIndex: nurseModel.currentTab,
+      selectedItemColor: Colors.blueAccent,
+      showUnselectedLabels: true,
+      unselectedItemColor: Colors.grey,
+      onTap: (v) {
+        nurseModel.setCurrentTab(v);
+      },
+      items: [
+        bottomNavigatorItem(Icon(FontAwesomeIcons.hospitalUser),'Patients'),
+        bottomNavigatorItem(Icon(FontAwesomeIcons.list),'Shift'),
+        bottomNavigatorItem(Icon(Icons.person_pin),'Account')
+      ],
+    );
+  }
 
   Widget patientBottomNavigatorBar(){
     return BottomNavigationBar(

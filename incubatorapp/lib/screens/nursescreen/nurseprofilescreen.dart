@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/doctormodel.dart';
-import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
+import 'package:incubatorapp/scopedmodels/nursemodel.dart';
+import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class DoctorProfileScreen extends StatelessWidget {
-  static const routeName = '/doctorprofilescreen';
+class NurseProfileScreen extends StatelessWidget {
+  static const routeName = '/nurseprofilescreen';
 
   final UserPermission userPermission;
-  DoctorProfileScreen({this.userPermission}) {
-    doctorModel.readById('1');
+  NurseProfileScreen({this.userPermission}) {
+    nurseModel.readById('1');
   }
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
-      model: doctorModel,
+      model: nurseModel,
       child: ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, DoctorModel doctorModel) {
+        builder: (BuildContext context, Widget child, NurseModel nurseModel) {
           Widget currentWidget = Center(
             child: Container(
               child: CircularProgressIndicator(),
             ),
           );
 
-          if (doctorModel.currentDoctor != null) {
-            if (doctorModel.currentDoctor.id != null) {
+          if (nurseModel.currentNurse != null) {
+            if (nurseModel.currentNurse.id != null) {
               currentWidget = IndexedStack(
-                index: doctorModel.currentTab,
+                index: nurseModel.currentTab,
                 children: <Widget>[
                   PatientListScreen(
                     userPermission: userPermission,
@@ -39,7 +39,7 @@ class DoctorProfileScreen extends StatelessWidget {
                       child: Text('Shift'),
                     ),
                   ),
-                  EditDoctorScreen()
+                  EditNurseScreen()
                 ],
               );
             }

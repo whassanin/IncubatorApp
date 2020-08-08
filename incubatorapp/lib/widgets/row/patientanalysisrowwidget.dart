@@ -105,7 +105,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (widget.userPermission.isDoctor ? editButtonWidget : Container)
+        (widget.userPermission.isDoctor ? editButtonWidget : Container())
       ],
     );
 

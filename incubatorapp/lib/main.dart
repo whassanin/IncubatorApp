@@ -22,6 +22,8 @@ import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
+import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
     consumableModel.readAll();
 
     UserPermission userPermission = new UserPermission();
-    userPermission.setPermission(UserType.doctor);
+    userPermission.setPermission(UserType.nurse);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -101,7 +103,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: DoctorProfileScreen(userPermission: userPermission,),
+      home: NurseProfileScreen(userPermission: userPermission,),
     );
   }
 }

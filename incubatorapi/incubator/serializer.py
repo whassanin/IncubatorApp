@@ -263,4 +263,4 @@ class DoctorSerializer(serializers.ModelSerializer):
 class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
-        fields = ['id','firstName','lastName','username','password','dateOfBirth','createdDate']
+        fields = ['id','firstName','lastName','gender','username','password','dateOfBirth','createdDate']
