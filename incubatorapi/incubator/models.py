@@ -115,27 +115,27 @@ class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
     analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
     result = models.CharField(max_length=200,blank=True)
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
 
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
     comment = models.CharField(max_length=200,blank=True)
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
 
 class PatientConsumableNurse(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientconsumablenurse')
     consumableId = models.ForeignKey(Consumable,on_delete=models.CASCADE,related_name='consumbalepatientnurse')
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nursepatientconsumable')
     quantity = models.IntegerField()
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
 
 class PatientMedicineDoctor(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientmedicinedoctor')
     medicineId = models.ForeignKey(Medicine,on_delete=models.CASCADE,related_name='medicinepatientdoctor')
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorpatientmedicine')
     quantity = models.IntegerField()
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
 
 # Multi value
 

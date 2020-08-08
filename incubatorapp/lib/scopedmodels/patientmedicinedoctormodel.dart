@@ -96,7 +96,6 @@ class PatientMedicineDoctorModel extends Model {
   Future<bool> update() async {
     int code = await _api.putSubValue(_currentPatientMedicineDoctor.toJson(),
         _currentPatientMedicineDoctor.id.toString());
-
     if (code == 200) {
       notifyListeners();
 
