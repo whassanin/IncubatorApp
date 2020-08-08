@@ -9,6 +9,7 @@ class Doctor {
   int id;
   String firstName;
   String lastName;
+  bool gender;
   DateTime dateOfBirth;
   String username;
   String password;
@@ -24,6 +25,7 @@ class Doctor {
     this.id,
     this.firstName,
     this.lastName,
+    this.gender,
     this.dateOfBirth,
     this.username,
     this.password,

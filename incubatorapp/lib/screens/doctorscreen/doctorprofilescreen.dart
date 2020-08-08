@@ -1,42 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientProfileScreen extends StatelessWidget {
-  static const routeName = '/patientprofilescreen';
+class DoctorProfileScreen extends StatelessWidget {
+  static const routeName = '/doctorprofilescreen';
 
   final UserPermission userPermission;
-  PatientProfileScreen({this.userPermission}){
-    patientModel.readById('1');
+  DoctorProfileScreen({this.userPermission}) {
+    doctorModel.readById('1');
   }
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel(
-      model: patientModel,
+      model: doctorModel,
       child: ScopedModelDescendant(
-        builder:
-            (BuildContext context, Widget child, PatientModel patientModel) {
+        builder: (BuildContext context, Widget child, DoctorModel doctorModel) {
           Widget currentWidget = Center(
             child: Container(
               child: CircularProgressIndicator(),
             ),
           );
 
-          if (patientModel.currentPatient != null) {
-            if (patientModel.currentPatient.id != null) {
+          if (doctorModel.currentDoctor != null) {
+            if (doctorModel.currentDoctor.id != null) {
               currentWidget = IndexedStack(
-                index: patientModel.currentTab,
+                index: doctorModel.currentTab,
                 children: <Widget>[
-                  PatientDetailScreen(userPermission: userPermission,),
-                  BillScreen(patientId: patientModel.currentPatient.id,),
-                  EditPatientScreen()
+                  PatientListScreen(
+                    userPermission: userPermission,
+                  ),
+                  Center(
+                    child: Container(
+                      child: Text('Shift'),
+                    ),
+                  ),
+                  EditDoctorScreen()
                 ],
               );
             }
@@ -44,12 +51,12 @@ class PatientProfileScreen extends StatelessWidget {
 
           String title = 'Profile';
 
-          if(patientModel.currentTab == 0){
-            title = 'Patient Profile';
-          }else if(patientModel.currentTab == 1){
-            title = 'Patient Bills';
-          }else if(patientModel.currentTab == 2){
-            title = 'Patient Account';
+          if (patientModel.currentTab == 0) {
+            title = 'Patient List';
+          } else if (patientModel.currentTab == 1) {
+            title = 'Shift';
+          } else if (patientModel.currentTab == 2) {
+            title = 'Account';
           }
 
           return Scaffold(

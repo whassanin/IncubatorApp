@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/analysisrowwidget.dart';
 
 class AnalysisListWidget extends StatefulWidget {
+  final Patient patient;
   final List<Analysis> analysisList;
   final UserPermission userPermission;
-  AnalysisListWidget({this.analysisList, this.userPermission});
+  AnalysisListWidget({this.patient,this.analysisList, this.userPermission});
 
   @override
   _AnalysisListWidgetState createState() => _AnalysisListWidgetState();

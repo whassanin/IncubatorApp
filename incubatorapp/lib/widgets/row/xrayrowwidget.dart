@@ -3,11 +3,13 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
+import 'package:incubatorapp/models/patient.dart';
 
 class XRayRowWidget extends StatefulWidget {
+  final Patient patient;
   final XRay xRay;
   final UserPermission userPermission;
-  XRayRowWidget({this.xRay, this.userPermission});
+  XRayRowWidget({this.patient, this.xRay, this.userPermission});
   @override
   _XRayRowWidgetState createState() => _XRayRowWidgetState();
 }
@@ -17,8 +19,7 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
   Widget row() {
     PatientXRay selectedPatientXRay;
-    List<PatientXRay> selectedList = patientXRayModel
-        .patientXRayList
+    List<PatientXRay> selectedList = patientXRayModel.patientXRayList
         .where((pa) => pa.xRayId == widget.xRay.id)
         .toList();
 
@@ -34,23 +35,28 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
           width: 10,
         ),
         Expanded(
-            child: Container(child: Text('Name: ' + widget.xRay.name))),
+          child: Container(
+            child: Text(
+              'Name: ' + widget.xRay.name,
+            ),
+          ),
+        ),
         (widget.userPermission.isDoctor
             ? Checkbox(
-          value: isSelected,
-          onChanged: (b) {
-            isSelected = b;
-            if (b == true) {
-              patientXRayModel.createPatientXRay();
-              patientXRayModel.setPatientId(patientModel.currentPatient.id);
-              patientXRayModel.setXRayId(widget.xRay.id);
-              patientXRayModel.create();
-            } else {
-              patientXRayModel.editPatientXRay(selectedPatientXRay);
-              patientXRayModel.delete();
-            }
-          },
-        )
+                value: isSelected,
+                onChanged: (b) {
+                  isSelected = b;
+                  if (b == true) {
+                    patientXRayModel.createPatientXRay();
+                    patientXRayModel.setPatientId(widget.patient.id);
+                    patientXRayModel.setXRayId(widget.xRay.id);
+                    patientXRayModel.create();
+                  } else {
+                    patientXRayModel.editPatientXRay(selectedPatientXRay);
+                    patientXRayModel.delete();
+                  }
+                },
+              )
             : Container())
       ],
     );

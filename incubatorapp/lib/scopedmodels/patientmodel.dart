@@ -9,13 +9,13 @@ class PatientModel extends Model {
 
   PatientPhoneModel patientPhoneModel = new PatientPhoneModel();
 
-  int _currentTab = 0;
-
   List<Patient> patientList;
 
   Patient _currentPatient;
 
   Patient get currentPatient => _currentPatient;
+
+  int _currentTab = 0;
 
   int get currentTab =>_currentTab;
 
@@ -23,8 +23,6 @@ class PatientModel extends Model {
     _currentTab = v;
     notifyListeners();
   }
-
-
 
   void createPatient() {
     _currentPatient = new Patient(
@@ -220,19 +218,6 @@ class PatientModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
-/*      List<dynamic> newPatientMap = await _api.getCount();
-
-      List<Patient> patientList = newPatientMap.map((e) => Patient.fromJson(e)).toList();
-
-      if(patientList!=null){
-        if(patientList.length > 0){
-          _currentPatient.id = patientList[0].id;
-
-          await Future.delayed(Duration(seconds: 1));
-
-          updatePatientPhone();
-        }
-      }*/
 
       return true;
     }
@@ -242,7 +227,6 @@ class PatientModel extends Model {
   Future<bool> update() async {
     int code =
         await _api.put(_currentPatient.toJson(), _currentPatient.id.toString());
-    print(_currentPatient.toJson().toString());
     if (code == 200) {
       notifyListeners();
 

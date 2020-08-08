@@ -1,100 +1,134 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientMedicineDoctorModel extends Model{
+class PatientMedicineDoctorModel extends Model {
   Api _api = new Api('patientmedicinedoctor');
 
   List<PatientMedicineDoctor> patientMedicineDoctorList;
 
+  List<PatientMedicineDoctor> confirmPatientMedicineDoctorList = [];
+
   PatientMedicineDoctor _currentPatientMedicineDoctor;
 
-  PatientMedicineDoctor get currentPatientMedicineDoctor => _currentPatientMedicineDoctor;
+  PatientMedicineDoctor get currentPatientMedicineDoctor =>
+      _currentPatientMedicineDoctor;
 
-  void createPatientMedicineDoctor(){
-    _currentPatientMedicineDoctor = new PatientMedicineDoctor(0,0,0,0,0,DateTime.now());
+  void createPatientMedicineDoctor() {
+    _currentPatientMedicineDoctor =
+        new PatientMedicineDoctor(0, 0, 0, 0, 0, DateTime.now());
   }
 
-  void editPatientMedicineDoctor(PatientMedicineDoctor editPatientMedicineDoctor){
+  void editPatientMedicineDoctor(
+      PatientMedicineDoctor editPatientMedicineDoctor) {
     _currentPatientMedicineDoctor = editPatientMedicineDoctor;
   }
 
-  void clearList(){
-    if(patientMedicineDoctorList!=null){
-      if(patientMedicineDoctorList.length > 0){
+  void editToList(PatientMedicineDoctor patientMedicineDoctor, String op) {
+    int i = confirmPatientMedicineDoctorList.indexWhere((pmd) =>
+        pmd.medicineId == patientMedicineDoctor.medicineId &&
+        pmd.doctorId == patientMedicineDoctor.doctorId &&
+        pmd.patientId == patientMedicineDoctor.patientId);
+    if (op == 'add') {
+      if (i < 0) {
+        confirmPatientMedicineDoctorList.add(patientMedicineDoctor);
+      }
+    } else {
+      confirmPatientMedicineDoctorList.removeAt(i);
+    }
+    notifyListeners();
+  }
+
+  void clearList() {
+    if (patientMedicineDoctorList != null) {
+      if (patientMedicineDoctorList.length > 0) {
         patientMedicineDoctorList.clear();
         notifyListeners();
       }
     }
   }
 
-  void setPatientId(int patientId){
+  void setPatientId(int patientId) {
     _currentPatientMedicineDoctor.patientId = patientId;
   }
 
-  int getPatientId(){
+  int getPatientId() {
     return _currentPatientMedicineDoctor.patientId;
   }
 
-  void setDoctorId(int doctorId){
+  void setDoctorId(int doctorId) {
     _currentPatientMedicineDoctor.doctorId = doctorId;
   }
 
-  int getDoctorId(){
+  int getDoctorId() {
     return _currentPatientMedicineDoctor.doctorId;
   }
 
-  void setMedicineId(int medicineId){
+  void setMedicineId(int medicineId) {
     _currentPatientMedicineDoctor.medicineId = medicineId;
   }
 
-  int getMedicineId(){
+  int getMedicineId() {
     return _currentPatientMedicineDoctor.medicineId;
   }
 
-  void setQuantity(int quantity){
+  void setQuantity(int quantity) {
     _currentPatientMedicineDoctor.quantity = quantity;
   }
 
-  int getQuantity(){
+  int getQuantity() {
     return _currentPatientMedicineDoctor.quantity;
   }
 
-  DateTime getCreatedDate(){
+  DateTime getCreatedDate() {
     return _currentPatientMedicineDoctor.createdDate;
   }
 
-  void readByPatientId() async{
-    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(_currentPatientMedicineDoctor.patientId.toString());
-    patientMedicineDoctorList = patientAnalysisMap.map((e) => PatientMedicineDoctor.fromJson(e)).toList();
+  void readByPatientId() async {
+    List<dynamic> patientAnalysisMap = await _api
+        .filterByForeignKey(_currentPatientMedicineDoctor.patientId.toString());
+    patientMedicineDoctorList = patientAnalysisMap
+        .map((e) => PatientMedicineDoctor.fromJson(e))
+        .toList();
 
     await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
   }
 
-  void readByMedicineId(){
+  void updateConfirmListToDB() async{
+    int s = confirmPatientMedicineDoctorList.length;
+    confirmPatientMedicineDoctorList.forEach((p) {
+      editPatientMedicineDoctor(p);
+      create();
+    });
 
+    await Future.delayed(Duration(seconds: s));
+
+    createPatientMedicineDoctor();
+    setPatientId(patientModel.currentPatient.id);
+    readByPatientId();
   }
 
-  void readByDoctorId(){
+  void readByMedicineId() {}
 
-  }
+  void readByDoctorId() {}
 
-  Future<bool> create() async{
-    int code = await _api.post(_currentPatientMedicineDoctor.toJson());
+  Future<bool> create() async {
+    int code = await _api.postSubValue(_currentPatientMedicineDoctor.toJson(),
+        _currentPatientMedicineDoctor.patientId.toString());
     if (code == 201) {
-      patientMedicineDoctorList.add(_currentPatientMedicineDoctor);
-
-      notifyListeners();
+      setPatientId(_currentPatientMedicineDoctor.patientId);
+      readByPatientId();
       return true;
     }
     return false;
   }
 
-  Future<bool> update() async{
-    int code = await _api.put(
-        _currentPatientMedicineDoctor.toJson(), _currentPatientMedicineDoctor.id.toString());
+  Future<bool> update() async {
+    int code = await _api.putSubValue(_currentPatientMedicineDoctor.toJson(),
+        _currentPatientMedicineDoctor.id.toString());
 
     if (code == 200) {
       notifyListeners();
@@ -104,8 +138,9 @@ class PatientMedicineDoctorModel extends Model{
     return false;
   }
 
-  Future<bool> delete() async{
-    int code = await _api.delete(_currentPatientMedicineDoctor.id.toString());
+  Future<bool> delete() async {
+    int code =
+        await _api.deleteSubValue(_currentPatientMedicineDoctor.id.toString());
 
     if (code == 204) {
       patientMedicineDoctorList.remove(_currentPatientMedicineDoctor);
@@ -115,5 +150,4 @@ class PatientMedicineDoctorModel extends Model{
     }
     return false;
   }
-
 }

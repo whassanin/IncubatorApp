@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 
 class AnalysisRowWidget extends StatefulWidget {
+  final Patient patient;
   final Analysis analysis;
   final UserPermission userPermission;
-  AnalysisRowWidget({this.analysis, this.userPermission});
+  AnalysisRowWidget({this.patient, this.analysis, this.userPermission});
   @override
   _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
 }
@@ -34,7 +36,12 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
           width: 10,
         ),
         Expanded(
-            child: Container(child: Text('Name: ' + widget.analysis.name))),
+          child: Container(
+            child: Text(
+              'Name: ' + widget.analysis.name,
+            ),
+          ),
+        ),
         (widget.userPermission.isDoctor
             ? Checkbox(
                 value: isSelected,
@@ -42,8 +49,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
                   isSelected = b;
                   if (b == true) {
                     patientAnalysisModel.createPatientAnalysis();
-                    patientAnalysisModel
-                        .setPatientId(patientModel.currentPatient.id);
+                    patientAnalysisModel.setPatientId(widget.patient.id);
                     patientAnalysisModel.setAnalysisId(widget.analysis.id);
                     patientAnalysisModel.create();
                   } else {

@@ -7,9 +7,10 @@ import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 
 class PatientMedicineDoctorListWidget extends StatefulWidget {
   final List<PatientMedicineDoctor> patientMedicineDoctorList;
+  final bool isConfirm;
   final UserPermission userPermission;
   PatientMedicineDoctorListWidget(
-      {this.patientMedicineDoctorList, this.userPermission});
+      {this.patientMedicineDoctorList,this.isConfirm, this.userPermission});
 
   @override
   _PatientMedicineDoctorListWidgetState createState() =>
@@ -66,10 +67,14 @@ class _PatientMedicineDoctorListWidgetState
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 75),
-      child: currentWidget,
-    );
+    if(widget.userPermission.isPatient){
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(bottom: 75),
+        child: currentWidget,
+      );
+    }
+
+    return currentWidget;
   }
 
   @override
@@ -81,7 +86,8 @@ class _PatientMedicineDoctorListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    calculate();
+
+    Widget currentWidget = getList();
 
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
@@ -108,11 +114,54 @@ class _PatientMedicineDoctorListWidgetState
       ),
     );
 
-    return Stack(
-      children: <Widget>[
-        positionList,
-        (widget.userPermission.isPatient ? positionTotal : Container()),
-      ],
+    Widget saveConfirmList = Positioned(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: GestureDetector(
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Confirm',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          onTap: () {
+          },
+        ),
+      ),
     );
+
+    if(widget.userPermission.isPatient){
+      calculate();
+      currentWidget = Stack(
+        children: <Widget>[
+          positionList,
+          positionTotal
+        ],
+      );
+    }else if (widget.userPermission.isDoctor) {
+      if(widget.isConfirm){
+        currentWidget = Stack(
+          children: <Widget>[
+            positionList,
+            saveConfirmList
+          ],
+        );
+      }
+    }
+
+    return currentWidget;
   }
 }

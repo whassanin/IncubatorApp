@@ -3,9 +3,11 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
+import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
 import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
+import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
@@ -16,8 +18,11 @@ import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.da
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorconfirmscreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
@@ -37,6 +42,9 @@ AnalysisModel analysisModel = new AnalysisModel();
 XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
+
+DoctorModel doctorModel = new DoctorModel();
+NurseModel nurseModel = new NurseModel();
 
 // 1 to many
 PatientModel patientModel = new PatientModel();
@@ -86,6 +94,8 @@ class MyApp extends StatelessWidget {
         NewPatientXRayScreen.routeName:(context)=>NewPatientXRayScreen(),
 
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
+        NewPatientMedicineDoctorScreen.routeName:(context)=>NewPatientMedicineDoctorScreen(),
+        NewPatientMedicineDoctorDetailScreen.routeName:(context)=>NewPatientMedicineDoctorDetailScreen(),
 
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
         NewPatientConsumableNurseScreen.routeName:(context)=>NewPatientConsumableNurseScreen(),
@@ -93,7 +103,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: PatientListScreen(userPermission: userPermission,),
+      home: DoctorProfileScreen(userPermission: userPermission,),
     );
   }
 }

@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
-import 'package:incubatorapp/widgets/List/analysislistwidget.dart';
+import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
+import 'package:incubatorapp/widgets/List/medicinelistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewPatientAnalysisScreen extends StatelessWidget {
-  static const routeName = '/newpatientanalysisscreen';
+class NewPatientMedicineDoctorScreen extends StatelessWidget {
+  static const routeName = '/newpatientmedicinedoctorscreen';
 
   final Patient patient;
   final UserPermission userPermission;
-  NewPatientAnalysisScreen({this.patient, this.userPermission});
+  NewPatientMedicineDoctorScreen({this.patient, this.userPermission});
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
-      model: patientAnalysisModel,
+      model: patientMedicineDoctorModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,
-            PatientAnalysisModel patientAnalysisModel) {
+            PatientMedicineDoctorModel patientMedicineDoctorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Add Analysis to Patient'),
+              title: Text('Add Medicine to Patient'),
             ),
-            body: AnalysisListWidget(
+            body: MedicineListWidget(
               patient: patient,
-              analysisList: analysisModel.analysisList,
+              medicineList: medicineModel.medicineList,
               userPermission: userPermission,
             ),
           );

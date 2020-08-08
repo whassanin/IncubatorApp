@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
 import 'package:incubatorapp/widgets/row/xrayrowwidget.dart';
-
+import 'package:incubatorapp/models/patient.dart';
 
 class XRayListWidget extends StatefulWidget {
+  final Patient patient;
   final List<XRay> xRayList;
   final UserPermission userPermission;
-  XRayListWidget({this.xRayList, this.userPermission});
+  XRayListWidget({this.patient,this.xRayList, this.userPermission});
 
   @override
   _XRayListWidgetState createState() => _XRayListWidgetState();

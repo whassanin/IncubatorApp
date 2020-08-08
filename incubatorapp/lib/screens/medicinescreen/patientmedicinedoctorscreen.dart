@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
+import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/widgets/List/patientmedicinedoctorlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 class PatientMedicineDoctorScreen extends StatelessWidget {
   static const routeName = '/patientmedicinedoctorscreen';
 
-  final int patientId;
+  final Patient patient;
   final UserPermission userPermission;
-  PatientMedicineDoctorScreen({this.patientId,this.userPermission}){
+  PatientMedicineDoctorScreen({this.patient, this.userPermission}) {
     patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(patientId);
+    patientMedicineDoctorModel.setPatientId(patient.id);
     patientMedicineDoctorModel.readByPatientId();
   }
 
@@ -25,18 +28,32 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text('Medicine'),
+              actions: <Widget>[
+                (userPermission.isDoctor == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NewPatientMedicineDoctorScreen(
+                                    patient: patient,
+                                userPermission: userPermission,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
+              ],
             ),
-            floatingActionButton: (userPermission.isDoctor == true
-                ? FloatingActionButton(
-              child: IconButton(
-                icon: Icon(Icons.add,color: Colors.white,),
-                color: Colors.blueAccent,
-                onPressed: () {},
-              ),
-            )
-                : Container()),
             body: PatientMedicineDoctorListWidget(
-               patientMedicineDoctorList: patientMedicineDoctorModel.patientMedicineDoctorList,
+              isConfirm: false,
+              patientMedicineDoctorList:
+                  patientMedicineDoctorModel.patientMedicineDoctorList,
               userPermission: userPermission,
             ),
           );

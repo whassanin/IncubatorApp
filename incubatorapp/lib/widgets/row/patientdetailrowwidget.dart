@@ -30,7 +30,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => PatientAnalysisScreen(
-          patientId: widget.patient.id,
+          patient: widget.patient,
           userPermission: widget.userPermission,
         ),
       ),
@@ -45,7 +45,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => PatientXRayScreen(
-          patientId: widget.patient.id,
+          patient: widget.patient,
           userPermission: widget.userPermission,
         ),
       ),
@@ -60,7 +60,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
-          patientId: widget.patient.id,
+          patient: widget.patient,
           userPermission: widget.userPermission,
         ),
       ),

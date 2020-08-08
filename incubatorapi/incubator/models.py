@@ -40,6 +40,7 @@ class Shift(models.Model):
 class Doctor(models.Model): 
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
+    gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
@@ -48,6 +49,7 @@ class Doctor(models.Model):
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
+    gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)

@@ -20,15 +20,9 @@ class PatientListScreen extends StatelessWidget {
       child: ScopedModelDescendant(
         builder:
             (BuildContext context, Widget child, PatientModel patientModel) {
-
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Patient List'),
-            ),
-            body:  PatientListWidget(
-              patientList: patientModel.patientList,
-              userPermission: userPermission,
-            ),
+          return PatientListWidget(
+            patientList: patientModel.patientList,
+            userPermission: userPermission,
           );
         },
       ),

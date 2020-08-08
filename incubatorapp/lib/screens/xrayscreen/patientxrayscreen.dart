@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
@@ -9,11 +10,11 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientXRayScreen extends StatelessWidget {
   static const routeName = '/patientxrayscreen';
 
-  final int patientId;
+  final Patient patient;
   final UserPermission userPermission;
-  PatientXRayScreen({this.patientId,this.userPermission}){
+  PatientXRayScreen({this.patient,this.userPermission}){
     patientXRayModel.createPatientXRay();
-    patientXRayModel.setPatientId(patientId);
+    patientXRayModel.setPatientId(patient.id);
     patientXRayModel.readByPatientId();
   }
 
@@ -37,6 +38,7 @@ class PatientXRayScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NewPatientXRayScreen(
+                          patient: patient,
                           userPermission: userPermission,
                         ),
                       ),

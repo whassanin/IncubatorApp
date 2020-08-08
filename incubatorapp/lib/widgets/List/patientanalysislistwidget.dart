@@ -86,7 +86,6 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    calculate();
 
     Widget currentWidget = getList();
 
@@ -116,6 +115,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
     );
 
     if(widget.userPermission.isPatient){
+      calculate();
       currentWidget = Stack(
         children: <Widget>[
           positionList,
