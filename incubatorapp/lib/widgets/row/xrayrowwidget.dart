@@ -17,16 +17,58 @@ class XRayRowWidget extends StatefulWidget {
 class _XRayRowWidgetState extends State<XRayRowWidget> {
   bool isSelected = false;
 
-  Widget row() {
-    PatientXRay selectedPatientXRay;
-    List<PatientXRay> selectedList = patientXRayModel.patientXRayList
-        .where((pa) => pa.xRayId == widget.xRay.id)
-        .toList();
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+    return v;
+  }
 
-    if (selectedList.length > 0) {
+  void validate() {
+    String dn = dateFormat(DateTime.now());
+
+    int i = patientXRayModel.patientXRayList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.xRayId == widget.xRay.id &&
+            dateFormat(element.createdDate) == dn);
+    if (i >= 0) {
       isSelected = true;
-      selectedPatientXRay = selectedList[0];
+    } else {
+      isSelected = false;
     }
+  }
+
+  void save() {
+    patientXRayModel.createPatientXRay();
+    patientXRayModel.setPatientId(widget.patient.id);
+    patientXRayModel.setXRayId(widget.xRay.id);
+    patientXRayModel.create();
+  }
+
+  void delete() {
+    String dn = dateFormat(DateTime.now());
+
+    patientXRayModel.createPatientXRay();
+    patientXRayModel.setPatientId(widget.patient.id);
+    patientXRayModel.setXRayId(widget.xRay.id);
+
+    int i = patientXRayModel.patientXRayList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.xRayId == widget.xRay.id &&
+            dateFormat(element.createdDate) == dn);
+
+    if(i >= 0){
+      isSelected = true;
+      patientXRayModel.editPatientXRay(patientXRayModel.patientXRayList[i]);
+      patientXRayModel.delete();
+    }
+
+  }
+
+  Widget row() {
+    validate();
 
     Widget rowData = Row(
       children: <Widget>[
@@ -47,13 +89,9 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
                 onChanged: (b) {
                   isSelected = b;
                   if (b == true) {
-                    patientXRayModel.createPatientXRay();
-                    patientXRayModel.setPatientId(widget.patient.id);
-                    patientXRayModel.setXRayId(widget.xRay.id);
-                    patientXRayModel.create();
+                    save();
                   } else {
-                    patientXRayModel.editPatientXRay(selectedPatientXRay);
-                    patientXRayModel.delete();
+                    delete();
                   }
                 },
               )

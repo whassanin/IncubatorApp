@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
@@ -28,6 +29,7 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
           itemCount: widget.analysisList.length,
           itemBuilder: (BuildContext context, int index) {
             return AnalysisRowWidget(
+              patient: widget.patient,
               analysis: widget.analysisList[index],
               userPermission: widget.userPermission,
             );
@@ -47,6 +49,49 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _getList();
+    Widget currentWidget = _getList();
+
+    Widget positionList = Positioned(
+        child: Align(alignment: Alignment.topCenter, child: _getList()));
+
+    Widget positionSaveButton = Positioned(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: GestureDetector(
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          onTap: () {
+            patientAnalysisModel.readByPatientId();
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+
+    if (widget.userPermission.isDoctor) {
+      currentWidget = Stack(
+        children: <Widget>[positionList, positionSaveButton],
+      );
+    }
+
+
+    return currentWidget;
   }
 }

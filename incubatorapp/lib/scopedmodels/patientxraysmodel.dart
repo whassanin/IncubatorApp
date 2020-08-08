@@ -62,7 +62,6 @@ class PatientXRayModel extends Model{
   void readByPatientId() async {
     List<dynamic> patientXRayMap = await _api.filterByForeignKey(_currentPatientXRay.patientId.toString());
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
-    await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
@@ -76,9 +75,9 @@ class PatientXRayModel extends Model{
   Future<bool> create() async{
     int code = await _api.postSubValue(_currentPatientXRay.toJson(),_currentPatientXRay.patientId.toString());
     if (code == 201) {
-      patientXRayList.add(_currentPatientXRay);
+      setPatientId(_currentPatientXRay.patientId);
+      readByPatientId();
 
-      notifyListeners();
       return true;
     }
     return false;

@@ -17,17 +17,58 @@ class AnalysisRowWidget extends StatefulWidget {
 class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   bool isSelected = false;
 
-  Widget row() {
-    PatientAnalysis selectedPatientAnalysis;
-    List<PatientAnalysis> selectedList = patientAnalysisModel
-        .patientAnalysisList
-        .where((pa) => pa.analysisId == widget.analysis.id)
-        .toList();
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+    return v;
+  }
 
-    if (selectedList.length > 0) {
+  void validate() {
+    String dn = dateFormat(DateTime.now());
+
+    int i = patientAnalysisModel.patientAnalysisList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.analysisId == widget.analysis.id &&
+            dateFormat(element.createdDate) == dn);
+    if (i >= 0) {
       isSelected = true;
-      selectedPatientAnalysis = selectedList[0];
+    } else {
+      isSelected = false;
     }
+  }
+
+  void save() {
+    patientAnalysisModel.createPatientAnalysis();
+    patientAnalysisModel.setPatientId(widget.patient.id);
+    patientAnalysisModel.setAnalysisId(widget.analysis.id);
+    patientAnalysisModel.create();
+  }
+
+  void delete() {
+    String dn = dateFormat(DateTime.now());
+
+    patientAnalysisModel.createPatientAnalysis();
+    patientAnalysisModel.setPatientId(widget.patient.id);
+    patientAnalysisModel.setAnalysisId(widget.analysis.id);
+
+    int i = patientAnalysisModel.patientAnalysisList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.analysisId == widget.analysis.id &&
+            dateFormat(element.createdDate) == dn);
+
+    if(i >= 0){
+      isSelected = true;
+      patientAnalysisModel.editPatientAnalysis(patientAnalysisModel.patientAnalysisList[i]);
+      patientAnalysisModel.delete();
+    }
+
+  }
+
+  Widget row() {
+    validate();
 
     Widget rowData = Row(
       children: <Widget>[
@@ -48,14 +89,9 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
                 onChanged: (b) {
                   isSelected = b;
                   if (b == true) {
-                    patientAnalysisModel.createPatientAnalysis();
-                    patientAnalysisModel.setPatientId(widget.patient.id);
-                    patientAnalysisModel.setAnalysisId(widget.analysis.id);
-                    patientAnalysisModel.create();
+                    save();
                   } else {
-                    patientAnalysisModel
-                        .editPatientAnalysis(selectedPatientAnalysis);
-                    patientAnalysisModel.delete();
+                    delete();
                   }
                 },
               )

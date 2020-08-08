@@ -218,7 +218,7 @@ class PatientAnalysisList(generics.ListCreateAPIView):
     serializer_class = PatientAnalysisSerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientAnalysis.objects.filter(patientId=patientId)
+       return PatientAnalysis.objects.filter(patientId=patientId).order_by('-createdDate')
 
 class PatientAnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientAnalysis.objects.all()
@@ -239,7 +239,7 @@ class PatientXRayList(generics.ListCreateAPIView):
     serializer_class = PatientXRaySerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientXRay.objects.filter(patientId=patientId)
+       return PatientXRay.objects.filter(patientId=patientId).order_by('-createdDate')
 
 class PatientXRayDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientXRay.objects.all()

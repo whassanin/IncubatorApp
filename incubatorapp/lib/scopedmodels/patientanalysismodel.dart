@@ -64,7 +64,7 @@ class PatientAnalysisModel extends Model {
         .filterByForeignKey(_currentPatientAnalysis.patientId.toString());
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
-    await Future.delayed(Duration(seconds: 1));
+
     notifyListeners();
   }
 
@@ -81,9 +81,8 @@ class PatientAnalysisModel extends Model {
     int code = await _api.postSubValue(_currentPatientAnalysis.toJson(),
         _currentPatientAnalysis.patientId.toString());
     if (code == 201) {
-      patientAnalysisList.add(_currentPatientAnalysis);
-
-      notifyListeners();
+      setPatientId(_currentPatientAnalysis.patientId);
+      readByPatientId();
       return true;
     }
     return false;

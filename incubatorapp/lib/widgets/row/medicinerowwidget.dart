@@ -19,8 +19,6 @@ class MedicineRowWidget extends StatefulWidget {
 class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   bool isSelected = false;
 
-  TextEditingController quantityTEC = new TextEditingController();
-
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();

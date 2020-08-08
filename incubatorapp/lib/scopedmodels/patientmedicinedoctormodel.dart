@@ -75,8 +75,6 @@ class PatientMedicineDoctorModel extends Model {
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
 
-    patientMedicineDoctorList.forEach((element) {print(element.id.toString());});
-
     notifyListeners();
   }
 
