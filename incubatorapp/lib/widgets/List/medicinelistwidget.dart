@@ -3,7 +3,6 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorconfirmscreen.dart';
 import 'package:incubatorapp/widgets/row/medicinerowwidget.dart';
 
 class MedicineListWidget extends StatefulWidget {
@@ -79,15 +78,8 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
             ),
           ),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NewPatientMedicineDoctorDetailScreen(
-                  patient: widget.patient,
-                  userPermission: widget.userPermission,
-                ),
-              ),
-            );
+            patientMedicineDoctorModel.readByPatientId();
+            Navigator.pop(context);
           },
         ),
       ),

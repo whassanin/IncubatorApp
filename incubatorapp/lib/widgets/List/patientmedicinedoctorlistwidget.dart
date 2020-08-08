@@ -7,10 +7,9 @@ import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 
 class PatientMedicineDoctorListWidget extends StatefulWidget {
   final List<PatientMedicineDoctor> patientMedicineDoctorList;
-  final bool isConfirm;
   final UserPermission userPermission;
   PatientMedicineDoctorListWidget(
-      {this.patientMedicineDoctorList,this.isConfirm, this.userPermission});
+      {this.patientMedicineDoctorList, this.userPermission});
 
   @override
   _PatientMedicineDoctorListWidgetState createState() =>
@@ -67,7 +66,7 @@ class _PatientMedicineDoctorListWidgetState
       }
     }
 
-    if(widget.userPermission.isPatient){
+    if (widget.userPermission.isPatient) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(bottom: 75),
         child: currentWidget,
@@ -86,7 +85,6 @@ class _PatientMedicineDoctorListWidgetState
 
   @override
   Widget build(BuildContext context) {
-
     Widget currentWidget = getList();
 
     Widget positionList = Positioned(
@@ -114,52 +112,13 @@ class _PatientMedicineDoctorListWidgetState
       ),
     );
 
-    Widget saveConfirmList = Positioned(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: GestureDetector(
-          child: Container(
-            height: 70,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                'Confirm',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          onTap: () {
-          },
-        ),
-      ),
-    );
-
-    if(widget.userPermission.isPatient){
+    if (widget.userPermission.isPatient) {
       calculate();
       currentWidget = Stack(
-        children: <Widget>[
-          positionList,
-          positionTotal
-        ],
+        children: <Widget>[positionList, positionTotal],
       );
-    }else if (widget.userPermission.isDoctor) {
-      if(widget.isConfirm){
-        currentWidget = Stack(
-          children: <Widget>[
-            positionList,
-            saveConfirmList
-          ],
-        );
-      }
+    } else if (widget.userPermission.isDoctor) {
+
     }
 
     return currentWidget;

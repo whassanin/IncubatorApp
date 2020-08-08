@@ -8,8 +8,6 @@ class PatientMedicineDoctorModel extends Model {
 
   List<PatientMedicineDoctor> patientMedicineDoctorList;
 
-  List<PatientMedicineDoctor> confirmPatientMedicineDoctorList = [];
-
   PatientMedicineDoctor _currentPatientMedicineDoctor;
 
   PatientMedicineDoctor get currentPatientMedicineDoctor =>
@@ -23,21 +21,6 @@ class PatientMedicineDoctorModel extends Model {
   void editPatientMedicineDoctor(
       PatientMedicineDoctor editPatientMedicineDoctor) {
     _currentPatientMedicineDoctor = editPatientMedicineDoctor;
-  }
-
-  void editToList(PatientMedicineDoctor patientMedicineDoctor, String op) {
-    int i = confirmPatientMedicineDoctorList.indexWhere((pmd) =>
-        pmd.medicineId == patientMedicineDoctor.medicineId &&
-        pmd.doctorId == patientMedicineDoctor.doctorId &&
-        pmd.patientId == patientMedicineDoctor.patientId);
-    if (op == 'add') {
-      if (i < 0) {
-        confirmPatientMedicineDoctorList.add(patientMedicineDoctor);
-      }
-    } else {
-      confirmPatientMedicineDoctorList.removeAt(i);
-    }
-    notifyListeners();
   }
 
   void clearList() {
@@ -92,23 +75,9 @@ class PatientMedicineDoctorModel extends Model {
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
 
-    await Future.delayed(Duration(seconds: 1));
+    patientMedicineDoctorList.forEach((element) {print(element.id.toString());});
 
     notifyListeners();
-  }
-
-  void updateConfirmListToDB() async{
-    int s = confirmPatientMedicineDoctorList.length;
-    confirmPatientMedicineDoctorList.forEach((p) {
-      editPatientMedicineDoctor(p);
-      create();
-    });
-
-    await Future.delayed(Duration(seconds: s));
-
-    createPatientMedicineDoctor();
-    setPatientId(patientModel.currentPatient.id);
-    readByPatientId();
   }
 
   void readByMedicineId() {}

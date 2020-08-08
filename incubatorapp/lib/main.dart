@@ -21,7 +21,6 @@ import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenurses
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
-import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorconfirmscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
@@ -95,7 +94,6 @@ class MyApp extends StatelessWidget {
 
         PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
         NewPatientMedicineDoctorScreen.routeName:(context)=>NewPatientMedicineDoctorScreen(),
-        NewPatientMedicineDoctorDetailScreen.routeName:(context)=>NewPatientMedicineDoctorDetailScreen(),
 
         PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
         NewPatientConsumableNurseScreen.routeName:(context)=>NewPatientConsumableNurseScreen(),

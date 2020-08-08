@@ -15,6 +15,8 @@ class PatientMedicineDoctorRowWidget extends StatefulWidget {
 
 class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRowWidget> {
 
+  bool isSelected = true;
+
   String dateFormat() {
     String v = widget.patientMedicineDoctor.createdDate.day.toString();
     v = v + '/' + widget.patientMedicineDoctor.createdDate.month.toString();
@@ -78,7 +80,7 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
     Widget displayCard = Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: displayCol,
+        child: displayCol
       ),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10,),)

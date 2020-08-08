@@ -40,7 +40,7 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   NewPatientMedicineDoctorScreen(
-                                    patient: patient,
+                                patient: patient,
                                 userPermission: userPermission,
                               ),
                             ),
@@ -51,7 +51,6 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
               ],
             ),
             body: PatientMedicineDoctorListWidget(
-              isConfirm: false,
               patientMedicineDoctorList:
                   patientMedicineDoctorModel.patientMedicineDoctorList,
               userPermission: userPermission,

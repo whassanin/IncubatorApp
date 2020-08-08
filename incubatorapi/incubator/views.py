@@ -271,7 +271,7 @@ class PatientMedicineDoctorList(generics.ListCreateAPIView):
     serializer_class = PatientMedicineDoctorSerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientMedicineDoctor.objects.filter(patientId=patientId)
+       return PatientMedicineDoctor.objects.filter(patientId=patientId).order_by('-createdDate')
 
 class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientMedicineDoctor.objects.all()

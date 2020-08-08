@@ -11,7 +11,7 @@ class MedicineRowWidget extends StatefulWidget {
   final Patient patient;
   final Medicine medicine;
   final UserPermission userPermission;
-  MedicineRowWidget({this.patient,this.medicine, this.userPermission});
+  MedicineRowWidget({this.patient, this.medicine, this.userPermission});
   @override
   _MedicineRowWidgetState createState() => _MedicineRowWidgetState();
 }
@@ -21,102 +21,63 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
 
   TextEditingController quantityTEC = new TextEditingController();
 
-  void operation(String opType) {
-    int v = int.parse(quantityTEC.text);
-    if (patientMedicineDoctorModel.currentPatientMedicineDoctor != null) {
-      patientMedicineDoctorModel.createPatientMedicineDoctor();
-    }
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+    return v;
+  }
 
+  void validate() {
+    String dn = dateFormat(DateTime.now());
+
+    int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
+        (element) =>
+            element.patientId == widget.patient.id &&
+            element.medicineId == widget.medicine.id &&
+            element.doctorId == doctorModel.currentDoctor.id &&
+            dateFormat(element.createdDate) == dn);
+    if (i >= 0) {
+      isSelected = true;
+    } else {
+      isSelected = false;
+    }
+  }
+
+  void save() {
+    patientMedicineDoctorModel.createPatientMedicineDoctor();
+    patientMedicineDoctorModel.setPatientId(widget.patient.id);
+    patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
+    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.id);
+    patientMedicineDoctorModel.setQuantity(1);
+    patientMedicineDoctorModel.create();
+  }
+
+  void delete() {
+    String dn = dateFormat(DateTime.now());
+
+    patientMedicineDoctorModel.createPatientMedicineDoctor();
     patientMedicineDoctorModel.setPatientId(widget.patient.id);
     patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
     patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.id);
 
-    if (opType == 'add') {
-      v = v + 1;
-    } else if (opType == 'subtract') {
-      if (v > 0) {
-        v = v - 1;
-      }
+    int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.medicineId == widget.medicine.id &&
+            element.doctorId == doctorModel.currentDoctor.id &&
+            dateFormat(element.createdDate) == dn);
+
+    if(i >= 0){
+      isSelected = true;
+      patientMedicineDoctorModel.editPatientMedicineDoctor(patientMedicineDoctorModel.patientMedicineDoctorList[i]);
+      patientMedicineDoctorModel.delete();
     }
 
-    quantityTEC.text = v.toString();
-    patientMedicineDoctorModel.setQuantity(v);
-
-/*    patientMedicineDoctorModel
-        .addToList(patientMedicineDoctorModel.currentPatientMedicineDoctor);*/
-  }
-
-  Widget counterWidget() {
-    Widget subtractWidget = IconButton(
-      icon: Icon(
-        FontAwesomeIcons.minus,
-        color: Colors.red,
-      ),
-      onPressed: () {
-        operation('subtract');
-      },
-    );
-
-    Widget numTextField = Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: (quantityTEC.text!='0'?Colors.green:Colors.grey)
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              10,
-            ),
-          ),
-        ),
-        child: TextFormField(
-          textAlign: TextAlign.center,
-          textAlignVertical: TextAlignVertical.center,
-          controller: quantityTEC,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly
-          ],
-          readOnly: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-          ),
-          onChanged: (v) {},
-          onFieldSubmitted: (v) {},
-        ),
-      ),
-    );
-
-    Widget addWidget = IconButton(
-      icon: Icon(
-        FontAwesomeIcons.plus,
-        color: Colors.green,
-      ),
-      onPressed: () {
-        operation('add');
-      },
-    );
-
-    Widget rowCounterWidget = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        subtractWidget,
-        Container(height: 70, width: 100, child: numTextField),
-        addWidget
-      ],
-    );
-
-    return rowCounterWidget;
   }
 
   Widget row() {
+    validate();
 
     Widget rowData = Row(
       children: <Widget>[
@@ -133,20 +94,16 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
         ),
         (widget.userPermission.isDoctor
             ? Checkbox(
-          value: isSelected,
-          onChanged: (b) {
-            isSelected = b;
-            patientMedicineDoctorModel.createPatientMedicineDoctor();
-            patientMedicineDoctorModel.setPatientId(widget.patient.id);
-            patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
-            patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.id);
-            if (b == true) {
-              patientMedicineDoctorModel.editToList(patientMedicineDoctorModel.currentPatientMedicineDoctor,'add');
-            }else {
-              patientMedicineDoctorModel.editToList(patientMedicineDoctorModel.currentPatientMedicineDoctor,'delete');
-            }
-          },
-        )
+                value: isSelected,
+                onChanged: (b) {
+                  isSelected = b;
+                  if (b == true) {
+                    save();
+                  } else {
+                    delete();
+                  }
+                },
+              )
             : Container())
       ],
     );
