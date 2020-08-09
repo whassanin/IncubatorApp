@@ -95,7 +95,7 @@ class Status(models.Model):
     bloodPressure = models.FloatField()
     temperature = models.FloatField()
     incubatorTemperature = models.FloatField()
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='status')
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nurse')
 

@@ -14,6 +14,7 @@ import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
@@ -51,6 +52,7 @@ NurseModel nurseModel = new NurseModel();
 // 1 to many
 PatientModel patientModel = new PatientModel();
 BillModel billModel = new BillModel();
+StatusModel statusModel =new StatusModel();
 
 // many to many
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();

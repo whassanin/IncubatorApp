@@ -118,6 +118,15 @@ class StatusModel extends Model{
     return _currentStatus.createdDate;
   }
 
+  void clearList(){
+    if(statusList!=null){
+      if(statusList.length > 0){
+        statusList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   void readByPatientId() async{
     List<dynamic> billsMap = await _api.filterByForeignKey(_currentStatus.patientId.toString());
     statusList = billsMap.map((e) => Status.fromJson(e)).toList();

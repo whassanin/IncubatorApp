@@ -35,7 +35,7 @@ class PatientProfileScreen extends StatelessWidget {
                 index: patientModel.currentTab,
                 children: <Widget>[
                   PatientDetailScreen(userPermission: userPermission,),
-                  BillScreen(patientId: patientModel.currentPatient.id,),
+                  BillScreen(patient: patientModel.currentPatient,),
                   EditPatientScreen()
                 ],
               );

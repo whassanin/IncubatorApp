@@ -5,6 +5,8 @@ import 'package:incubatorapp/widgets/form/patientformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EditPatientScreen extends StatelessWidget {
+  static const routeName = '/editpatientscreen';
+
   @override
   Widget build(BuildContext context) {
     Widget currentWidget = Center(

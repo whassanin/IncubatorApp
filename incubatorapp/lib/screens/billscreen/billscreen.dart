@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/widgets/List/billlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BillScreen extends StatelessWidget {
+  static const routeName = '/billscreen';
 
-  final int patientId;
-  BillScreen({this.patientId}) {
+  final Patient patient;
+  BillScreen({this.patient}) {
     billModel.createBill();
-    billModel.setPatientId(patientId);
+    billModel.setPatientId(patient.id);
     billModel.readByPatientId();
   }
 
@@ -19,20 +21,9 @@ class BillScreen extends StatelessWidget {
       model: billModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, BillModel billModel) {
-
-          Widget currentWidget = Center(
-            child: Container(
-              child: CircularProgressIndicator(),
-            ),
+          return BillListWidget(
+            billList: billModel.billList,
           );
-
-          if(billModel.billList!=null){
-            currentWidget = BillListWidget(
-              billList: billModel.billList,
-            );
-          }
-
-          return currentWidget;
         },
       ),
     );

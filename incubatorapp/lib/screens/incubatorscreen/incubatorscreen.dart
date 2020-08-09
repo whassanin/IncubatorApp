@@ -6,6 +6,8 @@ import 'package:incubatorapp/widgets/List/incubatorlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class IncubatorScreen extends StatelessWidget {
+  static const routeName = '/incubatorscreen';
+
   @override
   Widget build(BuildContext context) {
     incubatorModel.readAll();

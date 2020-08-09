@@ -5,6 +5,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
@@ -19,6 +20,21 @@ class PatientDetailRowWidget extends StatefulWidget {
 }
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
+
+  void goToStatusScreen() {
+    statusModel.clearList();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StatusScreen(
+          patient: widget.patient,
+          userPermission: widget.userPermission,
+        ),
+      ),
+    );
+  }
+
   void goToAnalysisScreen() {
     patientAnalysisModel.clearList();
 
@@ -442,10 +458,11 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 height: 100,
                 child: rowButton(
                   Icon(
-                    Icons.add,
+                    Icons.view_list,
                     color: Colors.blueAccent,
                   ),
-                  'Add Status',
+                  'View Status',
+                  fun: goToStatusScreen
                 ),
               ),
             ),
