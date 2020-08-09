@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/widgets/List/consumablelistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 class NewPatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/newpatientconsumablenursescreen';
+
+  final Patient patient;
+  final UserPermission userPermission;
+  NewPatientConsumableNurseScreen({this.patient,this.userPermission});
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
       model: patientConsumableNurseModel,
       child: ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, PatientConsumableNurseModel patientConsumableNurseModel){
+        builder: (BuildContext context, Widget child,
+            PatientConsumableNurseModel patientConsumableNurseModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Add Analysis to Patient'),
+              title: Text('Add Consumable to Patient'),
             ),
-            body: ConsumableListWidget(consumableList: consumableModel.consumableList,isPatientConsumableNurse: true,),
+            body: ConsumableListWidget(
+              patient: patient,
+              consumableList: consumableModel.consumableList,
+              userPermission: userPermission,
+            ),
           );
         },
       ),

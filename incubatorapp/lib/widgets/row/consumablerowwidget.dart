@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
+import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 
 class ConsumableRowWidget extends StatefulWidget {
+  final Patient patient;
   final Consumable consumable;
-  final bool isPatientConsumableNurse;
-  final bool isNurse;
-  ConsumableRowWidget({this.consumable, this.isPatientConsumableNurse,this.isNurse});
+  final UserPermission userPermission;
+  ConsumableRowWidget(
+      {this.patient,
+      this.consumable,
+      this.userPermission,});
   @override
   _ConsumableRowWidgetState createState() => _ConsumableRowWidgetState();
 }
@@ -31,16 +36,18 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
         SizedBox(
           width: 10,
         ),
-        Expanded(child: Container(child: Text('Name: ' + widget.consumable.name))),
-        (widget.isPatientConsumableNurse
+        Expanded(
+            child: Container(child: Text('Name: ' + widget.consumable.name))),
+        (widget.userPermission.isNurse
             ? Checkbox(
-          value: isSelected,
-          onChanged: (b) {
-            isSelected = b;
-            patientConsumableNurseModel.setConsumableId(widget.consumable.id);
-            patientConsumableNurseModel.create();
-          },
-        )
+                value: isSelected,
+                onChanged: (b) {
+                  isSelected = b;
+                  patientConsumableNurseModel
+                      .setConsumableId(widget.consumable.id);
+                  patientConsumableNurseModel.create();
+                },
+              )
             : Container())
       ],
     );
@@ -62,18 +69,9 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.isPatientConsumableNurse) {
-        } else {
+        if (widget.userPermission.isFrontDesk) {
+        } else {}
 
-        }
-
-        /*incubatorModel.editIncubator(widget.incubator);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditIncubatorScreen(),
-          ),
-        );*/
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

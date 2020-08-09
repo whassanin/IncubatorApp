@@ -36,7 +36,7 @@ class DoctorProfileScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      child: Text('Shift'),
+                      child: Text('Doctor Shift'),
                     ),
                   ),
                   EditDoctorScreen()

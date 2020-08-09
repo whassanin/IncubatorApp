@@ -36,7 +36,7 @@ class NurseProfileScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Container(
-                      child: Text('Shift'),
+                      child: Text('Nurse Shift'),
                     ),
                   ),
                   EditNurseScreen()

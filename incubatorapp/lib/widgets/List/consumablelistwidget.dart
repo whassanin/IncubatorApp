@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/models/consumable.dart';
+import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 
 class ConsumableListWidget extends StatefulWidget {
+  final Patient patient;
   final List<Consumable> consumableList;
-  final bool isPatientConsumableNurse;
-  ConsumableListWidget({this.consumableList, this.isPatientConsumableNurse});
+  final UserPermission userPermission;
+  ConsumableListWidget(
+      {this.patient, this.consumableList, this.userPermission});
 
   @override
   _ConsumableListWidgetState createState() => _ConsumableListWidgetState();
@@ -25,8 +29,9 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           itemCount: widget.consumableList.length,
           itemBuilder: (BuildContext context, int index) {
             return ConsumableRowWidget(
+              patient: widget.patient,
               consumable: widget.consumableList[index],
-              isPatientConsumableNurse: widget.isPatientConsumableNurse,
+              userPermission: widget.userPermission,
             );
           },
         );

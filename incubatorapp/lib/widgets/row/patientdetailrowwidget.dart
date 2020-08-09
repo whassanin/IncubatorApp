@@ -446,6 +446,14 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           patientInformationRow(),
           rowTitle('Status'),
           statusRow(),
+          Padding(
+            padding: const EdgeInsets.only(right: 10,left: 10,top: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(child: Container(height: 100,child: rowButton(Icon(Icons.add),'Add Status'))),
+              ],
+            ),
+          ),
           displayButtons()
         ],
       ),
