@@ -12,10 +12,7 @@ import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescre
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
   final UserPermission userPermission;
-  PatientDetailRowWidget({
-    this.patient,
-    this.userPermission
-  });
+  PatientDetailRowWidget({this.patient, this.userPermission});
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
@@ -23,7 +20,6 @@ class PatientDetailRowWidget extends StatefulWidget {
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToAnalysisScreen() {
-
     patientAnalysisModel.clearList();
 
     Navigator.push(
@@ -38,7 +34,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToXRayScreen() {
-
     patientXRayModel.clearList();
 
     Navigator.push(
@@ -53,7 +48,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToMedicineScreen() {
-
     patientMedicineDoctorModel.clearList();
 
     Navigator.push(
@@ -68,7 +62,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToConsumableScreen() {
-
     patientConsumableNurseModel.clearList();
 
     Navigator.push(
@@ -436,6 +429,34 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
+  Widget addStatusButton(){
+    Widget currentWidget = Container();
+
+    if(widget.userPermission.isNurse){
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                height: 100,
+                child: rowButton(
+                  Icon(
+                    Icons.add,
+                    color: Colors.blueAccent,
+                  ),
+                  'Add Status',
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return currentWidget;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -446,14 +467,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           patientInformationRow(),
           rowTitle('Status'),
           statusRow(),
-          Padding(
-            padding: const EdgeInsets.only(right: 10,left: 10,top: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Container(height: 100,child: rowButton(Icon(Icons.add),'Add Status'))),
-              ],
-            ),
-          ),
+          addStatusButton(),
           displayButtons()
         ],
       ),
