@@ -164,7 +164,7 @@ class StatusList(generics.ListCreateAPIView):
     serializer_class = StatusSerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return Status.objects.filter(patientId=patientId).order_by('-createdDate')[:2]
+       return Status.objects.filter(patientId=patientId).order_by('-createdDate')
 
 class StatusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Status.objects.all()

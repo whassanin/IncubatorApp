@@ -10,6 +10,8 @@ class StatusModel extends Model{
 
   Status _currentStatus;
 
+  Status get currentStatus => _currentStatus;
+
   void createStatus(){
     _currentStatus = new Status(0, 0,0,0,0,0,0,0,0,0,0,DateTime.now(),0,0);
   }
@@ -20,6 +22,7 @@ class StatusModel extends Model{
 
   void setHeartRate(double heartRate){
     _currentStatus.heartRate = heartRate;
+    notifyListeners();
   }
 
   double getHeartRate(){
@@ -28,6 +31,7 @@ class StatusModel extends Model{
 
   void setPulseRate(double pulseRate){
     _currentStatus.pulseRate = pulseRate;
+    notifyListeners();
   }
 
   double getPulseRate(){
@@ -36,6 +40,7 @@ class StatusModel extends Model{
 
   void setOxygen(double oxygen){
     _currentStatus.oxygen = oxygen;
+    notifyListeners();
   }
 
   double getOxygen(){
@@ -44,6 +49,7 @@ class StatusModel extends Model{
 
   void setWeight(double weight){
     _currentStatus.weight = weight;
+    notifyListeners();
   }
 
   double getWeight(){
@@ -52,6 +58,7 @@ class StatusModel extends Model{
 
   void setSugar(double sugar){
     _currentStatus.sugar = sugar;
+    notifyListeners();
   }
 
   double getSugar(){
@@ -60,6 +67,7 @@ class StatusModel extends Model{
 
   void setUrine(double urine){
     _currentStatus.urine = urine;
+    notifyListeners();
   }
 
   double getUrine(){
@@ -67,7 +75,8 @@ class StatusModel extends Model{
   }
 
   void setStool(double stool){
-    _currentStatus.urine = stool;
+    _currentStatus.stool = stool;
+    notifyListeners();
   }
 
   double getStool(){
@@ -76,6 +85,7 @@ class StatusModel extends Model{
 
   void setBloodPressure(double bloodPressure){
     _currentStatus.bloodPressure = bloodPressure;
+    notifyListeners();
   }
 
   double getBloodPressure(){
@@ -84,6 +94,7 @@ class StatusModel extends Model{
 
   void setTemperature(double temperature){
     _currentStatus.temperature = temperature;
+    notifyListeners();
   }
 
   double getTemperature(){
@@ -92,6 +103,7 @@ class StatusModel extends Model{
 
   void setIncubatorTemperature(double incubatorTemperature){
     _currentStatus.incubatorTemperature = incubatorTemperature;
+    notifyListeners();
   }
 
   double getIncubatorTemperature(){
@@ -130,16 +142,14 @@ class StatusModel extends Model{
   void readByPatientId() async{
     List<dynamic> billsMap = await _api.filterByForeignKey(_currentStatus.patientId.toString());
     statusList = billsMap.map((e) => Status.fromJson(e)).toList();
-    await Future.delayed(Duration(seconds: 2));
     notifyListeners();
   }
 
   Future<bool> create() async{
-    int code = await _api.post(_currentStatus.toJson());
+    int code = await _api.postSubValue(_currentStatus.toJson(),_currentStatus.patientId.toString());
     if (code == 201) {
-      statusList.add(_currentStatus);
-
-      notifyListeners();
+      setPatientId(_currentStatus.patientId);
+      readByPatientId();
       return true;
     }
     return false;

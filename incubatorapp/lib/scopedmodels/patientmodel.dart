@@ -1,6 +1,7 @@
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/patientphone.dart';
+import 'package:incubatorapp/models/status.dart';
 import 'package:incubatorapp/scopedmodels/patientphonemodel.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -164,6 +165,11 @@ class PatientModel extends Model {
 
   int getIncubatorId() {
     return _currentPatient.incubatorId;
+  }
+
+  void updateState(Status status){
+    currentPatient.statusList.insert(0, status);
+    notifyListeners();
   }
 
   void setPhone(String phone) async {

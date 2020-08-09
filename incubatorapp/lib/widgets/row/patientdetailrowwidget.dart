@@ -24,6 +24,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToStatusScreen() {
     statusModel.clearList();
 
+    statusModel.createStatus();
+    statusModel.setPatientId(widget.patient.id);
+    statusModel.readByPatientId();
+
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/doctormodel.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
-import 'package:incubatorapp/widgets/form/doctorformwidget.dart';
 import 'package:incubatorapp/widgets/form/statusformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class NewStatusScreen extends StatelessWidget {
   static const routeName = '/newstatusscreen';
+  final Patient patient;
+  NewStatusScreen({this.patient});
 
   @override
   Widget build(BuildContext context) {
-    doctorModel.createDoctor();
+    statusModel.createStatus();
     return ScopedModel(
       model: statusModel,
       child: ScopedModelDescendant(
@@ -22,6 +23,7 @@ class NewStatusScreen extends StatelessWidget {
               title: Text('Add Status'),
             ),
             body: StatusFormWidget(
+              patient: patient,
               isEdit: false,
             ),
           );

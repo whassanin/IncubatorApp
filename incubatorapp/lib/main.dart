@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:incubatorapp/models/doctor.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
@@ -52,7 +51,7 @@ NurseModel nurseModel = new NurseModel();
 // 1 to many
 PatientModel patientModel = new PatientModel();
 BillModel billModel = new BillModel();
-StatusModel statusModel =new StatusModel();
+StatusModel statusModel = new StatusModel();
 
 // many to many
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();

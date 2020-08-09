@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
 
 enum StatusColumns {
   heartRate,
@@ -17,7 +18,10 @@ enum StatusColumns {
 
 class StatusFormWidget extends StatefulWidget {
   final bool isEdit;
+  final Patient patient;
+
   StatusFormWidget({
+    this.patient,
     this.isEdit,
   });
   @override
@@ -84,6 +88,16 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
     createdDateTEC.text = dateFormat();
   }
 
+  void save() async{
+    statusModel.setPatientId(widget.patient.id);
+    statusModel.setNurseId(nurseModel.currentNurse.id);
+    bool isCheck = await statusModel.create();
+    if(isCheck){
+      patientModel.updateState(statusModel.currentStatus);
+      Navigator.pop(context);
+    }
+  }
+
   Widget columnTextField(String name, bool isNumber,
       StatusColumns statusColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
@@ -110,10 +124,10 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
           return null;
         },
         onChanged: (v) {
-          setData(statusColumns, v);
+          setData(statusColumns, double.parse(v));
         },
         onFieldSubmitted: (v) {
-          setData(statusColumns, v);
+          setData(statusColumns, double.parse(v));
         },
         onTap: () {
           if (fun != null) {
@@ -173,7 +187,7 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
                   if (widget.isEdit) {
                     statusModel.update();
                   } else {
-                    statusModel.create();
+                    save();
                   }
                 }
               }

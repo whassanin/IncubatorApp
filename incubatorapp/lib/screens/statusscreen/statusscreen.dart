@@ -4,7 +4,7 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
-//import 'package:incubatorapp/widgets/List/statuslistwidget.dart';
+import 'package:incubatorapp/widgets/List/statuslistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class StatusScreen extends StatelessWidget {
@@ -12,11 +12,7 @@ class StatusScreen extends StatelessWidget {
 
   final Patient patient;
   final UserPermission userPermission;
-  StatusScreen({this.patient, this.userPermission}) {
-    statusModel.createStatus();
-    statusModel.setPatientId(patient.id);
-    statusModel.readByPatientId();
-  }
+  StatusScreen({this.patient, this.userPermission});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +33,7 @@ class StatusScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewStatusScreen(),
+                              builder: (context) => NewStatusScreen(patient: patient,),
                             ),
                           );
                         },
@@ -45,9 +41,10 @@ class StatusScreen extends StatelessWidget {
                     : Container())
               ],
             ),
-            body: Center(child: Container(
-              child: Text('Status List'),
-            ),),
+            body: StatusListWidget(
+              patient: patient,
+              statusList: statusModel.statusList,
+            ),
           );
         },
       ),

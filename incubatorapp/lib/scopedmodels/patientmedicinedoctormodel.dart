@@ -1,5 +1,4 @@
 import 'package:incubatorapp/api/api.dart';
-import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:scoped_model/scoped_model.dart';
 
