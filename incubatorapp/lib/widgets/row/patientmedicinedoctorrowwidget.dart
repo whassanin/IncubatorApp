@@ -17,7 +17,6 @@ class PatientMedicineDoctorRowWidget extends StatefulWidget {
 
 class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRowWidget> {
 
-  bool isSelected = true;
   TextEditingController quantityTEC = new TextEditingController();
 
   String dateFormat() {

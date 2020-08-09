@@ -260,7 +260,7 @@ class PatientConsumableNurseList(generics.ListCreateAPIView):
     serializer_class = PatientConsumableNurseSerializer
     def get_queryset(self):
        patientId = self.kwargs['pId']
-       return PatientConsumableNurse.objects.filter(patientId=patientId)
+       return PatientConsumableNurse.objects.filter(patientId=patientId).order_by('-createdDate')
 
 class PatientConsumableNursetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientConsumableNurse.objects.all()

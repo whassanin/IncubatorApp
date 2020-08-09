@@ -75,7 +75,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => PatientConsumableNurseScreen(
-          patientId: widget.patient.id,
+          patient: widget.patient,
           userPermission: widget.userPermission,
         ),
       ),

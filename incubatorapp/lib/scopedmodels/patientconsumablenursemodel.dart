@@ -74,8 +74,6 @@ class PatientConsumableNurseModel extends Model {
         .map((e) => PatientConsumableNurse.fromJson(e))
         .toList();
 
-    await Future.delayed(Duration(seconds: 1));
-
     notifyListeners();
   }
 
@@ -84,11 +82,12 @@ class PatientConsumableNurseModel extends Model {
   void readByNurseId() {}
 
   Future<bool> create() async {
-    print(_currentPatientConsumableNurse.toJson().toString());
+
     int code = await _api.postSubValue(_currentPatientConsumableNurse.toJson(),
         _currentPatientConsumableNurse.patientId.toString());
     if (code == 201) {
-      patientConsumableNurseList.add(_currentPatientConsumableNurse);
+      setPatientId(_currentPatientConsumableNurse.patientId);
+      readByPatientId();
 
       notifyListeners();
       return true;
@@ -97,7 +96,7 @@ class PatientConsumableNurseModel extends Model {
   }
 
   Future<bool> update() async {
-    int code = await _api.put(_currentPatientConsumableNurse.toJson(),
+    int code = await _api.putSubValue(_currentPatientConsumableNurse.toJson(),
         _currentPatientConsumableNurse.id.toString());
 
     if (code == 200) {
@@ -109,7 +108,7 @@ class PatientConsumableNurseModel extends Model {
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentPatientConsumableNurse.id.toString());
+    int code = await _api.deleteSubValue(_currentPatientConsumableNurse.id.toString());
 
     if (code == 204) {
       patientConsumableNurseList.remove(_currentPatientConsumableNurse);

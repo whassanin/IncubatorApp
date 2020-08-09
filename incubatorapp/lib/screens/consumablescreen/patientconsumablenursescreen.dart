@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
@@ -9,11 +10,11 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/patientconsumablenursescreen';
 
-  final int patientId;
+  final Patient patient;
   final UserPermission userPermission;
-  PatientConsumableNurseScreen({this.patientId, this.userPermission}) {
+  PatientConsumableNurseScreen({this.patient, this.userPermission}) {
     patientConsumableNurseModel.createPatientConsumableNurse();
-    patientConsumableNurseModel.setPatientId(patientId);
+    patientConsumableNurseModel.setPatientId(patient.id);
     patientConsumableNurseModel.readByPatientId();
   }
 
@@ -39,6 +40,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   NewPatientConsumableNurseScreen(
+                                    patient: patient,
                                 userPermission: userPermission,
                               ),
                             ),

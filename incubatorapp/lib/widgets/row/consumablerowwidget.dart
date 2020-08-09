@@ -20,15 +20,63 @@ class ConsumableRowWidget extends StatefulWidget {
 class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   bool isSelected = false;
 
-  Widget row() {
-    List<PatientConsumableNurse> selectedList = patientConsumableNurseModel
-        .patientConsumableNurseList
-        .where((pa) => pa.consumableId == widget.consumable.id)
-        .toList();
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+    return v;
+  }
 
-    if (selectedList.length > 0) {
+  void validate() {
+    String dn = dateFormat(DateTime.now());
+
+    int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.consumableId == widget.consumable.id &&
+            element.nurseId == nurseModel.currentNurse.id &&
+            dateFormat(element.createdDate) == dn);
+    if (i >= 0) {
       isSelected = true;
+    } else {
+      isSelected = false;
     }
+  }
+
+  void save() {
+    patientConsumableNurseModel.createPatientConsumableNurse();
+    patientConsumableNurseModel.setPatientId(widget.patient.id);
+    patientConsumableNurseModel.setConsumableId(widget.consumable.id);
+    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.id);
+    patientConsumableNurseModel.setQuantity(1);
+    patientConsumableNurseModel.create();
+  }
+
+  void delete() {
+    String dn = dateFormat(DateTime.now());
+
+    patientConsumableNurseModel.createPatientConsumableNurse();
+    patientConsumableNurseModel.setPatientId(widget.patient.id);
+    patientConsumableNurseModel.setConsumableId(widget.consumable.id);
+    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.id);
+
+    int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
+            (element) =>
+        element.patientId == widget.patient.id &&
+            element.consumableId == widget.consumable.id &&
+            element.nurseId == nurseModel.currentNurse.id &&
+            dateFormat(element.createdDate) == dn);
+
+    if(i >= 0){
+      isSelected = true;
+      patientConsumableNurseModel.editPatientConsumableNurse(patientConsumableNurseModel.patientConsumableNurseList[i]);
+      patientConsumableNurseModel.delete();
+    }
+
+  }
+
+  Widget row() {
+    validate();
 
     Widget rowData = Row(
       children: <Widget>[
@@ -43,9 +91,11 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
                 value: isSelected,
                 onChanged: (b) {
                   isSelected = b;
-                  patientConsumableNurseModel
-                      .setConsumableId(widget.consumable.id);
-                  patientConsumableNurseModel.create();
+                  if(b==true){
+                    save();
+                  }else {
+                    delete();
+                  }
                 },
               )
             : Container())
@@ -70,7 +120,9 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     return GestureDetector(
       onTap: () {
         if (widget.userPermission.isFrontDesk) {
-        } else {}
+        } else {
+
+        }
 
       },
       child: Padding(

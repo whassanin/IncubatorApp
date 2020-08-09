@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
+import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientconsumablenurserowwidget.dart';
 
 class PatientConsumableNurseListWidget extends StatefulWidget {
+  final Patient patient;
   final List<PatientConsumableNurse> patientConsumableNurseList;
   final UserPermission userPermission;
   PatientConsumableNurseListWidget(
-      {this.patientConsumableNurseList, this.userPermission});
+      {this.patient,this.patientConsumableNurseList, this.userPermission});
 
   @override
   _PatientConsumableNurseListWidgetState createState() =>
