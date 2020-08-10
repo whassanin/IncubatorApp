@@ -36,7 +36,7 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: 120,
+            width: 130,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -80,9 +80,9 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
         patientContent('Father Name:', widget.patient.fatherName),
         patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female')),
         patientContent('Entered Date:', dateFormat(widget.patient.createdDate)),
-        patientContent('Incubator Id:', widget.patient.incubatorId.toString()),
+        patientContent('Incubator number:', widget.patient.incubatorId.toString()),
         (condition != null
-            ? patientContent('Condition Id:', condition.name)
+            ? patientContent('Condition:', condition.name)
             : Container()),
       ],
     );

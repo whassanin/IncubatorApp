@@ -274,6 +274,8 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
               columnTextField(
                   'Urine', true, StatusColumns.urine, urineTEC),
               columnTextField(
+                  'Stool', true, StatusColumns.stool, stoolTEC),
+              columnTextField(
                   'Blood Pressure', true, StatusColumns.bloodPressure, bloodPressureTEC),
               columnTextField(
                   'Temperature', true, StatusColumns.temperature, temperatureTEC),
