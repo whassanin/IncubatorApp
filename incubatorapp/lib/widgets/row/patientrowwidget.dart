@@ -107,7 +107,8 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
         ),
       ),
       onTap: () {
-        patientModel.editPatient(widget.patient);
+        patientModel.readById(widget.patient.id.toString());
+
         Navigator.push(
           context,
           MaterialPageRoute(

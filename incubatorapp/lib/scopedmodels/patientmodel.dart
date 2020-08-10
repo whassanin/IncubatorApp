@@ -4,6 +4,7 @@ import 'package:incubatorapp/models/patientphone.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:incubatorapp/scopedmodels/patientphonemodel.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:intl/intl.dart';
 
 class PatientModel extends Model {
   Api _api = new Api('patient');
@@ -18,9 +19,9 @@ class PatientModel extends Model {
 
   int _currentTab = 0;
 
-  int get currentTab =>_currentTab;
+  int get currentTab => _currentTab;
 
-  void setCurrentTab(int v){
+  void setCurrentTab(int v) {
     _currentTab = v;
     notifyListeners();
   }
@@ -167,7 +168,7 @@ class PatientModel extends Model {
     return _currentPatient.incubatorId;
   }
 
-  void updateState(Status status){
+  void updateState(Status status) {
     currentPatient.statusList.insert(0, status);
     notifyListeners();
   }
@@ -179,7 +180,6 @@ class PatientModel extends Model {
       patientPhoneModel.setPatientId(_currentPatient.id);
       _currentPatient.patientPhone = <PatientPhone>[];
       _currentPatient.patientPhone.add(patientPhoneModel.patientPhone);
-
     } else {
       patientPhoneModel.editPatientPhone(_currentPatient.patientPhone[0]);
       patientPhoneModel.setPhone(phone);
@@ -198,14 +198,14 @@ class PatientModel extends Model {
   void search() {}
 
   void filterByState(String state) async {
-
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
     fields.add('state');
     values.add(state);
 
-    List<dynamic> patientListMap = await _api.filterByNonForeignKey(fields,values);
+    List<dynamic> patientListMap =
+        await _api.filterByNonForeignKey(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
 
     await Future.delayed(Duration(seconds: 3));
@@ -218,13 +218,14 @@ class PatientModel extends Model {
 
     _currentPatient = Patient.fromJson(patientMap);
 
+    _currentPatient.statusList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
+
     notifyListeners();
   }
 
   Future<bool> create() async {
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
-
       return true;
     }
     return false;
