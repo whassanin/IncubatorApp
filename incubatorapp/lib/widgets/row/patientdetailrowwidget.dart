@@ -452,7 +452,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   Widget addStatusButton(){
     Widget currentWidget = Container();
 
-    if(widget.userPermission.isNurse){
+    if(widget.userPermission.isNurse || widget.userPermission.isDoctor){
       currentWidget = Padding(
         padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: Row(
@@ -465,7 +465,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     Icons.view_list,
                     color: Colors.blueAccent,
                   ),
-                  'View Status',
+                  'View History Status',
                   fun: goToStatusScreen
                 ),
               ),
