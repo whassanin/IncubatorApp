@@ -4,6 +4,7 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/doctorshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -34,11 +35,7 @@ class DoctorProfileScreen extends StatelessWidget {
                   PatientListScreen(
                     userPermission: userPermission,
                   ),
-                  Center(
-                    child: Container(
-                      child: Text('Doctor Shift'),
-                    ),
-                  ),
+                  DoctorShiftScreen(),
                   EditDoctorScreen()
                 ],
               );

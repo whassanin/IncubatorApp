@@ -13,6 +13,7 @@ import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
@@ -44,6 +45,7 @@ AnalysisModel analysisModel = new AnalysisModel();
 XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
+ShiftModel shiftModel = new ShiftModel();
 
 DoctorModel doctorModel = new DoctorModel();
 NurseModel nurseModel = new NurseModel();
