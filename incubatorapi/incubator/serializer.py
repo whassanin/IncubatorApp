@@ -251,7 +251,7 @@ class XRaySerializer(serializers.ModelSerializer):
 class ShiftSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Shift
-        fields = ['id','startDate','endDate']
+        fields = ['id','name','startTime','isStarTimePM','endTime','isEndTimePM']
 
 # non basic data
 

@@ -5,10 +5,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'shift.g.dart';
 
 @JsonSerializable()
-class Shift{
+class Shift {
   int id;
-  DateTime startDate;
-  DateTime endDate;
+  String name;
+  int startTime;
+  bool isStarTimePM;
+  int endTime;
+  bool isEndTimePM;
 
   @JsonKey(ignore: true)
   List<DoctorShift> doctorShiftList = [];
@@ -16,7 +19,14 @@ class Shift{
   @JsonKey(ignore: true)
   List<NurseShift> nurseShift = [];
 
-  Shift(this.id,this.startDate,this.endDate);
+  Shift(
+    this.id,
+    this.name,
+    this.startTime,
+    this.isStarTimePM,
+    this.endTime,
+    this.isEndTimePM,
+  );
 
   factory Shift.fromJson(Map<String, dynamic> json) => _$ShiftFromJson(json);
 

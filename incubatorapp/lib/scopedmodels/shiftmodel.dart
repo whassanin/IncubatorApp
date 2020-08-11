@@ -11,29 +11,56 @@ class ShiftModel extends Model{
   Shift _currentShift;
 
   void createShift() {
-    _currentShift = new Shift(0, DateTime.now(),DateTime.now());
+    _currentShift = new Shift(0,'',0,true,0,false);
   }
 
   void editShift(Shift editShift) {
     _currentShift = editShift;
   }
 
-  void setStartDate(DateTime val) {
-    _currentShift.startDate= val;
+  void setName(String val){
+    _currentShift.name = val;
     notifyListeners();
   }
 
-  DateTime getStartDate() {
-    return _currentShift.startDate;
+  String getName(){
+    return _currentShift.name;
   }
 
-  void setEndDate(DateTime val) {
-    _currentShift.endDate= val;
+  void setStartTime(int val) {
+    _currentShift.startTime= val;
     notifyListeners();
   }
 
-  DateTime getEndDate() {
-    return _currentShift.endDate;
+  int getStartTime() {
+    return _currentShift.startTime;
+  }
+
+  void setIsStartTimePM(bool val){
+    _currentShift.isStarTimePM = val;
+    notifyListeners();
+  }
+
+  bool getIsStartTimePM(){
+    return _currentShift.isEndTimePM;
+  }
+
+  void setEndTime(int val) {
+    _currentShift.endTime= val;
+    notifyListeners();
+  }
+
+  int getEndTime() {
+    return _currentShift.endTime;
+  }
+
+  void setIsEndTimePM(bool val){
+    _currentShift.isEndTimePM = val;
+    notifyListeners();
+  }
+
+  bool getIsEndTimePM(){
+    return _currentShift.isEndTimePM;
   }
 
   void readAll() async {
@@ -45,9 +72,6 @@ class ShiftModel extends Model{
   Future<bool> create() async {
     int code = await _api.post(_currentShift.toJson());
     if (code == 201) {
-      shiftList.add(_currentShift);
-
-      notifyListeners();
       return true;
     }
     return false;

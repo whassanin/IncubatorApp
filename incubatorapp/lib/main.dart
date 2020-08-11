@@ -33,6 +33,8 @@ import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/newshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
@@ -77,6 +79,7 @@ class MyApp extends StatelessWidget {
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
+    shiftModel.readAll();
 
     UserPermission userPermission = new UserPermission();
     userPermission.setPermission(UserType.doctor);
@@ -107,7 +110,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: DoctorProfileScreen(userPermission: userPermission,),
+      home: NewShiftScreen(),
     );
   }
 }

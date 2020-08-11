@@ -14,11 +14,7 @@ class ShiftScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Shift Screen'),
             ),
-            body: Center(
-              child: Container(
-                child: Text('Shift List'),
-              ),
-            ),
+            body: shiftList,
           );
         },
       ),

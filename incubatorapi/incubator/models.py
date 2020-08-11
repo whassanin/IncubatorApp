@@ -32,8 +32,11 @@ class XRay(models.Model):
     price = models.FloatField()
 
 class Shift(models.Model):
-    startDate = models.DateTimeField()
-    endDate = models.DateTimeField()
+    name = models.CharField(max_length=2)
+    startTime = models.IntegerField()
+    isStarTimePM = models.BooleanField()
+    endTime = models.IntegerField()
+    isEndTimePM = models.BooleanField()
 
 # non basic data
 

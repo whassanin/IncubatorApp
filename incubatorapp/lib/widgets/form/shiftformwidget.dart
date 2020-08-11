@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 
 enum ShiftColumns {
-  startDate,
-  endDate,
+  name,
+  startTime,
+  isStartTimePM,
+  endTime,
+  isEndTimePM,
 }
 
 class ShiftFormWidget extends StatefulWidget {
@@ -15,43 +18,80 @@ class ShiftFormWidget extends StatefulWidget {
 }
 
 class _ShiftFormWidgetState extends State<ShiftFormWidget> {
+  List<String> optionHour = ['AM', 'PM'];
   final _formKey = new GlobalKey<FormState>();
 
-  TextEditingController startDateTEC = new TextEditingController();
-  TextEditingController endDateTEC = new TextEditingController();
+  TextEditingController nameTEC = new TextEditingController();
+  TextEditingController startTimeTEC = new TextEditingController();
+  TextEditingController endTimeTEC = new TextEditingController();
+  TextEditingController isStartTimePMTEC = new TextEditingController();
+  TextEditingController isEndTimePMTEC = new TextEditingController();
 
   void setData(ShiftColumns shiftColumns, Object val) {
-    if (shiftColumns == ShiftColumns.startDate) {
-      shiftModel.setStartDate(val);
-    } else if (shiftColumns == ShiftColumns.endDate) {
-      shiftModel.setEndDate(val);
+    if (shiftColumns == ShiftColumns.name) {
+      shiftModel.setName(val);
+    } else if (shiftColumns == ShiftColumns.startTime) {
+      shiftModel.setStartTime(int.parse(val.toString()));
+    } else if (shiftColumns == ShiftColumns.endTime) {
+      shiftModel.setEndTime(int.parse(val.toString()));
+    } else if (shiftColumns == ShiftColumns.isStartTimePM) {
+      shiftModel.setIsStartTimePM(val);
+    } else if (shiftColumns == ShiftColumns.isEndTimePM) {
+      shiftModel.setIsEndTimePM(val);
     }
   }
 
   void getData() {
-    startDateTEC.text = shiftModel.getStartDate().toString();
-    endDateTEC.text = shiftModel.getEndDate().toString();
+    startTimeTEC.text = shiftModel.getStartTime().toString();
+    endTimeTEC.text = shiftModel.getEndTime().toString();
+    if (shiftModel.getIsStartTimePM()) {
+      isStartTimePMTEC.text = 'AM';
+    } else {
+      isStartTimePMTEC.text = 'PM';
+    }
+
+    if (shiftModel.getIsEndTimePM()) {
+      isEndTimePMTEC.text = 'AM';
+    } else {
+      isEndTimePMTEC.text = 'PM';
+    }
   }
 
-  void showDialogStartDatePicker() {
+  void showOptionHourPicker(ShiftColumns shiftColumns) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
           children: <Widget>[
             Container(
-              width: 150,
-              child: CalendarDatePicker(
-                firstDate: DateTime.now().subtract(Duration(days: 356)),
-                initialDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 356)),
-                onDateChanged: (d) {
-                  String v = d.day.toString();
-                  v = v + '/' + d.month.toString();
-                  v = v + '/' + d.year.toString();
-
-                  startDateTEC.text = v;
-                  Navigator.pop(context);
+              width: 100,
+              height: 100,
+              child: ListView.builder(
+                itemCount: optionHour.length,
+                itemBuilder: (BuildContext context, int i) {
+                  return ListTile(
+                    title: Text(optionHour[i]),
+                    onTap: () {
+                      if (shiftColumns == ShiftColumns.isStartTimePM) {
+                        if(optionHour[i] == 'AM'){
+                          isStartTimePMTEC.text = 'AM';
+                          setData(shiftColumns, false);
+                        }else if(optionHour[i] == 'PM'){
+                          isStartTimePMTEC.text = 'PM';
+                          setData(shiftColumns, true);
+                        }
+                      } else if (shiftColumns == ShiftColumns.isEndTimePM) {
+                        if(optionHour[i] == 'AM'){
+                          isEndTimePMTEC.text = 'AM';
+                          setData(shiftColumns, false);
+                        }else if(optionHour[i] == 'PM'){
+                          isEndTimePMTEC.text = 'PM';
+                          setData(shiftColumns, true);
+                        }
+                      }
+                      Navigator.pop(context);
+                    },
+                  );
                 },
               ),
             ),
@@ -61,37 +101,8 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
     );
   }
 
-  void showDialogEndDatePicker() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          children: <Widget>[
-            Container(
-              width: 150,
-              child: CalendarDatePicker(
-                firstDate: DateTime.now().subtract(Duration(days: 356)),
-                initialDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 356)),
-                onDateChanged: (d) {
-                  String v = d.day.toString();
-                  v = v + '/' + d.month.toString();
-                  v = v + '/' + d.year.toString();
-
-                  endDateTEC.text = v;
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget columnTextField(String name, bool isNumber,
-      ShiftColumns shiftColumns, TextEditingController columnTEC,
-      {VoidCallback fun}) {
+  Widget columnTextField(String name, bool isNumber, ShiftColumns shiftColumns,
+      TextEditingController columnTEC, bool isReadOnly) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
@@ -106,7 +117,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
           ),
           labelText: name,
         ),
-        readOnly: (fun != null ? true : false),
+        readOnly: isReadOnly,
         keyboardType: (isNumber ? TextInputType.number : null),
         inputFormatters: (isNumber
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
@@ -121,8 +132,8 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
           setData(shiftColumns, v);
         },
         onTap: () {
-          if (fun != null) {
-            fun();
+          if (isReadOnly) {
+            showOptionHourPicker(shiftColumns);
           }
         },
       ),
@@ -216,6 +227,72 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
     }
   }
 
+  Widget shiftNameRow() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: columnTextField(
+            'Name',
+            false,
+            ShiftColumns.name,
+            nameTEC,
+            false,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget startTimeRow() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: columnTextField(
+            'Start Time',
+            true,
+            ShiftColumns.startTime,
+            startTimeTEC,
+            false,
+          ),
+        ),
+        Expanded(
+          child: columnTextField(
+            'AM or PM',
+            true,
+            ShiftColumns.isStartTimePM,
+            isStartTimePMTEC,
+            true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget endTimeRow() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: columnTextField(
+            'End Time',
+            true,
+            ShiftColumns.endTime,
+            endTimeTEC,
+            false,
+          ),
+        ),
+        Expanded(
+          child: columnTextField(
+            'AM or PM',
+            true,
+            ShiftColumns.isEndTimePM,
+            isEndTimePMTEC,
+            true,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -225,10 +302,9 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              columnTextField(
-                  'First Name', false, ShiftColumns.startDate, startDateTEC),
-              columnTextField(
-                  'Last Name', false, ShiftColumns.endDate, endDateTEC),
+              shiftNameRow(),
+              startTimeRow(),
+              endTimeRow(),
               editButtons(),
             ],
           ),
