@@ -179,7 +179,7 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Patient
         fields = [
-        'id',
+        'userId',
         'motherName',
         'fatherName',
         'gender',
@@ -259,12 +259,12 @@ class ShiftSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Doctor
-        fields = ['firstName','lastName','gender','dateOfBirth','createdDate','userId']
+        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
 
 class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
-        fields = ['firstName','lastName','gender','dateOfBirth','createdDate','userId']
+        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta: 
