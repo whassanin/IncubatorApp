@@ -22,7 +22,7 @@ class DoctorModel extends Model{
   }
 
   void createDoctor(){
-    _currentDoctor = new Doctor(0, '', '', true, DateTime.now(), '', '', DateTime.now());
+    _currentDoctor = new Doctor(0, '', '', true, DateTime.now(), DateTime.now(),0);
   }
 
   void editDoctor(Doctor editDoctor) {
@@ -65,22 +65,13 @@ class DoctorModel extends Model{
     return _currentDoctor.dateOfBirth;
   }
 
-  void setUserName(String val) {
-    _currentDoctor.username = val;
+  void setUserId(int userId){
+    _currentDoctor.userId = userId;
     notifyListeners();
   }
 
-  String getUserName() {
-    return _currentDoctor.username;
-  }
-
-  void setPassword(String val) {
-    _currentDoctor.password = val;
-    notifyListeners();
-  }
-
-  String getPassword() {
-    return _currentDoctor.password;
+  int getUserId(){
+    return _currentDoctor.userId;
   }
 
   void setCreatedDate(DateTime val) {
@@ -110,6 +101,7 @@ class DoctorModel extends Model{
 
 
   Future<bool> create() async {
+    print(_currentDoctor.toJson().toString());
     int code = await _api.post(_currentDoctor.toJson());
     if (code == 201) {
 

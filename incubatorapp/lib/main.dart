@@ -15,12 +15,14 @@ import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
+import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
@@ -49,6 +51,7 @@ MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
 ShiftModel shiftModel = new ShiftModel();
 
+UserModel userModel = new UserModel();
 DoctorModel doctorModel = new DoctorModel();
 NurseModel nurseModel = new NurseModel();
 
@@ -110,7 +113,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: NewShiftScreen(),
+      home: NewDoctorScreen(),
     );
   }
 }

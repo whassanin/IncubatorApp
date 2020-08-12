@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from incubator.models import User
 from incubator.models import Incubator
 from incubator.models import Analysis
 from incubator.models import Condition
@@ -49,26 +51,26 @@ class DoctorShiftSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = DoctorShift
-        fields = ['id','doctorId','shiftId','createdDate']
+        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
 
 class ShiftDoctorSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = DoctorShift
-        fields = ['id','doctorId','shiftId','createdDate']
+        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
 
 
 class NurseShiftSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = NurseShift
-        fields = ['id','nurseId','shiftId','createdDate']
+        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
 
 class ShiftNurseSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = NurseShift
-        fields = ['id','nurseId','shiftId','createdDate']
+        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
 
 
 
@@ -258,9 +260,14 @@ class ShiftSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Doctor
-        fields = ['id','firstName','lastName','gender','username','password','dateOfBirth','createdDate']
+        fields = ['id','firstName','lastName','gender','dateOfBirth','createdDate','userId']
 
 class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
-        fields = ['id','firstName','lastName','gender','username','password','dateOfBirth','createdDate']
+        fields = ['id','firstName','lastName','gender','dateOfBirth','createdDate','userId']
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = User
+        fields = ['id','username','password','createdDate']

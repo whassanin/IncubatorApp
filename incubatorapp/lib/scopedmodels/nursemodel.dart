@@ -22,7 +22,7 @@ class NurseModel extends Model{
   }
 
   void createNurse(){
-    _currentNurse = new Nurse(0, '', '', true, DateTime.now(), '', '', DateTime.now());
+    _currentNurse = new Nurse(0, '', '', true, DateTime.now(), DateTime.now(),0);
   }
 
   void editNurse(Nurse editNurse) {
@@ -65,27 +65,18 @@ class NurseModel extends Model{
     return _currentNurse.dateOfBirth;
   }
 
-  void setUserName(String val) {
-    _currentNurse.username = val;
-    notifyListeners();
-  }
-
-  String getUserName() {
-    return _currentNurse.username;
-  }
-
-  void setPassword(String val) {
-    _currentNurse.password = val;
-    notifyListeners();
-  }
-
-  String getPassword() {
-    return _currentNurse.password;
-  }
-
   void setCreatedDate(DateTime val) {
     _currentNurse.createdDate = val;
     notifyListeners();
+  }
+
+  void setUserId(int userId){
+    _currentNurse.userId = userId;
+    notifyListeners();
+  }
+
+  int getUserId(){
+    return _currentNurse.userId;
   }
 
   DateTime getCreatedDate() {

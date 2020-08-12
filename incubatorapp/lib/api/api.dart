@@ -57,6 +57,9 @@ class Api {
     if(fields.length == values.length){
       for(int i=0;i<fields.length;i++){
         filterString+=fields[i]+'='+values[i];
+        if((i + 1) < fields.length){
+          filterString+='&';
+        }
       }
     }
 

@@ -40,23 +40,27 @@ class Shift(models.Model):
 
 # non basic data
 
+class User(models.Model):
+    userType = models.CharField(max_length=20)
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30)
+    createdDate = models.DateTimeField()
+
 class Doctor(models.Model): 
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
-    username = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
+    userId = models.ForeignKey(User,on_delete=models.CASCADE,related_name='doctor')
 
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
-    username = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
-    createdDate = models.DateTimeField(auto_now=True)
+    createdDate = models.DateTimeField()
+    userId = models.ForeignKey(User,on_delete=models.CASCADE,related_name='nurse')
 
 # 1 to many
 
@@ -107,12 +111,16 @@ class Status(models.Model):
 class DoctorShift(models.Model):
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftdoctor')
-    createdDate = models.DateTimeField(auto_now=True)
+    startDateTime = models.DateTimeField()
+    endDateTime = models.DateTimeField()
+    createdDate = models.DateTimeField()
 
 class NurseShift(models.Model):
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nurseshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftnurse')
-    createdDate = models.DateTimeField(auto_now=True)
+    startDateTime = models.DateTimeField()
+    endDateTime = models.DateTimeField()
+    createdDate = models.DateTimeField()
 
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')

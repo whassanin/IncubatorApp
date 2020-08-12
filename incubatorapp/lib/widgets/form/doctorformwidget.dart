@@ -22,6 +22,7 @@ class DoctorFormWidget extends StatefulWidget {
 
 class _DoctorFormWidgetState extends State<DoctorFormWidget> {
   final _formKey = new GlobalKey<FormState>();
+  final GlobalKey _keyLoader = new GlobalKey();
 
   TextEditingController firstNameTEC = new TextEditingController();
   TextEditingController lastNameTEC = new TextEditingController();
@@ -40,9 +41,9 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     } else if (doctorColumns == DoctorColumns.dateOfBirth) {
       doctorModel.setDateOfBirth(DateTime.parse(val.toString()));
     } else if (doctorColumns == DoctorColumns.username) {
-      doctorModel.setUserName(val);
+      userModel.setUsername(val);
     } else if (doctorColumns == DoctorColumns.password) {
-      doctorModel.setPassword(val);
+      userModel.setPassword(val);
     }
   }
 
@@ -169,6 +170,72 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     );
   }
 
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new WillPopScope(
+          onWillPop: () async => false,
+          child: SimpleDialog(
+            key: _keyLoader,
+            backgroundColor: Colors.grey,
+            children: <Widget>[
+              Center(
+                child: Column(
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Please Wait...',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void popPage() async {
+    await Future.delayed(Duration(seconds: 8));
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  void save() async {
+    if (_formKey.currentState.validate()) {
+      if (widget.isEdit != null) {
+        if (widget.isEdit) {
+          userModel.update();
+          doctorModel.update();
+        } else {
+          showLoadingDialog(context);
+
+          userModel.create();
+
+          await Future.delayed(Duration(seconds: 2));
+
+          userModel.readByUsernameAndPassword();
+
+          await Future.delayed(Duration(seconds: 5));
+
+          if (userModel.currentUser != null) {
+            doctorModel.setUserId(userModel.getId());
+
+            doctorModel.create();
+
+            popPage();
+          }
+        }
+      }
+    }
+  }
+
   Widget editButtons() {
     Widget saveButton = Expanded(
       child: Padding(
@@ -185,16 +252,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
             ),
             child: Text('Save'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                if (widget.isEdit != null) {
-                  if (widget.isEdit) {
-                    doctorModel.update();
-                  } else {
-                    doctorModel.setCreatedDate(DateTime.now());
-                    doctorModel.create();
-                  }
-                }
-              }
+              save();
             },
           ),
         ),

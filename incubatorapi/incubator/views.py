@@ -6,6 +6,7 @@ from incubator.models import Bill
 from incubator.models import Consumable
 from incubator.models import XRay
 from incubator.models import Shift
+from incubator.models import User
 from incubator.models import Doctor
 from incubator.models import Nurse
 from incubator.models import Medicine
@@ -27,6 +28,7 @@ from incubator.serializer import BillSerializer
 from incubator.serializer import ConsumableSerializer
 from incubator.serializer import XRaySerializer
 from incubator.serializer import ShiftSerializer
+from incubator.serializer import UserSerializer
 from incubator.serializer import DoctorSerializer
 from incubator.serializer import NurseSerializer
 from incubator.serializer import DoctorShiftSerializer
@@ -115,6 +117,16 @@ class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ShiftSerializer
 
 # None basic Data
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['username','password']
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 # Doctor Class
 class DoctorList(generics.ListCreateAPIView):

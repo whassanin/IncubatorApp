@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
+import 'package:incubatorapp/widgets/List/shiftlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:incubatorapp/main.dart';
 
@@ -14,7 +15,9 @@ class ShiftScreen extends StatelessWidget {
             appBar: AppBar(
               title: Text('Shift Screen'),
             ),
-            body: shiftList,
+            body: ShiftListWidget(
+              shiftList: shiftModel.shiftList,
+            ),
           );
         },
       ),

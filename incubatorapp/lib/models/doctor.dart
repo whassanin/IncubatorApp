@@ -11,9 +11,8 @@ class Doctor {
   String lastName;
   bool gender;
   DateTime dateOfBirth;
-  String username;
-  String password;
   DateTime createdDate;
+  int userId;
 
   @JsonKey(ignore: true)
   List<PatientMedicineDoctor> patientMedicineDoctorList = [];
@@ -27,9 +26,8 @@ class Doctor {
     this.lastName,
     this.gender,
     this.dateOfBirth,
-    this.username,
-    this.password,
     this.createdDate,
+    this.userId,
   );
 
   factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);

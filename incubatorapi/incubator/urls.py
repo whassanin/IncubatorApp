@@ -27,6 +27,9 @@ urlpatterns = [
     path('shift/<int:pk>', views.ShiftDetail.as_view()),
 
     # Non basic data
+    path('user/', views.UserList.as_view()),
+    path('user/<int:pk>', views.UserDetail.as_view()),
+
     path('doctor/', views.DoctorList.as_view()),
     path('doctor/<int:pk>', views.DoctorDetail.as_view()),
 

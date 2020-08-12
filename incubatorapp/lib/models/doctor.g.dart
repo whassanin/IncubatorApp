@@ -15,11 +15,10 @@ Doctor _$DoctorFromJson(Map<String, dynamic> json) {
     json['dateOfBirth'] == null
         ? null
         : DateTime.parse(json['dateOfBirth'] as String),
-    json['username'] as String,
-    json['password'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
+    json['userId'] as int,
   );
 }
 
@@ -29,7 +28,6 @@ Map<String, dynamic> _$DoctorToJson(Doctor instance) => <String, dynamic>{
       'lastName': instance.lastName,
       'gender': instance.gender,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
-      'username': instance.username,
-      'password': instance.password,
       'createdDate': instance.createdDate?.toIso8601String(),
+      'userId': instance.userId,
     };

@@ -12,9 +12,8 @@ class Nurse {
   String lastName;
   bool gender;
   DateTime dateOfBirth;
-  String username;
-  String password;
   DateTime createdDate;
+  int userId;
 
   @JsonKey(ignore: true)
   List<PatientConsumableNurse> patientConsumableNurseList = [];
@@ -31,9 +30,8 @@ class Nurse {
     this.lastName,
     this.gender,
     this.dateOfBirth,
-    this.username,
-    this.password,
     this.createdDate,
+    this.userId,
   );
 
   factory Nurse.fromJson(Map<String, dynamic> json) => _$NurseFromJson(json);

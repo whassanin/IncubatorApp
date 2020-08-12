@@ -22,6 +22,7 @@ class NurseFormWidget extends StatefulWidget {
 
 class _NurseFormWidgetState extends State<NurseFormWidget> {
   final _formKey = new GlobalKey<FormState>();
+  final GlobalKey _keyLoader = new GlobalKey();
 
   TextEditingController firstNameTEC = new TextEditingController();
   TextEditingController lastNameTEC = new TextEditingController();
@@ -40,9 +41,9 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     } else if (nurseColumns == NurseColumns.dateOfBirth) {
       nurseModel.setDateOfBirth(DateTime.parse(val.toString()));
     } else if (nurseColumns == NurseColumns.username) {
-      nurseModel.setUserName(val);
+      userModel.setUsername(val);
     } else if (nurseColumns == NurseColumns.password) {
-      nurseModel.setPassword(val);
+      userModel.setPassword(val);
     }
   }
 
@@ -169,6 +170,72 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     );
   }
 
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new WillPopScope(
+          onWillPop: () async => false,
+          child: SimpleDialog(
+            key: _keyLoader,
+            backgroundColor: Colors.grey,
+            children: <Widget>[
+              Center(
+                child: Column(
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Please Wait...',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void popPage() async {
+    await Future.delayed(Duration(seconds: 8));
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  void save() async {
+    if (_formKey.currentState.validate()) {
+      if (widget.isEdit != null) {
+        if (widget.isEdit) {
+          userModel.update();
+          nurseModel.update();
+        } else {
+          showLoadingDialog(context);
+
+          userModel.create();
+
+          await Future.delayed(Duration(seconds: 2));
+
+          userModel.readByUsernameAndPassword();
+
+          await Future.delayed(Duration(seconds: 2));
+
+          if (userModel.currentUser != null) {
+            nurseModel.setUserId(userModel.getId());
+
+            nurseModel.create();
+
+            popPage();
+          }
+        }
+      }
+    }
+  }
+
   Widget editButtons() {
     Widget saveButton = Expanded(
       child: Padding(
@@ -185,16 +252,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
             ),
             child: Text('Save'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                if (widget.isEdit != null) {
-                  if (widget.isEdit) {
-                    nurseModel.update();
-                  } else {
-                    nurseModel.setCreatedDate(DateTime.now());
-                    nurseModel.create();
-                  }
-                }
-              }
+              save();
             },
           ),
         ),
