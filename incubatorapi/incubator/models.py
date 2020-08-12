@@ -52,7 +52,7 @@ class Doctor(models.Model):
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
-    userId = models.ForeignKey(User,on_delete=models.CASCADE,related_name='doctor')
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
 
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
@@ -60,7 +60,7 @@ class Nurse(models.Model):
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
-    userId = models.ForeignKey(User,on_delete=models.CASCADE,related_name='nurse')
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
 
 # 1 to many
 
