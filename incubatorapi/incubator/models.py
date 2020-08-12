@@ -76,6 +76,7 @@ class Patient(models.Model):
     password = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
 
