@@ -13,7 +13,7 @@ class DoctorProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   DoctorProfileScreen({this.userPermission}) {
-    doctorModel.readById('1');
+    doctorModel.readById('8');
   }
   @override
   Widget build(BuildContext context) {

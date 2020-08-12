@@ -22,14 +22,28 @@ class _PatientListWidgetState extends State<PatientListWidget> {
     );
 
     if (patientModel.patientList != null) {
-      currentWidget = ListView.builder(
-        itemCount: widget.patientList.length,
-        itemBuilder: (BuildContext context, int i) {
-          return PatientRowWidget(
-            patient: widget.patientList[i],
-            userPermission: widget.userPermission,
-          );
-        },
+      if(patientModel.patientList.length > 0){
+        currentWidget = ListView.builder(
+          itemCount: widget.patientList.length,
+          itemBuilder: (BuildContext context, int i) {
+            return PatientRowWidget(
+              patient: widget.patientList[i],
+              userPermission: widget.userPermission,
+            );
+          },
+        );
+      }else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Patient(s) Available'),
+          ),
+        );
+      }
+    }else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Patient(s) Available'),
+        ),
       );
     }
 

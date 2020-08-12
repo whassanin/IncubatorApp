@@ -222,7 +222,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
 
           userModel.readByUsernameAndPassword();
 
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(Duration(seconds: 5));
 
           if (userModel.currentUser != null) {
             nurseModel.setUserId(userModel.getId());

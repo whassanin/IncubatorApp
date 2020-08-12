@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/models/doctorshift.dart';
 import 'package:incubatorapp/widgets/row/doctorshiftrowwidget.dart';
+
 class DoctorShiftListWidget extends StatefulWidget {
   final List<DoctorShift> doctorShiftList;
 
@@ -11,8 +12,7 @@ class DoctorShiftListWidget extends StatefulWidget {
 }
 
 class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
-
-  Widget getList(){
+  Widget getList() {
     Widget currentWidget = Center(
       child: Container(
         child: CircularProgressIndicator(),
@@ -29,14 +29,19 @@ class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
             );
           },
         );
-      }
-      else {
+      } else {
         currentWidget = Center(
           child: Container(
             child: Text('No Shift(s) Available'),
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Shift(s) Available'),
+        ),
+      );
     }
 
     return currentWidget;

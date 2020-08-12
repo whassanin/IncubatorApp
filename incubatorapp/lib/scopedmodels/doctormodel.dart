@@ -101,7 +101,6 @@ class DoctorModel extends Model{
 
 
   Future<bool> create() async {
-    print(_currentDoctor.toJson().toString());
     int code = await _api.post(_currentDoctor.toJson());
     if (code == 201) {
 

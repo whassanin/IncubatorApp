@@ -4,6 +4,7 @@ import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
+import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
 import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
@@ -66,6 +67,7 @@ PatientXRayModel patientXRayModel = new PatientXRayModel();
 PatientMedicineDoctorModel patientMedicineDoctorModel = new PatientMedicineDoctorModel();
 PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableNurseModel();
 
+DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
 
 void main() {
   runApp(MyApp());
@@ -113,7 +115,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: NewDoctorScreen(),
+      home: DoctorProfileScreen(userPermission: userPermission,),
     );
   }
 }
