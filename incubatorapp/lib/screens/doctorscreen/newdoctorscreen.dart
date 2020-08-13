@@ -10,6 +10,7 @@ class NewDoctorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     userModel.createUser();
+    userModel.setUserType('Doctor');
     doctorModel.createDoctor();
 
     return ScopedModel(

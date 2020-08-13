@@ -72,8 +72,6 @@ class Patient(models.Model):
     address = models.CharField(max_length=500)
     weight = models.FloatField()
     ssn = models.CharField(max_length=100)
-    username = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)

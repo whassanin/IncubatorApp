@@ -78,7 +78,7 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
             ),
           ),
           onTap: () {
-            patientAnalysisModel.readByPatientId();
+            patientAnalysisModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

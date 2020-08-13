@@ -12,7 +12,7 @@ class NurseProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   NurseProfileScreen({this.userPermission}) {
-    nurseModel.readById('1');
+    nurseModel.readById('3');
   }
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class NurseProfileScreen extends StatelessWidget {
           );
 
           if (nurseModel.currentNurse != null) {
-            if (nurseModel.currentNurse.id != null) {
+            if (nurseModel.currentNurse.userId != null) {
               currentWidget = IndexedStack(
                 index: nurseModel.currentTab,
                 children: <Widget>[

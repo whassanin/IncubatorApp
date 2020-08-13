@@ -9,14 +9,15 @@ import 'package:incubatorapp/models/userpermission.dart';
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;
   final UserPermission userPermission;
-  PatientMedicineDoctorRowWidget({this.patientMedicineDoctor,this.userPermission});
+  PatientMedicineDoctorRowWidget(
+      {this.patientMedicineDoctor, this.userPermission});
   @override
   _PatientMedicineDoctorRowWidgetState createState() =>
       _PatientMedicineDoctorRowWidgetState();
 }
 
-class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRowWidget> {
-
+class _PatientMedicineDoctorRowWidgetState
+    extends State<PatientMedicineDoctorRowWidget> {
   TextEditingController quantityTEC = new TextEditingController();
 
   String dateFormat() {
@@ -26,8 +27,9 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
     return v;
   }
 
-  void update(int v){
-    patientMedicineDoctorModel.editPatientMedicineDoctor(widget.patientMedicineDoctor);
+  void update(int v) {
+    patientMedicineDoctorModel
+        .editPatientMedicineDoctor(widget.patientMedicineDoctor);
     patientMedicineDoctorModel.setQuantity(v);
     patientMedicineDoctorModel.update();
   }
@@ -40,7 +42,7 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
       ),
       onPressed: () {
         int v = int.parse(quantityTEC.text);
-        if(v > 0){
+        if (v > 0) {
           v = v - 1;
           update(v);
         }
@@ -48,7 +50,7 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
     );
 
     int n = 0;
-    if(quantityTEC.text.isNotEmpty){
+    if (quantityTEC.text.isNotEmpty) {
       n = int.parse(quantityTEC.text);
     }
 
@@ -56,8 +58,7 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
       padding: const EdgeInsets.all(8),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(
-              color: ( n >= 1  ? Colors.green : Colors.grey)),
+          border: Border.all(color: (n >= 1 ? Colors.green : Colors.grey)),
           borderRadius: BorderRadius.all(
             Radius.circular(
               10,
@@ -109,16 +110,17 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
       ],
     );
 
-    return rowCounterWidget;
+    return (widget.userPermission.isDoctor ? rowCounterWidget : Container());
   }
 
   Widget patientMedicineDoctorRow() {
     Medicine medicine = medicineModel.medicineList
-        .where((element) => element.id == widget.patientMedicineDoctor.medicineId)
+        .where(
+            (element) => element.id == widget.patientMedicineDoctor.medicineId)
         .toList()[0];
 
     Widget medicineNameWidget = Container(
-      child: Text('Name: '+medicine.name),
+      child: Text('Name: ' + medicine.name),
     );
 
     Widget priceWidget = Container(
@@ -126,11 +128,12 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
     );
 
     Widget resultWidget = Container(
-      child: Text('Quantity: '+widget.patientMedicineDoctor.quantity.toString()),
+      child:
+          Text('Quantity: ' + widget.patientMedicineDoctor.quantity.toString()),
     );
 
     Widget createdDateWidget = Container(
-      child: Text('Date: '+dateFormat()),
+      child: Text('Date: ' + dateFormat()),
     );
 
     Widget displayCol = Column(
@@ -141,23 +144,16 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
           padding: const EdgeInsets.all(2.0),
           child: medicineNameWidget,
         ),
-        SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
         (widget.userPermission.isPatient
             ? Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: priceWidget,
-        )
+                padding: const EdgeInsets.all(2.0),
+                child: priceWidget,
+              )
             : Container()),
-        (widget.userPermission.isPatient
-            ? SizedBox(
-          height: 5,
-        )
-            : Container()),
-        SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
@@ -167,18 +163,17 @@ class _PatientMedicineDoctorRowWidgetState extends State<PatientMedicineDoctorRo
 
     Widget displayCard = Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            displayCol,
-            counterWidget()
-          ],
-        )
-      ),
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[displayCol, counterWidget()],
+          )),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10,),)
-      ),
+          borderRadius: BorderRadius.all(
+        Radius.circular(
+          10,
+        ),
+      )),
       elevation: 4,
     );
 

@@ -14,8 +14,8 @@ class PatientXRayScreen extends StatelessWidget {
   final UserPermission userPermission;
   PatientXRayScreen({this.patient,this.userPermission}){
     patientXRayModel.createPatientXRay();
-    patientXRayModel.setPatientId(patient.id);
-    patientXRayModel.readByPatientId();
+    patientXRayModel.setPatientId(patient.userId);
+    patientXRayModel.readByPatientId(patient.userId);
   }
 
   @override

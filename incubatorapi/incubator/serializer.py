@@ -73,7 +73,6 @@ class ShiftNurseSerializer(serializers.ModelSerializer):
         fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
 
 
-
 class PatientAnalysisSerializer(serializers.ModelSerializer):
     
     class Meta: 
@@ -175,7 +174,6 @@ class StatusSerializer(serializers.ModelSerializer):
 
 class PatientSerializer(serializers.ModelSerializer):
     patientphone = PatientPhoneSerializer(many=True,read_only=True)
-    status = StatusSerializer(many=True,read_only=True)
     class Meta: 
         model = Patient
         fields = [
@@ -188,13 +186,10 @@ class PatientSerializer(serializers.ModelSerializer):
         'weight',
         'ssn',
         'state',
-        'username',
-        'password',
         'createdDate',
         'conditionId',
         'incubatorId',
         'patientphone',
-        'status'
         ]
 
 class BillSerializer(serializers.ModelSerializer):

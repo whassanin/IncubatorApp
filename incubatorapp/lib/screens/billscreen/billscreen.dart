@@ -11,8 +11,8 @@ class BillScreen extends StatelessWidget {
   final Patient patient;
   BillScreen({this.patient}) {
     billModel.createBill();
-    billModel.setPatientId(patient.id);
-    billModel.readByPatientId();
+    billModel.setPatientId(patient.userId);
+    billModel.readByPatientId(patient.userId);
   }
 
   @override

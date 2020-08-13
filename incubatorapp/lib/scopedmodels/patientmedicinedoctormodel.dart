@@ -67,9 +67,14 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.createdDate;
   }
 
-  void readByPatientId() async {
-    List<dynamic> patientAnalysisMap = await _api
-        .filterByForeignKey(_currentPatientMedicineDoctor.patientId.toString());
+  void readByPatientId(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+
+    List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
     patientMedicineDoctorList = patientAnalysisMap
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
@@ -82,18 +87,16 @@ class PatientMedicineDoctorModel extends Model {
   void readByDoctorId() {}
 
   Future<bool> create() async {
-    int code = await _api.postSubValue(_currentPatientMedicineDoctor.toJson(),
-        _currentPatientMedicineDoctor.patientId.toString());
+    int code = await _api.post(_currentPatientMedicineDoctor.toJson());
     if (code == 201) {
-      setPatientId(_currentPatientMedicineDoctor.patientId);
-      readByPatientId();
+      readByPatientId(_currentPatientMedicineDoctor.patientId);
       return true;
     }
     return false;
   }
 
   Future<bool> update() async {
-    int code = await _api.putSubValue(_currentPatientMedicineDoctor.toJson(),
+    int code = await _api.put(_currentPatientMedicineDoctor.toJson(),
         _currentPatientMedicineDoctor.id.toString());
     if (code == 200) {
       notifyListeners();
@@ -105,7 +108,7 @@ class PatientMedicineDoctorModel extends Model {
 
   Future<bool> delete() async {
     int code =
-        await _api.deleteSubValue(_currentPatientMedicineDoctor.id.toString());
+        await _api.delete(_currentPatientMedicineDoctor.id.toString());
 
     if (code == 204) {
       patientMedicineDoctorList.remove(_currentPatientMedicineDoctor);

@@ -78,7 +78,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
             ),
           ),
           onTap: () {
-            patientMedicineDoctorModel.readByPatientId();
+            patientMedicineDoctorModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

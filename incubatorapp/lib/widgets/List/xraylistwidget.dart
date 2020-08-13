@@ -78,7 +78,7 @@ class _XRayListWidgetState extends State<XRayListWidget> {
             ),
           ),
           onTap: () {
-            patientXRayModel.readByPatientId();
+            patientXRayModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

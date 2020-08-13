@@ -1,4 +1,5 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/patientphone.dart';
 import 'package:incubatorapp/models/status.dart';
@@ -177,7 +178,7 @@ class PatientModel extends Model {
     if (_currentPatient.patientPhone == null) {
       patientPhoneModel.createPatientPhone();
       patientPhoneModel.setPhone(phone);
-      patientPhoneModel.setPatientId(_currentPatient.id);
+      patientPhoneModel.setPatientId(_currentPatient.userId);
       _currentPatient.patientPhone = <PatientPhone>[];
       _currentPatient.patientPhone.add(patientPhoneModel.patientPhone);
     } else {
@@ -190,7 +191,9 @@ class PatientModel extends Model {
   String getPhone() {
     String v;
     if (_currentPatient.patientPhone != null) {
-      v = _currentPatient.patientPhone[0].phone;
+      if (_currentPatient.patientPhone.length > 0) {
+        v = _currentPatient.patientPhone[0].phone;
+      }
     }
     return v;
   }
@@ -204,8 +207,7 @@ class PatientModel extends Model {
     fields.add('state');
     values.add(state);
 
-    List<dynamic> patientListMap =
-        await _api.filterByNonForeignKey(fields, values);
+    List<dynamic> patientListMap = await _api.filter(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
 
     await Future.delayed(Duration(seconds: 3));
@@ -218,7 +220,7 @@ class PatientModel extends Model {
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    _currentPatient.statusList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
+    _currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: 1);
 
     notifyListeners();
   }
@@ -232,8 +234,8 @@ class PatientModel extends Model {
   }
 
   Future<bool> update() async {
-    int code =
-        await _api.put(_currentPatient.toJson(), _currentPatient.id.toString());
+    int code = await _api.put(
+        _currentPatient.toJson(), _currentPatient.userId.toString());
     if (code == 200) {
       notifyListeners();
 
@@ -245,7 +247,7 @@ class PatientModel extends Model {
   void updatePatientPhone() {
     _currentPatient.patientPhone.forEach((element) {
       patientPhoneModel.editPatientPhone(element);
-      element.patientId = _currentPatient.id;
+      element.patientId = _currentPatient.userId;
       if (element.id == 0) {
         patientPhoneModel.create();
       } else {
@@ -255,7 +257,7 @@ class PatientModel extends Model {
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentPatient.id.toString());
+    int code = await _api.delete(_currentPatient.userId.toString());
 
     if (code == 204) {
       notifyListeners();

@@ -40,49 +40,37 @@ urlpatterns = [
     path('patient/', views.PatientList.as_view()),
     path('patient/<int:pk>', views.PatientDetail.as_view()),
 
-    path('bill/<int:pId>', views.BillList.as_view()),
-    path('bill/edit/<int:pk>', views.BillDetail.as_view()),
+    path('bill/', views.BillList.as_view()),
+    path('bill/<int:pk>', views.BillDetail.as_view()),
 
-    path('status/<int:pId>', views.StatusList.as_view()),
-    path('status/edit/<int:pk>', views.StatusDetail.as_view()),
+    path('status/', views.StatusList.as_view()),
+    path('status/<int:pk>', views.StatusDetail.as_view()),
 
-    path('doctorshift/<int:docId>', views.DoctorShiftList.as_view()),
-    path('doctorshift/edit/<int:pk>', views.DoctorShiftDetail.as_view()),
+    path('doctorshift/', views.DoctorShiftList.as_view()),
+    path('doctorshift/<int:pk>', views.DoctorShiftDetail.as_view()),
 
-    path('shiftdoctor/<int:shiftId>', views.ShiftDoctorList.as_view()),
-    path('shiftdoctor/edit/<int:pk>', views.ShiftDoctortDetail.as_view()),
+    path('nurseshift/', views.NurseShiftList.as_view()),
+    path('nurseshift/<int:pk>', views.NurseShiftDetail.as_view()),
 
-    path('nurseshift/<int:docId>', views.NurseShiftList.as_view()),
-    path('nurseshift/edit/<int:pk>', views.NurseShiftDetail.as_view()),
+    path('patientanalysis/', views.PatientAnalysisList.as_view()),
+    path('patientanalysis/<int:pk>', views.PatientAnalysisDetail.as_view()),
 
-    path('shiftnurse/<int:shiftId>', views.ShiftNurseList.as_view()),
-    path('shiftnurse/edit/<int:pk>', views.ShiftNursetDetail.as_view()),
+    path('patientxray/', views.PatientXRayList.as_view()),
+    path('patientxray/<int:pk>', views.PatientXRayDetail.as_view()),
 
-    path('patientanalysis/<int:pId>', views.PatientAnalysisList.as_view()),
-    path('patientanalysis/edit/<int:pk>', views.PatientAnalysisDetail.as_view()),
+    path('patientconsumablenurse/', views.PatientConsumableNurseList.as_view()),
+    path('patientconsumablenurse/<int:pk>', views.PatientConsumableNursetDetail.as_view()),
 
-    path('analysispatient/<int:analysisId>', views.AnalysisPatientList.as_view()),
-    path('analysispatient/edit/<int:pk>', views.AnalysisPatientDetail.as_view()),
-
-    path('patientxray/<int:pId>', views.PatientXRayList.as_view()),
-    path('patientxray/edit/<int:pk>', views.PatientXRayDetail.as_view()),
-
-    path('xraypatient/<int:xrayId>', views.XRayPatientList.as_view()),
-    path('xraypatient/edit/<int:pk>', views.XRayPatientDetail.as_view()),
-
-    path('patientconsumablenurse/<int:pId>', views.PatientConsumableNurseList.as_view()),
-    path('patientconsumablenurse/edit/<int:pk>', views.PatientConsumableNursetDetail.as_view()),
-
-    path('patientmedicinedoctor/<int:pId>', views.PatientMedicineDoctorList.as_view()),
-    path('patientmedicinedoctor/edit/<int:pk>', views.PatientMedicineDoctortDetail.as_view()),
+    path('patientmedicinedoctor/', views.PatientMedicineDoctorList.as_view()),
+    path('patientmedicinedoctor/<int:pk>', views.PatientMedicineDoctortDetail.as_view()),
 
     # Multi value
 
-    path('patientphone/<int:pId>', views.PatientPhoneList.as_view()),
-    path('patientphone/edit/<int:pk>', views.PatientPhoneDetail.as_view()),
+    path('patientphone/', views.PatientPhoneList.as_view()),
+    path('patientphone/<int:pk>', views.PatientPhoneDetail.as_view()),
 
-    path('billextra/<int:billId>', views.BillExtraList.as_view()),
-    path('billextra/edit/<int:pk>', views.BillExtraDetail.as_view()),
+    path('billextra/', views.BillExtraList.as_view()),
+    path('billextra/<int:pk>', views.BillExtraDetail.as_view()),
 
 ]
 

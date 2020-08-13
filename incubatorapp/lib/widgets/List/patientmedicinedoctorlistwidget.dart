@@ -64,6 +64,12 @@ class _PatientMedicineDoctorListWidgetState
           ),
         );
       }
+    }else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Medicine(s) Available'),
+        ),
+      );
     }
 
     if (widget.userPermission.isPatient) {

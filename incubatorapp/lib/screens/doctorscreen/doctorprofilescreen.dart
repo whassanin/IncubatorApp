@@ -13,7 +13,7 @@ class DoctorProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   DoctorProfileScreen({this.userPermission}) {
-    doctorModel.readById('8');
+    doctorModel.readById('2');
   }
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class DoctorProfileScreen extends StatelessWidget {
           );
 
           if (doctorModel.currentDoctor != null) {
-            if (doctorModel.currentDoctor.id != null) {
+            if (doctorModel.currentDoctor.userId != null) {
               currentWidget = IndexedStack(
                 index: doctorModel.currentTab,
                 children: <Widget>[

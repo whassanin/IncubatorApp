@@ -22,7 +22,7 @@ class DoctorModel extends Model{
   }
 
   void createDoctor(){
-    _currentDoctor = new Doctor(0, '', '', true, DateTime.now(), DateTime.now(),0);
+    _currentDoctor = new Doctor(0, '', '', true, DateTime.now(), DateTime.now());
   }
 
   void editDoctor(Doctor editDoctor) {
@@ -111,7 +111,7 @@ class DoctorModel extends Model{
 
   Future<bool> update() async {
     int code =
-    await _api.put(_currentDoctor.toJson(), _currentDoctor.id.toString());
+    await _api.put(_currentDoctor.toJson(), _currentDoctor.userId.toString());
     if (code == 200) {
       notifyListeners();
 
@@ -121,7 +121,7 @@ class DoctorModel extends Model{
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentDoctor.id.toString());
+    int code = await _api.delete(_currentDoctor.userId.toString());
 
     if (code == 204) {
       notifyListeners();

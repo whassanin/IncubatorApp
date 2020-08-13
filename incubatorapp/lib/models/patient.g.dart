@@ -8,7 +8,7 @@ part of 'patient.dart';
 
 Patient _$PatientFromJson(Map<String, dynamic> json) {
   return Patient(
-    json['id'] as int,
+    json['userId'] as int,
     json['motherName'] as String,
     json['fatherName'] as String,
     json['gender'] as bool,
@@ -38,7 +38,7 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
-      'id': instance.id,
+      'userId': instance.userId,
       'motherName': instance.motherName,
       'fatherName': instance.fatherName,
       'gender': instance.gender,

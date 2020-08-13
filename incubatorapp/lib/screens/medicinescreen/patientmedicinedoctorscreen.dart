@@ -14,8 +14,8 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
   final UserPermission userPermission;
   PatientMedicineDoctorScreen({this.patient, this.userPermission}) {
     patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(patient.id);
-    patientMedicineDoctorModel.readByPatientId();
+    patientMedicineDoctorModel.setPatientId(patient.userId);
+    patientMedicineDoctorModel.readByPatientId(patient.userId);
   }
 
   @override

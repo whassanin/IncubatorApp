@@ -14,8 +14,8 @@ class PatientAnalysisScreen extends StatelessWidget {
   final UserPermission userPermission;
   PatientAnalysisScreen({this.patient, this.userPermission}) {
     patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(patient.id);
-    patientAnalysisModel.readByPatientId();
+    patientAnalysisModel.setPatientId(patient.userId);
+    patientAnalysisModel.readByPatientId(patient.userId);
   }
 
   @override

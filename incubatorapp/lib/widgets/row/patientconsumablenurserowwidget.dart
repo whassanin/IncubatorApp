@@ -111,7 +111,7 @@ class _PatientConsumableNurseRowWidgetState
       ],
     );
 
-    return rowCounterWidget;
+    return (widget.userPermission.isNurse?rowCounterWidget:Container());
   }
 
   Widget patientConsumableNurseRow() {
@@ -151,20 +151,9 @@ class _PatientConsumableNurseRowWidgetState
                 child: priceWidget,
               )
             : Container()),
-        (widget.userPermission.isPatient
-            ? SizedBox(
-                height: 5,
-              )
-            : Container()),
-        SizedBox(
-          height: 5,
-        ),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
-        ),
-        SizedBox(
-          height: 5,
         ),
         Padding(
           padding: const EdgeInsets.all(2.0),

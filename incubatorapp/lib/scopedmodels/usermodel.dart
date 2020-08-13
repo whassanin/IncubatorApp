@@ -56,7 +56,7 @@ class UserModel extends Model{
     values.add(_currentUser.password);
 
     List<dynamic> userListMap =
-        await _api.filterByNonForeignKey(fields, values);
+        await _api.filter(fields, values);
     List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
 
     if(userList!=null){
