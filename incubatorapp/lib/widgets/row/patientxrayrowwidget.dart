@@ -79,9 +79,6 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: xRayNameWidget,
         ),
-        SizedBox(
-          height: 5,
-        ),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
@@ -92,14 +89,6 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
                 child: priceWidget,
               )
             : Container()),
-        (widget.userPermission.isPatient
-            ? SizedBox(
-                height: 5,
-              )
-            : Container()),
-        SizedBox(
-          height: 5,
-        ),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,

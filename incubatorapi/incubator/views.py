@@ -132,6 +132,8 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['userId']
 
 class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
@@ -141,6 +143,8 @@ class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
 class NurseList(generics.ListCreateAPIView):
     queryset = Nurse.objects.all()
     serializer_class = NurseSerializer
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['userId']
 
 class NurseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Nurse.objects.all()
@@ -154,7 +158,7 @@ class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['state','username','password']
+    filterset_fields = ['state','userId']
 
 class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
@@ -162,10 +166,10 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Bill Views Class
 class BillList(generics.ListCreateAPIView):
+    queryset = Bill.objects.all().order_by('-date')
     serializer_class = BillSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return Bill.objects.filter(patientId=patientId)
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId']
 
 class BillDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bill.objects.all()
@@ -173,10 +177,10 @@ class BillDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Status Views Class
 class StatusList(generics.ListCreateAPIView):
+    queryset = Status.objects.all().order_by('-createdDate')
     serializer_class = StatusSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return Status.objects.filter(patientId=patientId).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId']
 
 class StatusDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Status.objects.all()
@@ -185,94 +189,54 @@ class StatusDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # many to many
 class DoctorShiftList(generics.ListCreateAPIView):
+    queryset = DoctorShift.objects.all().order_by('startDateTime')
     serializer_class = DoctorShiftSerializer
-    def get_queryset(self):
-       doctorId = self.kwargs['docId']
-       return DoctorShift.objects.filter(doctorId=doctorId)
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['doctorId','shiftId']
 
 class DoctorShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DoctorShift.objects.all()
     serializer_class = DoctorShiftSerializer
 
-class ShiftDoctorList(generics.ListCreateAPIView):
-    serializer_class = DoctorShiftSerializer
-    def get_queryset(self):
-       shiftId = self.kwargs['shiftId']
-       return DoctorShift.objects.filter(shiftId=shiftId)
-
-class ShiftDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = DoctorShift.objects.all()
-    serializer_class = DoctorShiftSerializer
-
 
 class NurseShiftList(generics.ListCreateAPIView):
+    queryset = NurseShift.objects.all().order_by('createdDate')
     serializer_class = NurseShiftSerializer
-    def get_queryset(self):
-       nurseId = self.kwargs['nurseId']
-       return NurseShift.objects.filter(nurseId=nurseId)
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['nurseId','shiftId']
 
 class NurseShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = NurseShift.objects.all()
     serializer_class = NurseShiftSerializer
 
-class ShiftNurseList(generics.ListCreateAPIView):
-    serializer_class = NurseShiftSerializer
-    def get_queryset(self):
-       shiftId = self.kwargs['shiftId']
-       return NurseShift.objects.filter(shiftId=shiftId)
-
-class ShiftNursetDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = NurseShift.objects.all()
-    serializer_class = NurseShiftSerializer
-
 
 class PatientAnalysisList(generics.ListCreateAPIView):
+    queryset = PatientAnalysis.objects.all().order_by('-createdDate') 
     serializer_class = PatientAnalysisSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return PatientAnalysis.objects.filter(patientId=patientId).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId','analysisId']
 
 class PatientAnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientAnalysis.objects.all()
     serializer_class = PatientAnalysisSerializer
 
-class AnalysisPatientList(generics.ListCreateAPIView):
-    serializer_class = PatientAnalysisSerializer
-    def get_queryset(self):
-       analysisId = self.kwargs['analysisId']
-       return PatientAnalysis.objects.filter(analysisId=analysisId)
-
-class AnalysisPatientDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PatientAnalysis.objects.all()
-    serializer_class = PatientAnalysisSerializer
-
 
 class PatientXRayList(generics.ListCreateAPIView):
+    queryset = PatientXRay.objects.all().order_by('-createdDate')
     serializer_class = PatientXRaySerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return PatientXRay.objects.filter(patientId=patientId).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId','xRayId']
 
 class PatientXRayDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientXRay.objects.all()
     serializer_class = PatientXRaySerializer
 
-class XRayPatientList(generics.ListCreateAPIView):
-    serializer_class = PatientXRaySerializer
-    def get_queryset(self):
-       xrayId = self.kwargs['xrayId']
-       return PatientXRay.objects.filter(xRayId=xrayId)
-
-class XRayPatientDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PatientXRay.objects.all()
-    serializer_class = PatientXRaySerializer
-
 
 class PatientConsumableNurseList(generics.ListCreateAPIView):
+    queryset = PatientConsumableNurse.objects.all().order_by('-createdDate')
     serializer_class = PatientConsumableNurseSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return PatientConsumableNurse.objects.filter(patientId=patientId).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId','consumableId','nurseId']
 
 class PatientConsumableNursetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientConsumableNurse.objects.all()
@@ -280,10 +244,10 @@ class PatientConsumableNursetDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class PatientMedicineDoctorList(generics.ListCreateAPIView):
+    queryset = PatientMedicineDoctor.objects.all().order_by('-createdDate')
     serializer_class = PatientMedicineDoctorSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return PatientMedicineDoctor.objects.filter(patientId=patientId).order_by('-createdDate')
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId','medicineId','doctorId'] 
 
 class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientMedicineDoctor.objects.all()
@@ -292,20 +256,20 @@ class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
 # Multi value
 
 class PatientPhoneList(generics.ListCreateAPIView):
+    queryset = PatientPhone.objects.all()
     serializer_class = PatientPhoneSerializer
-    def get_queryset(self):
-       patientId = self.kwargs['pId']
-       return PatientPhone.objects.filter(patientId=patientId)
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId'] 
 
 class PatientPhoneDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientPhone.objects.all()
     serializer_class = PatientPhoneSerializer
 
 class BillExtraList(generics.ListCreateAPIView):
+    queryset = BillExtra.objects.all()
     serializer_class = BillExtraSerializer
-    def get_queryset(self):
-       billId = self.kwargs['billId']
-       return BillExtra.objects.filter(billId=billId)
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['billId'] 
 
 class BillExtraDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = BillExtra.objects.all()

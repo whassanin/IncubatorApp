@@ -31,9 +31,9 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
 
     int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.consumableId == widget.consumable.id &&
-            element.nurseId == nurseModel.currentNurse.id &&
+            element.nurseId == nurseModel.currentNurse.userId &&
             dateFormat(element.createdDate) == dn);
     if (i >= 0) {
       isSelected = true;
@@ -44,9 +44,9 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
 
   void save() {
     patientConsumableNurseModel.createPatientConsumableNurse();
-    patientConsumableNurseModel.setPatientId(widget.patient.id);
+    patientConsumableNurseModel.setPatientId(widget.patient.userId);
     patientConsumableNurseModel.setConsumableId(widget.consumable.id);
-    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.id);
+    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.userId);
     patientConsumableNurseModel.setQuantity(1);
     patientConsumableNurseModel.create();
   }
@@ -55,15 +55,15 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     String dn = dateFormat(DateTime.now());
 
     patientConsumableNurseModel.createPatientConsumableNurse();
-    patientConsumableNurseModel.setPatientId(widget.patient.id);
+    patientConsumableNurseModel.setPatientId(widget.patient.userId);
     patientConsumableNurseModel.setConsumableId(widget.consumable.id);
-    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.id);
+    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.userId);
 
     int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.consumableId == widget.consumable.id &&
-            element.nurseId == nurseModel.currentNurse.id &&
+            element.nurseId == nurseModel.currentNurse.userId &&
             dateFormat(element.createdDate) == dn);
 
     if(i >= 0){

@@ -37,20 +37,7 @@ class Api {
     return listMap;
   }
 
-  Future<List<dynamic>> filterByForeignKey(String val) async {
-    final data = await http.get(
-      _url + '/' + val,
-      headers: {
-        'content-type': 'application/json',
-      },
-    );
-
-    List<dynamic> listMap = jsonDecode(data.body);
-
-    return listMap;
-  }
-
-  Future<List<dynamic>> filterByNonForeignKey(List<String> fields,List<String> values) async {
+  Future<List<dynamic>> filter(List<String> fields,List<String> values) async {
 
     String filterString = '';
 
@@ -75,21 +62,34 @@ class Api {
     return listMap;
   }
 
-  Future<int> post(Map<String, dynamic> jsonBody) async {
-    final data = await http.post(
-      _url + '/',
+  Future<Map<String,dynamic>> filterWithLimit(List<String> fields,List<String> values) async {
+
+    String filterString = '';
+
+    if(fields.length == values.length){
+      for(int i=0;i<fields.length;i++){
+        filterString+=fields[i]+'='+values[i];
+        if((i + 1) < fields.length){
+          filterString+='&';
+        }
+      }
+    }
+
+    final data = await http.get(
+      _url + '/?' + filterString,
       headers: {
         'content-type': 'application/json',
       },
-      body: jsonEncode(jsonBody),
     );
-    return data.statusCode;
+
+    Map<String,dynamic> listMap = jsonDecode(data.body);
+
+    return listMap;
   }
 
-  Future<int> postSubValue(
-      Map<String, dynamic> jsonBody, String mainDocId) async {
+  Future<int> post(Map<String, dynamic> jsonBody) async {
     final data = await http.post(
-      _url + '/' + mainDocId,
+      _url + '/',
       headers: {
         'content-type': 'application/json',
       },
@@ -109,18 +109,6 @@ class Api {
     return data.statusCode;
   }
 
-  Future<int> putSubValue(
-      Map<String, dynamic> jsonBody, String columnId) async {
-    final data = await http.put(
-      _url + '/edit/' + columnId,
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: jsonEncode(jsonBody),
-    );
-    return data.statusCode;
-  }
-
   Future<int> delete(String valueId) async {
     final data = await http.delete(
       _url + '/' + valueId,
@@ -131,13 +119,4 @@ class Api {
     return data.statusCode;
   }
 
-  Future<int> deleteSubValue(String valueId) async {
-    final data = await http.delete(
-      _url + '/edit/' + valueId,
-      headers: {
-        'content-type': 'application/json',
-      },
-    );
-    return data.statusCode;
-  }
 }

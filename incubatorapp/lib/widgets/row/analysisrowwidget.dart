@@ -28,7 +28,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     int i = patientAnalysisModel.patientAnalysisList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.analysisId == widget.analysis.id &&
             dateFormat(element.createdDate) == dn);
     if (i >= 0) {
@@ -40,7 +40,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
   void save() {
     patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.id);
+    patientAnalysisModel.setPatientId(widget.patient.userId);
     patientAnalysisModel.setAnalysisId(widget.analysis.id);
     patientAnalysisModel.create();
   }
@@ -49,12 +49,12 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     String dn = dateFormat(DateTime.now());
 
     patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.id);
+    patientAnalysisModel.setPatientId(widget.patient.userId);
     patientAnalysisModel.setAnalysisId(widget.analysis.id);
 
     int i = patientAnalysisModel.patientAnalysisList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.analysisId == widget.analysis.id &&
             dateFormat(element.createdDate) == dn);
 

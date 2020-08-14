@@ -32,7 +32,7 @@ class PatientPhoneModel extends Model{
   }
 
   Future<bool> create() async {
-    int code = await _api.postSubValue(patientPhone.toJson(),patientPhone.patientId.toString());
+    int code = await _api.post(patientPhone.toJson());
     if (code == 201) {
       notifyListeners();
       return true;
@@ -42,7 +42,7 @@ class PatientPhoneModel extends Model{
 
   Future<bool> update() async {
     int code =
-    await _api.putSubValue(patientPhone.toJson(), patientPhone.id.toString());
+    await _api.put(patientPhone.toJson(), patientPhone.id.toString());
     if (code == 200) {
       notifyListeners();
 
@@ -52,7 +52,7 @@ class PatientPhoneModel extends Model{
   }
 
   Future<bool> delete() async {
-    int code = await _api.deleteSubValue(patientPhone.id.toString());
+    int code = await _api.delete(patientPhone.id.toString());
 
     if (code == 204) {
       notifyListeners();

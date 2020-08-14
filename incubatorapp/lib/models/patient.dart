@@ -11,7 +11,7 @@ part 'patient.g.dart';
 
 @JsonSerializable()
 class Patient {
-  int id;
+  int userId;
   String motherName;
   String fatherName;
   bool gender;
@@ -48,7 +48,7 @@ class Patient {
   List<PatientConsumableNurse> patientConsumableNurseList = [];
 
   Patient(
-    this.id,
+    this.userId,
     this.motherName,
     this.fatherName,
     this.gender,

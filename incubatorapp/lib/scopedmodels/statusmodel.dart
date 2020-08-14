@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class StatusModel extends Model{
-
-  Api _api =new Api('status');
+class StatusModel extends Model {
+  Api _api = new Api('status');
 
   List<Status> statusList;
 
@@ -12,152 +13,176 @@ class StatusModel extends Model{
 
   Status get currentStatus => _currentStatus;
 
-  void createStatus(){
-    _currentStatus = new Status(0, 0,0,0,0,0,0,0,0,0,0,DateTime.now(),0,0);
+  void createStatus() {
+    _currentStatus =
+        new Status(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, DateTime.now(), 0, 0);
   }
 
-  void editStatus(Status editStatus){
+  void editStatus(Status editStatus) {
     _currentStatus = editStatus;
   }
 
-  void setHeartRate(double heartRate){
+  void setHeartRate(double heartRate) {
     _currentStatus.heartRate = heartRate;
     notifyListeners();
   }
 
-  double getHeartRate(){
+  double getHeartRate() {
     return _currentStatus.heartRate;
   }
 
-  void setPulseRate(double pulseRate){
+  void setPulseRate(double pulseRate) {
     _currentStatus.pulseRate = pulseRate;
     notifyListeners();
   }
 
-  double getPulseRate(){
+  double getPulseRate() {
     return _currentStatus.pulseRate;
   }
 
-  void setOxygen(double oxygen){
+  void setOxygen(double oxygen) {
     _currentStatus.oxygen = oxygen;
     notifyListeners();
   }
 
-  double getOxygen(){
+  double getOxygen() {
     return _currentStatus.oxygen;
   }
 
-  void setWeight(double weight){
+  void setWeight(double weight) {
     _currentStatus.weight = weight;
     notifyListeners();
   }
 
-  double getWeight(){
+  double getWeight() {
     return _currentStatus.weight;
   }
 
-  void setSugar(double sugar){
+  void setSugar(double sugar) {
     _currentStatus.sugar = sugar;
     notifyListeners();
   }
 
-  double getSugar(){
+  double getSugar() {
     return _currentStatus.sugar;
   }
 
-  void setUrine(double urine){
+  void setUrine(double urine) {
     _currentStatus.urine = urine;
     notifyListeners();
   }
 
-  double getUrine(){
+  double getUrine() {
     return _currentStatus.urine;
   }
 
-  void setStool(double stool){
+  void setStool(double stool) {
     _currentStatus.stool = stool;
     notifyListeners();
   }
 
-  double getStool(){
+  double getStool() {
     return _currentStatus.stool;
   }
 
-  void setBloodPressure(double bloodPressure){
+  void setBloodPressure(double bloodPressure) {
     _currentStatus.bloodPressure = bloodPressure;
     notifyListeners();
   }
 
-  double getBloodPressure(){
+  double getBloodPressure() {
     return _currentStatus.bloodPressure;
   }
 
-  void setTemperature(double temperature){
+  void setTemperature(double temperature) {
     _currentStatus.temperature = temperature;
     notifyListeners();
   }
 
-  double getTemperature(){
+  double getTemperature() {
     return _currentStatus.temperature;
   }
 
-  void setIncubatorTemperature(double incubatorTemperature){
+  void setIncubatorTemperature(double incubatorTemperature) {
     _currentStatus.incubatorTemperature = incubatorTemperature;
     notifyListeners();
   }
 
-  double getIncubatorTemperature(){
+  double getIncubatorTemperature() {
     return _currentStatus.incubatorTemperature;
   }
 
-  void setPatientId(int patientId){
+  void setPatientId(int patientId) {
     _currentStatus.patientId = patientId;
   }
 
-  int getPatientId(){
+  int getPatientId() {
     return _currentStatus.patientId;
   }
 
-  void setNurseId(int nurseId){
+  void setNurseId(int nurseId) {
     _currentStatus.nurseId = nurseId;
   }
 
-  int getNurseId(){
+  int getNurseId() {
     return _currentStatus.nurseId;
   }
 
-  DateTime getDateTime(){
+  DateTime getDateTime() {
     return _currentStatus.createdDate;
   }
 
-  void clearList(){
-    if(statusList!=null){
-      if(statusList.length > 0){
+  void clearList() {
+    if (statusList != null) {
+      if (statusList.length > 0) {
         statusList.clear();
         notifyListeners();
       }
     }
   }
 
-  void readByPatientId() async{
-    List<dynamic> billsMap = await _api.filterByForeignKey(_currentStatus.patientId.toString());
-    statusList = billsMap.map((e) => Status.fromJson(e)).toList();
+  Future<List<Status>> readByPatientId(int patientId, {int limit}) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+
+    List<dynamic> statusListMap;
+
+    if (limit != null) {
+      fields.add('limit');
+      values.add(limit.toString());
+      Map<String, dynamic> billsMap =
+          await _api.filterWithLimit(fields, values);
+      billsMap.forEach((e, f) {
+        if (e == 'results') {
+          statusListMap = f;
+        }
+      });
+    } else {
+      statusListMap = await _api.filter(fields, values);
+    }
+
+    statusList = statusListMap.map((e) => Status.fromJson(e)).toList();
+
     notifyListeners();
+
+    return statusList;
   }
 
-  Future<bool> create() async{
-    int code = await _api.postSubValue(_currentStatus.toJson(),_currentStatus.patientId.toString());
+  Future<bool> create() async {
+    int code = await _api.post(_currentStatus.toJson());
     if (code == 201) {
-      setPatientId(_currentStatus.patientId);
-      readByPatientId();
+      readByPatientId(_currentStatus.patientId);
       return true;
     }
     return false;
   }
 
-  Future<bool> update() async{
-    int code = await _api.put(
-        _currentStatus.toJson(), _currentStatus.id.toString());
+  Future<bool> update() async {
+    int code =
+        await _api.put(_currentStatus.toJson(), _currentStatus.id.toString());
 
     if (code == 200) {
       notifyListeners();
@@ -167,7 +192,7 @@ class StatusModel extends Model{
     return false;
   }
 
-  Future<bool> delete() async{
+  Future<bool> delete() async {
     int code = await _api.delete(_currentStatus.id.toString());
 
     if (code == 204) {
@@ -178,5 +203,4 @@ class StatusModel extends Model{
     }
     return false;
   }
-
 }

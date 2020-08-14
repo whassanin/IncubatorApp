@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
@@ -49,6 +50,48 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _getList();
+    Widget currentWidget = _getList();
+
+    Widget positionList = Positioned(
+        child: Align(alignment: Alignment.topCenter, child: _getList()));
+
+    Widget positionSaveButton = Positioned(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: GestureDetector(
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          onTap: () {
+            patientConsumableNurseModel.readByPatientId(widget.patient.userId);
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+
+    if (widget.userPermission.isNurse) {
+      currentWidget = Stack(
+        children: <Widget>[positionList, positionSaveButton],
+      );
+    }
+
+    return currentWidget;
   }
 }

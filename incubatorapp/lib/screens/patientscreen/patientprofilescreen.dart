@@ -30,7 +30,7 @@ class PatientProfileScreen extends StatelessWidget {
           );
 
           if (patientModel.currentPatient != null) {
-            if (patientModel.currentPatient.id != null) {
+            if (patientModel.currentPatient.userId != null) {
               currentWidget = IndexedStack(
                 index: patientModel.currentTab,
                 children: <Widget>[

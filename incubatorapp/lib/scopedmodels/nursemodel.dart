@@ -22,7 +22,7 @@ class NurseModel extends Model{
   }
 
   void createNurse(){
-    _currentNurse = new Nurse(0, '', '', true, DateTime.now(), DateTime.now(),0);
+    _currentNurse = new Nurse(0, '', '', true, DateTime.now(), DateTime.now());
   }
 
   void editNurse(Nurse editNurse) {
@@ -111,7 +111,7 @@ class NurseModel extends Model{
 
   Future<bool> update() async {
     int code =
-    await _api.put(_currentNurse.toJson(), _currentNurse.id.toString());
+    await _api.put(_currentNurse.toJson(), _currentNurse.userId.toString());
     if (code == 200) {
       notifyListeners();
 
@@ -121,7 +121,7 @@ class NurseModel extends Model{
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentNurse.id.toString());
+    int code = await _api.delete(_currentNurse.userId.toString());
 
     if (code == 204) {
       notifyListeners();

@@ -28,9 +28,9 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
 
     int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
         (element) =>
-            element.patientId == widget.patient.id &&
+            element.patientId == widget.patient.userId &&
             element.medicineId == widget.medicine.id &&
-            element.doctorId == doctorModel.currentDoctor.id &&
+            element.doctorId == doctorModel.currentDoctor.userId &&
             dateFormat(element.createdDate) == dn);
     if (i >= 0) {
       isSelected = true;
@@ -41,9 +41,9 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
 
   void save() {
     patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(widget.patient.id);
+    patientMedicineDoctorModel.setPatientId(widget.patient.userId);
     patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
-    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.id);
+    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.userId);
     patientMedicineDoctorModel.setQuantity(1);
     patientMedicineDoctorModel.create();
   }
@@ -52,15 +52,15 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     String dn = dateFormat(DateTime.now());
 
     patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(widget.patient.id);
+    patientMedicineDoctorModel.setPatientId(widget.patient.userId);
     patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
-    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.id);
+    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.userId);
 
     int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.medicineId == widget.medicine.id &&
-            element.doctorId == doctorModel.currentDoctor.id &&
+            element.doctorId == doctorModel.currentDoctor.userId &&
             dateFormat(element.createdDate) == dn);
 
     if(i >= 0){

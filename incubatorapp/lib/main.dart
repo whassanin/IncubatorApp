@@ -9,6 +9,7 @@ import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
 import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
 import 'package:incubatorapp/scopedmodels/nursemodel.dart';
+import 'package:incubatorapp/scopedmodels/nurseshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
@@ -68,6 +69,7 @@ PatientMedicineDoctorModel patientMedicineDoctorModel = new PatientMedicineDocto
 PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableNurseModel();
 
 DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
+NurseShiftModel nurseShiftModel = new NurseShiftModel();
 
 void main() {
   runApp(MyApp());

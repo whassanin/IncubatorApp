@@ -22,9 +22,9 @@ class PatientConsumableNurseModel extends Model {
     _currentPatientConsumableNurse = editPatientConsumableNurse;
   }
 
-  void clearList(){
-    if(patientConsumableNurseList!=null){
-      if(patientConsumableNurseList.length > 0){
+  void clearList() {
+    if (patientConsumableNurseList != null) {
+      if (patientConsumableNurseList.length > 0) {
         patientConsumableNurseList.clear();
         notifyListeners();
       }
@@ -67,10 +67,15 @@ class PatientConsumableNurseModel extends Model {
     return _currentPatientConsumableNurse.createdDate;
   }
 
-  void readByPatientId() async {
-    List<dynamic> patientAnalysisMap = await _api.filterByForeignKey(
-        _currentPatientConsumableNurse.patientId.toString());
-    patientConsumableNurseList = patientAnalysisMap
+  void readByPatientId(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+
+    List<dynamic> patientConsumableNurseMap = await _api.filter(fields, values);
+    patientConsumableNurseList = patientConsumableNurseMap
         .map((e) => PatientConsumableNurse.fromJson(e))
         .toList();
 
@@ -82,12 +87,9 @@ class PatientConsumableNurseModel extends Model {
   void readByNurseId() {}
 
   Future<bool> create() async {
-
-    int code = await _api.postSubValue(_currentPatientConsumableNurse.toJson(),
-        _currentPatientConsumableNurse.patientId.toString());
+    int code = await _api.post(_currentPatientConsumableNurse.toJson());
     if (code == 201) {
-      setPatientId(_currentPatientConsumableNurse.patientId);
-      readByPatientId();
+      readByPatientId(_currentPatientConsumableNurse.patientId);
 
       notifyListeners();
       return true;
@@ -96,7 +98,7 @@ class PatientConsumableNurseModel extends Model {
   }
 
   Future<bool> update() async {
-    int code = await _api.putSubValue(_currentPatientConsumableNurse.toJson(),
+    int code = await _api.put(_currentPatientConsumableNurse.toJson(),
         _currentPatientConsumableNurse.id.toString());
 
     if (code == 200) {
@@ -108,7 +110,7 @@ class PatientConsumableNurseModel extends Model {
   }
 
   Future<bool> delete() async {
-    int code = await _api.deleteSubValue(_currentPatientConsumableNurse.id.toString());
+    int code = await _api.delete(_currentPatientConsumableNurse.id.toString());
 
     if (code == 204) {
       patientConsumableNurseList.remove(_currentPatientConsumableNurse);

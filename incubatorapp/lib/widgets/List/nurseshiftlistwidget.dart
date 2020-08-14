@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/doctorshift.dart';
-import 'package:incubatorapp/widgets/row/doctorshiftrowwidget.dart';
+import 'package:incubatorapp/models/nurseshift.dart';
+import 'package:incubatorapp/widgets/row/nurseshiftrowwidget.dart';
 
-class DoctorShiftListWidget extends StatefulWidget {
-  final List<DoctorShift> doctorShiftList;
+class NurseShiftListWidget extends StatefulWidget {
+  final List<NurseShift> nurseShiftList;
 
-  DoctorShiftListWidget({this.doctorShiftList});
+  NurseShiftListWidget({this.nurseShiftList});
 
   @override
-  _DoctorShiftListWidgetState createState() => _DoctorShiftListWidgetState();
+  _NurseShiftListWidgetState createState() => _NurseShiftListWidgetState();
 }
 
-class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
+class _NurseShiftListWidgetState extends State<NurseShiftListWidget> {
   double calculate() {
     double total = 0;
-    if (widget.doctorShiftList != null) {
-      if (widget.doctorShiftList.length > 0) {
-        widget.doctorShiftList.forEach((element) {
+    if (widget.nurseShiftList != null) {
+      if (widget.nurseShiftList.length > 0) {
+        widget.nurseShiftList.forEach((element) {
           if (element.isSignedIn == true && element.isSignedOut == true) {
-            total += doctorShiftModel.totalHours(
+            total += nurseShiftModel.totalHours(
                 element.startDateTime, element.endDateTime);
           }
         });
@@ -36,13 +36,13 @@ class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
       ),
     );
 
-    if (widget.doctorShiftList != null) {
-      if (widget.doctorShiftList.length > 0) {
+    if (widget.nurseShiftList != null) {
+      if (widget.nurseShiftList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.doctorShiftList.length,
+          itemCount: widget.nurseShiftList.length,
           itemBuilder: (BuildContext context, int i) {
-            return DoctorShiftRowWidget(
-              doctorShift: widget.doctorShiftList[i],
+            return NurseShiftRowWidget(
+              nurseShift: widget.nurseShiftList[i],
             );
           },
         );

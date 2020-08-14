@@ -25,8 +25,8 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     statusModel.clearList();
 
     statusModel.createStatus();
-    statusModel.setPatientId(widget.patient.id);
-    statusModel.readByPatientId();
+    statusModel.setPatientId(widget.patient.userId);
+    statusModel.readByPatientId(widget.patient.userId);
 
     Navigator.push(
       context,

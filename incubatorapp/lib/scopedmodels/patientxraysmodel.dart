@@ -59,32 +59,44 @@ class PatientXRayModel extends Model{
     return _currentPatientXRay.createdDate;
   }
 
-  void readByPatientId() async {
-    List<dynamic> patientXRayMap = await _api.filterByForeignKey(_currentPatientXRay.patientId.toString());
+  void readByPatientId(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+
+
+    List<dynamic> patientXRayMap = await _api.filter(fields, values);
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
     notifyListeners();
   }
 
-  void readByXRayId() async {
-    List<dynamic> patientXRayMap = await _apiReverse.filterByForeignKey(_currentPatientXRay.xRayId.toString());
+  void readByXRayId(int xRayId) async {
+
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('xRayId');
+    values.add(xRayId.toString());
+
+    List<dynamic> patientXRayMap = await _apiReverse.filter(fields, values);
     patientXRayMap.forEach((element) {print(element);});
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<bool> create() async{
-    int code = await _api.postSubValue(_currentPatientXRay.toJson(),_currentPatientXRay.patientId.toString());
+    int code = await _api.post(_currentPatientXRay.toJson());
     if (code == 201) {
-      setPatientId(_currentPatientXRay.patientId);
-      readByPatientId();
-
+      readByPatientId(_currentPatientXRay.patientId);
       return true;
     }
     return false;
   }
 
   Future<bool> update() async{
-    int code = await _api.putSubValue(
+    int code = await _api.put(
         _currentPatientXRay.toJson(), _currentPatientXRay.id.toString());
 
     if (code == 200) {
@@ -96,7 +108,7 @@ class PatientXRayModel extends Model{
   }
 
   Future<bool> delete() async{
-    int code = await _api.deleteSubValue(_currentPatientXRay.id.toString());
+    int code = await _api.delete(_currentPatientXRay.id.toString());
 
     if (code == 204) {
       patientXRayList.remove(_currentPatientXRay);

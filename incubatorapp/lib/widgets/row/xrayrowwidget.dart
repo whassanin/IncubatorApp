@@ -28,7 +28,7 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
     int i = patientXRayModel.patientXRayList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.xRayId == widget.xRay.id &&
             dateFormat(element.createdDate) == dn);
     if (i >= 0) {
@@ -40,7 +40,7 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
   void save() {
     patientXRayModel.createPatientXRay();
-    patientXRayModel.setPatientId(widget.patient.id);
+    patientXRayModel.setPatientId(widget.patient.userId);
     patientXRayModel.setXRayId(widget.xRay.id);
     patientXRayModel.create();
   }
@@ -49,12 +49,12 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
     String dn = dateFormat(DateTime.now());
 
     patientXRayModel.createPatientXRay();
-    patientXRayModel.setPatientId(widget.patient.id);
+    patientXRayModel.setPatientId(widget.patient.userId);
     patientXRayModel.setXRayId(widget.xRay.id);
 
     int i = patientXRayModel.patientXRayList.indexWhere(
             (element) =>
-        element.patientId == widget.patient.id &&
+        element.patientId == widget.patient.userId &&
             element.xRayId == widget.xRay.id &&
             dateFormat(element.createdDate) == dn);
 

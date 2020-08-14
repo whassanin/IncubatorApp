@@ -6,11 +6,13 @@ import 'package:scoped_model/scoped_model.dart';
 class DoctorShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    doctorShiftModel.readByDoctorId(doctorModel.currentDoctor.userId);
+
     return ScopedModel(
       model: doctorShiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context,Widget child,DoctorShiftModel doctorShiftModel){
-          return DoctorShiftListWidget();
+          return DoctorShiftListWidget(doctorShiftList: doctorShiftModel.doctorShiftList,);
         },
       ),
     );

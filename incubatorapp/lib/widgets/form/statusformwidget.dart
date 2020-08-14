@@ -89,8 +89,8 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
   }
 
   void save() async{
-    statusModel.setPatientId(widget.patient.id);
-    statusModel.setNurseId(nurseModel.currentNurse.id);
+    statusModel.setPatientId(widget.patient.userId);
+    statusModel.setNurseId(nurseModel.currentNurse.userId);
     bool isCheck = await statusModel.create();
     if(isCheck){
       patientModel.updateState(statusModel.currentStatus);

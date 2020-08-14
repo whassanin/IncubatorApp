@@ -80,26 +80,15 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: analysisNameWidget,
         ),
-        SizedBox(
-          height: 5,
-        ),
         (widget.userPermission.isPatient
             ? Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: priceWidget,
               )
             : Container()),
-        (widget.userPermission.isPatient
-            ? SizedBox(
-                height: 5,
-              )
-            : Container()),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
-        ),
-        SizedBox(
-          height: 5,
         ),
         Padding(
           padding: const EdgeInsets.all(2.0),

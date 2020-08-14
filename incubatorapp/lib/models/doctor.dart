@@ -6,13 +6,12 @@ part 'doctor.g.dart';
 
 @JsonSerializable()
 class Doctor {
-  int id;
+  int userId;
   String firstName;
   String lastName;
   bool gender;
   DateTime dateOfBirth;
   DateTime createdDate;
-  int userId;
 
   @JsonKey(ignore: true)
   List<PatientMedicineDoctor> patientMedicineDoctorList = [];
@@ -21,13 +20,12 @@ class Doctor {
   List<DoctorShift> doctorShiftList = [];
 
   Doctor(
-    this.id,
+    this.userId,
     this.firstName,
     this.lastName,
     this.gender,
     this.dateOfBirth,
     this.createdDate,
-    this.userId,
   );
 
   factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);

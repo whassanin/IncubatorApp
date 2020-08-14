@@ -18,30 +18,29 @@ class PatientDetailScreen extends StatelessWidget {
       child: ScopedModelDescendant(
         builder:
             (BuildContext context, Widget child, PatientModel patientModel) {
-          Widget currentWidget = Container();
+          Widget currentWidget = Center(
+            child: Container(
+              child: CircularProgressIndicator(),
+            ),
+          );
 
           if (patientModel.currentPatient != null) {
-            if (patientModel.currentPatient.id != null) {
-              if (userPermission.isPatient) {
-                currentWidget = PatientDetailRowWidget(
-                  patient: patientModel.currentPatient,
-                  userPermission: userPermission,
-                );
-              } else {
-                currentWidget = Scaffold(
-                  appBar: AppBar(
-                    title: Text('Patient Profile'),
-                  ),
-                  body: PatientDetailRowWidget(
-                    patient: patientModel.currentPatient,
-                    userPermission: userPermission,
-                  ),
-                );
-              }
+            if (patientModel.currentPatient.userId != null) {
+              currentWidget = PatientDetailRowWidget(
+                patient: patientModel.currentPatient,
+                userPermission: userPermission,
+              );
             }
           }
 
-          return currentWidget;
+          return Scaffold(
+            appBar: ((userPermission.isDoctor || userPermission.isNurse)
+                ? AppBar(
+                    title: Text('Patient Profile'),
+                  )
+                : null),
+            body: currentWidget,
+          );
         },
       ),
     );

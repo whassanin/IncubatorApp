@@ -5,8 +5,6 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientAnalysisModel extends Model {
   Api _api = new Api('patientanalysis');
 
-  Api _apiReverse = new Api('analysispatient');
-
   List<PatientAnalysis> patientAnalysisList;
 
   PatientAnalysis _currentPatientAnalysis;
@@ -21,9 +19,9 @@ class PatientAnalysisModel extends Model {
     _currentPatientAnalysis = editPatientAnalysis;
   }
 
-  void clearList(){
-    if(patientAnalysisList!=null){
-      if(patientAnalysisList.length > 0){
+  void clearList() {
+    if (patientAnalysisList != null) {
+      if (patientAnalysisList.length > 0) {
         patientAnalysisList.clear();
         notifyListeners();
       }
@@ -59,18 +57,28 @@ class PatientAnalysisModel extends Model {
     return _currentPatientAnalysis.createdDate;
   }
 
-  void readByPatientId() async {
-    List<dynamic> patientAnalysisMap = await _api
-        .filterByForeignKey(_currentPatientAnalysis.patientId.toString());
+  void readByPatientId(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+
+    List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 
     notifyListeners();
   }
 
-  void readByAnalysisId() async {
-    List<dynamic> patientAnalysisMap = await _apiReverse
-        .filterByForeignKey(_currentPatientAnalysis.analysisId.toString());
+  void readByAnalysisId(int analysisId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('analysisId');
+    values.add(analysisId.toString());
+
+    List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 
@@ -78,19 +86,16 @@ class PatientAnalysisModel extends Model {
   }
 
   Future<bool> create() async {
-    int code = await _api.postSubValue(_currentPatientAnalysis.toJson(),
-        _currentPatientAnalysis.patientId.toString());
+    int code = await _api.post(_currentPatientAnalysis.toJson());
     if (code == 201) {
-      setPatientId(_currentPatientAnalysis.patientId);
-      readByPatientId();
+      readByPatientId(_currentPatientAnalysis.patientId);
       return true;
     }
     return false;
   }
 
   Future<bool> update() async {
-    int code = await _api.putSubValue(_currentPatientAnalysis.toJson(),
-        _currentPatientAnalysis.id.toString());
+    int code = await _api.put(_currentPatientAnalysis.toJson(), _currentPatientAnalysis.id.toString());
 
     if (code == 200) {
       notifyListeners();
@@ -101,7 +106,7 @@ class PatientAnalysisModel extends Model {
   }
 
   Future<bool> delete() async {
-    int code = await _api.deleteSubValue(_currentPatientAnalysis.id.toString());
+    int code = await _api.delete(_currentPatientAnalysis.id.toString());
 
     if (code == 204) {
       patientAnalysisList.remove(_currentPatientAnalysis);
