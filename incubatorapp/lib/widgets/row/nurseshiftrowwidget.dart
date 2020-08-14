@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/doctorshift.dart';
+import 'package:incubatorapp/models/nurseshift.dart';
 import 'package:incubatorapp/models/shift.dart';
-import 'package:incubatorapp/screens/shiftscreen/editdoctorshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/editnurseshiftscreen.dart';
 
-class DoctorShiftRowWidget extends StatefulWidget {
-  final DoctorShift doctorShift;
-  DoctorShiftRowWidget({this.doctorShift});
+class NurseShiftRowWidget extends StatefulWidget {
+  final NurseShift nurseShift;
+  NurseShiftRowWidget({this.nurseShift});
   @override
-  _DoctorShiftRowWidgetState createState() => _DoctorShiftRowWidgetState();
+  _NurseShiftRowWidgetState createState() => _NurseShiftRowWidgetState();
 }
 
-class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
-
+class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
   String formatDate(DateTime dateTime) {
     String d = dateTime.day.toString();
     d = d + '/' + dateTime.month.toString();
@@ -136,13 +135,11 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
     Widget totalHoursRow = Container(
       decoration: decoration,
       child: Center(
-        child: Text(
-          'Total Hours: ' +
-              doctorShiftModel
-                  .totalHours(widget.doctorShift.startDateTime,
-                      widget.doctorShift.endDateTime)
-                  .toString(),
-        ),
+        child: Text('Total Hours: ' +
+            nurseShiftModel
+                .totalHours(widget.nurseShift.startDateTime,
+                    widget.nurseShift.endDateTime)
+                .toString()),
       ),
     );
 
@@ -192,7 +189,7 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
 
     Widget current = notSignedInWidget;
 
-    if (widget.doctorShift.isSignedIn) {
+    if (widget.nurseShift.isSignedIn) {
       current = dateTimeRow;
     }
 
@@ -206,10 +203,10 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
         ),
       ),
       onTap: () {
-        doctorShiftModel.editDoctorShift(widget.doctorShift);
+        nurseShiftModel.editNurseShift(widget.nurseShift);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditDoctorShiftScreen()),
+          MaterialPageRoute(builder: (context) => EditNurseShiftScreen()),
         );
       },
     );
@@ -218,13 +215,13 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
   @override
   Widget build(BuildContext context) {
     Shift selectedShift = shiftModel.shiftList
-        .where((element) => element.id == widget.doctorShift.shiftId)
+        .where((element) => element.id == widget.nurseShift.shiftId)
         .toList()[0];
 
     return row(
       selectedShift.name,
-      widget.doctorShift.startDateTime,
-      widget.doctorShift.endDateTime,
+      widget.nurseShift.startDateTime,
+      widget.nurseShift.endDateTime,
     );
   }
 }

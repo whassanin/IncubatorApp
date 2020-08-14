@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
-import 'package:incubatorapp/widgets/form/doctorshiftformwidget.dart';
+import 'package:incubatorapp/scopedmodels/nurseshiftmodel.dart';
+import 'package:incubatorapp/widgets/form/nurseshiftformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewDoctorShiftScreen extends StatelessWidget {
-  static const routeName = '/newdoctorshiftscreen';
+class NewNurseShiftScreen extends StatelessWidget {
+  static const routeName = '/newnurseshiftscreen';
 
   @override
   Widget build(BuildContext context) {
-    doctorShiftModel.createDoctorShift();
+    nurseShiftModel.createNurseShift();
 
     return ScopedModel(
-      model: doctorShiftModel,
+      model: nurseShiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,
-            DoctorShiftModel doctorShiftModel) {
+            NurseShiftModel nurseShiftModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('New Doctor Shift'),
+              title: Text('New Nurse Shift'),
             ),
-            body: DoctorShiftFormWidget(
+            body: NurseShiftFormWidget(
               isEdit: false,
             ),
           );

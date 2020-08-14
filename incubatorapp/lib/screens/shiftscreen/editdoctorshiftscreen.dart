@@ -4,13 +4,11 @@ import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/widgets/form/doctorshiftformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewDoctorShiftScreen extends StatelessWidget {
-  static const routeName = '/newdoctorshiftscreen';
+class EditDoctorShiftScreen extends StatelessWidget {
+  static const routeName = '/editdoctorshiftscreen';
 
   @override
   Widget build(BuildContext context) {
-    doctorShiftModel.createDoctorShift();
-
     return ScopedModel(
       model: doctorShiftModel,
       child: ScopedModelDescendant(
@@ -18,10 +16,10 @@ class NewDoctorShiftScreen extends StatelessWidget {
             DoctorShiftModel doctorShiftModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('New Doctor Shift'),
+              title: Text('Edit Doctor Shift'),
             ),
             body: DoctorShiftFormWidget(
-              isEdit: false,
+              isEdit: true,
             ),
           );
         },

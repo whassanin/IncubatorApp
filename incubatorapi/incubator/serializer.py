@@ -51,27 +51,33 @@ class DoctorShiftSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = DoctorShift
-        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
-
-class ShiftDoctorSerializer(serializers.ModelSerializer):
-
-    class Meta: 
-        model = DoctorShift
-        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
-
+        fields = [
+            'id',
+            'doctorId',
+            'shiftId',
+            'startDateTime',
+            'isSignedIn',
+            'endDateTime',
+            'isSignedOut',
+            'createdDate',
+            'changedDate'
+            ]
 
 class NurseShiftSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = NurseShift
-        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
-
-class ShiftNurseSerializer(serializers.ModelSerializer):
-
-    class Meta: 
-        model = NurseShift
-        fields = ['id','doctorId','shiftId','startDateTime','endDateTime','createdDate']
-
+        fields = [
+            'id',
+            'nurseId',
+            'shiftId',
+            'startDateTime',
+            'isSignedIn',
+            'endDateTime',
+            'isSignedOut',
+            'createdDate',
+            'changedDate'
+            ]
 
 class PatientAnalysisSerializer(serializers.ModelSerializer):
     
@@ -85,19 +91,6 @@ class PatientAnalysisSerializer(serializers.ModelSerializer):
             'createdDate',
             ]
 
-class AnalysisPatientSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = PatientAnalysis
-        fields = [
-            'id',
-            'patientId',
-            'analysisId',
-            'result',
-            'createdDate',
-            ]
-
-
 class PatientXRaySerializer(serializers.ModelSerializer):
     
     class Meta: 
@@ -109,19 +102,6 @@ class PatientXRaySerializer(serializers.ModelSerializer):
             'comment',
             'createdDate',
             ]
-
-class XRayPatientSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = PatientXRay
-        fields = [
-            'id',
-            'patientId',
-            'xRayId',
-            'comment',
-            'createdDate',
-            ]
-
 
 class PatientConsumableNurseSerializer(serializers.ModelSerializer):
     

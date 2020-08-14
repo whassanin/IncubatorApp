@@ -4,6 +4,8 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/newnurseshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -12,7 +14,7 @@ class NurseProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   NurseProfileScreen({this.userPermission}) {
-    nurseModel.readById('3');
+    nurseModel.readById('2');
   }
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,7 @@ class NurseProfileScreen extends StatelessWidget {
                   PatientListScreen(
                     userPermission: userPermission,
                   ),
-                  Center(
-                    child: Container(
-                      child: Text('Nurse Shift'),
-                    ),
-                  ),
+                  NurseShiftScreen(),
                   EditNurseScreen()
                 ],
               );
@@ -47,17 +45,32 @@ class NurseProfileScreen extends StatelessWidget {
 
           String title = 'Profile';
 
-          if (patientModel.currentTab == 0) {
+          if (nurseModel.currentTab == 0) {
             title = 'Patient List';
-          } else if (patientModel.currentTab == 1) {
+          } else if (nurseModel.currentTab == 1) {
             title = 'Shift';
-          } else if (patientModel.currentTab == 2) {
+          } else if (nurseModel.currentTab == 2) {
             title = 'Account';
           }
 
           return Scaffold(
             appBar: AppBar(
               title: Text(title),
+              actions: <Widget>[
+                (nurseModel.currentTab == 1
+                    ? IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewNurseShiftScreen(),
+                      ),
+                    );
+                  },
+                )
+                    : Container())
+              ],
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),

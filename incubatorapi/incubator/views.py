@@ -189,7 +189,7 @@ class StatusDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # many to many
 class DoctorShiftList(generics.ListCreateAPIView):
-    queryset = DoctorShift.objects.all().order_by('-createdDate')
+    queryset = DoctorShift.objects.all().order_by('startDateTime')
     serializer_class = DoctorShiftSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_fields = ['doctorId','shiftId']
@@ -200,7 +200,7 @@ class DoctorShiftDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class NurseShiftList(generics.ListCreateAPIView):
-    queryset = NurseShift.objects.all().order_by('-createdDate')
+    queryset = NurseShift.objects.all().order_by('createdDate')
     serializer_class = NurseShiftSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_fields = ['nurseId','shiftId']

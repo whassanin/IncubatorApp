@@ -5,6 +5,7 @@ import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/doctorshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/newdoctorshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -13,7 +14,7 @@ class DoctorProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   DoctorProfileScreen({this.userPermission}) {
-    doctorModel.readById('2');
+    doctorModel.readById('1');
   }
   @override
   Widget build(BuildContext context) {
@@ -44,17 +45,32 @@ class DoctorProfileScreen extends StatelessWidget {
 
           String title = 'Profile';
 
-          if (patientModel.currentTab == 0) {
+          if (doctorModel.currentTab == 0) {
             title = 'Patient List';
-          } else if (patientModel.currentTab == 1) {
+          } else if (doctorModel.currentTab == 1) {
             title = 'Shift';
-          } else if (patientModel.currentTab == 2) {
+          } else if (doctorModel.currentTab == 2) {
             title = 'Account';
           }
 
           return Scaffold(
             appBar: AppBar(
               title: Text(title),
+              actions: <Widget>[
+                (doctorModel.currentTab == 1
+                    ? IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewDoctorShiftScreen(),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
+              ],
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),

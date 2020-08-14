@@ -111,15 +111,21 @@ class DoctorShift(models.Model):
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftdoctor')
     startDateTime = models.DateTimeField()
+    isSignedIn = models.BooleanField()
     endDateTime = models.DateTimeField()
+    isSignedOut = models.BooleanField()
     createdDate = models.DateTimeField()
+    changedDate = models.DateTimeField()
 
 class NurseShift(models.Model):
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nurseshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftnurse')
     startDateTime = models.DateTimeField()
+    isSignedIn = models.BooleanField()
     endDateTime = models.DateTimeField()
-    createdDate = models.DateTimeField()
+    isSignedOut = models.BooleanField()
+    createdDate = models.DateTimeField()    
+    changedDate = models.DateTimeField()
 
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
