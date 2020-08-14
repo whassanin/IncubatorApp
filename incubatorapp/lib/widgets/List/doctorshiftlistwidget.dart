@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/doctorshift.dart';
 import 'package:incubatorapp/widgets/row/doctorshiftrowwidget.dart';
 
@@ -12,6 +13,22 @@ class DoctorShiftListWidget extends StatefulWidget {
 }
 
 class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
+  double calculate() {
+    double total = 0;
+    if (widget.doctorShiftList != null) {
+      if (widget.doctorShiftList.length > 0) {
+        widget.doctorShiftList.forEach((element) {
+          if (element.isSignedIn == true && element.isSignedOut == true) {
+            total += doctorShiftModel.totalHours(
+                element.startDateTime, element.endDateTime);
+          }
+        });
+      }
+    }
+
+    return total;
+  }
+
   Widget getList() {
     Widget currentWidget = Center(
       child: Container(
@@ -44,11 +61,41 @@ class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
       );
     }
 
-    return currentWidget;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 75),
+      child: currentWidget,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return getList();
+    Widget positionList = Positioned(
+        child: Align(alignment: Alignment.topCenter, child: getList()));
+
+    Widget positionTotal = Positioned(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              width: 1,
+              color: Colors.black,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              'Total: ' + calculate().toString(),
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return Stack(
+      children: <Widget>[positionList, positionTotal],
+    );
   }
 }

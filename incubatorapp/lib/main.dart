@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
     shiftModel.readAll();
 
     UserPermission userPermission = new UserPermission();
-    userPermission.setPermission(UserType.nurse);
+    userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: NurseProfileScreen(userPermission: userPermission,),
+      home: DoctorProfileScreen(userPermission: userPermission,),
     );
   }
 }
