@@ -27,6 +27,7 @@ import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
@@ -94,6 +95,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -118,7 +120,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: WelcomeScreen(),
+      home: SignInScreen(),
     );
   }
 }

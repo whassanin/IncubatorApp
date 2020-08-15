@@ -11,14 +11,12 @@ class SignInScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey,
                   image: DecorationImage(
                       colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                      image: AssetImage('assets/Logo.jpg'),
+                          Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                      image: AssetImage('assets/BackgroundImage.jpg'),
                       fit: BoxFit.fill,
-                      alignment: Alignment.center
-                  ),
+                      alignment: Alignment.center),
                 ),
                 child: Center(
                   child: Text('Welcome'),
