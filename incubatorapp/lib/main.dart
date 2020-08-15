@@ -82,12 +82,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    conditionModel.readAll();
+/*    conditionModel.readAll();
     analysisModel.readAll();
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
-    shiftModel.readAll();
+    shiftModel.readAll();*/
 
     UserPermission userPermission = new UserPermission();
     userPermission.setPermission(UserType.doctor);
