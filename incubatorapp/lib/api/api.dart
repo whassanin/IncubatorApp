@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class Api {
   String name;
 
-  String _url = 'http://192.168.1.2:8000';
+  String _url = 'http://192.168.1.8:8000';
 
   Api(this.name) {
     _url += '/' + this.name;

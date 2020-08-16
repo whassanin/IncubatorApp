@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:incubatorapp/main.dart';
 
 class SignInFormWidget extends StatefulWidget {
   @override
@@ -11,11 +12,25 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   TextEditingController usernameTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
 
+  void signInByUsernameAndPassword() {
+    userModel.setUsername(usernameTEC.text);
+    userModel.setPassword(passwordTEC.text);
+    userModel.readByUsernameAndPassword();
+  }
+
+  void signInByHauweiId() {
+    // TODO: Sign in by Hauwei Id
+  }
+
+  void signUp() {
+    // TODO: Navigate to select user type screen
+  }
+
   Widget columnTextField(
       String name, bool isNumber, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30,right: 30,bottom: 15),
+      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
       child: TextFormField(
         controller: columnTEC,
         decoration: InputDecoration(
@@ -47,16 +62,21 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     );
   }
 
-  Widget buttonWidget (String title, Color color){
+  Widget buttonWidget(String title, Color color, {VoidCallback fun}) {
     return Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30, top: 10,bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
         child: Row(
           children: <Widget>[
             Expanded(
               child: Container(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (fun != null) {
+                      fun();
+                    }
+                  },
                   child: Text(
                     title,
                     style: TextStyle(color: Colors.white),
@@ -72,9 +92,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ));
   }
 
-  Widget titleMessage (String title,double fontSize,Color color){
+  Widget titleMessage(String title, double fontSize, Color color) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50,bottom: 50,left: 30,right: 30),
+      padding: const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -82,7 +102,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
             child: Container(
               child: Text(
                 title,
-                style: TextStyle(fontSize: fontSize,color: color),
+                style: TextStyle(fontSize: fontSize, color: color),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -92,9 +112,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     );
   }
 
-  Widget subMessage (String title,double fontSize,Color color){
+  Widget subMessage(String title, double fontSize, Color color) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20,bottom: 20,left: 15,right: 15),
+      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -102,7 +122,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
             child: Container(
               child: Text(
                 title,
-                style: TextStyle(fontSize: fontSize,color: color),
+                style: TextStyle(fontSize: fontSize, color: color),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -121,17 +141,22 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       ),
     );
 
-    Widget welcomeTitle =titleMessage('SIGN IN',30,Colors.black);
+    Widget welcomeTitle = titleMessage('SIGN IN', 30, Colors.black);
 
-    Widget orTitle = subMessage('OR',14,Colors.grey);
+    Widget orTitle = subMessage('OR', 14, Colors.grey);
 
-    Widget forgetPasswordTitle = subMessage('Forget Password?',14,Colors.grey);
+    Widget forgetPasswordTitle =
+        subMessage('Forget Password?', 14, Colors.grey);
 
-    Widget signInButton = buttonWidget('Sign In',Colors.cyan);
+    Widget signInButton = buttonWidget(
+      'Sign In',
+      Colors.cyan,
+      fun: signInByUsernameAndPassword,
+    );
 
-    Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID',Colors.red);
+    Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID', Colors.red);
 
-    Widget signUpButton = buttonWidget('Sign Up',Colors.black);
+    Widget signUpButton = buttonWidget('Sign Up', Colors.black);
 
     Widget contentData = Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -148,9 +173,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       ],
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 60,bottom: 60),
-      child: SingleChildScrollView(child: contentData),
-    );
+    return Center(child: SingleChildScrollView(child: contentData));
   }
 }
