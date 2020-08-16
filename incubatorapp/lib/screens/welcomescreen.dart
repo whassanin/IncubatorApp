@@ -31,7 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void navigateToSignInScreen() {
     Timer.periodic(
-      Duration(seconds: 1),
+      Duration(seconds: 2),
       (timer) {
         timer.cancel();
         Navigator.pushReplacement(
@@ -43,7 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 (context, animation, secondaryAnimation, child) {
               var begin = Offset(0.0, 1.0);
               var end = Offset.zero;
-              var curve = Curves.ease;
+              var curve = Curves.easeInCirc;
 
               var tween = Tween(begin: begin, end: end);
               var curvedAnimation = CurvedAnimation(
@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     Widget logoImage = Container(
       child: Image.asset(
-        'assets/Logo.png',
+        'assets/Logo.jpg',
         fit: BoxFit.fill,
         alignment: Alignment.center,
       ),
