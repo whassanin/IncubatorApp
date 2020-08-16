@@ -97,10 +97,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
+        SignInScreen.routeName:(context)=>SignInScreen(),
+
         NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
         EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
 
@@ -120,7 +122,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: SignInScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
