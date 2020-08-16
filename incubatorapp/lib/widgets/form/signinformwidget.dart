@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
 
 class SignInFormWidget extends StatefulWidget {
   @override
@@ -23,7 +24,12 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   void signUp() {
-    // TODO: Navigate to select user type screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserTypeScreen(),
+      ),
+    );
   }
 
   Widget columnTextField(
@@ -156,7 +162,11 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
     Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID', Colors.red);
 
-    Widget signUpButton = buttonWidget('Sign Up', Colors.black);
+    Widget signUpButton = buttonWidget(
+      'Sign Up',
+      Colors.black,
+      fun: signUp,
+    );
 
     Widget contentData = Column(
       mainAxisAlignment: MainAxisAlignment.center,

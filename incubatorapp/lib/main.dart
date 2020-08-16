@@ -28,6 +28,7 @@ import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
+import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
