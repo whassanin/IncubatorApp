@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     Widget logoImage = Container(
       child: Image.asset(
-        'assets/Logo.jpg',
+        'assets/Logo.png',
         fit: BoxFit.fill,
         alignment: Alignment.center,
       ),

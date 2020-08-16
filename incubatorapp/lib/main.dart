@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
         PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
         BillDetailScreen.routeName:(context)=>BillDetailScreen()
       },
-      home: WelcomeScreen(),
+      home: SignInScreen(),
     );
   }
 }
