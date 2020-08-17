@@ -14,7 +14,7 @@ class NurseProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   NurseProfileScreen({this.userPermission}) {
-    nurseModel.readById('2');
+    nurseModel.readById(userModel.getId().toString());
   }
   @override
   Widget build(BuildContext context) {
@@ -55,11 +55,11 @@ class NurseProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(title,style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (nurseModel.currentTab == 1
                     ? IconButton(
-                  icon: Icon(Icons.add),
+                  icon: Icon(Icons.add,color: Colors.white,),
                   onPressed: () {
                     Navigator.push(
                       context,

@@ -22,7 +22,7 @@ class StatusScreen extends StatelessWidget {
         builder: (BuildContext context, Widget child, StatusModel statusModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Status History'),
+              title: Text('Status History',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse == true
                     ? IconButton(

@@ -20,7 +20,7 @@ class EditPatientAnalysisScreen extends StatelessWidget {
         builder: (BuildContext context, Widget child, PatientAnalysisModel patientAnalysisModel){
           return Scaffold(
             appBar: AppBar(
-              title: Text('Edit Analysis to Patient'),
+              title: Text('Edit Analysis to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: PatientAnalysisFormWidget(patientAnalysis: patientAnalysis,analysis: analysis,)
           );

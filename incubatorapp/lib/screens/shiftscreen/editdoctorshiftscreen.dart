@@ -16,7 +16,7 @@ class EditDoctorShiftScreen extends StatelessWidget {
             DoctorShiftModel doctorShiftModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Edit Doctor Shift'),
+              title: Text('Edit Doctor Shift',style: TextStyle(color: Colors.white)),
             ),
             body: DoctorShiftFormWidget(
               isEdit: true,

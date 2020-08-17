@@ -20,7 +20,7 @@ class NewPatientXRayScreen extends StatelessWidget {
         builder: (BuildContext context, Widget child, PatientXRayModel patientXRayModel){
           return Scaffold(
             appBar: AppBar(
-              title: Text('Add XRay to Patient'),
+              title: Text('Add XRay to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: XRayListWidget(patient: patient,xRayList: xRayModel.xRayList,userPermission: userPermission,),
           );

@@ -2,7 +2,6 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/doctorshift.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'dart:math';
 
 class DoctorShiftModel extends Model {
   Api _api = new Api('doctorshift');

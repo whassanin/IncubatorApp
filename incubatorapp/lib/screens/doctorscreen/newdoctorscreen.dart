@@ -9,10 +9,6 @@ class NewDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    userModel.createUser();
-    userModel.setUserType('Doctor');
-    doctorModel.createDoctor();
-
     return ScopedModel(
       model: doctorModel,
       child: ScopedModelDescendant(
@@ -20,7 +16,7 @@ class NewDoctorScreen extends StatelessWidget {
             DoctorModel doctorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Register Doctor'),
+              title: Text('Register Doctor',style: TextStyle(color: Colors.white)),
             ),
             body: DoctorFormWidget(
               isEdit: false,

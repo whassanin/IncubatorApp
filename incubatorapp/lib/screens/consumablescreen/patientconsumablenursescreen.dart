@@ -27,7 +27,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             PatientConsumableNurseModel patientConsumableNurseModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Consumable'),
+              title: Text('Consumable',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse
                     ? IconButton(

@@ -27,7 +27,7 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
             PatientMedicineDoctorModel patientMedicineDoctorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Medicine'),
+              title: Text('Medicine',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true
                     ? IconButton(

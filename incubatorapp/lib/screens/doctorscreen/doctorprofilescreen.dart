@@ -13,9 +13,10 @@ class DoctorProfileScreen extends StatelessWidget {
   static const routeName = '/doctorprofilescreen';
 
   final UserPermission userPermission;
-  DoctorProfileScreen({this.userPermission}) {
-    doctorModel.readById('1');
+  DoctorProfileScreen({this.userPermission}){
+    doctorModel.readById(userModel.getId().toString());
   }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
@@ -55,11 +56,11 @@ class DoctorProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(title,style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (doctorModel.currentTab == 1
                     ? IconButton(
-                        icon: Icon(Icons.add),
+                        icon: Icon(Icons.add,color: Colors.white,),
                         onPressed: () {
                           Navigator.push(
                             context,

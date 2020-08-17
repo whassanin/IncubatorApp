@@ -79,7 +79,8 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
 
     Widget saveButton = Expanded(
       child: RaisedButton(
-        child: Text('Save'),
+        color: Colors.cyan,
+        child: Text('Save',style: TextStyle(color: Colors.white)),
         onPressed: () {
           if (_formKey.currentState.validate()) {
             save();
@@ -94,7 +95,8 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
       if (widget.isEdit) {
         deleteButton = Expanded(
           child: RaisedButton(
-            child: Text('Delete'),
+            color: Colors.cyan,
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {
               delete();
             },

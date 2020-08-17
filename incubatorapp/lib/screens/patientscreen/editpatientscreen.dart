@@ -23,7 +23,6 @@ class EditPatientScreen extends StatelessWidget {
           if(patientModel.currentPatient!=null){
             if(patientModel.currentPatient.userId!=null){
               currentWidget = PatientFormWidget(
-                patientModel: patientModel,
                 isEdit: true,
               );
             }

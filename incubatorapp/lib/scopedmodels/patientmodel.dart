@@ -5,7 +5,6 @@ import 'package:incubatorapp/models/patientphone.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:incubatorapp/scopedmodels/patientphonemodel.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:intl/intl.dart';
 
 class PatientModel extends Model {
   Api _api = new Api('patient');
@@ -38,8 +37,6 @@ class PatientModel extends Model {
       0,
       '',
       '',
-      '',
-      '',
       DateTime.now(),
       1,
       1,
@@ -50,6 +47,15 @@ class PatientModel extends Model {
 
   void editPatient(Patient editPatient) {
     _currentPatient = editPatient;
+  }
+
+  void setUserId(int userId){
+    _currentPatient.userId = userId;
+    notifyListeners();
+  }
+
+  int getUserId(){
+    return _currentPatient.userId;
   }
 
   void setMotherName(String val) {
@@ -124,24 +130,6 @@ class PatientModel extends Model {
     return _currentPatient.state;
   }
 
-  void setUserName(String val) {
-    _currentPatient.username = val;
-    notifyListeners();
-  }
-
-  String getUserName() {
-    return _currentPatient.username;
-  }
-
-  void setPassword(String val) {
-    _currentPatient.password = val;
-    notifyListeners();
-  }
-
-  String getPassword() {
-    return _currentPatient.password;
-  }
-
   void setCreatedDate(DateTime val) {
     _currentPatient.createdDate = val;
     notifyListeners();
@@ -210,7 +198,7 @@ class PatientModel extends Model {
     List<dynamic> patientListMap = await _api.filter(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
   }
@@ -222,10 +210,13 @@ class PatientModel extends Model {
 
     _currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: 1);
 
+    await Future.delayed(Duration(seconds: 1));
+
     notifyListeners();
   }
 
   Future<bool> create() async {
+    print(_currentPatient.toJson().toString());
     int code = await _api.post(_currentPatient.toJson());
     if (code == 201) {
       return true;

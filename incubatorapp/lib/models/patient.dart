@@ -20,8 +20,6 @@ class Patient {
   double weight;
   String ssn;
   String state;
-  String username;
-  String password;
   DateTime createdDate;
   int conditionId;
   int incubatorId;
@@ -57,8 +55,6 @@ class Patient {
     this.weight,
     this.ssn,
     this.state,
-    this.username,
-    this.password,
     this.createdDate,
     this.conditionId,
     this.incubatorId,

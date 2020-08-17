@@ -13,7 +13,7 @@ class ShiftScreen extends StatelessWidget {
         builder: (BuildContext context,Widget child,ShiftModel shiftModel){
           return Scaffold(
             appBar: AppBar(
-              title: Text('Shift Screen'),
+              title: Text('Shift Screen',style: TextStyle(color: Colors.white)),
             ),
             body: ShiftListWidget(
               shiftList: shiftModel.shiftList,

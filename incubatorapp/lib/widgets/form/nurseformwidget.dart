@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 
 enum NurseColumns {
   firstName,
@@ -65,8 +67,8 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     dateOfBirthTEC.text = dateFormat();
   }
 
-  Widget columnTextField(String name, bool isNumber,
-      NurseColumns nurseColumns, TextEditingController columnTEC,
+  Widget columnTextField(String name, bool isNumber, NurseColumns nurseColumns,
+      TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -88,6 +90,9 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
+          if(v.isEmpty){
+            return 'Required';
+          }
           return null;
         },
         onChanged: (v) {
@@ -207,6 +212,28 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
+  Future _onErrorDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: Text('username already taken'),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Ok'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void save() async {
     if (_formKey.currentState.validate()) {
       if (widget.isEdit != null) {
@@ -214,22 +241,42 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           userModel.update();
           nurseModel.update();
         } else {
-          showLoadingDialog(context);
+          bool isValid = await userModel.checkUsername(false);
 
-          userModel.create();
+          await Future.delayed(Duration(seconds: 1));
 
-          await Future.delayed(Duration(seconds: 2));
+          if (isValid == false) {
+            showLoadingDialog(context);
 
-          userModel.readByUsernameAndPassword();
+            userModel.create();
 
-          await Future.delayed(Duration(seconds: 5));
+            await Future.delayed(Duration(seconds: 2));
 
-          if (userModel.currentUser != null) {
-            nurseModel.setUserId(userModel.getId());
+            userModel.readByUsernameAndPassword();
 
-            nurseModel.create();
+            await Future.delayed(Duration(seconds: 5));
 
-            popPage();
+            if (userModel.currentUser != null) {
+              nurseModel.setUserId(userModel.getId());
+
+              nurseModel.create();
+
+              userPermission.setPermission(UserType.patient);
+
+              await Future.delayed(Duration(seconds: 2));
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NurseProfileScreen(
+                    userPermission: userPermission,
+                  ),
+                ),
+                ModalRoute.withName('/signinscreen'),
+              );
+            }
+          }else {
+            _onErrorDialog(context);
           }
         }
       }
@@ -243,6 +290,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -250,7 +298,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white)),
             onPressed: () {
               save();
             },
@@ -339,15 +387,15 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                   fun: showDialogDatePicker),
               (widget.isEdit != null
                   ? (widget.isEdit
-                  ? Container()
-                  : columnTextField('Username', false,
-                  NurseColumns.username, usernameTEC))
+                      ? Container()
+                      : columnTextField('Username', false,
+                          NurseColumns.username, usernameTEC))
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit
-                  ? Container()
-                  : columnTextField('Password', false,
-                  NurseColumns.password, passwordTEC))
+                      ? Container()
+                      : columnTextField('Password', false,
+                          NurseColumns.password, passwordTEC))
                   : Container()),
               editButtons(),
             ],

@@ -92,6 +92,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
+          color: Colors.cyan,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -99,7 +100,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               ),
             ),
           ),
-          child: Text('Delete'),
+          child: Text('Delete',style: TextStyle(color: Colors.white)),
           onPressed: () {
             patientAnalysisModel.delete();
             Navigator.pop(context);
@@ -112,6 +113,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
+          color: Colors.cyan,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -119,7 +121,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               ),
             ),
           ),
-          child: Text('Save'),
+          child: Text('Save',style: TextStyle(color: Colors.white)),
           onPressed: () {
             patientAnalysisModel.update();
             Navigator.pop(context);

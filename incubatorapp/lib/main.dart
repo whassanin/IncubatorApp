@@ -23,23 +23,12 @@ import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.da
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
-import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
-import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
-import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
-import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
-import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
-
-import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/newshiftscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
@@ -73,6 +62,8 @@ PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableN
 DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
 NurseShiftModel nurseShiftModel = new NurseShiftModel();
 
+UserPermission userPermission = new UserPermission();
+
 void main() {
   runApp(MyApp());
 }
@@ -83,15 +74,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-/*    conditionModel.readAll();
+    incubatorModel.readAll();
+    conditionModel.readAll();
     analysisModel.readAll();
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
-    shiftModel.readAll();*/
-
-    UserPermission userPermission = new UserPermission();
-    userPermission.setPermission(UserType.doctor);
+    shiftModel.readAll();
 
     return MaterialApp(
       title: 'Flutter Demo',

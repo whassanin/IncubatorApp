@@ -22,7 +22,7 @@ class NewPatientConsumableNurseScreen extends StatelessWidget {
             PatientConsumableNurseModel patientConsumableNurseModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Add Consumable to Patient'),
+              title: Text('Add Consumable to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: ConsumableListWidget(
               patient: patient,

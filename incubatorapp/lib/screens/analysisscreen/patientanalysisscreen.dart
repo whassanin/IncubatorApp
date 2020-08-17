@@ -27,7 +27,7 @@ class PatientAnalysisScreen extends StatelessWidget {
             PatientAnalysisModel patientAnalysisModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Analysis'),
+              title: Text('Analysis',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true?IconButton(
                   icon: Icon(

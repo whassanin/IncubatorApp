@@ -19,7 +19,7 @@ class IncubatorScreen extends StatelessWidget {
             IncubatorModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Incubator List'),
+              title: Text('Incubator List',style: TextStyle(color: Colors.white)),
               centerTitle: true,
             ),
             floatingActionButton: FloatingActionButton(

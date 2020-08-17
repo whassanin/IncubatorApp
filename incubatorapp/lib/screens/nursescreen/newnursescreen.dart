@@ -9,9 +9,6 @@ class NewNurseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    userModel.createUser();
-    userModel.setUserType('Nurse');
-    nurseModel.createNurse();
     return ScopedModel(
       model: nurseModel,
       child: ScopedModelDescendant(
@@ -19,7 +16,7 @@ class NewNurseScreen extends StatelessWidget {
             NurseModel nurseModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Register Nurse'),
+              title: Text('Register Nurse',style: TextStyle(color: Colors.white)),
             ),
             body: NurseFormWidget(
               isEdit: false,

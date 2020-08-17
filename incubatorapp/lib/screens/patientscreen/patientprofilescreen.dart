@@ -13,7 +13,7 @@ class PatientProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   PatientProfileScreen({this.userPermission}){
-    patientModel.readById('1');
+    patientModel.readById(userModel.getId().toString());
   }
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(title,style: TextStyle(color: Colors.white)),
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),

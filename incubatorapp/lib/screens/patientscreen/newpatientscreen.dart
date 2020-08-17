@@ -9,17 +9,15 @@ class NewPatientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patientModel.createPatient();
     return ScopedModel(
       model: patientModel,
       child: ScopedModelDescendant(builder: (BuildContext context, Widget childWidget,
           PatientModel patientModel){
         return Scaffold(
           appBar: AppBar(
-            title: Text('Register Patient'),
+            title: Text('Register Patient',style: TextStyle(color: Colors.white)),
           ),
           body: PatientFormWidget(
-            patientModel: patientModel,
             isEdit: false,
           ),
         );
