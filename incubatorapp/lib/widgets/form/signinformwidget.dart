@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
+import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
@@ -19,7 +20,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   TextEditingController passwordTEC = new TextEditingController();
 
   final _formKey = new GlobalKey<FormState>();
-  final GlobalKey _keyLoader = new GlobalKey();
 
   void setData(UserColumn userColumn, Object val) {
     if (userColumn == UserColumn.username) {
@@ -71,6 +71,15 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     }
   }
 
+  void navigateToForgetPasswordScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForgetPasswordScreen(),
+      ),
+    );
+  }
+
   void signInByUsernameAndPassword() async {
     if (_formKey.currentState.validate()) {
       usernameTEC.clear();
@@ -80,9 +89,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
       userModel.readByUsernameAndPassword();
 
-      popPage();
+      await Future.delayed(Duration(seconds: 2));
 
-      await Future.delayed(Duration(seconds: 1));
+      Navigator.pop(context);
 
       navigateToHomeScreen();
     }
@@ -109,7 +118,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         return new WillPopScope(
           onWillPop: () async => false,
           child: SimpleDialog(
-            key: _keyLoader,
             backgroundColor: Colors.grey,
             children: <Widget>[
               Center(
@@ -131,11 +139,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         );
       },
     );
-  }
-
-  void popPage() async {
-    await Future.delayed(Duration(seconds: 1));
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   Future _onErrorDialog(BuildContext context) {
@@ -183,7 +186,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
-          if(v.isEmpty){
+          if (v.isEmpty) {
             return 'Required';
           }
           return null;
@@ -253,23 +256,32 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     );
   }
 
-  Widget subMessage(String title, double fontSize, Color color) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Text(
-                title,
-                style: TextStyle(fontSize: fontSize, color: color),
-                textAlign: TextAlign.center,
+  Widget subMessage(String title, double fontSize, Color color,
+      {VoidCallback fun}) {
+    return GestureDetector(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: fontSize, color: color),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+      onTap: () {
+        if (fun != null) {
+          fun();
+        }
+      },
     );
   }
 
@@ -281,7 +293,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    getData();
+    //getData();
 
     Decoration decoration = BoxDecoration(
       border: Border.all(
@@ -294,8 +306,12 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
     Widget orTitle = subMessage('OR', 14, Colors.grey);
 
-    Widget forgetPasswordTitle =
-        subMessage('Forget Password?', 14, Colors.grey);
+    Widget forgetPasswordTitle = subMessage(
+      'Forget Password?',
+      14,
+      Colors.grey,
+      fun: navigateToForgetPasswordScreen,
+    );
 
     Widget signInButton = buttonWidget(
       'Sign In',
@@ -328,6 +344,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
     return Center(
         child: Form(
-            key: _formKey, child: SingleChildScrollView(child: contentData)));
+            key: _formKey, child: SingleChildScrollView(child: contentData,),),);
   }
 }

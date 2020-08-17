@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 
 enum DoctorColumns {
   firstName,
@@ -22,7 +24,6 @@ class DoctorFormWidget extends StatefulWidget {
 
 class _DoctorFormWidgetState extends State<DoctorFormWidget> {
   final _formKey = new GlobalKey<FormState>();
-  final GlobalKey _keyLoader = new GlobalKey();
 
   TextEditingController firstNameTEC = new TextEditingController();
   TextEditingController lastNameTEC = new TextEditingController();
@@ -88,6 +89,9 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
+          if(v.isEmpty){
+            return 'Required';
+          }
           return null;
         },
         onChanged: (v) {
@@ -140,30 +144,31 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
         return SimpleDialog(
           children: <Widget>[
             Container(
-                width: 150,
-                height: 130,
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('Male'),
-                      onTap: () {
-                        genderTEC.text = 'Male';
-                        print('Selected Male');
-                        setData(DoctorColumns.gender, true);
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('Female'),
-                      onTap: () {
-                        genderTEC.text = 'Female';
-                        setData(DoctorColumns.gender, false);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )),
+              width: 150,
+              height: 130,
+              child: ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text('Male'),
+                    onTap: () {
+                      genderTEC.text = 'Male';
+                      print('Selected Male');
+                      setData(DoctorColumns.gender, true);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text('Female'),
+                    onTap: () {
+                      genderTEC.text = 'Female';
+                      setData(DoctorColumns.gender, false);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         );
       },
@@ -178,7 +183,6 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
         return new WillPopScope(
           onWillPop: () async => false,
           child: SimpleDialog(
-            key: _keyLoader,
             backgroundColor: Colors.grey,
             children: <Widget>[
               Center(
@@ -202,9 +206,26 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     );
   }
 
-  void popPage() async {
-    await Future.delayed(Duration(seconds: 8));
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  Future _onErrorDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: Text('username already taken'),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Ok'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void save() async {
@@ -214,22 +235,42 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           userModel.update();
           doctorModel.update();
         } else {
-          showLoadingDialog(context);
+          bool isValid = await userModel.checkUsername(false);
 
-          userModel.create();
+          await Future.delayed(Duration(seconds: 1));
 
-          await Future.delayed(Duration(seconds: 2));
+          if (isValid == false) {
+            showLoadingDialog(context);
 
-          userModel.readByUsernameAndPassword();
+            userModel.create();
 
-          await Future.delayed(Duration(seconds: 5));
+            await Future.delayed(Duration(seconds: 2));
 
-          if (userModel.currentUser != null) {
-            doctorModel.setUserId(userModel.getId());
+            userModel.readByUsernameAndPassword();
 
-            doctorModel.create();
+            await Future.delayed(Duration(seconds: 3));
 
-            popPage();
+            if (userModel.currentUser != null) {
+              doctorModel.setUserId(userModel.getId());
+
+              doctorModel.create();
+
+              userPermission.setPermission(UserType.doctor);
+
+              await Future.delayed(Duration(seconds: 2));
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DoctorProfileScreen(
+                    userPermission: userPermission,
+                  ),
+                ),
+                ModalRoute.withName('/signinscreen'),
+              );
+            }
+          } else {
+            _onErrorDialog(context);
           }
         }
       }

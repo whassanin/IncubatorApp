@@ -14,7 +14,7 @@ class NurseProfileScreen extends StatelessWidget {
 
   final UserPermission userPermission;
   NurseProfileScreen({this.userPermission}) {
-    nurseModel.readById('2');
+    nurseModel.readById(userModel.getId().toString());
   }
   @override
   Widget build(BuildContext context) {

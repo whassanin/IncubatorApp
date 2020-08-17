@@ -14,7 +14,7 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
   void navigateToNewDoctorScreen() {
     userModel.setUserType(UserType.doctor);
     doctorModel.createDoctor();
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => NewDoctorScreen(),
@@ -25,7 +25,7 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
   void navigateToNewNurseScreen() {
     userModel.setUserType(UserType.nurse);
     nurseModel.createNurse();
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => NewNurseScreen(),
@@ -36,7 +36,7 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
   void navigateToNewPatientScreen() {
     userModel.setUserType(UserType.patient);
     patientModel.createPatient();
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => NewPatientScreen(),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:incubatorapp/scopedmodels/patientmodel.dart';
+import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 
 enum PatientColumns {
   motherName,
@@ -20,14 +22,16 @@ enum PatientColumns {
 
 class PatientFormWidget extends StatefulWidget {
   final bool isEdit;
-  final PatientModel patientModel;
-  PatientFormWidget({this.isEdit, this.patientModel});
+  PatientFormWidget({
+    this.isEdit,
+  });
   @override
   _PatientFormWidgetState createState() => _PatientFormWidgetState();
 }
 
 class _PatientFormWidgetState extends State<PatientFormWidget> {
   final _formKey = new GlobalKey<FormState>();
+  final GlobalKey _keyLoader = new GlobalKey();
 
   TextEditingController motherNameTEC = new TextEditingController();
   TextEditingController fatherNameTEC = new TextEditingController();
@@ -42,50 +46,161 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
 
   void setData(PatientColumns patientColumns, Object val) {
     if (patientColumns == PatientColumns.motherName) {
-      widget.patientModel.setMotherName(val);
+      patientModel.setMotherName(val);
     } else if (patientColumns == PatientColumns.fatherName) {
-      widget.patientModel.setFatherName(val);
+      patientModel.setFatherName(val);
     } else if (patientColumns == PatientColumns.gender) {
-      widget.patientModel.setGender(val);
+      patientModel.setGender(val);
     } else if (patientColumns == PatientColumns.dateOfBirth) {
-      widget.patientModel.setDateOfBirth(DateTime.parse(val.toString()));
+      patientModel.setDateOfBirth(DateTime.parse(val.toString()));
     } else if (patientColumns == PatientColumns.address) {
-      widget.patientModel.setAddress(val);
+      patientModel.setAddress(val);
     } else if (patientColumns == PatientColumns.weight) {
-      widget.patientModel.setWeight(double.parse(val.toString()));
+      patientModel.setWeight(double.parse(val.toString()));
     } else if (patientColumns == PatientColumns.SSN) {
-      widget.patientModel.setSSN(val);
+      patientModel.setSSN(val);
     } else if (patientColumns == PatientColumns.username) {
-      widget.patientModel.setUserName(val);
+      userModel.setUsername(val);
     } else if (patientColumns == PatientColumns.password) {
-      widget.patientModel.setPassword(val);
-    }else if(patientColumns == PatientColumns.phone){
-      widget.patientModel.setPhone(val);
+      userModel.setPassword(val);
+    } else if (patientColumns == PatientColumns.phone) {
+      patientModel.setPhone(val);
     }
   }
 
   String dateFormat() {
-    String v = widget.patientModel.getDateOfBirth().day.toString();
-    v = v + '/' + widget.patientModel.getDateOfBirth().month.toString();
-    v = v + '/' + widget.patientModel.getDateOfBirth().year.toString();
+    String v = patientModel.getDateOfBirth().day.toString();
+    v = v + '/' + patientModel.getDateOfBirth().month.toString();
+    v = v + '/' + patientModel.getDateOfBirth().year.toString();
     return v;
   }
 
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new WillPopScope(
+          onWillPop: () async => false,
+          child: SimpleDialog(
+            key: _keyLoader,
+            backgroundColor: Colors.grey,
+            children: <Widget>[
+              Center(
+                child: Column(
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Please Wait...',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void popPage() async {
+    await Future.delayed(Duration(seconds: 5));
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  Future _onErrorDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: Text('username already taken'),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Ok'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void save() async {
+    if (_formKey.currentState.validate()) {
+      if (widget.isEdit != null) {
+        if (widget.isEdit) {
+          userModel.update();
+          patientModel.update();
+        } else {
+          bool isValid = await userModel.checkUsername(false);
+
+          await Future.delayed(Duration(seconds: 1));
+
+          if (isValid == false) {
+            showLoadingDialog(context);
+
+            userModel.create();
+
+            await Future.delayed(Duration(seconds: 2));
+
+            userModel.readByUsernameAndPassword();
+
+            await Future.delayed(Duration(seconds: 5));
+
+            if (userModel.currentUser != null) {
+              patientModel.setUserId(userModel.getId());
+              patientModel.setCreatedDate(DateTime.now());
+              patientModel.setConditionId(1);
+              patientModel.setIncubatorId(1);
+              patientModel.setState('In');
+              patientModel.create();
+
+              userPermission.setPermission(UserType.patient);
+
+              await Future.delayed(Duration(seconds: 2));
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PatientProfileScreen(
+                    userPermission: userPermission,
+                  ),
+                ),
+                ModalRoute.withName('/signinscreen'),
+              );
+
+            }
+          } else {
+            _onErrorDialog(context);
+          }
+        }
+      }
+    }
+  }
+
   void getData() {
-    ssnTEC.text = widget.patientModel.getSSN();
-    motherNameTEC.text = widget.patientModel.getMotherName();
-    fatherNameTEC.text = widget.patientModel.getFatherName();
-    if (widget.patientModel.getGender()) {
+    ssnTEC.text = patientModel.getSSN();
+    motherNameTEC.text = patientModel.getMotherName();
+    fatherNameTEC.text = patientModel.getFatherName();
+    if (patientModel.getGender()) {
       genderTEC.text = 'Male';
     } else {
       genderTEC.text = 'Female';
     }
     dateOfBirthTEC.text = dateFormat();
-    weightTEC.text = widget.patientModel.getWeight().toString();
-    addressTEC.text = widget.patientModel.getAddress();
-    phoneTEC.text = widget.patientModel.getPhone();
+    weightTEC.text = patientModel.getWeight().toString();
+    addressTEC.text = patientModel.getAddress();
+    phoneTEC.text = patientModel.getPhone();
   }
-
 
   Widget columnTextField(String name, bool isNumber,
       PatientColumns patientColumns, TextEditingController columnTEC,
@@ -110,6 +225,9 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
+          if (v.isEmpty) {
+            return 'Required';
+          }
           return null;
         },
         onChanged: (v) {
@@ -140,7 +258,6 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 initialDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
-
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();
                   v = v + '/' + d.year.toString();
@@ -209,19 +326,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
             ),
             child: Text('Save'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                if (widget.isEdit != null) {
-                  if (widget.isEdit) {
-                    widget.patientModel.update();
-                  } else {
-                    widget.patientModel.setCreatedDate(DateTime.now());
-                    widget.patientModel.setConditionId(1);
-                    widget.patientModel.setIncubatorId(1);
-                    widget.patientModel.setState('In');
-                    widget.patientModel.create();
-                  }
-                }
-              }
+              save();
             },
           ),
         ),

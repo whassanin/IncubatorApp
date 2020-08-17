@@ -19,8 +19,6 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     (json['weight'] as num)?.toDouble(),
     json['ssn'] as String,
     json['state'] as String,
-    json['username'] as String,
-    json['password'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -47,8 +45,6 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'weight': instance.weight,
       'ssn': instance.ssn,
       'state': instance.state,
-      'username': instance.username,
-      'password': instance.password,
       'createdDate': instance.createdDate?.toIso8601String(),
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,

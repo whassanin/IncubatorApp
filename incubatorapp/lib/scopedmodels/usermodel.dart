@@ -11,6 +11,8 @@ class UserModel extends Model {
 
   User get currentUser => _currentUser;
 
+  String confirmPassword;
+
   void createUser() {
     _currentUser = new User(0, '', '', '', DateTime.now());
   }
@@ -62,6 +64,34 @@ class UserModel extends Model {
     return _currentUser.id;
   }
 
+  Future<bool> checkUsername(bool isGet) async {
+    bool isTaken = false;
+
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('username');
+    values.add(_currentUser.username);
+
+    List<dynamic> userListMap = await _api.filter(fields, values);
+    List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
+
+    if (userList != null) {
+      if (userList.length > 0) {
+        print(userList[0].toJson().toString());
+        if(isGet == true){
+          User user = userList[0];
+          _currentUser.id = user.id;
+          _currentUser.userType = user.userType.toString();
+          _currentUser.username = user.username;
+        }
+        isTaken = true;
+      }
+    }
+
+    return isTaken;
+  }
+
   void readByUsernameAndPassword() async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
@@ -84,7 +114,7 @@ class UserModel extends Model {
 
     setPermission();
 
-    notifyListeners();
+    //notifyListeners();
   }
 
   Future<bool> create() async {

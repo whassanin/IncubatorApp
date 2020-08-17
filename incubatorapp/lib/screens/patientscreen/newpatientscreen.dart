@@ -18,7 +18,6 @@ class NewPatientScreen extends StatelessWidget {
             title: Text('Register Patient'),
           ),
           body: PatientFormWidget(
-            patientModel: patientModel,
             isEdit: false,
           ),
         );

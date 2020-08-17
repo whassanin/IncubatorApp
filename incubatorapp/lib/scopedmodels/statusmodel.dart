@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/status.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -153,9 +151,11 @@ class StatusModel extends Model {
     if (limit != null) {
       fields.add('limit');
       values.add(limit.toString());
-      Map<String, dynamic> billsMap =
-          await _api.filterWithLimit(fields, values);
-      billsMap.forEach((e, f) {
+      Map<String, dynamic> statusMap = await _api.filterWithLimit(
+        fields,
+        values,
+      );
+      statusMap.forEach((e, f) {
         if (e == 'results') {
           statusListMap = f;
         }
