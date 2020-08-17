@@ -284,6 +284,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -291,7 +292,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white),),
             onPressed: () {
               save();
             },

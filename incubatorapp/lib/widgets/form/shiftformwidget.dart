@@ -147,6 +147,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -154,7 +155,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white)),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 if (widget.isEdit != null) {
@@ -177,6 +178,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -184,7 +186,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete'),
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {},
           ),
         ),

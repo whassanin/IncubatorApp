@@ -27,7 +27,7 @@ class PatientXRayScreen extends StatelessWidget {
             PatientXRayModel patientXRayModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('XRay'),
+              title: Text('XRay',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true?IconButton(
                   icon: Icon(

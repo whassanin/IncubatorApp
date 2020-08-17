@@ -317,6 +317,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -324,7 +325,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white)),
             onPressed: () {
               save();
             },
@@ -339,6 +340,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -346,7 +348,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete'),
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {},
           ),
         ),

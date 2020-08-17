@@ -16,7 +16,7 @@ class UserTypeScreen extends StatelessWidget {
         builder: (BuildContext context,Widget child, UserModel userModel){
           return Scaffold(
             appBar: AppBar(
-              title: Text('Select User Type'),
+              title: Text('Select User Type',style: TextStyle(color: Colors.white)),
             ),
             body: UserTypeFromWidget(),
           );

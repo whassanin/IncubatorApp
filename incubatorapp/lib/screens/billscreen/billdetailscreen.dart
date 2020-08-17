@@ -16,7 +16,7 @@ class BillDetailScreen extends StatelessWidget {
         builder: (BuildContext context, Widget child, BillModel billModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Bill Detail'),
+              title: Text('Bill Detail',style: TextStyle(color: Colors.white)),
             ),
             body: BillDetailRowWidget(bill: billModel.currentBill,)
           );

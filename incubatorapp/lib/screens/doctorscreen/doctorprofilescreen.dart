@@ -56,11 +56,11 @@ class DoctorProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(title,style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (doctorModel.currentTab == 1
                     ? IconButton(
-                        icon: Icon(Icons.add),
+                        icon: Icon(Icons.add,color: Colors.white,),
                         onPressed: () {
                           Navigator.push(
                             context,

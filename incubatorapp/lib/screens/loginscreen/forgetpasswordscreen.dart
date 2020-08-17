@@ -15,7 +15,7 @@ class ForgetPasswordScreen extends StatelessWidget {
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, UserModel userModel) {
           return Scaffold(
-            appBar: AppBar(title: Text('Forget Password Screen'),),
+            appBar: AppBar(title: Text('Forget Password Screen',style: TextStyle(color: Colors.white)),),
             backgroundColor: Colors.white,
             body: Hero(
               tag: 'forgetpassword',

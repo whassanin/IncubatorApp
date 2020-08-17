@@ -16,7 +16,7 @@ class NewNurseScreen extends StatelessWidget {
             NurseModel nurseModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Register Nurse'),
+              title: Text('Register Nurse',style: TextStyle(color: Colors.white)),
             ),
             body: NurseFormWidget(
               isEdit: false,

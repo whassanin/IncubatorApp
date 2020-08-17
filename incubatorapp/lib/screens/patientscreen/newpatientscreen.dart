@@ -15,7 +15,7 @@ class NewPatientScreen extends StatelessWidget {
           PatientModel patientModel){
         return Scaffold(
           appBar: AppBar(
-            title: Text('Register Patient'),
+            title: Text('Register Patient',style: TextStyle(color: Colors.white)),
           ),
           body: PatientFormWidget(
             isEdit: false,

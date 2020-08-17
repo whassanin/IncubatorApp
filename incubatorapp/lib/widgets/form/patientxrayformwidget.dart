@@ -90,6 +90,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
+          color: Colors.cyan,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -97,7 +98,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
               ),
             ),
           ),
-          child: Text('Delete'),
+          child: Text('Delete',style: TextStyle(color: Colors.white)),
           onPressed: () {
             patientXRayModel.delete();
             Navigator.pop(context);

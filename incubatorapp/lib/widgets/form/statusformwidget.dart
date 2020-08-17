@@ -173,6 +173,7 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -180,7 +181,7 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white)),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 if (widget.isEdit != null) {
@@ -203,6 +204,7 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -210,7 +212,7 @@ class _StatusFormWidgetState extends State<StatusFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete'),
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {},
           ),
         ),

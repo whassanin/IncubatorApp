@@ -12,7 +12,7 @@ class NewShiftScreen extends StatelessWidget {
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, ShiftModel shiftModel){
           return Scaffold(
-            appBar: AppBar(title: Text('New Shift Screen'),),
+            appBar: AppBar(title: Text('New Shift Screen',style: TextStyle(color: Colors.white)),),
             body: ShiftFormWidget(
               isEdit: false,
             ),

@@ -16,7 +16,7 @@ class EditNurseShiftScreen extends StatelessWidget {
             NurseShiftModel nurseShiftModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Edit Nurse Shift'),
+              title: Text('Edit Nurse Shift',style: TextStyle(color: Colors.white)),
             ),
             body: NurseShiftFormWidget(
               isEdit: true,

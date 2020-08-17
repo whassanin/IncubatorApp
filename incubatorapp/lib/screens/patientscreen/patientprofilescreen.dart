@@ -54,7 +54,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(title,style: TextStyle(color: Colors.white)),
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),

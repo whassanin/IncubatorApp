@@ -19,7 +19,7 @@ class NewIncubatorScreen extends StatelessWidget {
             IncubatorModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('New Incubator Screen'),
+              title: Text('New Incubator Screen',style: TextStyle(color: Colors.white)),
               centerTitle: true,
             ),
             body: IncubatorFormWidget()

@@ -259,6 +259,7 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
         child: Container(
           height: 60,
           child: RaisedButton(
+            color: Colors.cyan,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -266,7 +267,7 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
                 ),
               ),
             ),
-            child: Text(title),
+            child: Text(title,style: TextStyle(color: Colors.white)),
             onPressed: () {
               if (fun != null) {
                 fun();
