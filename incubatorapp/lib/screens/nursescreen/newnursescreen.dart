@@ -9,9 +9,6 @@ class NewNurseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    userModel.createUser();
-    userModel.setUserType('Nurse');
-    nurseModel.createNurse();
     return ScopedModel(
       model: nurseModel,
       child: ScopedModelDescendant(

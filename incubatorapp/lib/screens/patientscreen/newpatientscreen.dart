@@ -9,7 +9,6 @@ class NewPatientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patientModel.createPatient();
     return ScopedModel(
       model: patientModel,
       child: ScopedModelDescendant(builder: (BuildContext context, Widget childWidget,

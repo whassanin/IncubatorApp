@@ -74,6 +74,8 @@ PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableN
 DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
 NurseShiftModel nurseShiftModel = new NurseShiftModel();
 
+UserPermission userPermission = new UserPermission();
+
 void main() {
   runApp(MyApp());
 }
@@ -90,9 +92,6 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
     shiftModel.readAll();*/
-
-    UserPermission userPermission = new UserPermission();
-    userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',

@@ -1,51 +1,68 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/user.dart';
+import 'package:incubatorapp/models/userpermission.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class UserModel extends Model{
-  Api _api =new Api('user');
+class UserModel extends Model {
+  Api _api = new Api('user');
 
   User _currentUser;
 
   User get currentUser => _currentUser;
 
-  void createUser(){
-    _currentUser = new User(0,'','','',DateTime.now());
+  void createUser() {
+    _currentUser = new User(0, '', '', '', DateTime.now());
   }
 
-  void editUser(User editUser){
+  void editUser(User editUser) {
     _currentUser = editUser;
   }
 
-  void setUsername(String val){
+  void setUsername(String val) {
     _currentUser.username = val;
   }
 
-  String getUsername(){
+  String getUsername() {
     return _currentUser.username;
   }
 
-  void setPassword(String val){
+  void setPassword(String val) {
     _currentUser.password = val;
   }
 
-  String getPassword(){
+  String getPassword() {
     return _currentUser.password;
   }
 
-  void setUserType(String val){
-    _currentUser.userType = val;
+  void setUserType(UserType userType) {
+    _currentUser.userType = userType.toString();
   }
 
-  String getUserType(){
+  String getUserType() {
     return _currentUser.userType;
   }
 
-  int getId(){
+  void setPermission() {
+    UserType userType;
+    if (_currentUser.userType == UserType.doctor.toString()) {
+      userType = UserType.doctor;
+    } else if (_currentUser.userType == UserType.nurse.toString()) {
+      userType = UserType.nurse;
+    } else if (_currentUser.userType == UserType.patient.toString()) {
+      userType = UserType.patient;
+    }
+
+    print(userType.toString());
+
+    userPermission.setPermission(userType);
+  }
+
+  int getId() {
     return _currentUser.id;
   }
 
-  void readByUsernameAndPassword() async{
+  void readByUsernameAndPassword() async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -55,16 +72,17 @@ class UserModel extends Model{
     fields.add('password');
     values.add(_currentUser.password);
 
-    List<dynamic> userListMap =
-        await _api.filter(fields, values);
+    List<dynamic> userListMap = await _api.filter(fields, values);
     List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
 
-    if(userList!=null){
-      if(userList.length > 0){
+    if (userList != null) {
+      if (userList.length > 0) {
         _currentUser = userList[0];
         print(_currentUser.toJson().toString());
       }
     }
+
+    setPermission();
 
     notifyListeners();
   }
@@ -72,7 +90,6 @@ class UserModel extends Model{
   Future<bool> create() async {
     int code = await _api.post(_currentUser.toJson());
     if (code == 201) {
-
       return true;
     }
     return false;
@@ -80,7 +97,7 @@ class UserModel extends Model{
 
   Future<bool> update() async {
     int code =
-    await _api.put(_currentUser.toJson(), _currentUser.id.toString());
+        await _api.put(_currentUser.toJson(), _currentUser.id.toString());
     if (code == 200) {
       notifyListeners();
 
