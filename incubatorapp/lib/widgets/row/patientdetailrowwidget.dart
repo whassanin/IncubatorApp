@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
@@ -20,7 +21,6 @@ class PatientDetailRowWidget extends StatefulWidget {
 }
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
-
   void goToStatusScreen() {
     statusModel.clearList();
 
@@ -209,6 +209,72 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
+  Widget statusColumnWithImage(
+    String imagePath,
+    double iconSize,
+    String title,
+    String val,
+  ) {
+    Widget rowIcon = Padding(
+      padding:
+          const EdgeInsets.only(left: 10, right: 8.0, bottom: 8.0, top: 8.0),
+      child: Container(
+        width: 80,
+        height: 50,
+        child: Image.asset(
+          imagePath,
+          width: 80,
+          height: 50,
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+
+    Widget rowText = Padding(
+      padding:
+          const EdgeInsets.only(left: 10, right: 8.0, bottom: 8.0, top: 20.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              title,
+              softWrap: true,
+            ),
+            Text(val),
+          ],
+        ),
+      ),
+    );
+
+    Widget rowData = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(width: iconSize, child: rowIcon),
+          Expanded(child: rowText),
+        ],
+      ),
+    );
+
+    return Center(
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border(
+            top: BorderSide.none,
+            left: BorderSide.none,
+            bottom: BorderSide(width: 1, color: Colors.black),
+            right: BorderSide(width: 1, color: Colors.black),
+          ),
+        ),
+        child: rowData,
+      ),
+    );
+  }
+
   Widget statusRow() {
     Widget currentWidget = Row(
       children: <Widget>[
@@ -248,7 +314,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.heart,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Heart Rate',
@@ -256,7 +322,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.heartbeat,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Pulse Rate',
@@ -264,7 +330,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.lungs,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Oxygen',
@@ -272,7 +338,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.weight,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Weight',
@@ -280,7 +346,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.burn,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Sugar',
@@ -288,7 +354,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.filePrescription,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Blood Pressure',
@@ -296,7 +362,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.poop,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Urine',
@@ -304,7 +370,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.poop,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Stool',
@@ -320,16 +386,13 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.temperatureHigh,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Temperature',
                     widget.patient.statusList[0].temperature.toString()),
-                statusColumn(
-                    Icon(
-                      FontAwesomeIcons.temperatureHigh,
-                      color: Colors.blueAccent,
-                    ),
+                statusColumnWithImage(
+                    'assets/IncubatorIcon.png',
                     50,
                     'Incubator Temperature',
                     widget.patient.statusList[0].incubatorTemperature
@@ -337,7 +400,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.calendar,
-                      color: Colors.blueAccent,
+                      color: Colors.cyan,
                     ),
                     50,
                     'Latest Date',
@@ -384,7 +447,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: RaisedButton(
-          color: Colors.white,
+          color: Colors.cyan,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Column(
@@ -395,7 +458,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 padding: const EdgeInsets.all(4.0),
                 child: icon,
               ),
-              Text(title),
+              Text(title,style: TextStyle(color: Colors.white),),
             ],
           ),
           onPressed: () {
@@ -419,28 +482,28 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           rowButton(
               Icon(
                 FontAwesomeIcons.list,
-                color: Colors.blueAccent,
+                color: Colors.white,
               ),
               'Analysis',
               fun: goToAnalysisScreen),
           rowButton(
               Icon(
                 FontAwesomeIcons.xRay,
-                color: Colors.blueAccent,
+                color: Colors.white,
               ),
               'XRay',
               fun: goToXRayScreen),
           rowButton(
               Icon(
                 FontAwesomeIcons.pills,
-                color: Colors.blueAccent,
+                color: Colors.white,
               ),
               'Medicine',
               fun: goToMedicineScreen),
           rowButton(
               Icon(
                 FontAwesomeIcons.thList,
-                color: Colors.blueAccent,
+                color: Colors.white,
               ),
               'Consumable',
               fun: goToConsumableScreen),
@@ -449,10 +512,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  Widget addStatusButton(){
+  Widget addStatusButton() {
     Widget currentWidget = Container();
 
-    if(widget.userPermission.isNurse || widget.userPermission.isDoctor){
+    if (widget.userPermission.isNurse || widget.userPermission.isDoctor) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: Row(
@@ -461,13 +524,12 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               child: Container(
                 height: 100,
                 child: rowButton(
-                  Icon(
-                    Icons.view_list,
-                    color: Colors.blueAccent,
-                  ),
-                  'View History Status',
-                  fun: goToStatusScreen
-                ),
+                    Icon(
+                      Icons.view_list,
+                      color: Colors.white,
+                    ),
+                    'View History Status',
+                    fun: goToStatusScreen),
               ),
             ),
           ],
@@ -480,12 +542,26 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Condition condition;
+
+    if (conditionModel.conditionList != null) {
+      List<Condition> list = conditionModel.conditionList
+          .where((c) => c.id == widget.patient.conditionId)
+          .toList();
+      if (list.length > 0) {
+        condition = list[0];
+      }
+    }
+
     return SingleChildScrollView(
       physics: ScrollPhysics(),
       child: Column(
         children: <Widget>[
           rowTitle('Information'),
           patientInformationRow(),
+          rowTitle('Condition: ' + condition.name),
+          rowTitle(
+              'Incubator Number: ' + widget.patient.incubatorId.toString()),
           rowTitle('Status'),
           statusRow(),
           addStatusButton(),
