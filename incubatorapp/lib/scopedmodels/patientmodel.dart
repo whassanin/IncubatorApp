@@ -208,7 +208,7 @@ class PatientModel extends Model {
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    _currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: 1);
+    //_currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: 1);
 
     await Future.delayed(Duration(seconds: 1));
 
