@@ -166,16 +166,22 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
     Widget rowText = Padding(
       padding:
-          const EdgeInsets.only(left: 10, right: 8.0, bottom: 8.0, top: 20.0),
+          const EdgeInsets.only(left: 10, right: 8.0, bottom: 3.0, top: 13.0),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              title,
-              softWrap: true,
+            Center(
+              child: Text(
+                title,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
             ),
-            Text(val),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Text(val),
+            ),
           ],
         ),
       ),
@@ -559,7 +565,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         children: <Widget>[
           rowTitle('Information'),
           patientInformationRow(),
-          rowTitle('Condition: ' + condition.name),
+          rowTitle('Condition: ' + (condition!=null?condition.name:'')),
           rowTitle(
               'Incubator Number: ' + widget.patient.incubatorId.toString()),
           rowTitle('Status'),
