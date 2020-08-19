@@ -247,7 +247,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               title,
               softWrap: true,
             ),
-            Text(val),
+            Padding(
+              padding: const EdgeInsets.only(top:5.0),
+              child: Text(val),
+            ),
           ],
         ),
       ),

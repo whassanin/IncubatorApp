@@ -27,12 +27,16 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             PatientConsumableNurseModel patientConsumableNurseModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Consumable',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse
                     ? IconButton(
                         icon: Icon(
                           Icons.add,
+                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.push(

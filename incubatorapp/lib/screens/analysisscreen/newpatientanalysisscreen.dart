@@ -22,6 +22,9 @@ class NewPatientAnalysisScreen extends StatelessWidget {
             PatientAnalysisModel patientAnalysisModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Add Analysis to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: AnalysisListWidget(

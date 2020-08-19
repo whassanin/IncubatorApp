@@ -27,11 +27,15 @@ class PatientAnalysisScreen extends StatelessWidget {
             PatientAnalysisModel patientAnalysisModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Analysis',style: TextStyle(color: Colors.white)),
+              leading: BackButton(
+                color: Colors.white,
+              ),
+              title: Text('Analysis',style: TextStyle(color: Colors.white),),
               actions: <Widget>[
                 (userPermission.isDoctor == true?IconButton(
                   icon: Icon(
                     Icons.add,
+                    color: Colors.white,
                   ),
                   onPressed: (){
                     Navigator.push(

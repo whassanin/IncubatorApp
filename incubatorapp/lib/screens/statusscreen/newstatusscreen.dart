@@ -20,6 +20,9 @@ class NewStatusScreen extends StatelessWidget {
             StatusModel statusModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Add Status',style: TextStyle(color: Colors.white)),
             ),
             body: StatusFormWidget(
