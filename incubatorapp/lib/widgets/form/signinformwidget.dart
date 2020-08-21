@@ -98,7 +98,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   void signInByHauweiId() {
-    // TODO: Sign in by Hauwei Id
+    userModel.signIn();
   }
 
   void signUp() {
@@ -319,7 +319,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       fun: signInByUsernameAndPassword,
     );
 
-    Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID', Colors.red);
+    Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID', Colors.red,fun: signInByHauweiId);
 
     Widget signUpButton = buttonWidget(
       'Sign Up',

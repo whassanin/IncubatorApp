@@ -1,3 +1,7 @@
+import 'package:huawei_account/auth/auth_huawei_id.dart';
+import 'package:huawei_account/helpers/auth_param_helper.dart';
+import 'package:huawei_account/helpers/scope.dart';
+import 'package:huawei_account/hms_account.dart';
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/user.dart';
@@ -79,7 +83,7 @@ class UserModel extends Model {
     if (userList != null) {
       if (userList.length > 0) {
         print(userList[0].toJson().toString());
-        if(isGet == true){
+        if (isGet == true) {
           User user = userList[0];
           _currentUser.id = user.id;
           _currentUser.userType = user.userType.toString();
@@ -90,6 +94,45 @@ class UserModel extends Model {
     }
 
     return isTaken;
+  }
+
+  void silentSignIn() async {
+    AuthParamHelper authParamHelper = new AuthParamHelper();
+    try {
+      final AuthHuaweiId accountInfo =
+          await HmsAccount.silentSignIn(authParamHelper);
+      print(accountInfo.displayName);
+    } on Exception catch (exception) {
+      print(exception.toString());
+    }
+  }
+
+  void signIn() async {
+    // BUILD DESIRED PARAMS
+    AuthParamHelper authParamHelper = new AuthParamHelper();
+    authParamHelper
+      ..setIdToken()
+      ..setAuthorizationCode()
+      ..setAccessToken()
+      ..setProfile()
+      ..setEmail()
+      ..setId()
+      ..addToScopeList([Scope.openId])
+      ..setRequestCode(8888);
+    // GET ACCOUNT INFO FROM PLUGIN
+
+    print('sign in here huawei');
+
+    try {
+      final AuthHuaweiId accountInfo = await HmsAccount.signIn(authParamHelper);
+      print(accountInfo.displayName);
+    } on Exception catch (exception) {
+      print('Here exception');
+      print(exception.toString());
+    }
+
+    /// TO VERIFY ID TOKEN, AuthParamHelper()..setIdToken()
+    //performServerVerification(accountInfo.idToken);
   }
 
   void readByUsernameAndPassword() async {
