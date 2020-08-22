@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
@@ -56,7 +57,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString(),1,0);
+      patientModel.readById(userModel.currentUser.id.toString(), 1, 0);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -97,13 +98,28 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     }
   }
 
-  void signInByHauweiId() {
-    userModel.signIn();
+  void signInByHauweiId() async {
+    userModel.createUser();
+    userModel.setProvider(UserProvider.huawei);
+
+    String v = await userModel.signIn();
+
+    userModel.setEmail(v);
+
+    bool isCheck = await userModel.checkEmail(true);
+
+    if(isCheck){
+      userModel.setPermission();
+      print(userModel.getUserType());
+      navigateToHomeScreen();
+    }else {
+
+    }
   }
 
   void signUp() {
     userModel.createUser();
-    userModel.setProvider('other');
+    userModel.setProvider(UserProvider.other);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -166,8 +182,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   Widget columnTextField(UserColumn userColumn, String name, bool isNumber,
-      bool isObscure,
-      TextEditingController columnTEC,
+      bool isObscure, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
@@ -323,8 +338,11 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       fun: signInByUsernameAndPassword,
     );
 
-    Widget signByHuaweiIdButton =
-        buttonWidget('Sign by Hauwei ID', Colors.red, fun: signInByHauweiId);
+    Widget signByHuaweiIdButton = buttonWidget(
+      'Sign by Hauwei ID',
+      Colors.red,
+      fun: signInByHauweiId,
+    );
 
     Widget signUpButton = buttonWidget(
       'Sign Up',
@@ -339,8 +357,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         welcomeTitle,
         signByHuaweiIdButton,
         orTitle,
-        columnTextField(UserColumn.email, 'Email', false,false, emailTEC),
-        columnTextField(UserColumn.password, 'Password', false,true, passwordTEC),
+        columnTextField(UserColumn.email, 'Email', false, false, emailTEC),
+        columnTextField(
+            UserColumn.password, 'Password', false, true, passwordTEC),
         signInButton,
         forgetPasswordTitle,
         signUpButton

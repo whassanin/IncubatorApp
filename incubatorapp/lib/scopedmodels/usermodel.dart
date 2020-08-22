@@ -8,6 +8,8 @@ import 'package:incubatorapp/models/user.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+enum UserProvider {huawei,other}
+
 class UserModel extends Model {
   Api _api = new Api('user');
 
@@ -49,8 +51,8 @@ class UserModel extends Model {
     return _currentUser.phone;
   }
 
-  void setProvider(String val) {
-    _currentUser.provider = val;
+  void setProvider(UserProvider userProvider) {
+    _currentUser.provider = userProvider.toString();
   }
 
   String getProvider() {
@@ -71,11 +73,13 @@ class UserModel extends Model {
 
   void setPermission() {
     UserType userType;
-    if (_currentUser.userType == UserType.doctor.toString()) {
+    String v = 'UserType.'+_currentUser.userType;
+    print('Permission: '+v);
+    if (v == UserType.doctor.toString()) {
       userType = UserType.doctor;
-    } else if (_currentUser.userType == UserType.nurse.toString()) {
+    } else if (v == UserType.nurse.toString()) {
       userType = UserType.nurse;
-    } else if (_currentUser.userType == UserType.patient.toString()) {
+    } else if (v == UserType.patient.toString()) {
       userType = UserType.patient;
     }
 
@@ -101,9 +105,8 @@ class UserModel extends Model {
         print(userList[0].toJson().toString());
         if (isGet == true) {
           User user = userList[0];
-          _currentUser.id = user.id;
-          _currentUser.userType = user.userType.toString();
-          _currentUser.email = user.email;
+          _currentUser = user;
+          print('check email:'+_currentUser.userType);
         }
         isTaken = true;
       }
@@ -123,7 +126,7 @@ class UserModel extends Model {
     }
   }
 
-  void signIn() async {
+  Future<String> signIn() async {
     // BUILD DESIRED PARAMS
     AuthParamHelper authParamHelper = new AuthParamHelper();
     authParamHelper
@@ -141,7 +144,7 @@ class UserModel extends Model {
 
     try {
       final AuthHuaweiId accountInfo = await HmsAccount.signIn(authParamHelper);
-      print('Email:'+accountInfo.email);
+      return accountInfo.email;
     } on Exception catch (exception) {
       print('Here exception');
       print(exception.toString());
@@ -149,6 +152,8 @@ class UserModel extends Model {
 
     /// TO VERIFY ID TOKEN, AuthParamHelper()..setIdToken()
     //performServerVerification(accountInfo.idToken);
+
+    return null;
   }
 
   void readByEmailAndPassword() async {
