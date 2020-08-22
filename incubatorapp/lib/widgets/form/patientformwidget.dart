@@ -43,7 +43,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
   TextEditingController ssnTEC = new TextEditingController();
   TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
-  TextEditingController confirmTEC = new TextEditingController();
+  TextEditingController confirmPasswordTEC = new TextEditingController();
   TextEditingController phoneTEC = new TextEditingController();
 
   void setData(PatientColumns patientColumns, Object val) {
@@ -114,7 +114,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
-  Future _onErrorDialog(BuildContext context,String title) {
+  Future _onErrorDialog(BuildContext context, String title) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -170,8 +170,8 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
 
               await Future.delayed(Duration(seconds: 2));
 
-              if(patientModel.currentPatient!=null){
-                if(patientModel.currentPatient.userId!=0){
+              if (patientModel.currentPatient != null) {
+                if (patientModel.currentPatient.userId != 0) {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -181,17 +181,21 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                     ),
                     ModalRoute.withName('/signinscreen'),
                   );
+                } else {
+                  _onErrorDialog(
+                    context,
+                    'Something went wrong. Please Try Again later',
+                  );
                 }
-                else {
-                  _onErrorDialog(context,'Something went wrong. Please Try Again later');
-                }
-              }
-              else {
-                _onErrorDialog(context,'Something went wrong. Please Try Again later');
+              } else {
+                _onErrorDialog(
+                  context,
+                  'Something went wrong. Please Try Again later',
+                );
               }
             }
           } else {
-            _onErrorDialog(context,'Email already exists');
+            _onErrorDialog(context, 'Email already exists');
           }
         }
       }
@@ -213,12 +217,13 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     phoneTEC.text = userModel.getPhone();
   }
 
-  Widget columnTextField(String name, bool isNumber,
+  Widget columnTextField(String name, bool isNumber, bool isObscure,
       PatientColumns patientColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+        obscureText: isObscure,
         controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -240,7 +245,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
             return 'Required';
           } else {
             if (patientColumns == PatientColumns.confirmPassword) {
-              if (userModel.getPassword() != confirmTEC.text) {
+              if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
             }
@@ -416,43 +421,46 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              columnTextField(
-                  'Social Security Number', true, PatientColumns.SSN, ssnTEC),
-              columnTextField('Mother Name', false, PatientColumns.motherName,
-                  motherNameTEC),
-              columnTextField('Father Name', false, PatientColumns.fatherName,
-                  fatherNameTEC),
+              columnTextField('Social Security Number', true, false,
+                  PatientColumns.SSN, ssnTEC),
+              columnTextField('Mother Name', false, false,
+                  PatientColumns.motherName, motherNameTEC),
+              columnTextField('Father Name', false, false,
+                  PatientColumns.fatherName, fatherNameTEC),
               columnTextField(
                 'Gender',
+                false,
                 false,
                 PatientColumns.gender,
                 genderTEC,
                 fun: showGenderPicker,
               ),
-              columnTextField('Date of Birth', false,
+              columnTextField('Date of Birth', false, false,
                   PatientColumns.dateOfBirth, dateOfBirthTEC,
                   fun: showDialogDatePicker),
-              columnTextField('Weight', true, PatientColumns.weight, weightTEC),
               columnTextField(
-                  'Address', false, PatientColumns.address, addressTEC),
-              columnTextField('Phone', true, PatientColumns.phone, phoneTEC),
+                  'Weight', true, false, PatientColumns.weight, weightTEC),
+              columnTextField(
+                  'Address', false, false, PatientColumns.address, addressTEC),
+              columnTextField(
+                  'Phone', true, false, PatientColumns.phone, phoneTEC),
               (widget.isEdit != null
                   ? (widget.isEdit
                       ? Container()
-                      : columnTextField(
-                          'Email', false, PatientColumns.email, emailTEC))
+                      : columnTextField('Email', false, false,
+                          PatientColumns.email, emailTEC))
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit
                       ? Container()
-                      : columnTextField('Password', false,
+                      : columnTextField('Password', false, true,
                           PatientColumns.password, passwordTEC))
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit
                       ? Container()
-                      : columnTextField('Confirm Password', false,
-                          PatientColumns.confirmPassword, confirmTEC))
+                      : columnTextField('Confirm Password', false, true,
+                          PatientColumns.confirmPassword, confirmPasswordTEC))
                   : Container()),
               editButtons(),
             ],

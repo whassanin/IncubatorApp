@@ -142,26 +142,6 @@ class StatusSerializer(serializers.ModelSerializer):
             'nurseId'
             ]
 
-class PatientSerializer(serializers.ModelSerializer):
-    status = StatusSerializer(many=True,read_only=True)
-    class Meta: 
-        model = Patient
-        fields = [
-        'userId',
-        'motherName',
-        'fatherName',
-        'gender',
-        'dateOfBirth',
-        'address',
-        'weight',
-        'ssn',
-        'state',
-        'createdDate',
-        'conditionId',
-        'incubatorId',
-        'status'
-        ]
-
 class BillSerializer(serializers.ModelSerializer):
     billextra = BillExtraSerializer(many=True,read_only=True)
     class Meta: 
@@ -180,6 +160,28 @@ class BillSerializer(serializers.ModelSerializer):
             'patientId',
             'billextra'
             ]
+
+class PatientSerializer(serializers.ModelSerializer):
+    status = StatusSerializer(many=True,read_only=True)
+    bills = BillSerializer(many=True,read_only=True)
+    class Meta: 
+        model = Patient
+        fields = [
+        'userId',
+        'motherName',
+        'fatherName',
+        'gender',
+        'dateOfBirth',
+        'address',
+        'weight',
+        'ssn',
+        'state',
+        'createdDate',
+        'conditionId',
+        'incubatorId',
+        'status',
+        'bills'
+        ]
 
 # main serializers
 

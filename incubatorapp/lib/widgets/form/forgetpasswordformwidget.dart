@@ -31,22 +31,22 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
 
       await Future.delayed(Duration(seconds: 2));
 
-      if(isValid == true){
+      if (isValid == true) {
         isValid = await userModel.update();
 
         await Future.delayed(Duration(seconds: 1));
-        if(isValid == true){
+        if (isValid == true) {
           Navigator.pop(context);
-        }else {
-          _onErrorDialog(context,'Can not update');
+        } else {
+          _onErrorDialog(context, 'Can not update');
         }
       } else {
-        _onErrorDialog(context,'User does not exist');
+        _onErrorDialog(context, 'User does not exist');
       }
     }
   }
 
-  Future _onErrorDialog(BuildContext context,String title) {
+  Future _onErrorDialog(BuildContext context, String title) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -69,11 +69,12 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
   }
 
   Widget columnTextField(UserColumn userColumn, String name, bool isNumber,
-      TextEditingController columnTEC,
+      bool isObscure, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextFormField(
+        obscureText: isObscure,
         controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -150,11 +151,11 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
   @override
   Widget build(BuildContext context) {
     Widget userNameWidget =
-        columnTextField(UserColumn.email, 'Email', false, emailTEC);
-    Widget passwordWidget =
-        columnTextField(UserColumn.password, 'New Password', false, passwordTEC);
+        columnTextField(UserColumn.email, 'Email', false, false, emailTEC);
+    Widget passwordWidget = columnTextField(
+        UserColumn.password, 'New Password', false, true, passwordTEC);
     Widget confirmPasswordWidget = columnTextField(UserColumn.confirmPassword,
-        'Confirm Password', false, confirmPasswordTEC);
+        'Confirm Password', false, true, confirmPasswordTEC);
     Widget updateButton =
         buttonWidget('Reset password', Colors.cyan, fun: resetPassword);
     return Form(

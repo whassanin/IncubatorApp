@@ -166,11 +166,13 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   Widget columnTextField(UserColumn userColumn, String name, bool isNumber,
+      bool isObscure,
       TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
       child: TextFormField(
+        obscureText: isObscure,
         controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -337,8 +339,8 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         welcomeTitle,
         signByHuaweiIdButton,
         orTitle,
-        columnTextField(UserColumn.email, 'Email', false, emailTEC),
-        columnTextField(UserColumn.password, 'Password', false, passwordTEC),
+        columnTextField(UserColumn.email, 'Email', false,false, emailTEC),
+        columnTextField(UserColumn.password, 'Password', false,true, passwordTEC),
         signInButton,
         forgetPasswordTitle,
         signUpButton
