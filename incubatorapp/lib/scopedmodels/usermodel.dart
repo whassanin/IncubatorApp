@@ -18,19 +18,19 @@ class UserModel extends Model {
   String confirmPassword;
 
   void createUser() {
-    _currentUser = new User(0, '', '', '', DateTime.now());
+    _currentUser = new User(0, '', '', '','','', DateTime.now());
   }
 
   void editUser(User editUser) {
     _currentUser = editUser;
   }
 
-  void setUsername(String val) {
-    _currentUser.username = val;
+  void setEmail(String val) {
+    _currentUser.email = val;
   }
 
-  String getUsername() {
-    return _currentUser.username;
+  String getEmail() {
+    return _currentUser.email;
   }
 
   void setPassword(String val) {
@@ -39,6 +39,26 @@ class UserModel extends Model {
 
   String getPassword() {
     return _currentUser.password;
+  }
+
+  void setPhone(String val) {
+    _currentUser.phone = val;
+  }
+
+  String getPhone() {
+    return _currentUser.phone;
+  }
+
+  void setProvider(String val) {
+    _currentUser.provider = val;
+  }
+
+  String getProvider() {
+    return _currentUser.provider;
+  }
+
+  int getId() {
+    return _currentUser.id;
   }
 
   void setUserType(UserType userType) {
@@ -64,18 +84,14 @@ class UserModel extends Model {
     userPermission.setPermission(userType);
   }
 
-  int getId() {
-    return _currentUser.id;
-  }
-
-  Future<bool> checkUsername(bool isGet) async {
+  Future<bool> checkEmail(bool isGet) async {
     bool isTaken = false;
 
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('username');
-    values.add(_currentUser.username);
+    fields.add('email');
+    values.add(_currentUser.email);
 
     List<dynamic> userListMap = await _api.filter(fields, values);
     List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
@@ -87,7 +103,7 @@ class UserModel extends Model {
           User user = userList[0];
           _currentUser.id = user.id;
           _currentUser.userType = user.userType.toString();
-          _currentUser.username = user.username;
+          _currentUser.email = user.email;
         }
         isTaken = true;
       }
@@ -125,7 +141,7 @@ class UserModel extends Model {
 
     try {
       final AuthHuaweiId accountInfo = await HmsAccount.signIn(authParamHelper);
-      print(accountInfo.displayName);
+      print('Email:'+accountInfo.email);
     } on Exception catch (exception) {
       print('Here exception');
       print(exception.toString());
@@ -135,12 +151,12 @@ class UserModel extends Model {
     //performServerVerification(accountInfo.idToken);
   }
 
-  void readByUsernameAndPassword() async {
+  void readByEmailAndPassword() async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('username');
-    values.add(_currentUser.username);
+    fields.add('email');
+    values.add(_currentUser.email);
 
     fields.add('password');
     values.add(_currentUser.password);

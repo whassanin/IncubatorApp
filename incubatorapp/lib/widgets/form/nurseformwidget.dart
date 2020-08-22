@@ -9,8 +9,9 @@ enum NurseColumns {
   lastName,
   gender,
   dateOfBirth,
-  username,
+  email,
   password,
+  phone,
 }
 
 class NurseFormWidget extends StatefulWidget {
@@ -30,8 +31,9 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
   TextEditingController lastNameTEC = new TextEditingController();
   TextEditingController genderTEC = new TextEditingController();
   TextEditingController dateOfBirthTEC = new TextEditingController();
-  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
+  TextEditingController phoneTEC = new TextEditingController();
 
   void setData(NurseColumns nurseColumns, Object val) {
     if (nurseColumns == NurseColumns.firstName) {
@@ -42,10 +44,12 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
       nurseModel.setGender(val);
     } else if (nurseColumns == NurseColumns.dateOfBirth) {
       nurseModel.setDateOfBirth(DateTime.parse(val.toString()));
-    } else if (nurseColumns == NurseColumns.username) {
-      userModel.setUsername(val);
+    } else if (nurseColumns == NurseColumns.email) {
+      userModel.setEmail(val);
     } else if (nurseColumns == NurseColumns.password) {
       userModel.setPassword(val);
+    } else if (nurseColumns == NurseColumns.phone) {
+      userModel.setPhone(val);
     }
   }
 
@@ -90,7 +94,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
-          if(v.isEmpty){
+          if (v.isEmpty) {
             return 'Required';
           }
           return null;
@@ -216,7 +220,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: Text('username already taken'),
+        title: Text('Email already taken'),
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -241,7 +245,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           userModel.update();
           nurseModel.update();
         } else {
-          bool isValid = await userModel.checkUsername(false);
+          bool isValid = await userModel.checkEmail(false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -252,7 +256,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
 
             await Future.delayed(Duration(seconds: 2));
 
-            userModel.readByUsernameAndPassword();
+            userModel.readByEmailAndPassword();
 
             await Future.delayed(Duration(seconds: 5));
 
@@ -275,7 +279,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                 ModalRoute.withName('/signinscreen'),
               );
             }
-          }else {
+          } else {
             _onErrorDialog(context);
           }
         }
@@ -298,7 +302,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save',style: TextStyle(color: Colors.white)),
+            child: Text('Save', style: TextStyle(color: Colors.white)),
             onPressed: () {
               save();
             },
@@ -372,9 +376,17 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           child: Column(
             children: <Widget>[
               columnTextField(
-                  'First Name', false, NurseColumns.firstName, firstNameTEC),
+                'First Name',
+                false,
+                NurseColumns.firstName,
+                firstNameTEC,
+              ),
               columnTextField(
-                  'Last Name', false, NurseColumns.lastName, lastNameTEC),
+                'Last Name',
+                false,
+                NurseColumns.lastName,
+                lastNameTEC,
+              ),
               columnTextField(
                 'Gender',
                 false,
@@ -382,20 +394,38 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                 genderTEC,
                 fun: showGenderPicker,
               ),
-              columnTextField('Date of Birth', false, NurseColumns.dateOfBirth,
-                  dateOfBirthTEC,
-                  fun: showDialogDatePicker),
+              columnTextField(
+                'Date of Birth',
+                false,
+                NurseColumns.dateOfBirth,
+                dateOfBirthTEC,
+                fun: showDialogDatePicker,
+              ),
+              columnTextField(
+                'Phone',
+                true,
+                NurseColumns.phone,
+                phoneTEC,
+              ),
               (widget.isEdit != null
-                  ? (widget.isEdit
-                      ? Container()
-                      : columnTextField('Username', false,
-                          NurseColumns.username, usernameTEC))
+                  ? (widget.isEdit == false
+                      ? columnTextField(
+                          'Email',
+                          false,
+                          NurseColumns.email,
+                          emailTEC,
+                        )
+                      : Container())
                   : Container()),
               (widget.isEdit != null
-                  ? (widget.isEdit
-                      ? Container()
-                      : columnTextField('Password', false,
-                          NurseColumns.password, passwordTEC))
+                  ? (widget.isEdit == false
+                      ? columnTextField(
+                          'Password',
+                          false,
+                          NurseColumns.password,
+                          passwordTEC,
+                        )
+                      : Container())
                   : Container()),
               editButtons(),
             ],

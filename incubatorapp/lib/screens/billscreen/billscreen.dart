@@ -9,11 +9,7 @@ class BillScreen extends StatelessWidget {
   static const routeName = '/billscreen';
 
   final Patient patient;
-  BillScreen({this.patient}) {
-    billModel.createBill();
-    billModel.setPatientId(patient.userId);
-    billModel.readByPatientId(patient.userId);
-  }
+  BillScreen({this.patient});
 
   @override
   Widget build(BuildContext context) {

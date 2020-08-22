@@ -36,6 +36,9 @@ urlpatterns = [
     path('nurse/', views.NurseList.as_view()),
     path('nurse/<int:pk>', views.NurseDetail.as_view()),
 
+    path('frontdesk/', views.ForntDeskList.as_view()),
+    path('frontdesk/<int:pk>', views.FrontDeskDetail.as_view()),
+
     # 1 to many data
     path('patient/', views.PatientList.as_view()),
     path('patient/<int:pk>', views.PatientDetail.as_view()),
@@ -65,9 +68,6 @@ urlpatterns = [
     path('patientmedicinedoctor/<int:pk>', views.PatientMedicineDoctortDetail.as_view()),
 
     # Multi value
-
-    path('patientphone/', views.PatientPhoneList.as_view()),
-    path('patientphone/<int:pk>', views.PatientPhoneDetail.as_view()),
 
     path('billextra/', views.BillExtraList.as_view()),
     path('billextra/<int:pk>', views.BillExtraDetail.as_view()),

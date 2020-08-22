@@ -95,8 +95,8 @@ class BillModel extends Model{
   int gePatientId(){
     return _currentBill.patientId;
   }
-  
-  void readByPatientId(int patientId) async{
+
+  Future<List<Bill>> readByPatientId(int patientId,{int limit}) async{
 
     List<String> fields = <String>[];
     List<String> values = <String>[];
@@ -104,10 +104,33 @@ class BillModel extends Model{
     fields.add('patientId');
     values.add(patientId.toString());
 
-    List<dynamic> billsMap = await _api.filter(fields,values);
-    billList = billsMap.map((e) => Bill.fromJson(e)).toList();
-    await Future.delayed(Duration(seconds: 2));
+    List<dynamic> billListMap;
+
+    if (limit != null) {
+      if(limit > 0){
+        fields.add('limit');
+        values.add(limit.toString());
+        Map<String, dynamic> statusMap = await _api.filterWithLimit(
+          fields,
+          values,
+        );
+        statusMap.forEach((e, f) {
+          if (e == 'results') {
+            billListMap = f;
+          }
+        });
+      }else {
+        billListMap = await _api.filter(fields, values);
+      }
+    } else {
+      billListMap = await _api.filter(fields, values);
+    }
+
+    billList = billListMap.map((e) => Bill.fromJson(e)).toList();
+
     notifyListeners();
+
+    return billList;
   }
 
   Future<bool> create() async{

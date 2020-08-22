@@ -13,8 +13,9 @@ enum PatientColumns {
   weight,
   SSN,
   isOut,
-  username,
+  email,
   password,
+  confirmPassword,
   phone,
   incubator,
   condition
@@ -40,8 +41,9 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
   TextEditingController addressTEC = new TextEditingController();
   TextEditingController weightTEC = new TextEditingController();
   TextEditingController ssnTEC = new TextEditingController();
-  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
+  TextEditingController confirmTEC = new TextEditingController();
   TextEditingController phoneTEC = new TextEditingController();
 
   void setData(PatientColumns patientColumns, Object val) {
@@ -59,12 +61,12 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
       patientModel.setWeight(double.parse(val.toString()));
     } else if (patientColumns == PatientColumns.SSN) {
       patientModel.setSSN(val);
-    } else if (patientColumns == PatientColumns.username) {
-      userModel.setUsername(val);
+    } else if (patientColumns == PatientColumns.email) {
+      userModel.setEmail(val);
     } else if (patientColumns == PatientColumns.password) {
       userModel.setPassword(val);
     } else if (patientColumns == PatientColumns.phone) {
-      patientModel.setPhone(val);
+      userModel.setPhone(val);
     }
   }
 
@@ -112,11 +114,11 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
-  Future _onErrorDialog(BuildContext context) {
+  Future _onErrorDialog(BuildContext context,String title) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: Text('username already taken'),
+        title: Text(title),
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -141,7 +143,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
           userModel.update();
           patientModel.update();
         } else {
-          bool isValid = await userModel.checkUsername(false);
+          bool isValid = await userModel.checkEmail(false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -152,7 +154,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
 
             await Future.delayed(Duration(seconds: 2));
 
-            userModel.readByUsernameAndPassword();
+            userModel.readByEmailAndPassword();
 
             await Future.delayed(Duration(seconds: 5));
 
@@ -168,19 +170,28 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
 
               await Future.delayed(Duration(seconds: 2));
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PatientProfileScreen(
-                    userPermission: userPermission,
-                  ),
-                ),
-                ModalRoute.withName('/signinscreen'),
-              );
-
+              if(patientModel.currentPatient!=null){
+                if(patientModel.currentPatient.userId!=0){
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PatientProfileScreen(
+                        userPermission: userPermission,
+                      ),
+                    ),
+                    ModalRoute.withName('/signinscreen'),
+                  );
+                }
+                else {
+                  _onErrorDialog(context,'Something went wrong. Please Try Again later');
+                }
+              }
+              else {
+                _onErrorDialog(context,'Something went wrong. Please Try Again later');
+              }
             }
           } else {
-            _onErrorDialog(context);
+            _onErrorDialog(context,'Email already exists');
           }
         }
       }
@@ -199,7 +210,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     dateOfBirthTEC.text = dateFormat();
     weightTEC.text = patientModel.getWeight().toString();
     addressTEC.text = patientModel.getAddress();
-    phoneTEC.text = patientModel.getPhone();
+    phoneTEC.text = userModel.getPhone();
   }
 
   Widget columnTextField(String name, bool isNumber,
@@ -227,6 +238,12 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
         validator: (v) {
           if (v.isEmpty) {
             return 'Required';
+          } else {
+            if (patientColumns == PatientColumns.confirmPassword) {
+              if (userModel.getPassword() != confirmTEC.text) {
+                return 'Mismatch password';
+              }
+            }
           }
           return null;
         },
@@ -325,7 +342,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save',style: TextStyle(color: Colors.white)),
+            child: Text('Save', style: TextStyle(color: Colors.white)),
             onPressed: () {
               save();
             },
@@ -348,7 +365,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete',style: TextStyle(color: Colors.white)),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
             onPressed: () {},
           ),
         ),
@@ -422,14 +439,20 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
               (widget.isEdit != null
                   ? (widget.isEdit
                       ? Container()
-                      : columnTextField('Username', false,
-                          PatientColumns.username, usernameTEC))
+                      : columnTextField(
+                          'Email', false, PatientColumns.email, emailTEC))
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit
                       ? Container()
                       : columnTextField('Password', false,
                           PatientColumns.password, passwordTEC))
+                  : Container()),
+              (widget.isEdit != null
+                  ? (widget.isEdit
+                      ? Container()
+                      : columnTextField('Confirm Password', false,
+                          PatientColumns.confirmPassword, confirmTEC))
                   : Container()),
               editButtons(),
             ],

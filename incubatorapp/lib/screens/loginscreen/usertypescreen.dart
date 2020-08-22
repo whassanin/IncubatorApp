@@ -9,13 +9,16 @@ class UserTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    userModel.createUser();
+
     return ScopedModel(
       model: userModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context,Widget child, UserModel userModel){
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Select User Type',style: TextStyle(color: Colors.white)),
             ),
             body: UserTypeFromWidget(),

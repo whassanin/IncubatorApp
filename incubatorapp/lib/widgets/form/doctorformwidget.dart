@@ -9,8 +9,9 @@ enum DoctorColumns {
   lastName,
   gender,
   dateOfBirth,
-  username,
+  email,
   password,
+  phone
 }
 
 class DoctorFormWidget extends StatefulWidget {
@@ -29,8 +30,9 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
   TextEditingController lastNameTEC = new TextEditingController();
   TextEditingController genderTEC = new TextEditingController();
   TextEditingController dateOfBirthTEC = new TextEditingController();
-  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
+  TextEditingController phoneTEC = new TextEditingController();
 
   void setData(DoctorColumns doctorColumns, Object val) {
     if (doctorColumns == DoctorColumns.firstName) {
@@ -41,10 +43,12 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
       doctorModel.setGender(val);
     } else if (doctorColumns == DoctorColumns.dateOfBirth) {
       doctorModel.setDateOfBirth(DateTime.parse(val.toString()));
-    } else if (doctorColumns == DoctorColumns.username) {
-      userModel.setUsername(val);
+    } else if (doctorColumns == DoctorColumns.email) {
+      userModel.setEmail(val);
     } else if (doctorColumns == DoctorColumns.password) {
       userModel.setPassword(val);
+    } else if (doctorColumns == DoctorColumns.phone) {
+      userModel.setPhone(val);
     }
   }
 
@@ -89,7 +93,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
-          if(v.isEmpty){
+          if (v.isEmpty) {
             return 'Required';
           }
           return null;
@@ -210,7 +214,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: Text('username already taken'),
+        title: Text('Email already taken'),
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -235,7 +239,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           userModel.update();
           doctorModel.update();
         } else {
-          bool isValid = await userModel.checkUsername(false);
+          bool isValid = await userModel.checkEmail(false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -246,7 +250,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
 
             await Future.delayed(Duration(seconds: 2));
 
-            userModel.readByUsernameAndPassword();
+            userModel.readByEmailAndPassword();
 
             await Future.delayed(Duration(seconds: 3));
 
@@ -292,7 +296,10 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save',style: TextStyle(color: Colors.white),),
+            child: Text(
+              'Save',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               save();
             },
@@ -366,9 +373,17 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           child: Column(
             children: <Widget>[
               columnTextField(
-                  'First Name', false, DoctorColumns.firstName, firstNameTEC),
+                'First Name',
+                false,
+                DoctorColumns.firstName,
+                firstNameTEC,
+              ),
               columnTextField(
-                  'Last Name', false, DoctorColumns.lastName, lastNameTEC),
+                'Last Name',
+                false,
+                DoctorColumns.lastName,
+                lastNameTEC,
+              ),
               columnTextField(
                 'Gender',
                 false,
@@ -376,20 +391,38 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                 genderTEC,
                 fun: showGenderPicker,
               ),
-              columnTextField('Date of Birth', false, DoctorColumns.dateOfBirth,
-                  dateOfBirthTEC,
-                  fun: showDialogDatePicker),
+              columnTextField(
+                'Date of Birth',
+                false,
+                DoctorColumns.dateOfBirth,
+                dateOfBirthTEC,
+                fun: showDialogDatePicker,
+              ),
+              columnTextField(
+                'Phone',
+                true,
+                DoctorColumns.phone,
+                phoneTEC,
+              ),
               (widget.isEdit != null
-                  ? (widget.isEdit
-                      ? Container()
-                      : columnTextField('Username', false,
-                          DoctorColumns.username, usernameTEC))
+                  ? (widget.isEdit == false
+                      ? columnTextField(
+                          'Email',
+                          false,
+                          DoctorColumns.email,
+                          emailTEC,
+                        )
+                      : Container())
                   : Container()),
               (widget.isEdit != null
-                  ? (widget.isEdit
-                      ? Container()
-                      : columnTextField('Password', false,
-                          DoctorColumns.password, passwordTEC))
+                  ? (widget.isEdit == false
+                      ? columnTextField(
+                          'Password',
+                          false,
+                          DoctorColumns.password,
+                          passwordTEC,
+                        )
+                      : Container())
                   : Container()),
               editButtons(),
             ],

@@ -4,7 +4,6 @@ import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/status.dart';
-import 'package:incubatorapp/models/patientphone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'patient.g.dart';
@@ -23,9 +22,6 @@ class Patient {
   DateTime createdDate;
   int conditionId;
   int incubatorId;
-
-  @JsonKey(name: 'patientphone')
-  List<PatientPhone> patientPhone;
 
   @JsonKey(name: 'status')
   List<Status> statusList = [];
@@ -58,7 +54,6 @@ class Patient {
     this.createdDate,
     this.conditionId,
     this.incubatorId,
-    this.patientPhone,
     this.statusList,
   );
 

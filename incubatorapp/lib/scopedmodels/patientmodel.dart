@@ -1,15 +1,11 @@
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/patientphone.dart';
 import 'package:incubatorapp/models/status.dart';
-import 'package:incubatorapp/scopedmodels/patientphonemodel.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PatientModel extends Model {
   Api _api = new Api('patient');
-
-  PatientPhoneModel patientPhoneModel = new PatientPhoneModel();
 
   List<Patient> patientList;
 
@@ -40,7 +36,6 @@ class PatientModel extends Model {
       DateTime.now(),
       1,
       1,
-      null,
       null,
     );
   }
@@ -162,30 +157,6 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void setPhone(String phone) async {
-    if (_currentPatient.patientPhone == null) {
-      patientPhoneModel.createPatientPhone();
-      patientPhoneModel.setPhone(phone);
-      patientPhoneModel.setPatientId(_currentPatient.userId);
-      _currentPatient.patientPhone = <PatientPhone>[];
-      _currentPatient.patientPhone.add(patientPhoneModel.patientPhone);
-    } else {
-      patientPhoneModel.editPatientPhone(_currentPatient.patientPhone[0]);
-      patientPhoneModel.setPhone(phone);
-      _currentPatient.patientPhone[0] = patientPhoneModel.patientPhone;
-    }
-  }
-
-  String getPhone() {
-    String v;
-    if (_currentPatient.patientPhone != null) {
-      if (_currentPatient.patientPhone.length > 0) {
-        v = _currentPatient.patientPhone[0].phone;
-      }
-    }
-    return v;
-  }
-
   void search() {}
 
   void filterByState(String state) async {
@@ -203,14 +174,16 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void readById(String id) async {
+  void readById(String id,int statusLimit,int billLimit) async {
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    //_currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: 1);
+    _currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: statusLimit);
 
-    await Future.delayed(Duration(seconds: 1));
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id),limit: billLimit);
+
+    await Future.delayed(Duration(seconds: 2));
 
     notifyListeners();
   }
@@ -235,17 +208,6 @@ class PatientModel extends Model {
     return false;
   }
 
-  void updatePatientPhone() {
-    _currentPatient.patientPhone.forEach((element) {
-      patientPhoneModel.editPatientPhone(element);
-      element.patientId = _currentPatient.userId;
-      if (element.id == 0) {
-        patientPhoneModel.create();
-      } else {
-        patientPhoneModel.update();
-      }
-    });
-  }
 
   Future<bool> delete() async {
     int code = await _api.delete(_currentPatient.userId.toString());

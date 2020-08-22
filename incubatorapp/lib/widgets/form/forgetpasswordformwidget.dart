@@ -8,18 +8,18 @@ class ForgetPasswordFormWidget extends StatefulWidget {
       _ForgetPasswordFormWidgetState();
 }
 
-enum UserColumn { username, password, confirmPassword }
+enum UserColumn { email, password, confirmPassword }
 
 class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
-  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
   TextEditingController confirmPasswordTEC = new TextEditingController();
 
   final _formKey = new GlobalKey<FormState>();
 
   void setData(UserColumn userColumn, Object val) {
-    if (userColumn == UserColumn.username) {
-      userModel.setUsername(val);
+    if (userColumn == UserColumn.email) {
+      userModel.setEmail(val);
     } else if (userColumn == UserColumn.password) {
       userModel.setPassword(val);
     }
@@ -27,7 +27,7 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
 
   void resetPassword() async {
     if (_formKey.currentState.validate()) {
-      bool isValid = await userModel.checkUsername(true);
+      bool isValid = await userModel.checkEmail(true);
 
       await Future.delayed(Duration(seconds: 2));
 
@@ -150,7 +150,7 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
   @override
   Widget build(BuildContext context) {
     Widget userNameWidget =
-        columnTextField(UserColumn.username, 'Username', false, usernameTEC);
+        columnTextField(UserColumn.email, 'Email', false, emailTEC);
     Widget passwordWidget =
         columnTextField(UserColumn.password, 'New Password', false, passwordTEC);
     Widget confirmPasswordWidget = columnTextField(UserColumn.confirmPassword,
