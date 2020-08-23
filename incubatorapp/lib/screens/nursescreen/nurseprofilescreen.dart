@@ -7,6 +7,7 @@ import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/newnurseshiftscreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
+import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class NurseProfileScreen extends StatelessWidget {
@@ -53,25 +54,30 @@ class NurseProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(title,style: TextStyle(color: Colors.white)),
+              iconTheme: IconThemeData(color: Colors.white),
+              title: Text(title, style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (nurseModel.currentTab == 1
                     ? IconButton(
-                  icon: Icon(Icons.add,color: Colors.white,),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewNurseShiftScreen(),
-                      ),
-                    );
-                  },
-                )
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewNurseShiftScreen(),
+                            ),
+                          );
+                        },
+                      )
                     : Container())
               ],
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),
+            drawer: DrawerWidget(),
           );
         },
       ),

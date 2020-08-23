@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  static const routeName = '/welcomescreen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
