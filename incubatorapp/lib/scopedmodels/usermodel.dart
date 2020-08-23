@@ -73,29 +73,24 @@ class UserModel extends Model {
 
   void setPermission() {
     UserType userType;
-    String v = 'UserType.'+_currentUser.userType;
-    print('Permission: '+v);
-    if (v == UserType.doctor.toString()) {
+    if (_currentUser.userType.toString() == UserType.doctor.toString()) {
       userType = UserType.doctor;
-    } else if (v == UserType.nurse.toString()) {
+    } else if (_currentUser.userType.toString() == UserType.nurse.toString()) {
       userType = UserType.nurse;
-    } else if (v == UserType.patient.toString()) {
+    } else if (_currentUser.userType.toString() == UserType.patient.toString()) {
       userType = UserType.patient;
     }
-
-    print(userType.toString());
-
     userPermission.setPermission(userType);
   }
 
-  Future<bool> checkEmail(bool isGet) async {
+  Future<bool> checkEmail(String email,bool isGet) async {
     bool isTaken = false;
 
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
     fields.add('email');
-    values.add(_currentUser.email);
+    values.add(email);
 
     List<dynamic> userListMap = await _api.filter(fields, values);
     List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
@@ -106,7 +101,7 @@ class UserModel extends Model {
         if (isGet == true) {
           User user = userList[0];
           _currentUser = user;
-          print('check email:'+_currentUser.userType);
+          print('check email:'+_currentUser.email);
         }
         isTaken = true;
       }

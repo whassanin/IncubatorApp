@@ -70,6 +70,8 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
       genderTEC.text = 'Female';
     }
     dateOfBirthTEC.text = dateFormat();
+    emailTEC.text = userModel.getEmail();
+    phoneTEC.text = userModel.getPhone();
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,
@@ -248,7 +250,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           userModel.update();
           doctorModel.update();
         } else {
-          bool isValid = await userModel.checkEmail(false);
+          bool isValid = await userModel.checkEmail(emailTEC.text,false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -382,6 +384,9 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     if (widget.isEdit != null) {
       if (widget.isEdit) {
         getData();
+      }
+      else {
+        emailTEC.text = userModel.getEmail();
       }
     }
   }

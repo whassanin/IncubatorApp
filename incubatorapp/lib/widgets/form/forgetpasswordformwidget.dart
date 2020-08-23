@@ -27,7 +27,7 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
 
   void resetPassword() async {
     if (_formKey.currentState.validate()) {
-      bool isValid = await userModel.checkEmail(true);
+      bool isValid = await userModel.checkEmail(emailTEC.text,true);
 
       await Future.delayed(Duration(seconds: 2));
 

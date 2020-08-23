@@ -143,7 +143,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
           userModel.update();
           patientModel.update();
         } else {
-          bool isValid = await userModel.checkEmail(false);
+          bool isValid = await userModel.checkEmail(emailTEC.text,false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -408,6 +408,8 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     if (widget.isEdit != null) {
       if (widget.isEdit) {
         getData();
+      }else {
+        emailTEC.text = userModel.getEmail();
       }
     }
   }

@@ -99,27 +99,33 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   void signInByHauweiId() async {
-    userModel.createUser();
     userModel.setProvider(UserProvider.huawei);
 
     String v = await userModel.signIn();
 
-    userModel.setEmail(v);
-
-    bool isCheck = await userModel.checkEmail(true);
+    bool isCheck = await userModel.checkEmail(v,true);
 
     if(isCheck){
       userModel.setPermission();
-      print(userModel.getUserType());
       navigateToHomeScreen();
     }else {
-
+      signUp(userProvider: UserProvider.huawei,email: v);
     }
   }
 
-  void signUp() {
+  void signUp({UserProvider userProvider, String email}) {
+
     userModel.createUser();
-    userModel.setProvider(UserProvider.other);
+
+    if(userProvider==null){
+      userModel.setProvider(UserProvider.other);
+    }else {
+      userModel.setProvider(userProvider);
+    }
+
+    if(email!=null){
+      userModel.setEmail(email);
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
