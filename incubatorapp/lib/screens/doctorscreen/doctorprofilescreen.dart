@@ -7,6 +7,7 @@ import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/doctorshiftscreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/newdoctorshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
+import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class DoctorProfileScreen extends StatelessWidget {
@@ -54,6 +55,7 @@ class DoctorProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
+              iconTheme: IconThemeData(color: Colors.white),
               title: Text(title,style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (doctorModel.currentTab == 1
@@ -73,6 +75,7 @@ class DoctorProfileScreen extends StatelessWidget {
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),
+            drawer: DrawerWidget(),
           );
         },
       ),

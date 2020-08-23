@@ -6,6 +6,7 @@ import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
+import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PatientProfileScreen extends StatelessWidget {
@@ -52,10 +53,12 @@ class PatientProfileScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
+              iconTheme: IconThemeData(color: Colors.white),
               title: Text(title,style: TextStyle(color: Colors.white)),
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),
+            drawer: DrawerWidget(),
           );
         },
       ),

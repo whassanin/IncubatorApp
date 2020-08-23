@@ -1,4 +1,4 @@
-enum UserType {patient,doctor,nurse,frontDesk}
+enum UserType {patient,doctor,nurse,frontDesk,none}
 class UserPermission{
   UserType _userType;
   bool _isPatient = false;
@@ -36,6 +36,11 @@ class UserPermission{
       _isDoctor = false;
       _isNurse = false;
       _isFrontDesk = true;
+    }else if(_userType == UserType.none){
+      _isPatient = false;
+      _isDoctor = false;
+      _isNurse = false;
+      _isFrontDesk = false;
     }
   }
 }
