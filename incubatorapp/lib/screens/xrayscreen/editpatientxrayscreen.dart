@@ -22,6 +22,9 @@ class EditPatientXRayScreen extends StatelessWidget {
             PatientXRayModel patientXRayModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Edit XRay to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: PatientXRayFormWidget(

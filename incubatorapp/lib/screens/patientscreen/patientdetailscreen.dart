@@ -36,7 +36,11 @@ class PatientDetailScreen extends StatelessWidget {
           return Scaffold(
             appBar: ((userPermission.isDoctor || userPermission.isNurse)
                 ? AppBar(
-                    title: Text('Patient Profile',style: TextStyle(color: Colors.white)),
+                    title: Text('Patient Profile',
+                        style: TextStyle(color: Colors.white)),
+                    leading: BackButton(
+                      color: Colors.white,
+                    ),
                   )
                 : null),
             body: currentWidget,

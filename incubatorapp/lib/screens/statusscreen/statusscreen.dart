@@ -22,12 +22,16 @@ class StatusScreen extends StatelessWidget {
         builder: (BuildContext context, Widget child, StatusModel statusModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Status History',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse == true
                     ? IconButton(
                         icon: Icon(
                           Icons.add,
+                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.push(

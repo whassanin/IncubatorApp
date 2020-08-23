@@ -149,17 +149,21 @@ class StatusModel extends Model {
     List<dynamic> statusListMap;
 
     if (limit != null) {
-      fields.add('limit');
-      values.add(limit.toString());
-      Map<String, dynamic> statusMap = await _api.filterWithLimit(
-        fields,
-        values,
-      );
-      statusMap.forEach((e, f) {
-        if (e == 'results') {
-          statusListMap = f;
-        }
-      });
+      if(limit > 0){
+        fields.add('limit');
+        values.add(limit.toString());
+        Map<String, dynamic> statusMap = await _api.filterWithLimit(
+          fields,
+          values,
+        );
+        statusMap.forEach((e, f) {
+          if (e == 'results') {
+            statusListMap = f;
+          }
+        });
+      }else {
+        statusListMap = await _api.filter(fields, values);
+      }
     } else {
       statusListMap = await _api.filter(fields, values);
     }

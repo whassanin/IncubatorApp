@@ -13,9 +13,7 @@ class DoctorProfileScreen extends StatelessWidget {
   static const routeName = '/doctorprofilescreen';
 
   final UserPermission userPermission;
-  DoctorProfileScreen({this.userPermission}){
-    doctorModel.readById(userModel.getId().toString());
-  }
+  DoctorProfileScreen({this.userPermission});
 
   @override
   Widget build(BuildContext context) {

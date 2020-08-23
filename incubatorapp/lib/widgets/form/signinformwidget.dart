@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 
-enum UserColumn { username, password }
+enum UserColumn { email, password }
 
 class SignInFormWidget extends StatefulWidget {
   @override
@@ -16,21 +17,21 @@ class SignInFormWidget extends StatefulWidget {
 }
 
 class _SignInFormWidgetState extends State<SignInFormWidget> {
-  TextEditingController usernameTEC = new TextEditingController();
+  TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
 
   final _formKey = new GlobalKey<FormState>();
 
   void setData(UserColumn userColumn, Object val) {
-    if (userColumn == UserColumn.username) {
-      userModel.setUsername(val);
+    if (userColumn == UserColumn.email) {
+      userModel.setEmail(val);
     } else if (userColumn == UserColumn.password) {
       userModel.setPassword(val);
     }
   }
 
   void getData() {
-    usernameTEC.text = userModel.getUsername();
+    emailTEC.text = userModel.getEmail();
     passwordTEC.text = userModel.getPassword();
   }
 
@@ -56,7 +57,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString());
+      patientModel.readById(userModel.currentUser.id.toString(), 1, 0);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -82,12 +83,12 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   void signInByUsernameAndPassword() async {
     if (_formKey.currentState.validate()) {
-      usernameTEC.clear();
+      emailTEC.clear();
       passwordTEC.clear();
 
       showLoadingDialog(context);
 
-      userModel.readByUsernameAndPassword();
+      userModel.readByEmailAndPassword();
 
       await Future.delayed(Duration(seconds: 2));
 
@@ -97,11 +98,34 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     }
   }
 
-  void signInByHauweiId() {
-    // TODO: Sign in by Hauwei Id
+  void signInByHauweiId() async {
+    userModel.setProvider(UserProvider.huawei);
+
+    String v = await userModel.signIn();
+
+    bool isCheck = await userModel.checkEmail(v,true);
+
+    if(isCheck){
+      userModel.setPermission();
+      navigateToHomeScreen();
+    }else {
+      signUp(userProvider: UserProvider.huawei,email: v);
+    }
   }
 
-  void signUp() {
+  void signUp({UserProvider userProvider, String email}) {
+
+    userModel.createUser();
+
+    if(userProvider==null){
+      userModel.setProvider(UserProvider.other);
+    }else {
+      userModel.setProvider(userProvider);
+    }
+
+    if(email!=null){
+      userModel.setEmail(email);
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -145,7 +169,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: Text('Invalid username and password'),
+        title: Text('Invalid Email and Password'),
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -164,11 +188,12 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   }
 
   Widget columnTextField(UserColumn userColumn, String name, bool isNumber,
-      TextEditingController columnTEC,
+      bool isObscure, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
       child: TextFormField(
+        obscureText: isObscure,
         controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -208,32 +233,32 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   Widget buttonWidget(String title, Color color, {VoidCallback fun}) {
     return Padding(
-        padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                height: 50,
-                child: RaisedButton(
-                  onPressed: () {
-                    if (fun != null) {
-                      fun();
-                    }
-                  },
-                  child: Text(
-                    title,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: color,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  if (fun != null) {
+                    fun();
+                  }
+                },
+                child: Text(
+                  title,
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget titleMessage(String title, double fontSize, Color color) {
@@ -319,7 +344,11 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       fun: signInByUsernameAndPassword,
     );
 
-    Widget signByHuaweiIdButton = buttonWidget('Sign by Hauwei ID', Colors.red);
+    Widget signByHuaweiIdButton = buttonWidget(
+      'Sign by Hauwei ID',
+      Colors.red,
+      fun: signInByHauweiId,
+    );
 
     Widget signUpButton = buttonWidget(
       'Sign Up',
@@ -334,8 +363,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         welcomeTitle,
         signByHuaweiIdButton,
         orTitle,
-        columnTextField(UserColumn.username, 'Username', false, usernameTEC),
-        columnTextField(UserColumn.password, 'Password', false, passwordTEC),
+        columnTextField(UserColumn.email, 'Email', false, false, emailTEC),
+        columnTextField(
+            UserColumn.password, 'Password', false, true, passwordTEC),
         signInButton,
         forgetPasswordTitle,
         signUpButton
@@ -343,7 +373,12 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
     );
 
     return Center(
-        child: Form(
-            key: _formKey, child: SingleChildScrollView(child: contentData,),),);
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: contentData,
+        ),
+      ),
+    );
   }
 }

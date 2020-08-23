@@ -8,6 +8,7 @@ from incubator.models import Patient
 from incubator.models import Bill
 from incubator.models import Status
 from incubator.models import Consumable
+from incubator.models import FrontDesk
 from incubator.models import Doctor
 from incubator.models import Medicine
 from incubator.models import Nurse
@@ -18,7 +19,6 @@ from incubator.models import DoctorShift
 from incubator.models import NurseShift
 from incubator.models import PatientAnalysis
 from incubator.models import PatientXRay
-from incubator.models import PatientPhone
 from incubator.models import BillExtra
 from incubator.models import PatientMedicineDoctor
 from incubator.models import PatientConsumableNurse
@@ -33,16 +33,6 @@ class BillExtraSerializer(serializers.ModelSerializer):
             'billId',
             'name',
             'cost',
-            ]
-
-class PatientPhoneSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = PatientPhone
-        fields = [
-            'id',
-            'patientId',
-            'phone',
             ]
 
 # many to many serializers
@@ -152,26 +142,6 @@ class StatusSerializer(serializers.ModelSerializer):
             'nurseId'
             ]
 
-class PatientSerializer(serializers.ModelSerializer):
-    patientphone = PatientPhoneSerializer(many=True,read_only=True)
-    class Meta: 
-        model = Patient
-        fields = [
-        'userId',
-        'motherName',
-        'fatherName',
-        'gender',
-        'dateOfBirth',
-        'address',
-        'weight',
-        'ssn',
-        'state',
-        'createdDate',
-        'conditionId',
-        'incubatorId',
-        'patientphone',
-        ]
-
 class BillSerializer(serializers.ModelSerializer):
     billextra = BillExtraSerializer(many=True,read_only=True)
     class Meta: 
@@ -190,6 +160,28 @@ class BillSerializer(serializers.ModelSerializer):
             'patientId',
             'billextra'
             ]
+
+class PatientSerializer(serializers.ModelSerializer):
+    status = StatusSerializer(many=True,read_only=True)
+    bills = BillSerializer(many=True,read_only=True)
+    class Meta: 
+        model = Patient
+        fields = [
+        'userId',
+        'motherName',
+        'fatherName',
+        'gender',
+        'dateOfBirth',
+        'address',
+        'weight',
+        'ssn',
+        'state',
+        'createdDate',
+        'conditionId',
+        'incubatorId',
+        'status',
+        'bills'
+        ]
 
 # main serializers
 
@@ -231,6 +223,25 @@ class ShiftSerializer(serializers.ModelSerializer):
 
 # non basic data
 
+class UserSerializer(serializers.ModelSerializer):
+    
+    class Meta: 
+        model = User
+        fields = [
+            'id',
+            'userType',
+            'email',
+            'password',
+            'phone',
+            'provider',
+            'createdDate',
+            ]
+
+class FrontDeskSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = FrontDesk
+        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
+
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Doctor
@@ -240,8 +251,3 @@ class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
         fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta: 
-        model = User
-        fields = ['id','userType','username','password','createdDate']

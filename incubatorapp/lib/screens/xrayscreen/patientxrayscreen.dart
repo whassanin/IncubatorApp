@@ -27,11 +27,15 @@ class PatientXRayScreen extends StatelessWidget {
             PatientXRayModel patientXRayModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('XRay',style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true?IconButton(
                   icon: Icon(
                     Icons.add,
+                    color: Colors.white,
                   ),
                   onPressed: (){
                     Navigator.push(

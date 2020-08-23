@@ -1,8 +1,14 @@
+import 'package:huawei_account/auth/auth_huawei_id.dart';
+import 'package:huawei_account/helpers/auth_param_helper.dart';
+import 'package:huawei_account/helpers/scope.dart';
+import 'package:huawei_account/hms_account.dart';
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/user.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+enum UserProvider {huawei,other}
 
 class UserModel extends Model {
   Api _api = new Api('user');
@@ -14,19 +20,19 @@ class UserModel extends Model {
   String confirmPassword;
 
   void createUser() {
-    _currentUser = new User(0, '', '', '', DateTime.now());
+    _currentUser = new User(0, '', '', '','','', DateTime.now());
   }
 
   void editUser(User editUser) {
     _currentUser = editUser;
   }
 
-  void setUsername(String val) {
-    _currentUser.username = val;
+  void setEmail(String val) {
+    _currentUser.email = val;
   }
 
-  String getUsername() {
-    return _currentUser.username;
+  String getEmail() {
+    return _currentUser.email;
   }
 
   void setPassword(String val) {
@@ -35,6 +41,26 @@ class UserModel extends Model {
 
   String getPassword() {
     return _currentUser.password;
+  }
+
+  void setPhone(String val) {
+    _currentUser.phone = val;
+  }
+
+  String getPhone() {
+    return _currentUser.phone;
+  }
+
+  void setProvider(UserProvider userProvider) {
+    _currentUser.provider = userProvider.toString();
+  }
+
+  String getProvider() {
+    return _currentUser.provider;
+  }
+
+  int getId() {
+    return _currentUser.id;
   }
 
   void setUserType(UserType userType) {
@@ -47,31 +73,24 @@ class UserModel extends Model {
 
   void setPermission() {
     UserType userType;
-    if (_currentUser.userType == UserType.doctor.toString()) {
+    if (_currentUser.userType.toString() == UserType.doctor.toString()) {
       userType = UserType.doctor;
-    } else if (_currentUser.userType == UserType.nurse.toString()) {
+    } else if (_currentUser.userType.toString() == UserType.nurse.toString()) {
       userType = UserType.nurse;
-    } else if (_currentUser.userType == UserType.patient.toString()) {
+    } else if (_currentUser.userType.toString() == UserType.patient.toString()) {
       userType = UserType.patient;
     }
-
-    print(userType.toString());
-
     userPermission.setPermission(userType);
   }
 
-  int getId() {
-    return _currentUser.id;
-  }
-
-  Future<bool> checkUsername(bool isGet) async {
+  Future<bool> checkEmail(String email,bool isGet) async {
     bool isTaken = false;
 
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('username');
-    values.add(_currentUser.username);
+    fields.add('email');
+    values.add(email);
 
     List<dynamic> userListMap = await _api.filter(fields, values);
     List<User> userList = userListMap.map((e) => User.fromJson(e)).toList();
@@ -79,11 +98,10 @@ class UserModel extends Model {
     if (userList != null) {
       if (userList.length > 0) {
         print(userList[0].toJson().toString());
-        if(isGet == true){
+        if (isGet == true) {
           User user = userList[0];
-          _currentUser.id = user.id;
-          _currentUser.userType = user.userType.toString();
-          _currentUser.username = user.username;
+          _currentUser = user;
+          print('check email:'+_currentUser.email);
         }
         isTaken = true;
       }
@@ -92,12 +110,53 @@ class UserModel extends Model {
     return isTaken;
   }
 
-  void readByUsernameAndPassword() async {
+  void silentSignIn() async {
+    AuthParamHelper authParamHelper = new AuthParamHelper();
+    try {
+      final AuthHuaweiId accountInfo =
+          await HmsAccount.silentSignIn(authParamHelper);
+      print(accountInfo.displayName);
+    } on Exception catch (exception) {
+      print(exception.toString());
+    }
+  }
+
+  Future<String> signIn() async {
+    // BUILD DESIRED PARAMS
+    AuthParamHelper authParamHelper = new AuthParamHelper();
+    authParamHelper
+      ..setIdToken()
+      ..setAuthorizationCode()
+      ..setAccessToken()
+      ..setProfile()
+      ..setEmail()
+      ..setId()
+      ..addToScopeList([Scope.openId])
+      ..setRequestCode(8888);
+    // GET ACCOUNT INFO FROM PLUGIN
+
+    print('sign in here huawei');
+
+    try {
+      final AuthHuaweiId accountInfo = await HmsAccount.signIn(authParamHelper);
+      return accountInfo.email;
+    } on Exception catch (exception) {
+      print('Here exception');
+      print(exception.toString());
+    }
+
+    /// TO VERIFY ID TOKEN, AuthParamHelper()..setIdToken()
+    //performServerVerification(accountInfo.idToken);
+
+    return null;
+  }
+
+  void readByEmailAndPassword() async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('username');
-    values.add(_currentUser.username);
+    fields.add('email');
+    values.add(_currentUser.email);
 
     fields.add('password');
     values.add(_currentUser.password);

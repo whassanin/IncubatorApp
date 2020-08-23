@@ -6,31 +6,32 @@ from django.db import models
 
 # basic data
 
+# 1
 class Incubator(models.Model):
     name = models.CharField(max_length=200)
-
+# 2
 class Condition(models.Model):
     name = models.CharField(max_length=20)
     cost = models.FloatField()
-
+# 3
 class Analysis(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
-
+# 4
 class Consumable(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
-
+# 5
 class Medicine(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
-
+# 6
 class XRay(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
-
+# 7
 class Shift(models.Model):
     name = models.CharField(max_length=2)
     startTime = models.IntegerField()
@@ -40,30 +41,42 @@ class Shift(models.Model):
 
 # non basic data
 
+# 8
 class User(models.Model):
     userType = models.CharField(max_length=20)
-    username = models.CharField(max_length=30)
+    email = models.CharField(max_length=200)
     password = models.CharField(max_length=30)
+    provider = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
     createdDate = models.DateTimeField()
-
+# 9
 class Doctor(models.Model): 
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
-    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
-
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='doctordetail')
+# 10
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
-    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='nursedetial')
+# 11
+class FrontDesk(models.Model):
+    firstName = models.CharField(max_length=100)
+    lastName = models.CharField(max_length=100)
+    gender = models.BooleanField()
+    dateOfBirth = models.DateTimeField()
+    createdDate = models.DateTimeField()
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='frontdeskdetial')
 
 # 1 to many
 
+# 12
 class Patient(models.Model):
     motherName = models.CharField(max_length=100)
     fatherName = models.CharField(max_length=100)
@@ -74,10 +87,10 @@ class Patient(models.Model):
     ssn = models.CharField(max_length=100)
     state = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
-    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='patientdetail')
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
-
+# 13
 class Bill(models.Model):
     date = models.DateTimeField()
     paid = models.FloatField()
@@ -89,7 +102,7 @@ class Bill(models.Model):
     lightRays = models.FloatField()
     medicine = models.FloatField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='bills')
-
+# 14
 class Status(models.Model):
     heartRate = models.FloatField()
     pulseRate = models.FloatField()
@@ -107,6 +120,7 @@ class Status(models.Model):
 
 # many to many
 
+# 15
 class DoctorShift(models.Model):
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftdoctor')
@@ -116,7 +130,7 @@ class DoctorShift(models.Model):
     isSignedOut = models.BooleanField()
     createdDate = models.DateTimeField()
     changedDate = models.DateTimeField()
-
+# 16
 class NurseShift(models.Model):
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nurseshift')
     shiftId = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='shiftnurse')
@@ -126,26 +140,26 @@ class NurseShift(models.Model):
     isSignedOut = models.BooleanField()
     createdDate = models.DateTimeField()    
     changedDate = models.DateTimeField()
-
+# 17
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
     analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
     result = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField()
-
+# 18
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
     comment = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField()
-
+# 19
 class PatientConsumableNurse(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientconsumablenurse')
     consumableId = models.ForeignKey(Consumable,on_delete=models.CASCADE,related_name='consumbalepatientnurse')
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nursepatientconsumable')
     quantity = models.IntegerField()
     createdDate = models.DateTimeField()
-
+# 20
 class PatientMedicineDoctor(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientmedicinedoctor')
     medicineId = models.ForeignKey(Medicine,on_delete=models.CASCADE,related_name='medicinepatientdoctor')
@@ -155,10 +169,7 @@ class PatientMedicineDoctor(models.Model):
 
 # Multi value
 
-class PatientPhone(models.Model):
-    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientphone')
-    phone = models.CharField(max_length=15)
-
+# 21
 class BillExtra(models.Model):
     billId = models.ForeignKey(Bill,on_delete=models.CASCADE,related_name='billextra')
     name = models.CharField(max_length=100)

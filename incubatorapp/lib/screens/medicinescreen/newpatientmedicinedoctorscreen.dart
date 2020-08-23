@@ -22,6 +22,9 @@ class NewPatientMedicineDoctorScreen extends StatelessWidget {
             PatientMedicineDoctorModel patientMedicineDoctorModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Add Medicine to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: MedicineListWidget(
