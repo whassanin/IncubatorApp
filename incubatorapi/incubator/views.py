@@ -8,6 +8,7 @@ from incubator.models import XRay
 from incubator.models import Shift
 from incubator.models import User
 from incubator.models import FrontDesk
+from incubator.models import ReportProblem
 from incubator.models import Doctor
 from incubator.models import Nurse
 from incubator.models import Medicine
@@ -30,6 +31,7 @@ from incubator.serializer import XRaySerializer
 from incubator.serializer import ShiftSerializer
 from incubator.serializer import UserSerializer
 from incubator.serializer import FrontDeskSerializer
+from incubator.serializer import ReportProblemSerializer
 from incubator.serializer import DoctorSerializer
 from incubator.serializer import NurseSerializer
 from incubator.serializer import DoctorShiftSerializer
@@ -160,6 +162,16 @@ class ForntDeskList(generics.ListCreateAPIView):
 class FrontDeskDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = FrontDesk.objects.all()
     serializer_class = FrontDeskSerializer
+
+class ReportProblemList(generics.ListCreateAPIView):
+    queryset = ReportProblem.objects.all()
+    serializer_class = ReportProblemSerializer
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['status']
+
+class ReportProblemDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ReportProblem.objects.all()
+    serializer_class = ReportProblemSerializer
 
 
 # 1 to many data

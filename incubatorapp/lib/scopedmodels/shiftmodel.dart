@@ -101,5 +101,4 @@ class ShiftModel extends Model{
     return false;
   }
 
-
 }

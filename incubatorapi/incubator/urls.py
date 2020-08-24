@@ -39,6 +39,9 @@ urlpatterns = [
     path('frontdesk/', views.ForntDeskList.as_view()),
     path('frontdesk/<int:pk>', views.FrontDeskDetail.as_view()),
 
+    path('reportproblem/', views.ReportProblemList.as_view()),
+    path('reportproblem/<int:pk>', views.ReportProblemDetail.as_view()),
+
     # 1 to many data
     path('patient/', views.PatientList.as_view()),
     path('patient/<int:pk>', views.PatientDetail.as_view()),

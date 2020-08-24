@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 
 class ReportFormWidget extends StatefulWidget {
   @override
@@ -11,8 +12,13 @@ class _ReportFormWidgetState extends State<ReportFormWidget> {
   TextEditingController subjectTEC = new TextEditingController();
   TextEditingController bodyTEC = new TextEditingController();
 
-  void sendMail() async{
-
+  void sendMail() {
+    reportProblemModel.createReportProblem();
+    reportProblemModel.setSubject(subjectTEC.text);
+    reportProblemModel.setBody(bodyTEC.text);
+    reportProblemModel.setMailFrom(userModel.getEmail());
+    reportProblemModel.create();
+    Navigator.pop(context);
   }
 
   Widget columnTextField(

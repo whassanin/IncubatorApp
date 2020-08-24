@@ -15,6 +15,7 @@ import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/scopedmodels/reportproblemmodel.dart';
 import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
@@ -47,6 +48,7 @@ ShiftModel shiftModel = new ShiftModel();
 UserModel userModel = new UserModel();
 DoctorModel doctorModel = new DoctorModel();
 NurseModel nurseModel = new NurseModel();
+ReportProblemModel reportProblemModel = new ReportProblemModel();
 
 // 1 to many
 PatientModel patientModel = new PatientModel();

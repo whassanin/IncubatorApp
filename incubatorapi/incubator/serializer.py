@@ -14,6 +14,7 @@ from incubator.models import Medicine
 from incubator.models import Nurse
 from incubator.models import XRay
 from incubator.models import Shift
+from incubator.models import ReportProblem
 
 from incubator.models import DoctorShift
 from incubator.models import NurseShift
@@ -251,3 +252,8 @@ class NurseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Nurse
         fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
+
+class ReportProblemSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = ReportProblem
+        fields = ['id','subject','body','mailFrom','mailTo','status','createdDate']
