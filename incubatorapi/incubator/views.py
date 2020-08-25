@@ -20,6 +20,7 @@ from incubator.models import PatientXRay
 from incubator.models import PatientConsumableNurse
 from incubator.models import PatientMedicineDoctor
 from incubator.models import BillExtra
+from incubator.models import CreditCard
 
 from incubator.serializer import IncubatorSerializer
 from incubator.serializer import AnalysisSerializer
@@ -43,6 +44,7 @@ from incubator.serializer import PatientXRaySerializer
 from incubator.serializer import PatientConsumableNurseSerializer
 from incubator.serializer import PatientMedicineDoctorSerializer
 from incubator.serializer import BillExtraSerializer
+from incubator.serializer import CreditCardSerializer
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -173,7 +175,6 @@ class ReportProblemDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ReportProblem.objects.all()
     serializer_class = ReportProblemSerializer
 
-
 # 1 to many data
 
 # Patient Views CLass
@@ -281,3 +282,13 @@ class BillExtraList(generics.ListCreateAPIView):
 class BillExtraDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = BillExtra.objects.all()
     serializer_class = BillExtraSerializer
+
+class CreditCardList(generics.ListCreateAPIView):
+    queryset = CreditCard.objects.all()
+    serializer_class = CreditCardSerializer
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ['patientId'] 
+
+class CreditCardDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CreditCard.objects.all()
+    serializer_class = CreditCardSerializer

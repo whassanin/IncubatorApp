@@ -199,3 +199,12 @@ class BillExtra(models.Model):
     billId = models.ForeignKey(Bill,on_delete=models.CASCADE,related_name='billextra')
     name = models.CharField(max_length=100)
     cost = models.FloatField()
+
+# 24
+class CreditCard(models.Model):
+    number = models.CharField(max_length=20)
+    holder = models.CharField(max_length=150)
+    expireYear = models.IntegerField()
+    expireMonth = models.IntegerField()
+    createdDate = models.DateTimeField()
+    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='creditcards')

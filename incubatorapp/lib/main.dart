@@ -3,6 +3,7 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
+import 'package:incubatorapp/scopedmodels/creditcardmodel.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
@@ -54,6 +55,7 @@ ReportProblemModel reportProblemModel = new ReportProblemModel();
 PatientModel patientModel = new PatientModel();
 BillModel billModel = new BillModel();
 StatusModel statusModel = new StatusModel();
+CreditCardModel creditCardModel = new CreditCardModel();
 
 // many to many
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();

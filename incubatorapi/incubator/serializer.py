@@ -21,6 +21,7 @@ from incubator.models import NurseShift
 from incubator.models import PatientAnalysis
 from incubator.models import PatientXRay
 from incubator.models import BillExtra
+from incubator.models import CreditCard
 from incubator.models import PatientMedicineDoctor
 from incubator.models import PatientConsumableNurse
 
@@ -34,6 +35,19 @@ class BillExtraSerializer(serializers.ModelSerializer):
             'billId',
             'name',
             'cost',
+            ]
+
+class CreditCardSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = CreditCard
+        fields = [
+            'id',
+            'number',
+            'holder',
+            'expireYear',
+            'expireMonth',
+            'createdDate',
+            'patientId'
             ]
 
 # many to many serializers
@@ -163,8 +177,6 @@ class BillSerializer(serializers.ModelSerializer):
             ]
 
 class PatientSerializer(serializers.ModelSerializer):
-    status = StatusSerializer(many=True,read_only=True)
-    bills = BillSerializer(many=True,read_only=True)
     class Meta: 
         model = Patient
         fields = [
@@ -180,8 +192,6 @@ class PatientSerializer(serializers.ModelSerializer):
         'createdDate',
         'conditionId',
         'incubatorId',
-        'status',
-        'bills'
         ]
 
 # main serializers
