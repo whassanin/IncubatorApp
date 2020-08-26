@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/widgets/form/reportformwidget.dart';
 
 class ReportScreen extends StatelessWidget {
+  static const routeName = '/reportscreen';
 
   @override
   Widget build(BuildContext context) {

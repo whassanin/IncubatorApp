@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
-enum CreditCardColumn{number,holder,expireYear,expireMonth}
+import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
+import 'package:incubatorapp/screens/paymentscreen/successfullmessagescreen.dart';
+
+enum CreditCardColumn { number, holder, expireYear, expireMonth, cvv }
 
 class CreditCardFormWidget extends StatefulWidget {
   final bool isEdit;
@@ -17,34 +20,100 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   TextEditingController holderTEC = new TextEditingController();
   TextEditingController expireMonthTEC = new TextEditingController();
   TextEditingController expireYearTEC = new TextEditingController();
+  TextEditingController cvvTEC = new TextEditingController();
 
-  void setData(CreditCardColumn creditCardColumn,String val){
-    if(creditCardColumn == CreditCardColumn.number){
+  void setData(CreditCardColumn creditCardColumn, String val) {
+    if (creditCardColumn == CreditCardColumn.number) {
       creditCardModel.setNumber(val);
-    }else if(creditCardColumn == CreditCardColumn.holder){
+    } else if (creditCardColumn == CreditCardColumn.holder) {
       creditCardModel.setHolder(val);
-    }else if(creditCardColumn == CreditCardColumn.expireMonth){
+    } else if (creditCardColumn == CreditCardColumn.expireMonth) {
       creditCardModel.setExpireMonth(int.parse(val));
-    }else if(creditCardColumn == CreditCardColumn.expireYear){
+    } else if (creditCardColumn == CreditCardColumn.expireYear) {
       creditCardModel.setExpireYear(int.parse(val));
     }
   }
 
-  void getData(){
+  void getData() {
     numberTEC.text = creditCardModel.getNumber();
     holderTEC.text = creditCardModel.getNumber();
     expireMonthTEC.text = creditCardModel.getExpireMonth().toString();
     expireYearTEC.text = creditCardModel.getExpireYear().toString();
   }
 
-  void save(){
-    creditCardModel.setPatientId(patientModel.currentPatient.userId);
-    creditCardModel.create();
-    creditCardModel.readByPatientId(patientModel.currentPatient.userId);
-    Navigator.pop(context);
+  void save() {
+    if (_formKey.currentState.validate()) {
+      creditCardModel.setPatientId(patientModel.currentPatient.userId);
+      if (widget.isEdit) {
+        creditCardModel.update();
+      } else {
+        creditCardModel.create();
+        creditCardModel.readByPatientId(patientModel.currentPatient.userId);
+      }
+      Navigator.pop(context);
+    }
+  }
+
+  void payment() {
+    if (_formKey.currentState.validate()) {
+      creditCardModel.setIsPayment(false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SuccessfulMessageScreen(),
+        ),
+      );
+    }
+  }
+
+  bool validateDate() {
+    bool isCheck = false;
+
+    int cm = DateTime.now().month;
+    int cy = DateTime.now().year;
+    int m = creditCardModel.getExpireMonth();
+    int y = creditCardModel.getExpireYear();
+
+    if (y > cy) {
+      isCheck = true;
+    } else {
+      if (y == cy) {
+        if (m >= cm) {
+          isCheck = true;
+        }
+      }
+    }
+
+    return isCheck;
   }
 
   Widget editButtons() {
+    Widget paymentButton = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: Colors.cyan,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text(
+              'Pay',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              payment();
+            },
+          ),
+        ),
+      ),
+    );
+
     Widget saveButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(2),
@@ -85,8 +154,13 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete',style: TextStyle(color: Colors.white),),
-            onPressed: () {},
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              creditCardModel.delete();
+            },
           ),
         ),
       ),
@@ -100,16 +174,23 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
       children: <Widget>[deleteButton, saveButton],
     );
 
+    Widget rowPaymentButtons = Row(
+      children: <Widget>[paymentButton],
+    );
+
     Widget rowButtons = Container();
 
-    if (widget.isEdit != null) {
-      if (widget.isEdit) {
-        rowButtons = rowEditButtons;
-      } else {
-        rowButtons = rowCreateButtons;
+    if (creditCardModel.isPayment) {
+      rowButtons = rowPaymentButtons;
+    } else {
+      if (widget.isEdit != null) {
+        if (widget.isEdit) {
+          rowButtons = rowEditButtons;
+        } else {
+          rowButtons = rowCreateButtons;
+        }
       }
     }
-
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: rowButtons,
@@ -142,6 +223,16 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
         validator: (v) {
           if (v.isEmpty) {
             return 'Required';
+          } else {
+            if (creditCardColumn == CreditCardColumn.expireMonth) {
+              if (validateDate() == false) {
+                return 'invalid month';
+              }
+            } else if (creditCardColumn == CreditCardColumn.expireYear) {
+              if (validateDate() == false) {
+                return 'invalid Year';
+              }
+            }
           }
           return null;
         },
@@ -164,13 +255,27 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.isEdit){
+    if (widget.isEdit) {
       getData();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget cvvTextField = Container();
+
+    if (creditCardModel.isPayment != null) {
+      if (creditCardModel.isPayment) {
+        cvvTextField = columnTextField(
+          'CVV',
+          true,
+          false,
+          CreditCardColumn.cvv,
+          cvvTEC,
+        );
+      }
+    }
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -206,6 +311,7 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
                 CreditCardColumn.expireYear,
                 expireYearTEC,
               ),
+              cvvTextField,
               editButtons(),
             ],
           ),

@@ -14,7 +14,6 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   void navigateToCreditCard() {
-    creditCardModel.readByPatientId(patientModel.currentPatient.userId);
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -6,6 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 class EditIncubatorScreen extends StatelessWidget {
   static const routeName = '/editincubatorscreen';
   EditIncubatorScreen();
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel<IncubatorModel>(

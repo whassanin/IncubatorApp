@@ -13,6 +13,9 @@ class CreditCard {
   int patientId;
   DateTime createdDate;
 
+  @JsonKey(ignore: true)
+  int cvv;
+
   CreditCard(this.id,this.holder,this.number,this.expireMonth,this.expireYear,this.patientId,this.createdDate);
 
   factory CreditCard.fromJson(Map<String, dynamic> json) => _$CreditCardFromJson(json);

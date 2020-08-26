@@ -4,7 +4,6 @@ import 'package:incubatorapp/models/bill.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;
-
   BillDetailRowWidget({this.bill});
 
   @override
@@ -72,16 +71,30 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
   }
 
   Widget rowBillExtraList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: ScrollPhysics(),
-      itemCount: widget.bill.billExtraList.length,
-      itemBuilder: (BuildContext context, int i) {
-        String name = widget.bill.billExtraList[i].name;
-        String val = widget.bill.billExtraList[i].cost.toString();
-        return rowDetailData(name, val);
-      },
+    Widget currentWidget = Center(
+      child: Container(
+        child: CircularProgressIndicator(),
+      ),
     );
+
+    if(widget.bill.billExtraList!=null){
+      if(widget.bill.billExtraList.length > 0){
+        currentWidget = ListView.builder(
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+          itemCount: widget.bill.billExtraList.length,
+          itemBuilder: (BuildContext context, int i) {
+            String name = widget.bill.billExtraList[i].name;
+            String val = widget.bill.billExtraList[i].cost.toString();
+            return rowDetailData(name, val);
+          },
+        );
+      }else {
+        currentWidget = rowTitle('No Extra Bills');
+      }
+    }
+
+    return currentWidget;
   }
 
   Widget rowFooterData(String title, String val) {

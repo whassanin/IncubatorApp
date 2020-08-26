@@ -44,12 +44,12 @@ class PatientModel extends Model {
     _currentPatient = editPatient;
   }
 
-  void setUserId(int userId){
+  void setUserId(int userId) {
     _currentPatient.userId = userId;
     notifyListeners();
   }
 
-  int getUserId(){
+  int getUserId() {
     return _currentPatient.userId;
   }
 
@@ -174,16 +174,22 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void readById(String id,int statusLimit,int billLimit) async {
+  void readById(
+      String id, int statusLimit, int billLimit, bool isCreditCard) async {
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    _currentPatient.statusList = await statusModel.readByPatientId(int.parse(id),limit: statusLimit);
+    _currentPatient.statusList =
+        await statusModel.readByPatientId(int.parse(id), limit: statusLimit);
 
-    _currentPatient.billList = await billModel.readByPatientId(int.parse(id),limit: billLimit);
+    _currentPatient.billList =
+        await billModel.readByPatientId(int.parse(id), limit: billLimit);
 
-    await Future.delayed(Duration(seconds: 2));
+    if (isCreditCard) {
+      _currentPatient.creditCardList =
+          await creditCardModel.readByPatientId(int.parse(id));
+    }
 
     notifyListeners();
   }
@@ -207,7 +213,6 @@ class PatientModel extends Model {
     }
     return false;
   }
-
 
   Future<bool> delete() async {
     int code = await _api.delete(_currentPatient.userId.toString());

@@ -4,6 +4,7 @@ import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/widgets/List/doctorshiftlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 class DoctorShiftScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     doctorShiftModel.readByDoctorId(doctorModel.currentDoctor.userId);

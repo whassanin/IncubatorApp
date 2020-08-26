@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ContactUsScreen extends StatelessWidget {
+  static const routeName = '/contactusscreen';
+
   Widget displayText(String t,bool isBold){
     return Padding(
       padding: const EdgeInsets.all(10.0),

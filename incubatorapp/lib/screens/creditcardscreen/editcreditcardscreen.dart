@@ -11,6 +11,12 @@ class EditCreditCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String title = 'Edit Credit Card';
+
+    if(creditCardModel.isPayment){
+      title = 'Selected Credit Card';
+    }
+
     return ScopedModel(
       model: creditCardModel,
       child: ScopedModelDescendant(
@@ -21,7 +27,7 @@ class EditCreditCardScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Edit Credit Card',
+              title: Text(title,
                   style: TextStyle(color: Colors.white)),
             ),
             body: CreditCardFormWidget(

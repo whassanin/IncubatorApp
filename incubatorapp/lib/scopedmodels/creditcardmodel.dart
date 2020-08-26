@@ -11,6 +11,15 @@ class CreditCardModel extends Model{
 
   CreditCard get currentCreditCard => _currentCreditCard;
 
+  bool _isPayment = false;
+
+  bool get isPayment => _isPayment;
+
+  void setIsPayment(bool val){
+    _isPayment = val;
+    notifyListeners();
+  }
+
   void createCreditCard(){
     _currentCreditCard = new CreditCard(0,'','',0,0,0,DateTime.now());
   }
@@ -66,7 +75,7 @@ class CreditCardModel extends Model{
 
   DateTime get createDate => _currentCreditCard.createdDate;
 
-  void readByPatientId(int patientId) async{
+  Future<List<CreditCard>> readByPatientId(int patientId) async{
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -79,6 +88,8 @@ class CreditCardModel extends Model{
     await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
+
+    return creditCardList;
   }
 
   Future<bool> create() async {

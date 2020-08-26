@@ -1,4 +1,5 @@
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/models/creditcard.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
@@ -31,6 +32,9 @@ class Patient {
 
   @JsonKey(ignore: true)
   List<Bill> billList = [];
+
+  @JsonKey(ignore: true)
+  List<CreditCard> creditCardList = [];
 
   @JsonKey(ignore: true)
   List<PatientXRay> patientXRays = [];
