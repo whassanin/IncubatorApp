@@ -38,6 +38,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   void navigateToHomeScreen() {
     if (userPermission.isDoctor) {
       doctorModel.readById(userModel.currentUser.id.toString());
+      doctorModel.setCurrentTab(0);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -48,6 +49,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       );
     } else if (userPermission.isNurse) {
       nurseModel.readById(userModel.currentUser.id.toString());
+      nurseModel.setCurrentTab(0);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -57,15 +59,9 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString(), 1, 0);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PatientProfileScreen(
-            userPermission: userPermission,
-          ),
-        ),
-      );
+      patientModel.readById(userModel.currentUser.id.toString(), 1, 0,true);
+      patientModel.setCurrentTab(0);
+      Navigator.pushReplacementNamed(context, PatientProfileScreen.routeName);
     } else if (userPermission.isFrontDesk) {
     } else {
       _onErrorDialog(context);

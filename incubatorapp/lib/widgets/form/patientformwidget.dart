@@ -175,9 +175,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PatientProfileScreen(
-                        userPermission: userPermission,
-                      ),
+                      builder: (context) => PatientProfileScreen(),
                     ),
                     ModalRoute.withName('/signinscreen'),
                   );

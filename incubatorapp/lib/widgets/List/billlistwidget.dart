@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
 import 'package:incubatorapp/widgets/row/billrowwidget.dart';
 
 class BillListWidget extends StatefulWidget {
@@ -29,10 +32,10 @@ class _BillListWidgetState extends State<BillListWidget> {
                 b.lightRays +
                 b.medicine;
 
-            if(b.billExtraList!=null){
-              if(b.billExtraList.length > 0){
+            if (b.billExtraList != null) {
+              if (b.billExtraList.length > 0) {
                 b.billExtraList.forEach((be) {
-                  sum+=be.cost;
+                  sum += be.cost;
                 });
               }
             }
@@ -64,7 +67,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     return total;
   }
 
-  double calculateChange(){
+  double calculateChange() {
     double total = calculateTotal();
     double paid = calculatePaid();
     return paid - total;
@@ -94,7 +97,7 @@ class _BillListWidgetState extends State<BillListWidget> {
             );
           },
         );
-      }else {
+      } else {
         currentWidget = Center(
           child: Container(
             child: Text('No Bills(s) Available'),
@@ -104,14 +107,14 @@ class _BillListWidgetState extends State<BillListWidget> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 75),
+      padding: const EdgeInsets.only(bottom: 125),
       child: currentWidget,
     );
   }
 
-  Widget containerTotalWidget(String title,String val){
+  Widget containerTotalWidget(String title, String val) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: Container(
         child: Center(
           child: Column(
@@ -134,28 +137,76 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
+
+    Widget totalContainer = Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          containerTotalWidget('Total:', calculateTotal().toString()),
+          containerTotalWidget('Paid:', calculatePaid().toString()),
+          containerTotalWidget('Change:', calculateChange().toString()),
+        ],
+      ),
+    );
+
+    Widget buttonContainer = Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                creditCardModel.setIsPayment(true);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreditCardScreen(),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(color: Colors.cyan),
+                height: 58,
+                child: Center(
+                  child: Text(
+                    'Pay',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white,fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
 
     Widget positionTotal = Positioned(
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              width: 1,
-              color: Colors.black,
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          height: 120,
+          child: Column(
             children: <Widget>[
-              containerTotalWidget('Total:',calculateTotal().toString()),
-              containerTotalWidget('Paid:',calculatePaid().toString()),
-              containerTotalWidget('Change:',calculateChange().toString()),
+              totalContainer,
+              buttonContainer,
             ],
           ),
         ),

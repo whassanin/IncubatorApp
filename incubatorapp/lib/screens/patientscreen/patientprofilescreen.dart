@@ -12,8 +12,7 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientProfileScreen extends StatelessWidget {
   static const routeName = '/patientprofilescreen';
 
-  final UserPermission userPermission;
-  PatientProfileScreen({this.userPermission});
+  PatientProfileScreen();
 
   @override
   Widget build(BuildContext context) {

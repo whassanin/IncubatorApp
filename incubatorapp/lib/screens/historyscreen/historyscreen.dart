@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatelessWidget {
+
+  static const routeName = '/historyscreen';
+
   Widget displayText(String t){
     return Padding(
       padding: const EdgeInsets.all(10.0),

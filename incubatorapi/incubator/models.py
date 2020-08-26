@@ -9,28 +9,34 @@ from django.db import models
 # 1
 class Incubator(models.Model):
     name = models.CharField(max_length=200)
+
 # 2
 class Condition(models.Model):
     name = models.CharField(max_length=20)
     cost = models.FloatField()
+
 # 3
 class Analysis(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
+
 # 4
 class Consumable(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
+
 # 5
 class Medicine(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
+
 # 6
 class XRay(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
+
 # 7
 class Shift(models.Model):
     name = models.CharField(max_length=2)
@@ -38,6 +44,9 @@ class Shift(models.Model):
     isStarTimePM = models.BooleanField()
     endTime = models.IntegerField()
     isEndTimePM = models.BooleanField()
+
+# non basic data
+
 # 9
 class ReportProblem(models.Model):
     subject = models.CharField(max_length=200)
@@ -47,8 +56,6 @@ class ReportProblem(models.Model):
     status = models.CharField(max_length=20)
     createdDate = models.DateTimeField()
 
-# non basic data
-
 # 10
 class User(models.Model):
     userType = models.CharField(max_length=20)
@@ -57,6 +64,7 @@ class User(models.Model):
     provider = models.CharField(max_length=20)
     phone = models.CharField(max_length=20)
     createdDate = models.DateTimeField()
+
 # 11
 class Doctor(models.Model): 
     firstName = models.CharField(max_length=100)
@@ -65,6 +73,7 @@ class Doctor(models.Model):
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='doctordetail')
+
 # 12
 class Nurse(models.Model):
     firstName = models.CharField(max_length=100)
@@ -73,6 +82,7 @@ class Nurse(models.Model):
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='nursedetial')
+
 # 13
 class FrontDesk(models.Model):
     firstName = models.CharField(max_length=100)
@@ -98,6 +108,7 @@ class Patient(models.Model):
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='patientdetail')
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
+
 # 15
 class Bill(models.Model):
     date = models.DateTimeField()
@@ -110,6 +121,7 @@ class Bill(models.Model):
     lightRays = models.FloatField()
     medicine = models.FloatField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='bills')
+
 # 16
 class Status(models.Model):
     heartRate = models.FloatField()
@@ -138,6 +150,7 @@ class DoctorShift(models.Model):
     isSignedOut = models.BooleanField()
     createdDate = models.DateTimeField()
     changedDate = models.DateTimeField()
+
 # 18
 class NurseShift(models.Model):
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nurseshift')
@@ -148,18 +161,21 @@ class NurseShift(models.Model):
     isSignedOut = models.BooleanField()
     createdDate = models.DateTimeField()    
     changedDate = models.DateTimeField()
+
 # 19
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
     analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
     result = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField()
+
 # 20
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
     comment = models.CharField(max_length=200,blank=True)
     createdDate = models.DateTimeField()
+
 # 21
 class PatientConsumableNurse(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientconsumablenurse')
@@ -167,6 +183,7 @@ class PatientConsumableNurse(models.Model):
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nursepatientconsumable')
     quantity = models.IntegerField()
     createdDate = models.DateTimeField()
+
 # 22
 class PatientMedicineDoctor(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientmedicinedoctor')
@@ -182,3 +199,12 @@ class BillExtra(models.Model):
     billId = models.ForeignKey(Bill,on_delete=models.CASCADE,related_name='billextra')
     name = models.CharField(max_length=100)
     cost = models.FloatField()
+
+# 24
+class CreditCard(models.Model):
+    number = models.CharField(max_length=20)
+    holder = models.CharField(max_length=150)
+    expireYear = models.IntegerField()
+    expireMonth = models.IntegerField()
+    createdDate = models.DateTimeField()
+    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='creditcards')

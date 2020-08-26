@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
+import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
 import 'package:incubatorapp/screens/historyscreen/historyscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 import 'package:incubatorapp/screens/reportscreen/reportscreen.dart';
@@ -12,6 +13,14 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  void navigateToCreditCard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreditCardScreen(),
+      ),
+    );
+  }
 
   void navigateToReport() {
     Navigator.push(
@@ -148,9 +157,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             (userPermission.isPatient
                 ? childDrawer(
                     'My Credit Card',
+                    fun: navigateToCreditCard,
                   )
                 : Container()),
-            childDrawer('Report a problem', fun: navigateToReport),
+            childDrawer(
+              'Report a problem',
+              fun: navigateToReport,
+            ),
             childDrawer(
               'History',
               fun: navigateToHistory,
@@ -159,7 +172,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               'Contact Us',
               fun: navigateToContactUs,
             ),
-            childDrawer('Log Out', fun: navigateToWelcomeScreen),
+            childDrawer(
+              'Log Out',
+              fun: navigateToWelcomeScreen,
+            ),
           ],
         ),
       ),

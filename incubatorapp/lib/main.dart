@@ -3,6 +3,7 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
+import 'package:incubatorapp/scopedmodels/creditcardmodel.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
@@ -23,13 +24,39 @@ import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
+import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
+import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
+import 'package:incubatorapp/screens/creditcardscreen/editcreditcardscreen.dart';
+import 'package:incubatorapp/screens/creditcardscreen/newcreditcardscreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
+import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
+import 'package:incubatorapp/screens/historyscreen/historyscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
+import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
+import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
+import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
+import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
+import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
 import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
+import 'package:incubatorapp/screens/reportscreen/reportscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/doctorshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/editdoctorshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/editnurseshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/newdoctorshiftscreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/newnurseshiftscreen.dart';
+import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
@@ -54,12 +81,15 @@ ReportProblemModel reportProblemModel = new ReportProblemModel();
 PatientModel patientModel = new PatientModel();
 BillModel billModel = new BillModel();
 StatusModel statusModel = new StatusModel();
+CreditCardModel creditCardModel = new CreditCardModel();
 
 // many to many
 PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
 PatientXRayModel patientXRayModel = new PatientXRayModel();
-PatientMedicineDoctorModel patientMedicineDoctorModel = new PatientMedicineDoctorModel();
-PatientConsumableNurseModel patientConsumableNurseModel = new PatientConsumableNurseModel();
+PatientMedicineDoctorModel patientMedicineDoctorModel =
+    new PatientMedicineDoctorModel();
+PatientConsumableNurseModel patientConsumableNurseModel =
+    new PatientConsumableNurseModel();
 
 DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
 NurseShiftModel nurseShiftModel = new NurseShiftModel();
@@ -75,7 +105,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     incubatorModel.readAll();
     conditionModel.readAll();
     analysisModel.readAll();
@@ -92,26 +121,56 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        SignInScreen.routeName:(context)=>SignInScreen(),
+        EditPatientAnalysisScreen.routeName: (context) =>
+            EditPatientAnalysisScreen(),
+        NewPatientAnalysisScreen.routeName: (context) =>
+            NewPatientAnalysisScreen(),
+        PatientAnalysisScreen.routeName: (context) => PatientAnalysisScreen(),
+        BillDetailScreen.routeName: (context) => BillDetailScreen(),
+        BillScreen.routeName: (context) => BillScreen(),
+        NewPatientConsumableNurseScreen.routeName: (context) =>
+            NewPatientConsumableNurseScreen(),
+        PatientConsumableNurseScreen.routeName: (context) =>
+            PatientConsumableNurseScreen(),
+        ContactUsScreen.routeName: (context) => ContactUsScreen(),
+        CreditCardScreen.routeName: (context) => CreditCardScreen(),
+        EditCreditCardScreen.routeName: (context) => EditCreditCardScreen(),
+        NewCreditCardScreen.routeName: (context) => NewCreditCardScreen(),
+        DoctorProfileScreen.routeName: (context) => DoctorProfileScreen(),
+        EditDoctorScreen.routeName: (context) => EditDoctorScreen(),
+        NewDoctorScreen.routeName: (context) => NewDoctorScreen(),
+        HistoryScreen.routeName: (context) => HistoryScreen(),
+        EditIncubatorScreen.routeName: (context) => EditIncubatorScreen(),
+        IncubatorScreen.routeName: (context) => IncubatorScreen(),
+        NewIncubatorScreen.routeName: (context) => NewIncubatorScreen(),
+        ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
+        SignInScreen.routeName: (context) => SignInScreen(),
+        UserTypeScreen.routeName: (context) => UserTypeScreen(),
+        NewPatientMedicineDoctorScreen.routeName: (context) =>
+            NewPatientMedicineDoctorScreen(),
+        PatientMedicineDoctorScreen.routeName: (context) =>
+            PatientMedicineDoctorScreen(),
+        EditNurseScreen.routeName: (context) => EditNurseScreen(),
+        NewNurseScreen.routeName: (context) => NewNurseScreen(),
+        NurseProfileScreen.routeName: (context) => NurseProfileScreen(),
 
-        NewIncubatorScreen.routeName:(context)=>NewIncubatorScreen(),
-        EditIncubatorScreen.routeName:(context)=>EditIncubatorScreen(),
+        EditPatientScreen.routeName: (context) => EditPatientScreen(),
+        NewPatientScreen.routeName: (context) => NewPatientScreen(),
+        PatientDetailScreen.routeName: (context) => PatientDetailScreen(),
+        PatientListScreen.routeName:(context)=>PatientListScreen(),
+        PatientProfileScreen.routeName: (context) => PatientProfileScreen(),
 
-        PatientAnalysisScreen.routeName:(context)=>PatientAnalysisScreen(),
-        NewPatientAnalysisScreen.routeName:(context)=>NewPatientAnalysisScreen(),
-        EditPatientAnalysisScreen.routeName:(context)=>EditPatientAnalysisScreen(),
+        ReportScreen.routeName:(context)=>ReportScreen(),
 
-        PatientXRayScreen.routeName:(context)=>PatientXRayScreen(),
-        NewPatientXRayScreen.routeName:(context)=>NewPatientXRayScreen(),
+        EditDoctorShiftScreen.routeName:(context)=> EditDoctorShiftScreen(),
+        EditNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
+        NewDoctorShiftScreen.routeName:(context)=> NewDoctorShiftScreen(),
+        NewNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
 
-        PatientMedicineDoctorScreen.routeName:(context)=>PatientMedicineDoctorScreen(),
-        NewPatientMedicineDoctorScreen.routeName:(context)=>NewPatientMedicineDoctorScreen(),
+        NewStatusScreen.routeName:(context)=>NewStatusScreen(),
 
-        PatientConsumableNurseScreen.routeName:(context)=>PatientConsumableNurseScreen(),
-        NewPatientConsumableNurseScreen.routeName:(context)=>NewPatientConsumableNurseScreen(),
-
-        PatientDetailScreen.routeName:(context)=>PatientDetailScreen(),
-        BillDetailScreen.routeName:(context)=>BillDetailScreen()
+        PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
+        NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
       home: WelcomeScreen(),
     );

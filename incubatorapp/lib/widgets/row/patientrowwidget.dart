@@ -109,9 +109,9 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
       onTap: () {
         patientModel.editPatient(widget.patient);
         if(widget.userPermission.isDoctor || widget.userPermission.isNurse){
-          patientModel.readById(widget.patient.userId.toString(),0,1);
+          patientModel.readById(widget.patient.userId.toString(),0,1,false);
         }else if(widget.userPermission.isFrontDesk){
-          patientModel.readById(widget.patient.userId.toString(),1,0);
+          patientModel.readById(widget.patient.userId.toString(),1,0,false);
         }
 
         Navigator.push(

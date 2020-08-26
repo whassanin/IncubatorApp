@@ -75,6 +75,9 @@ urlpatterns = [
     path('billextra/', views.BillExtraList.as_view()),
     path('billextra/<int:pk>', views.BillExtraDetail.as_view()),
 
+    path('creditcard/', views.CreditCardList.as_view()),
+    path('creditcard/<int:pk>', views.CreditCardDetail.as_view()),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
