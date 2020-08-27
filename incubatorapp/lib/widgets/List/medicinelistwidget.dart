@@ -42,6 +42,12 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('Loading...'),
+        ),
+      );
     }
 
     return currentWidget;
@@ -61,7 +67,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           child: Container(
             height: 70,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: Colors.cyan,
               border: Border.all(
                 width: 1,
                 color: Colors.black,

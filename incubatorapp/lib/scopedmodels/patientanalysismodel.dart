@@ -1,4 +1,5 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -88,7 +89,9 @@ class PatientAnalysisModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientAnalysis.toJson());
     if (code == 201) {
-      readByPatientId(_currentPatientAnalysis.patientId);
+      patientAnalysisList.add(_currentPatientAnalysis);
+      notifyListeners();
+      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;

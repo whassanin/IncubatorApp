@@ -21,7 +21,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     // TODO: implement initState
     super.initState();
     nameTEC.text = widget.analysis.name;
-    patientAnalysisModel.editPatientAnalysis(widget.patientAnalysis);
+    resultTEC.text = widget.patientAnalysis.result;
   }
 
   @override

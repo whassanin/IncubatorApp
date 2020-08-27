@@ -70,8 +70,8 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
       genderTEC.text = 'Female';
     }
     dateOfBirthTEC.text = dateFormat();
-    emailTEC.text = userModel.getEmail();
-    phoneTEC.text = userModel.getPhone();
+    //emailTEC.text = userModel.getEmail();
+    //phoneTEC.text = userModel.getPhone();
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,

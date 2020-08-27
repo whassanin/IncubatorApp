@@ -43,6 +43,12 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('Loading...'),
+        ),
+      );
     }
 
     return currentWidget;

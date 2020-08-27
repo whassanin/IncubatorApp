@@ -30,8 +30,13 @@ class _PatientMedicineDoctorRowWidgetState
   void update(int v) {
     patientMedicineDoctorModel
         .editPatientMedicineDoctor(widget.patientMedicineDoctor);
-    patientMedicineDoctorModel.setQuantity(v);
-    patientMedicineDoctorModel.update();
+
+    if (v == 0) {
+      patientMedicineDoctorModel.delete();
+    } else {
+      patientMedicineDoctorModel.setQuantity(v);
+      patientMedicineDoctorModel.update();
+    }
   }
 
   Widget counterWidget() {
@@ -158,17 +163,19 @@ class _PatientMedicineDoctorRowWidgetState
 
     Widget displayCard = Card(
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[displayCol, counterWidget()],
-          )),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-        Radius.circular(
-          10,
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[displayCol, counterWidget()],
         ),
-      )),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            10,
+          ),
+        ),
+      ),
       elevation: 4,
     );
 

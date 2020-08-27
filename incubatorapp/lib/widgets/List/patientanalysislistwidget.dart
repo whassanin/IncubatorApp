@@ -67,7 +67,7 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('No Analysis(s) Available'),
+          child: Text('Loading...'),
         ),
       );
     }

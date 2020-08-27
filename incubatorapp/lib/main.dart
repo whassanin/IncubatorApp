@@ -113,6 +113,7 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
 
+    userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -154,26 +155,21 @@ class MyApp extends StatelessWidget {
         EditNurseScreen.routeName: (context) => EditNurseScreen(),
         NewNurseScreen.routeName: (context) => NewNurseScreen(),
         NurseProfileScreen.routeName: (context) => NurseProfileScreen(),
-
         EditPatientScreen.routeName: (context) => EditPatientScreen(),
         NewPatientScreen.routeName: (context) => NewPatientScreen(),
         PatientDetailScreen.routeName: (context) => PatientDetailScreen(),
-        PatientListScreen.routeName:(context)=>PatientListScreen(),
+        PatientListScreen.routeName: (context) => PatientListScreen(),
         PatientProfileScreen.routeName: (context) => PatientProfileScreen(),
-
-        ReportScreen.routeName:(context)=>ReportScreen(),
-
-        EditDoctorShiftScreen.routeName:(context)=> EditDoctorShiftScreen(),
-        EditNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
-        NewDoctorShiftScreen.routeName:(context)=> NewDoctorShiftScreen(),
-        NewNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
-
-        NewStatusScreen.routeName:(context)=>NewStatusScreen(),
-
+        ReportScreen.routeName: (context) => ReportScreen(),
+        EditDoctorShiftScreen.routeName: (context) => EditDoctorShiftScreen(),
+        EditNurseShiftScreen.routeName: (context) => EditNurseShiftScreen(),
+        NewDoctorShiftScreen.routeName: (context) => NewDoctorShiftScreen(),
+        NewNurseShiftScreen.routeName: (context) => EditNurseShiftScreen(),
+        NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
-      home: WelcomeScreen(),
+      home: DoctorProfileScreen(userPermission: userPermission,),
     );
   }
 }

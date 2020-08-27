@@ -1,4 +1,5 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -89,7 +90,9 @@ class PatientMedicineDoctorModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientMedicineDoctor.toJson());
     if (code == 201) {
-      readByPatientId(_currentPatientMedicineDoctor.patientId);
+      patientMedicineDoctorList.add(_currentPatientMedicineDoctor);
+      notifyListeners();
+      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;
@@ -100,7 +103,6 @@ class PatientMedicineDoctorModel extends Model {
         _currentPatientMedicineDoctor.id.toString());
     if (code == 200) {
       notifyListeners();
-
       return true;
     }
     return false;

@@ -14,8 +14,6 @@ class MedicineRowWidget extends StatefulWidget {
 }
 
 class _MedicineRowWidgetState extends State<MedicineRowWidget> {
-  bool isSelected = false;
-
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -23,20 +21,35 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     return v;
   }
 
-  void validate() {
+  void update() {
+    int index = findMedicine();
+    if (index >= 0) {
+      delete(index);
+    } else if (index < 0) {
+      save();
+    }
+  }
+
+  int findMedicine() {
     String dn = dateFormat(DateTime.now());
 
-    int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
-        (element) =>
-            element.patientId == widget.patient.userId &&
-            element.medicineId == widget.medicine.id &&
-            element.doctorId == doctorModel.currentDoctor.userId &&
-            dateFormat(element.createdDate) == dn);
-    if (i >= 0) {
-      isSelected = true;
-    } else {
-      isSelected = false;
-    }
+    int index = -1;
+
+    patientMedicineDoctorModel.patientMedicineDoctorList.forEach((element) {
+      if(element.patientId == widget.patient.userId &&
+          element.medicineId == widget.medicine.id &&
+          element.doctorId == doctorModel.currentDoctor.userId){
+        index = patientMedicineDoctorModel.patientMedicineDoctorList.indexOf(element);
+      }
+    });
+
+    return index;
+  }
+
+  void delete(int index) {
+    patientMedicineDoctorModel.editPatientMedicineDoctor(
+        patientMedicineDoctorModel.patientMedicineDoctorList[index]);
+    patientMedicineDoctorModel.delete();
   }
 
   void save() {
@@ -48,35 +61,21 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     patientMedicineDoctorModel.create();
   }
 
-  void delete() {
-    String dn = dateFormat(DateTime.now());
-
-    patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(widget.patient.userId);
-    patientMedicineDoctorModel.setMedicineId(widget.medicine.id);
-    patientMedicineDoctorModel.setDoctorId(doctorModel.currentDoctor.userId);
-
-    int i = patientMedicineDoctorModel.patientMedicineDoctorList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.medicineId == widget.medicine.id &&
-            element.doctorId == doctorModel.currentDoctor.userId &&
-            dateFormat(element.createdDate) == dn);
-
-    if(i >= 0){
-      isSelected = true;
-      patientMedicineDoctorModel.editPatientMedicineDoctor(patientMedicineDoctorModel.patientMedicineDoctorList[i]);
-      patientMedicineDoctorModel.delete();
-    }
-
-  }
-
   Widget row() {
-    validate();
+
+    int index = findMedicine();
+
+    Color cardColor = Colors.white;
+    Color textColor = Colors.black;
+
+    if(index >= 0){
+      cardColor = Colors.purpleAccent;
+      textColor = Colors.white;
+    }
 
     Widget rowData = Row(
       children: <Widget>[
-        Text('Id: ' + widget.medicine.id.toString()),
+        Text('Id: ' + widget.medicine.id.toString(),style: TextStyle(color: textColor),),
         SizedBox(
           width: 10,
         ),
@@ -84,22 +83,10 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
           child: Container(
             child: Text(
               'Name: ' + widget.medicine.name,
+                style: TextStyle(color: textColor),
             ),
           ),
         ),
-        (widget.userPermission.isDoctor
-            ? Checkbox(
-                value: isSelected,
-                onChanged: (b) {
-                  isSelected = b;
-                  if (b == true) {
-                    save();
-                  } else {
-                    delete();
-                  }
-                },
-              )
-            : Container())
       ],
     );
 
@@ -109,6 +96,7 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     );
 
     Widget rowCard = Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -120,7 +108,8 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isFrontDesk) {
+        if (widget.userPermission.isDoctor) {
+          update();
         } else {}
       },
       child: Padding(

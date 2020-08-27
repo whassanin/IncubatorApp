@@ -40,6 +40,11 @@ class _PatientListWidgetState extends State<PatientListWidget> {
         );
       }
     }else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('Loading...'),
+        ),
+      );
     }
 
     return currentWidget;
