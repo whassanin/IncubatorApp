@@ -26,7 +26,6 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget nameTextField = Row(
       children: <Widget>[
         Expanded(
@@ -48,8 +47,10 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               validator: (v) {
                 return null;
               },
-              onChanged: (v) {},
-              onFieldSubmitted: (v) {},
+              onChanged: (v) {
+              },
+              onFieldSubmitted: (v) {
+              },
             ),
           ),
         )
@@ -74,6 +75,9 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                 labelText: 'Result',
               ),
               validator: (v) {
+                if(v.isEmpty){
+                  return 'Required';
+                }
                 return null;
               },
               onChanged: (v) {
@@ -92,7 +96,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
-          color: Colors.cyan,
+          color: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -100,7 +104,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               ),
             ),
           ),
-          child: Text('Delete',style: TextStyle(color: Colors.white)),
+          child: Text('Delete', style: TextStyle(color: Colors.white)),
           onPressed: () {
             patientAnalysisModel.delete();
             Navigator.pop(context);
@@ -121,7 +125,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               ),
             ),
           ),
-          child: Text('Save',style: TextStyle(color: Colors.white)),
+          child: Text('Save', style: TextStyle(color: Colors.white)),
           onPressed: () {
             patientAnalysisModel.update();
             Navigator.pop(context);
@@ -138,11 +142,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     );
 
     Widget rowWidget = Column(
-      children: <Widget>[
-        nameTextField,
-        resultTextField,
-        updateButtonsWidget
-      ],
+      children: <Widget>[nameTextField, resultTextField, updateButtonsWidget],
     );
 
     return rowWidget;

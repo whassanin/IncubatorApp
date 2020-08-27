@@ -113,8 +113,6 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
 
-    userPermission.setPermission(UserType.doctor);
-
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -169,7 +167,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
-      home: DoctorProfileScreen(userPermission: userPermission,),
+      home: WelcomeScreen()
     );
   }
 }

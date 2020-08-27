@@ -22,10 +22,6 @@ class PatientDetailRowWidget extends StatefulWidget {
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToStatusScreen() {
-    statusModel.clearList();
-
-    statusModel.createStatus();
-    statusModel.setPatientId(widget.patient.userId);
     statusModel.readByPatientId(widget.patient.userId);
 
     Navigator.push(
@@ -40,7 +36,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToAnalysisScreen() {
-    patientAnalysisModel.clearList();
 
     Navigator.push(
       context,
@@ -54,7 +49,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToXRayScreen() {
-    patientXRayModel.clearList();
 
     Navigator.push(
       context,
@@ -68,7 +62,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToMedicineScreen() {
-    patientMedicineDoctorModel.clearList();
 
     Navigator.push(
       context,
@@ -82,7 +75,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToConsumableScreen() {
-    patientConsumableNurseModel.clearList();
 
     Navigator.push(
       context,

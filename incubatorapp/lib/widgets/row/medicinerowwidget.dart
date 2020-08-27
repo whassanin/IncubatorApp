@@ -31,7 +31,6 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   }
 
   int findMedicine() {
-    String dn = dateFormat(DateTime.now());
 
     int index = -1;
 

@@ -8,10 +8,11 @@ class ConsumableRowWidget extends StatefulWidget {
   final Patient patient;
   final Consumable consumable;
   final UserPermission userPermission;
-  ConsumableRowWidget(
-      {this.patient,
-      this.consumable,
-      this.userPermission,});
+  ConsumableRowWidget({
+    this.patient,
+    this.consumable,
+    this.userPermission,
+  });
   @override
   _ConsumableRowWidgetState createState() => _ConsumableRowWidgetState();
 }
@@ -26,20 +27,34 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     return v;
   }
 
-  void validate() {
-    String dn = dateFormat(DateTime.now());
-
-    int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.consumableId == widget.consumable.id &&
-            element.nurseId == nurseModel.currentNurse.userId &&
-            dateFormat(element.createdDate) == dn);
-    if (i >= 0) {
-      isSelected = true;
-    } else {
-      isSelected = false;
+  void update() {
+    int index = findConsumable();
+    if (index >= 0) {
+      delete(index);
+    } else if (index < 0) {
+      save();
     }
+  }
+
+  int findConsumable() {
+    int index = -1;
+
+    patientConsumableNurseModel.patientConsumableNurseList.forEach((element) {
+      if (element.patientId == widget.patient.userId &&
+          element.consumableId == widget.consumable.id &&
+          element.nurseId == nurseModel.currentNurse.userId) {
+        index = patientConsumableNurseModel.patientConsumableNurseList
+            .indexOf(element);
+      }
+    });
+
+    return index;
+  }
+
+  void delete(int index) {
+    patientConsumableNurseModel.editPatientConsumableNurse(
+        patientConsumableNurseModel.patientConsumableNurseList[index]);
+    patientConsumableNurseModel.delete();
   }
 
   void save() {
@@ -51,62 +66,44 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     patientConsumableNurseModel.create();
   }
 
-  void delete() {
-    String dn = dateFormat(DateTime.now());
-
-    patientConsumableNurseModel.createPatientConsumableNurse();
-    patientConsumableNurseModel.setPatientId(widget.patient.userId);
-    patientConsumableNurseModel.setConsumableId(widget.consumable.id);
-    patientConsumableNurseModel.setNurseId(nurseModel.currentNurse.userId);
-
-    int i = patientConsumableNurseModel.patientConsumableNurseList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.consumableId == widget.consumable.id &&
-            element.nurseId == nurseModel.currentNurse.userId &&
-            dateFormat(element.createdDate) == dn);
-
-    if(i >= 0){
-      isSelected = true;
-      patientConsumableNurseModel.editPatientConsumableNurse(patientConsumableNurseModel.patientConsumableNurseList[i]);
-      patientConsumableNurseModel.delete();
-    }
-
-  }
-
   Widget row() {
-    validate();
+    int index = findConsumable();
+
+    Color cardColor = Colors.white;
+    Color textColor = Colors.black;
+
+    if (index >= 0) {
+      cardColor = Colors.purpleAccent;
+      textColor = Colors.white;
+    }
 
     Widget rowData = Row(
       children: <Widget>[
-        Text('Id: ' + widget.consumable.id.toString()),
+        Text(
+          'Id: ' + widget.consumable.id.toString(),
+          style: TextStyle(color: textColor),
+        ),
         SizedBox(
           width: 10,
         ),
         Expanded(
-            child: Container(child: Text('Name: ' + widget.consumable.name))),
-        (widget.userPermission.isNurse
-            ? Checkbox(
-                value: isSelected,
-                onChanged: (b) {
-                  isSelected = b;
-                  if(b==true){
-                    save();
-                  }else {
-                    delete();
-                  }
-                },
-              )
-            : Container())
+          child: Container(
+            child: Text(
+              'Name: ' + widget.consumable.name,
+              style: TextStyle(color: textColor),
+            ),
+          ),
+        ),
       ],
     );
 
     Widget rowContainer = Container(
-      height: 50,
+      height: 70,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
     Widget rowCard = Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -118,11 +115,9 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isFrontDesk) {
-        } else {
-
-        }
-
+        if (widget.userPermission.isNurse) {
+          update();
+        } else {}
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

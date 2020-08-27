@@ -68,10 +68,6 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
             height: 70,
             decoration: BoxDecoration(
               color: Colors.cyan,
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
-              ),
             ),
             child: Center(
               child: Text(

@@ -67,11 +67,7 @@ class _XRayListWidgetState extends State<XRayListWidget> {
           child: Container(
             height: 70,
             decoration: BoxDecoration(
-              color: Colors.grey,
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
-              ),
+              color: Colors.cyan,
             ),
             child: Center(
               child: Text(

@@ -14,7 +14,10 @@ class NurseProfileScreen extends StatelessWidget {
   static const routeName = '/nurseprofilescreen';
 
   final UserPermission userPermission;
-  NurseProfileScreen({this.userPermission});
+  NurseProfileScreen({this.userPermission}){
+    nurseModel.readById('8');
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel(

@@ -20,6 +20,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
     // TODO: implement initState
     super.initState();
     nameTEC.text = widget.xRay.name;
+    commentTEC.text = widget.patientXRay.comment;
     patientXRayModel.editPatientXRay(widget.patientXRay);
   }
 
@@ -90,7 +91,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
-          color: Colors.cyan,
+          color: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -111,6 +112,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
+          color: Colors.cyan,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(

@@ -71,8 +71,8 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
       genderTEC.text = 'Female';
     }
     dateOfBirthTEC.text = dateFormat();
-    emailTEC.text = userModel.getEmail();
-    phoneTEC.text = userModel.getPhone();
+    //emailTEC.text = userModel.getEmail();
+    //phoneTEC.text = userModel.getPhone();
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,

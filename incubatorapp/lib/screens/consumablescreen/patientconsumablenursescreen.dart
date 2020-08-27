@@ -12,12 +12,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
 
   final Patient patient;
   final UserPermission userPermission;
-  PatientConsumableNurseScreen({this.patient, this.userPermission}) {
-    patientConsumableNurseModel.createPatientConsumableNurse();
-    patientConsumableNurseModel.setPatientId(patient.userId);
-    patientConsumableNurseModel.readByPatientId(patient.userId);
-  }
-
+  PatientConsumableNurseScreen({this.patient, this.userPermission});
   @override
   Widget build(BuildContext context) {
     return ScopedModel(

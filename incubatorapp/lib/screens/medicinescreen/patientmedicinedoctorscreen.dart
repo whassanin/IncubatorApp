@@ -12,11 +12,7 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
 
   final Patient patient;
   final UserPermission userPermission;
-  PatientMedicineDoctorScreen({this.patient, this.userPermission}) {
-    patientMedicineDoctorModel.createPatientMedicineDoctor();
-    patientMedicineDoctorModel.setPatientId(patient.userId);
-    patientMedicineDoctorModel.readByPatientId(patient.userId);
-  }
+  PatientMedicineDoctorScreen({this.patient, this.userPermission});
 
   @override
   Widget build(BuildContext context) {

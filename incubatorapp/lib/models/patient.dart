@@ -24,26 +24,26 @@ class Patient {
   int conditionId;
   int incubatorId;
 
-  @JsonKey(name: 'status')
-  List<Status> statusList = [];
+  @JsonKey(name: 'patientanalysis')
+  List<PatientAnalysis> patientAnalysisList = [];
+
+  @JsonKey(name: 'patientxray')
+  List<PatientXRay> patientXRaysList = [];
+
+  @JsonKey(name: 'patientmedicinedoctor')
+  List<PatientMedicineDoctor> patientMedicineDoctorList = [];
+
+  @JsonKey(name: 'patientconsumablenurse')
+  List<PatientConsumableNurse> patientConsumableNurseList = [];
 
   @JsonKey(ignore: true)
-  List<PatientAnalysis> patientAnalysisList = [];
+  List<Status> statusList = [];
 
   @JsonKey(ignore: true)
   List<Bill> billList = [];
 
   @JsonKey(ignore: true)
   List<CreditCard> creditCardList = [];
-
-  @JsonKey(ignore: true)
-  List<PatientXRay> patientXRays = [];
-
-  @JsonKey(ignore: true)
-  List<PatientMedicineDoctor> patientMedicineDoctorList = [];
-
-  @JsonKey(ignore: true)
-  List<PatientConsumableNurse> patientConsumableNurseList = [];
 
   Patient(
     this.userId,
@@ -58,7 +58,10 @@ class Patient {
     this.createdDate,
     this.conditionId,
     this.incubatorId,
-    this.statusList,
+    this.patientAnalysisList,
+    this.patientXRaysList,
+    this.patientMedicineDoctorList,
+    this.patientConsumableNurseList,
   );
 
   factory Patient.fromJson(Map<String, dynamic> json) =>
