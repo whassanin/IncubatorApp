@@ -114,11 +114,7 @@ class _PatientConsumableNurseRowWidgetState
     return (widget.userPermission.isNurse?rowCounterWidget:Container());
   }
 
-  Widget patientConsumableNurseRow() {
-    Consumable consumable = consumableModel.consumableList
-        .where((element) =>
-            element.id == widget.patientConsumableNurse.consumableId)
-        .toList()[0];
+  Widget patientConsumableNurseRow(Consumable consumable) {
 
     Widget consumableNameWidget = Container(
       child: Text('Name: ' + consumable.name),
@@ -190,7 +186,21 @@ class _PatientConsumableNurseRowWidgetState
 
   @override
   Widget build(BuildContext context) {
-    quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
-    return patientConsumableNurseRow();
+
+    Widget currentWidget = Container();
+
+    if(consumableModel.consumableList!=null){
+      if(consumableModel.consumableList.length > 0){
+        Consumable consumable = consumableModel.consumableList
+            .where((element) =>
+        element.id == widget.patientConsumableNurse.consumableId)
+            .toList()[0];
+
+        quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
+        currentWidget = patientConsumableNurseRow(consumable);
+      }
+    }
+
+    return currentWidget;
   }
 }

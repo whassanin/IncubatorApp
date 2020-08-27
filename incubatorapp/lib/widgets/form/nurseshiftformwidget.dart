@@ -45,7 +45,7 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
     d = d + '/' + dateTime.month.toString();
     d = d + '/' + dateTime.year.toString();
     if (isTime) {
-      d = d + '   '+ dateTime.hour.toString();
+      d = d + '   ' + dateTime.hour.toString();
       d = d + ':' + dateTime.minute.toString();
       d = d + ':' + dateTime.second.toString();
     }
@@ -59,36 +59,82 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
           .toList()[0];
 
       shiftTEC.text = selectedShift.name;
-      scheduleDateTimeTEC.text = formatDate(nurseShiftModel.getStartDateTime(),false);
-      startDateTimeTEC.text = formatDate(nurseShiftModel.getStartDateTime(),true);
-      endDateTimeTEC.text = formatDate(nurseShiftModel.getEndDateTime(),true);
+      scheduleDateTimeTEC.text =
+          formatDate(nurseShiftModel.getStartDateTime(), false);
+      startDateTimeTEC.text =
+          formatDate(nurseShiftModel.getStartDateTime(), true);
+      endDateTimeTEC.text = formatDate(nurseShiftModel.getEndDateTime(), true);
     }
   }
 
   void schedule() {
-    nurseShiftModel.setNurseId(nurseModel.currentNurse.userId);
-    nurseShiftModel.create();
+    if (_formKey.currentState.validate()) {
+      nurseShiftModel.setNurseId(nurseModel.currentNurse.userId);
+      nurseShiftModel.create();
+    }
   }
 
   void reSchedule() {
-    nurseShiftModel.update();
+    if (_formKey.currentState.validate()) {
+      nurseShiftModel.update();
+    }
   }
 
   void checkIn() {
-    var currentDate = DateTime.now();
-    setData(NurseShiftColumns.startDateTime, currentDate);
-    nurseShiftModel.update();
+    if (_formKey.currentState.validate()) {
+      var currentDate = DateTime.now();
+      setData(NurseShiftColumns.startDateTime, currentDate);
+      nurseShiftModel.update();
+    }
   }
 
   void checkOut() {
-    var currentDate = DateTime.now();
-    setData(NurseShiftColumns.endDateTime, currentDate);
-    nurseShiftModel.update();
+    if (_formKey.currentState.validate()) {
+      var currentDate = DateTime.now();
+      setData(NurseShiftColumns.endDateTime, currentDate);
+      nurseShiftModel.update();
+    }
   }
 
   void delete() {}
 
   void showDialogShiftList() {
+    Widget currentWidget = Container();
+
+    if (shiftModel.shiftList != null) {
+      if (shiftModel.shiftList.length > 0) {
+        currentWidget = ListView.separated(
+          separatorBuilder: (BuildContext context, int i) => Divider(),
+          itemCount: shiftModel.shiftList.length,
+          itemBuilder: (BuildContext context, int i) {
+            return ListTile(
+              title: Text(
+                shiftModel.shiftList[i].name,
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                shiftTEC.text = shiftModel.shiftList[i].name;
+                setData(NurseShiftColumns.shift, shiftModel.shiftList[i].id);
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Shift Titles Available'),
+          ),
+        );
+      }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Shift Titles Available'),
+        ),
+      );
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -101,25 +147,7 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
               children: <Widget>[
                 Container(
                   height: 300,
-                  child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int i) =>
-                        Divider(),
-                    itemCount: shiftModel.shiftList.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      return ListTile(
-                        title: Text(
-                          shiftModel.shiftList[i].name,
-                          textAlign: TextAlign.center,
-                        ),
-                        onTap: () {
-                          shiftTEC.text = shiftModel.shiftList[i].name;
-                          setData(NurseShiftColumns.shift,
-                              shiftModel.shiftList[i].id);
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  ),
+                  child: currentWidget,
                 ),
               ],
             ),
@@ -239,6 +267,9 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
+          if (v.isEmpty) {
+            return 'Required';
+          }
           return null;
         },
         onChanged: (v) {},
@@ -267,7 +298,7 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
                 ),
               ),
             ),
-            child: Text(title,style: TextStyle(color: Colors.white)),
+            child: Text(title, style: TextStyle(color: Colors.white)),
             onPressed: () {
               if (fun != null) {
                 fun();
@@ -295,14 +326,9 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
     Widget deleteButton = Container();
 
     if (widget.isEdit) {
-      String currentDate = formatDate(
-          DateTime.now(),
-          false
-      );
-      String pendingDate = formatDate(
-          nurseShiftModel.currentNurseShift.startDateTime,
-          false
-      );
+      String currentDate = formatDate(DateTime.now(), false);
+      String pendingDate =
+          formatDate(nurseShiftModel.currentNurseShift.startDateTime, false);
 
       if (currentDate == pendingDate) {
         if (nurseShiftModel.currentNurseShift.isSignedIn) {

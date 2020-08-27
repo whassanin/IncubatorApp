@@ -8,7 +8,7 @@ import 'package:incubatorapp/widgets/row/patientanalysisrowwidget.dart';
 class PatientAnalysisListWidget extends StatefulWidget {
   final List<PatientAnalysis> patientAnalysisList;
   final UserPermission userPermission;
-  PatientAnalysisListWidget({this.patientAnalysisList,this.userPermission});
+  PatientAnalysisListWidget({this.patientAnalysisList, this.userPermission});
 
   @override
   _PatientAnalysisListWidgetState createState() =>
@@ -57,17 +57,22 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
             );
           },
         );
-      }
-      else {
+      } else {
         currentWidget = Center(
           child: Container(
             child: Text('No Analysis(s) Available'),
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Analysis(s) Available'),
+        ),
+      );
     }
 
-    if(widget.userPermission.isPatient){
+    if (widget.userPermission.isPatient) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(bottom: 75),
         child: currentWidget,
@@ -86,7 +91,6 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget currentWidget = getList();
 
     Widget positionList = Positioned(
@@ -114,13 +118,10 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
       ),
     );
 
-    if(widget.userPermission.isPatient){
+    if (widget.userPermission.isPatient) {
       calculate();
       currentWidget = Stack(
-        children: <Widget>[
-          positionList,
-          positionTotal
-        ],
+        children: <Widget>[positionList, positionTotal],
       );
     }
 

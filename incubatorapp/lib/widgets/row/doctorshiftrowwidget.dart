@@ -13,7 +13,6 @@ class DoctorShiftRowWidget extends StatefulWidget {
 }
 
 class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
-
   String formatDate(DateTime dateTime) {
     String d = dateTime.day.toString();
     d = d + '/' + dateTime.month.toString();
@@ -162,7 +161,7 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
     Widget pendingMessageContainer = Container(
       decoration: decoration,
       child: Center(
-        child: Text('Pending Date: '+sd),
+        child: Text('Pending Date: ' + sd),
       ),
     );
 
@@ -175,7 +174,7 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
 
     Widget currentMessageContainer = pendingMessageContainer;
 
-    if(sd == cd){
+    if (sd == cd) {
       currentMessageContainer = notSignedMessageContainer;
     }
 
@@ -217,14 +216,21 @@ class _DoctorShiftRowWidgetState extends State<DoctorShiftRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Shift selectedShift = shiftModel.shiftList
-        .where((element) => element.id == widget.doctorShift.shiftId)
-        .toList()[0];
+    Widget currentWidget = Container();
 
-    return row(
-      selectedShift.name,
-      widget.doctorShift.startDateTime,
-      widget.doctorShift.endDateTime,
-    );
+    if (shiftModel.shiftList != null) {
+      if (shiftModel.shiftList.length > 0) {
+        Shift selectedShift = shiftModel.shiftList
+            .where((element) => element.id == widget.doctorShift.shiftId)
+            .toList()[0];
+        currentWidget = row(
+          selectedShift.name,
+          widget.doctorShift.startDateTime,
+          widget.doctorShift.endDateTime,
+        );
+      }
+    }
+
+    return currentWidget;
   }
 }

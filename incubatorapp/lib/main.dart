@@ -107,11 +107,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     incubatorModel.readAll();
     conditionModel.readAll();
+    shiftModel.readAll();
     analysisModel.readAll();
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
-    shiftModel.readAll();
+
 
     return MaterialApp(
       title: 'Flutter Demo',

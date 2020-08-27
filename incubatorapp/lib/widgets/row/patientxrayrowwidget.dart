@@ -21,11 +21,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     return v;
   }
 
-  Widget patientAnalysisRow() {
-    XRay xRay = xRayModel.xRayList
-        .where((element) => element.id == widget.patientXRay.xRayId)
-        .toList()[0];
-
+  Widget patientAnalysisRow(XRay xRay) {
     Widget xRayNameWidget = Container(
       child: Text('Name: ' + xRay.name),
     );
@@ -119,6 +115,17 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return patientAnalysisRow();
+    Widget currentWidget = Container();
+
+    if (xRayModel.xRayList != null) {
+      if (xRayModel.xRayList.length > 0) {
+        XRay xRay = xRayModel.xRayList
+            .where((element) => element.id == widget.patientXRay.xRayId)
+            .toList()[0];
+
+        currentWidget = patientAnalysisRow(xRay);
+      }
+    }
+    return currentWidget;
   }
 }

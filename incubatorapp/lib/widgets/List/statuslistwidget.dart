@@ -39,6 +39,12 @@ class _StatusListWidgetState extends State<StatusListWidget> {
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Status(s) Available'),
+        ),
+      );
     }
 
     return currentWidget;

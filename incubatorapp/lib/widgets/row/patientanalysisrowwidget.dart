@@ -22,11 +22,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
     return v;
   }
 
-  Widget patientAnalysisRow() {
-    Analysis analysis = analysisModel.analysisList
-        .where((element) => element.id == widget.patientAnalysis.analysisId)
-        .toList()[0];
-
+  Widget patientAnalysisRow(Analysis analysis) {
     Widget analysisNameWidget = Container(
       child: Text('Name: ' + analysis.name),
     );
@@ -121,6 +117,18 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return patientAnalysisRow();
+    Widget currentWidget = Container();
+
+    if (analysisModel.analysisList != null) {
+      if (analysisModel.analysisList.length > 0) {
+        Analysis analysis = analysisModel.analysisList
+            .where((element) => element.id == widget.patientAnalysis.analysisId)
+            .toList()[0];
+
+        currentWidget = patientAnalysisRow(analysis);
+      }
+    }
+
+    return currentWidget;
   }
 }

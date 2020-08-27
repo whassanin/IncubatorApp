@@ -60,15 +60,21 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No XRay(s) Available'),
+        ),
+      );
     }
 
-    if(widget.userPermission.isPatient) {
+    if (widget.userPermission.isPatient) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(bottom: 75),
         child: currentWidget,
       );
     }
-      return currentWidget;
+    return currentWidget;
   }
 
   @override

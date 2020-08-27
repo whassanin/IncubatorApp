@@ -18,6 +18,9 @@ class NewNurseShiftScreen extends StatelessWidget {
             NurseShiftModel nurseShiftModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('New Nurse Shift',style: TextStyle(color: Colors.white)),
             ),
             body: NurseShiftFormWidget(

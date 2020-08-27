@@ -159,7 +159,7 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
     Widget pendingMessageContainer = Container(
       decoration: decoration,
       child: Center(
-        child: Text('Pending Date: '+sd),
+        child: Text('Pending Date: ' + sd),
       ),
     );
 
@@ -172,7 +172,7 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
 
     Widget currentMessageContainer = pendingMessageContainer;
 
-    if(sd == cd){
+    if (sd == cd) {
       currentMessageContainer = notSignedMessageContainer;
     }
 
@@ -214,14 +214,21 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Shift selectedShift = shiftModel.shiftList
-        .where((element) => element.id == widget.nurseShift.shiftId)
-        .toList()[0];
+    Widget currentWidget = Container();
 
-    return row(
-      selectedShift.name,
-      widget.nurseShift.startDateTime,
-      widget.nurseShift.endDateTime,
-    );
+    if (shiftModel.shiftList != null) {
+      if (shiftModel.shiftList.length > 0) {
+        Shift selectedShift = shiftModel.shiftList
+            .where((element) => element.id == widget.nurseShift.shiftId)
+            .toList()[0];
+        currentWidget = row(
+          selectedShift.name,
+          widget.nurseShift.startDateTime,
+          widget.nurseShift.endDateTime,
+        );
+      }
+    }
+
+    return currentWidget;
   }
 }

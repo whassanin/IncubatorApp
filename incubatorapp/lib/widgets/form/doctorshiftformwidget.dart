@@ -45,7 +45,7 @@ class _DoctorShiftFormWidgetState extends State<DoctorShiftFormWidget> {
     d = d + '/' + dateTime.month.toString();
     d = d + '/' + dateTime.year.toString();
     if (isTime) {
-      d = d + '   '+ dateTime.hour.toString();
+      d = d + '   ' + dateTime.hour.toString();
       d = d + ':' + dateTime.minute.toString();
       d = d + ':' + dateTime.second.toString();
     }
@@ -59,25 +59,33 @@ class _DoctorShiftFormWidgetState extends State<DoctorShiftFormWidget> {
           .toList()[0];
 
       shiftTEC.text = selectedShift.name;
-      scheduleDateTimeTEC.text = formatDate(doctorShiftModel.getStartDateTime(),false);
-      startDateTimeTEC.text = formatDate(doctorShiftModel.getStartDateTime(),true);
-      endDateTimeTEC.text = formatDate(doctorShiftModel.getEndDateTime(),true);
+      scheduleDateTimeTEC.text =
+          formatDate(doctorShiftModel.getStartDateTime(), false);
+      startDateTimeTEC.text =
+          formatDate(doctorShiftModel.getStartDateTime(), true);
+      endDateTimeTEC.text = formatDate(doctorShiftModel.getEndDateTime(), true);
     }
   }
 
   void schedule() {
-    doctorShiftModel.setDoctorId(doctorModel.currentDoctor.userId);
-    doctorShiftModel.create();
+    if (_formKey.currentState.validate()) {
+      doctorShiftModel.setDoctorId(doctorModel.currentDoctor.userId);
+      doctorShiftModel.create();
+    }
   }
 
   void reSchedule() {
-    doctorShiftModel.update();
+    if (_formKey.currentState.validate()) {
+      doctorShiftModel.update();
+    }
   }
 
   void checkIn() {
-    var currentDate = DateTime.now();
-    setData(DoctorShiftColumns.startDateTime, currentDate);
-    doctorShiftModel.update();
+    if (_formKey.currentState.validate()) {
+      var currentDate = DateTime.now();
+      setData(DoctorShiftColumns.startDateTime, currentDate);
+      doctorShiftModel.update();
+    }
   }
 
   void checkOut() {
@@ -89,37 +97,55 @@ class _DoctorShiftFormWidgetState extends State<DoctorShiftFormWidget> {
   void delete() {}
 
   void showDialogShiftList() {
+    Widget currentWidget = Container();
+
+    if (shiftModel.shiftList != null) {
+      if (shiftModel.shiftList.length > 0) {
+        currentWidget = ListView.separated(
+          separatorBuilder: (BuildContext context, int i) => Divider(),
+          itemCount: shiftModel.shiftList.length,
+          itemBuilder: (BuildContext context, int i) {
+            return ListTile(
+              title: Text(
+                shiftModel.shiftList[i].name,
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                shiftTEC.text = shiftModel.shiftList[i].name;
+                setData(DoctorShiftColumns.shift, shiftModel.shiftList[i].id);
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Shift Titles Available'),
+          ),
+        );
+      }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Shift Titles Available'),
+        ),
+      );
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Container(
-            height: 300,
+            height: 250,
             width: double.maxFinite,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  height: 300,
-                  child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int i) =>
-                        Divider(),
-                    itemCount: shiftModel.shiftList.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      return ListTile(
-                        title: Text(
-                          shiftModel.shiftList[i].name,
-                          textAlign: TextAlign.center,
-                        ),
-                        onTap: () {
-                          shiftTEC.text = shiftModel.shiftList[i].name;
-                          setData(DoctorShiftColumns.shift,
-                              shiftModel.shiftList[i].id);
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  ),
+                  height: 250,
+                  child: currentWidget,
                 ),
               ],
             ),
@@ -267,7 +293,7 @@ class _DoctorShiftFormWidgetState extends State<DoctorShiftFormWidget> {
                 ),
               ),
             ),
-            child: Text(title,style: TextStyle(color: Colors.white)),
+            child: Text(title, style: TextStyle(color: Colors.white)),
             onPressed: () {
               if (fun != null) {
                 fun();
@@ -295,14 +321,9 @@ class _DoctorShiftFormWidgetState extends State<DoctorShiftFormWidget> {
     Widget deleteButton = Container();
 
     if (widget.isEdit) {
-      String currentDate = formatDate(
-        DateTime.now(),
-        false
-      );
-      String pendingDate = formatDate(
-        doctorShiftModel.currentDoctorShift.startDateTime,
-        false
-      );
+      String currentDate = formatDate(DateTime.now(), false);
+      String pendingDate =
+          formatDate(doctorShiftModel.currentDoctorShift.startDateTime, false);
 
       if (currentDate == pendingDate) {
         if (doctorShiftModel.currentDoctorShift.isSignedIn) {

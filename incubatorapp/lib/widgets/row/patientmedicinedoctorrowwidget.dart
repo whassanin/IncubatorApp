@@ -113,12 +113,7 @@ class _PatientMedicineDoctorRowWidgetState
     return (widget.userPermission.isDoctor ? rowCounterWidget : Container());
   }
 
-  Widget patientMedicineDoctorRow() {
-    Medicine medicine = medicineModel.medicineList
-        .where(
-            (element) => element.id == widget.patientMedicineDoctor.medicineId)
-        .toList()[0];
-
+  Widget patientMedicineDoctorRow(Medicine medicine) {
     Widget medicineNameWidget = Container(
       child: Text('Name: ' + medicine.name),
     );
@@ -191,7 +186,19 @@ class _PatientMedicineDoctorRowWidgetState
 
   @override
   Widget build(BuildContext context) {
-    quantityTEC.text = widget.patientMedicineDoctor.quantity.toString();
-    return patientMedicineDoctorRow();
+    Widget currentWidget = Container();
+
+    if (medicineModel.medicineList != null) {
+      if (medicineModel.medicineList.length > 0) {
+        Medicine medicine = medicineModel.medicineList
+            .where((element) =>
+                element.id == widget.patientMedicineDoctor.medicineId)
+            .toList()[0];
+
+        quantityTEC.text = widget.patientMedicineDoctor.quantity.toString();
+        currentWidget = patientMedicineDoctorRow(medicine);
+      }
+    }
+    return currentWidget;
   }
 }
