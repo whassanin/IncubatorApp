@@ -21,7 +21,6 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
     super.initState();
     nameTEC.text = widget.xRay.name;
     commentTEC.text = widget.patientXRay.comment;
-    patientXRayModel.editPatientXRay(widget.patientXRay);
   }
 
   @override
@@ -55,55 +54,57 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       ],
     );
 
-    Widget commentTextField = Row(
-      children: <Widget>[
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              controller: commentTEC,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      10,
-                    ),
-                  ),
+    Widget commentTextField = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: TextFormField(
+          minLines: null,
+          maxLines: null,
+          expands: true,
+          controller: commentTEC,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
                 ),
-                labelText: 'Comment',
               ),
-              validator: (v) {
-                return null;
-              },
-              onChanged: (v) {
-                patientXRayModel.setComment(v);
-              },
-              onFieldSubmitted: (v) {
-                patientXRayModel.setComment(v);
-              },
             ),
+            labelText: 'Comment',
           ),
-        )
-      ],
+          validator: (v) {
+            return null;
+          },
+          onChanged: (v) {
+            patientXRayModel.setComment(v);
+          },
+          onFieldSubmitted: (v) {
+            patientXRayModel.setComment(v);
+          },
+        ),
+      ),
     );
 
     Widget deleteButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RaisedButton(
-          color: Colors.red,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                10,
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
               ),
             ),
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              patientXRayModel.delete();
+              Navigator.pop(context);
+            },
           ),
-          child: Text('Delete',style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            patientXRayModel.delete();
-            Navigator.pop(context);
-          },
         ),
       ),
     );
@@ -111,20 +112,23 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
     Widget saveButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RaisedButton(
-          color: Colors.cyan,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                10,
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: Colors.cyan,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
               ),
             ),
+            child: Text('Save'),
+            onPressed: () {
+              patientXRayModel.update();
+              Navigator.pop(context);
+            },
           ),
-          child: Text('Save'),
-          onPressed: () {
-            patientXRayModel.update();
-            Navigator.pop(context);
-          },
         ),
       ),
     );

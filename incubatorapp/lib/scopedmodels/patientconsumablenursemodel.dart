@@ -23,6 +23,10 @@ class PatientConsumableNurseModel extends Model {
     _currentPatientConsumableNurse = editPatientConsumableNurse;
   }
 
+  void setList(List<PatientConsumableNurse> list){
+    patientConsumableNurseList = list;
+  }
+
   void clearList() {
     if (patientConsumableNurseList != null) {
       if (patientConsumableNurseList.length > 0) {

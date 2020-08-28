@@ -166,14 +166,14 @@ class NurseShift(models.Model):
 class PatientAnalysis(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
     analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
-    result = models.CharField(max_length=200,blank=True)
+    result = models.CharField(max_length=500,blank=True)
     createdDate = models.DateTimeField()
 
 # 20
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
-    comment = models.CharField(max_length=200,blank=True)
+    comment = models.CharField(max_length=500,blank=True)
     createdDate = models.DateTimeField()
 
 # 21
@@ -190,6 +190,8 @@ class PatientMedicineDoctor(models.Model):
     medicineId = models.ForeignKey(Medicine,on_delete=models.CASCADE,related_name='medicinepatientdoctor')
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorpatientmedicine')
     quantity = models.IntegerField()
+    description = models.CharField(max_length=500,blank=True)
+    dateTimer = models.DateTimeField()
     createdDate = models.DateTimeField()
 
 # Multi value

@@ -13,8 +13,9 @@ import 'package:scoped_model/scoped_model.dart';
 class DoctorProfileScreen extends StatelessWidget {
   static const routeName = '/doctorprofilescreen';
 
-  final UserPermission userPermission;
-  DoctorProfileScreen({this.userPermission});
+  DoctorProfileScreen() {
+    doctorModel.readById('7');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,7 @@ class DoctorProfileScreen extends StatelessWidget {
               currentWidget = IndexedStack(
                 index: doctorModel.currentTab,
                 children: <Widget>[
-                  PatientListScreen(
-                    userPermission: userPermission,
-                  ),
+                  PatientListScreen(),
                   DoctorShiftScreen(),
                   EditDoctorScreen()
                 ],
@@ -56,11 +55,14 @@ class DoctorProfileScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
-              title: Text(title,style: TextStyle(color: Colors.white)),
+              title: Text(title, style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (doctorModel.currentTab == 1
                     ? IconButton(
-                        icon: Icon(Icons.add,color: Colors.white,),
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,

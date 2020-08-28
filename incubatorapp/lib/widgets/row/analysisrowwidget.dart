@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patient.dart';
@@ -39,7 +40,8 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     patientAnalysisModel.patientAnalysisList.forEach((element) {
       if(element.patientId == widget.patient.userId &&
-          element.analysisId == widget.analysis.id){
+          element.analysisId == widget.analysis.id &&
+      dateFormat(element.createdDate) == dn){
         index = patientAnalysisModel.patientAnalysisList.indexOf(element);
       }
     });
@@ -52,7 +54,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     patientAnalysisModel.delete();
   }
 
-  void save() {
+  void save() async {
     patientAnalysisModel.createPatientAnalysis();
     patientAnalysisModel.setPatientId(widget.patient.userId);
     patientAnalysisModel.setAnalysisId(widget.analysis.id);

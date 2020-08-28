@@ -32,7 +32,7 @@ class PatientProfileScreen extends StatelessWidget {
               currentWidget = IndexedStack(
                 index: patientModel.currentTab,
                 children: <Widget>[
-                  PatientDetailScreen(userPermission: userPermission,),
+                  PatientDetailScreen(),
                   BillScreen(patient: patientModel.currentPatient,),
                   EditPatientScreen()
                 ],

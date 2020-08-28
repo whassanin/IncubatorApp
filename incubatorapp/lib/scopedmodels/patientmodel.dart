@@ -189,19 +189,19 @@ class PatientModel extends Model {
     _currentPatient.billList =
         await billModel.readByPatientId(int.parse(id), limit: billLimit);
 
-/*    patientAnalysisModel.readByPatientId(int.parse(id));
-    patientXRayModel.readByPatientId(int.parse(id));
-    patientMedicineDoctorModel.readByPatientId(int.parse(id));
-    patientConsumableNurseModel.readByPatientId(int.parse(id));*/
-
     if (isCreditCard) {
       _currentPatient.creditCardList =
           await creditCardModel.readByPatientId(int.parse(id));
     }
 
-    await Future.delayed(Duration(seconds: 2));
+    patientAnalysisModel.setList(_currentPatient.patientAnalysisList);
+    patientXRayModel.setList(_currentPatient.patientXRaysList);
+    patientMedicineDoctorModel.setList(_currentPatient.patientMedicineDoctorList);
+    patientConsumableNurseModel.setList(_currentPatient.patientConsumableNurseList);
 
-    notifyListeners();
+    //await Future.delayed(Duration(seconds: 3));
+
+    //notifyListeners();
   }
 
   Future<bool> create() async {

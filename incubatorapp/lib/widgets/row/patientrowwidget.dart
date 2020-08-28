@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
 
 class PatientRowWidget extends StatefulWidget {
   final Patient patient;
-  final UserPermission userPermission;
-  PatientRowWidget({this.patient, this.userPermission});
+  PatientRowWidget({
+    this.patient,
+  });
   @override
   _PatientRowWidgetState createState() => _PatientRowWidgetState();
 }
@@ -80,7 +80,8 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
         patientContent('Father Name:', widget.patient.fatherName),
         patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female')),
         patientContent('Entered Date:', dateFormat(widget.patient.createdDate)),
-        patientContent('Incubator number:', widget.patient.incubatorId.toString()),
+        patientContent(
+            'Incubator number:', widget.patient.incubatorId.toString()),
         (condition != null
             ? patientContent('Condition:', condition.name)
             : Container()),
@@ -108,18 +109,16 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
       ),
       onTap: () {
         patientModel.editPatient(widget.patient);
-        if(widget.userPermission.isDoctor || widget.userPermission.isNurse){
-          patientModel.readById(widget.patient.userId.toString(),0,1,false);
-        }else if(widget.userPermission.isFrontDesk){
-          patientModel.readById(widget.patient.userId.toString(),1,0,false);
+        if (userPermission.isDoctor || userPermission.isNurse) {
+          patientModel.readById(widget.patient.userId.toString(), 0, 1, false);
+        } else if (userPermission.isFrontDesk) {
+          patientModel.readById(widget.patient.userId.toString(), 1, 0, false);
         }
 
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PatientDetailScreen(
-              userPermission: widget.userPermission,
-            ),
+            builder: (context) => PatientDetailScreen(),
           ),
         );
       },

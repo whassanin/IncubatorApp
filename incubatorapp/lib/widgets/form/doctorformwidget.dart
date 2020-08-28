@@ -250,7 +250,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           userModel.update();
           doctorModel.update();
         } else {
-          bool isValid = await userModel.checkEmail(emailTEC.text,false);
+          bool isValid = await userModel.checkEmail(emailTEC.text, false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -279,9 +279,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DoctorProfileScreen(
-                        userPermission: userPermission,
-                      ),
+                      builder: (context) => DoctorProfileScreen(),
                     ),
                     ModalRoute.withName('/signinscreen'),
                   );
@@ -384,8 +382,7 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
     if (widget.isEdit != null) {
       if (widget.isEdit) {
         getData();
-      }
-      else {
+      } else {
         emailTEC.text = userModel.getEmail();
       }
     }

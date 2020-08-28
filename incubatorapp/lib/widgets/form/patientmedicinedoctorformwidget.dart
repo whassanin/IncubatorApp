@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/medicine.dart';
+import 'package:incubatorapp/models/patientmedicinedoctor.dart';
+import 'package:incubatorapp/models/patientxray.dart';
+import 'package:incubatorapp/models/xray.dart';
 
-class PatientAnalysisFormWidget extends StatefulWidget {
-  final PatientAnalysis patientAnalysis;
-  final Analysis analysis;
-  PatientAnalysisFormWidget({this.patientAnalysis, this.analysis});
+class PatientMedicineDoctorFormWidget extends StatefulWidget {
+  final PatientMedicineDoctor patientMedicineDoctor;
+  final Medicine medicine;
+  PatientMedicineDoctorFormWidget({this.patientMedicineDoctor, this.medicine});
   @override
-  _PatientAnalysisFormWidgetState createState() =>
-      _PatientAnalysisFormWidgetState();
+  _PatientMedicineDoctorFormWidgetState createState() => _PatientMedicineDoctorFormWidgetState();
 }
 
-class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
+class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
-  TextEditingController resultTEC = new TextEditingController();
+  TextEditingController descriptionTEC = new TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    nameTEC.text = widget.analysis.name;
-    resultTEC.text = widget.patientAnalysis.result;
+    nameTEC.text = widget.medicine.name;
+    descriptionTEC.text = widget.patientMedicineDoctor.description;
+
   }
 
   @override
@@ -42,29 +44,28 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                     ),
                   ),
                 ),
-                labelText: 'Analysis Name',
+                labelText: 'MedicineDoctor Name',
               ),
               validator: (v) {
                 return null;
               },
-              onChanged: (v) {
-              },
-              onFieldSubmitted: (v) {
-              },
+              onChanged: (v) {},
+              onFieldSubmitted: (v) {},
             ),
           ),
         )
       ],
     );
 
-    Widget resultTextField = Expanded(
+    Widget commentTextField = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: TextFormField(
           minLines: null,
           maxLines: null,
           expands: true,
-          controller: resultTEC,
+          readOnly: userPermission.isDoctor?false:true,
+          controller: descriptionTEC,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -73,7 +74,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                 ),
               ),
             ),
-            labelText: 'Result',
+            labelText: 'Description',
           ),
           validator: (v) {
             if(v.isEmpty){
@@ -82,10 +83,10 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
             return null;
           },
           onChanged: (v) {
-            patientAnalysisModel.setResult(v);
+            patientMedicineDoctorModel.setDescription(v);
           },
           onFieldSubmitted: (v) {
-            patientAnalysisModel.setResult(v);
+            patientMedicineDoctorModel.setDescription(v);
           },
         ),
       ),
@@ -105,9 +106,9 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientAnalysisModel.delete();
+              patientMedicineDoctorModel.delete();
               Navigator.pop(context);
             },
           ),
@@ -129,9 +130,9 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save', style: TextStyle(color: Colors.white)),
+            child: Text('Save'),
             onPressed: () {
-              patientAnalysisModel.update();
+              patientMedicineDoctorModel.update();
               Navigator.pop(context);
             },
           ),
@@ -147,7 +148,11 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     );
 
     Widget rowWidget = Column(
-      children: <Widget>[nameTextField, resultTextField, updateButtonsWidget],
+      children: <Widget>[
+        nameTextField,
+        commentTextField,
+        (userPermission.isDoctor?updateButtonsWidget:Container()),
+      ],
     );
 
     return rowWidget;

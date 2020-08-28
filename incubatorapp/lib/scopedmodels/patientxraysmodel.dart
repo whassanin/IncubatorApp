@@ -22,6 +22,10 @@ class PatientXRayModel extends Model{
     _currentPatientXRay = editPatientXRay;
   }
 
+  void setList(List<PatientXRay> list){
+    patientXRayList = list;
+  }
+
   void clearList(){
     if(patientXRayList!=null){
       if(patientXRayList.length > 0){

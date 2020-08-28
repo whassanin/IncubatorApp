@@ -5,6 +5,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/medicinescreen/editpatientmedicinedoctorscreen.dart';
 
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;
@@ -136,6 +137,36 @@ class _PatientMedicineDoctorRowWidgetState
       child: Text('Date: ' + dateFormat()),
     );
 
+    Widget editButtonWidget = Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text(userPermission.isDoctor ? 'Edit' : 'View Description'),
+            onPressed: () {
+              patientMedicineDoctorModel
+                  .editPatientMedicineDoctor(widget.patientMedicineDoctor);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditPatientMedicineDoctorScreen(
+                    patientMedicineDoctor: widget.patientMedicineDoctor,
+                    medicine: medicine,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,16 +188,23 @@ class _PatientMedicineDoctorRowWidgetState
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
-        )
+        ),
       ],
     );
 
     Widget displayCard = Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[displayCol, counterWidget()],
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[displayCol, counterWidget()],
+            ),
+            ((widget.userPermission.isDoctor || userPermission.isNurse)
+                ? editButtonWidget
+                : Container())
+          ],
         ),
       ),
       shape: RoundedRectangleBorder(

@@ -36,7 +36,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   void goToAnalysisScreen() {
-
     Navigator.push(
       context,
       MaterialPageRoute(

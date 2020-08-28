@@ -42,9 +42,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => DoctorProfileScreen(
-            userPermission: userPermission,
-          ),
+          builder: (context) => DoctorProfileScreen(),
         ),
       );
     } else if (userPermission.isNurse) {
@@ -53,13 +51,11 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => NurseProfileScreen(
-            userPermission: userPermission,
-          ),
+          builder: (context) => NurseProfileScreen(),
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString(), 1, 0,true);
+      patientModel.readById(userModel.currentUser.id.toString(), 1, 0, true);
       patientModel.setCurrentTab(0);
       Navigator.pushReplacementNamed(context, PatientProfileScreen.routeName);
     } else if (userPermission.isFrontDesk) {
@@ -99,27 +95,26 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
     String v = await userModel.signIn();
 
-    bool isCheck = await userModel.checkEmail(v,true);
+    bool isCheck = await userModel.checkEmail(v, true);
 
-    if(isCheck){
+    if (isCheck) {
       userModel.setPermission();
       navigateToHomeScreen();
-    }else {
-      signUp(userProvider: UserProvider.huawei,email: v);
+    } else {
+      signUp(userProvider: UserProvider.huawei, email: v);
     }
   }
 
   void signUp({UserProvider userProvider, String email}) {
-
     userModel.createUser();
 
-    if(userProvider==null){
+    if (userProvider == null) {
       userModel.setProvider(UserProvider.other);
-    }else {
+    } else {
       userModel.setProvider(userProvider);
     }
 
-    if(email!=null){
+    if (email != null) {
       userModel.setEmail(email);
     }
     Navigator.push(

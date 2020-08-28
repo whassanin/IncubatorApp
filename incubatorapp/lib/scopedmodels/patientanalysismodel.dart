@@ -20,6 +20,10 @@ class PatientAnalysisModel extends Model {
     _currentPatientAnalysis = editPatientAnalysis;
   }
 
+  void setList(List<PatientAnalysis> list){
+    patientAnalysisList = list;
+  }
+
   void clearList() {
     if (patientAnalysisList != null) {
       if (patientAnalysisList.length > 0) {

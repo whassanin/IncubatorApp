@@ -32,7 +32,10 @@ class UserModel extends Model {
   }
 
   String getEmail() {
-    return _currentUser.email;
+    if(_currentUser!=null){
+      return _currentUser.email;
+    }
+    return '';
   }
 
   void setPassword(String val) {
@@ -48,7 +51,10 @@ class UserModel extends Model {
   }
 
   String getPhone() {
-    return _currentUser.phone;
+    if(_currentUser!=null){
+      return _currentUser.phone;
+    }
+    return '';
   }
 
   void setProvider(UserProvider userProvider) {

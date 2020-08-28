@@ -20,20 +20,22 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
 
   double calculate() {
     double total = 0;
-    if (widget.patientAnalysisList != null) {
-      if (widget.patientAnalysisList.length > 0) {
-        widget.patientAnalysisList.forEach(
-          (pa) {
-            int index = addCalculatedList.indexOf(pa);
 
-            if (index < 0) {
-              Analysis analysis = analysisModel.analysisList
-                  .where((a) => a.id == pa.analysisId)
-                  .toList()[0];
-              total += analysis.price;
-            }
-          },
-        );
+    if (analysisModel.analysisList != null) {
+      if (widget.patientAnalysisList != null) {
+        if (widget.patientAnalysisList.length > 0) {
+          widget.patientAnalysisList.forEach(
+            (pa) {
+              int index = addCalculatedList.indexOf(pa);
+              if (index < 0) {
+                Analysis analysis = analysisModel.analysisList
+                    .where((a) => a.id == pa.analysisId)
+                    .toList()[0];
+                total += analysis.price;
+              }
+            },
+          );
+        }
       }
     }
     return total;
@@ -70,6 +72,8 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
           child: Text('Loading...'),
         ),
       );
+
+      patientAnalysisModel.readByPatientId(patientModel.currentPatient.userId);
     }
 
     if (widget.userPermission.isPatient) {

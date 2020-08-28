@@ -15,12 +15,16 @@ class PatientMedicineDoctorModel extends Model {
 
   void createPatientMedicineDoctor() {
     _currentPatientMedicineDoctor =
-        new PatientMedicineDoctor(0, 0, 0, 0, 0, DateTime.now());
+        new PatientMedicineDoctor(0, 0, 0, 0, 0,'', DateTime.now());
   }
 
   void editPatientMedicineDoctor(
       PatientMedicineDoctor editPatientMedicineDoctor) {
     _currentPatientMedicineDoctor = editPatientMedicineDoctor;
+  }
+
+  void setList(List<PatientMedicineDoctor> list){
+    patientMedicineDoctorList = list;
   }
 
   void clearList() {
@@ -64,6 +68,16 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.quantity;
   }
 
+  void setDescription(String val)
+  {
+    _currentPatientMedicineDoctor.description = val;
+    notifyListeners();
+  }
+
+  String getDescription(){
+    return _currentPatientMedicineDoctor.description;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientMedicineDoctor.createdDate;
   }
@@ -102,7 +116,6 @@ class PatientMedicineDoctorModel extends Model {
     int code = await _api.put(_currentPatientMedicineDoctor.toJson(),
         _currentPatientMedicineDoctor.id.toString());
     if (code == 200) {
-      notifyListeners();
       return true;
     }
     return false;
