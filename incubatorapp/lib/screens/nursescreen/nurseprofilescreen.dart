@@ -13,9 +13,7 @@ import 'package:scoped_model/scoped_model.dart';
 class NurseProfileScreen extends StatelessWidget {
   static const routeName = '/nurseprofilescreen';
 
-  NurseProfileScreen() {
-    nurseModel.readById('8');
-  }
+  NurseProfileScreen();
 
   @override
   Widget build(BuildContext context) {

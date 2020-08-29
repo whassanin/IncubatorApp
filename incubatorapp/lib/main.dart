@@ -176,7 +176,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
-      home: DoctorProfileScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
