@@ -28,6 +28,7 @@ import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
+import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
 import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
 import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
@@ -122,7 +123,7 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
 
-    userPermission.setPermission(UserType.doctor);
+    userPermission.setPermission(UserType.accountant);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -178,7 +179,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
-      home: WelcomeScreen(),
+      home: AccountantProfileScreen(),
     );
   }
 }

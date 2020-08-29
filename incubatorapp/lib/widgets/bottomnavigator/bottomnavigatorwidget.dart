@@ -69,6 +69,23 @@ class _BottomNavigatorWidgetState extends State<BottomNavigatorWidget> {
     );
   }
 
+  Widget accountantBottomNavigatorBar(){
+    return BottomNavigationBar(
+      currentIndex: accountantModel.currentTab,
+      selectedItemColor: Colors.blueAccent,
+      showUnselectedLabels: true,
+      unselectedItemColor: Colors.grey,
+      onTap: (v) {
+        accountantModel.setCurrentTab(v);
+      },
+      items: [
+        bottomNavigatorItem(Icon(FontAwesomeIcons.hospitalUser),'Patient'),
+        bottomNavigatorItem(Icon(FontAwesomeIcons.database),'Data Management'),
+        bottomNavigatorItem(Icon(Icons.person_pin),'Account')
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -80,6 +97,8 @@ class _BottomNavigatorWidgetState extends State<BottomNavigatorWidget> {
       currentWidget = doctorBottomNavigatorBar();
     }else if(widget.userPermission.isNurse){
       currentWidget = nurseBottomNavigatorBar();
+    }else if(widget.userPermission.isAccountant){
+      currentWidget = accountantBottomNavigatorBar();
     }else {
       currentWidget = Container();
     }

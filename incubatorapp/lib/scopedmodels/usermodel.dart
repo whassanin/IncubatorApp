@@ -85,6 +85,8 @@ class UserModel extends Model {
       userType = UserType.nurse;
     } else if (_currentUser.userType.toString() == UserType.patient.toString()) {
       userType = UserType.patient;
+    }else if (_currentUser.userType.toString() == UserType.accountant.toString()) {
+      userType = UserType.accountant;
     }
     userPermission.setPermission(userType);
   }
