@@ -132,6 +132,8 @@ class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
             'doctorId',
             'quantity',
             'description',
+            'date',
+            'status'
             'createdDate',
             ]
 

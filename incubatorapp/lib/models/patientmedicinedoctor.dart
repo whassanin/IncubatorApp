@@ -10,6 +10,8 @@ class PatientMedicineDoctor {
   int doctorId;
   int quantity;
   String description;
+  String status;
+  DateTime date;
   DateTime createdDate;
 
   PatientMedicineDoctor(
@@ -19,6 +21,8 @@ class PatientMedicineDoctor {
     this.doctorId,
     this.quantity,
     this.description,
+    this.status,
+    this.date,
     this.createdDate,
   );
 

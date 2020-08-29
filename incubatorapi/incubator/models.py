@@ -191,7 +191,8 @@ class PatientMedicineDoctor(models.Model):
     doctorId = models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name='doctorpatientmedicine')
     quantity = models.IntegerField()
     description = models.CharField(max_length=500,blank=True)
-    dateTimer = models.DateTimeField()
+    date = models.DateTimeField()
+    status = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # Multi value

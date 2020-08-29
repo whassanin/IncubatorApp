@@ -15,7 +15,7 @@ class PatientMedicineDoctorModel extends Model {
 
   void createPatientMedicineDoctor() {
     _currentPatientMedicineDoctor =
-        new PatientMedicineDoctor(0, 0, 0, 0, 0,'', DateTime.now());
+        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(), DateTime.now());
   }
 
   void editPatientMedicineDoctor(
