@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
@@ -64,6 +65,8 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
     );
 
     Widget columnWidget = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[imageWidget, titleWidget],
     );
 
@@ -75,7 +78,8 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
               Radius.circular(10),
             ),
           ),
-          child: columnWidget),
+          child: columnWidget,
+      ),
     );
 
     return GestureDetector(
@@ -90,43 +94,51 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width * 0.4;
-    double h = MediaQuery.of(context).size.height / 5;
+    double iw = MediaQuery.of(context).size.width * 0.4;
+    double ih = MediaQuery.of(context).size.height / (5);
 
     Widget doctorImage = imageWidget(
       'assets/doctor.png',
       'Doctor',
-      w,
-      h,
+      iw,
+      ih,
       fun: navigateToNewDoctorScreen,
     );
     Widget nurseImage = imageWidget(
       'assets/nurse.png',
       'Nurse',
-      w,
-      h,
+      iw,
+      ih,
       fun: navigateToNewNurseScreen,
     );
     Widget patientImage = imageWidget(
       'assets/patient.png',
       'Patient',
-      w,
-      h,
+      iw,
+      ih,
       fun: navigateToNewPatientScreen,
     );
+    Widget frontDeskImage = imageWidget(
+      'assets/patient.png',
+      'Front Desk',
+      iw,
+      ih,
+    );
 
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              doctorImage,
-              nurseImage,
-              patientImage,
-            ],
-          ),
-        ),
-      ),
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height-85;
+
+    return GridView.count(
+      physics: ScrollPhysics(),
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      childAspectRatio: w/h,
+      children: <Widget>[
+        doctorImage,
+        nurseImage,
+        patientImage,
+        frontDeskImage,
+      ],
     );
   }
 }
