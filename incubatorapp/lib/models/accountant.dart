@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'frontdesk.g.dart';
+part 'accountant.g.dart';
 
 @JsonSerializable()
-class FrontDesk {
+class Accountant {
   int userId;
   String firstName;
   String lastName;
@@ -11,7 +11,7 @@ class FrontDesk {
   DateTime dateOfBirth;
   DateTime createdDate;
 
-  FrontDesk(
+  Accountant(
       this.userId,
       this.firstName,
       this.lastName,
@@ -20,7 +20,7 @@ class FrontDesk {
       this.createdDate,
       );
 
-  factory FrontDesk.fromJson(Map<String, dynamic> json) => _$FrontDeskFromJson(json);
+  factory Accountant.fromJson(Map<String, dynamic> json) => _$AccountantFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FrontDeskToJson(this);
+  Map<String, dynamic> toJson() => _$AccountantToJson(this);
 }

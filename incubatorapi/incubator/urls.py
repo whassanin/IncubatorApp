@@ -36,8 +36,8 @@ urlpatterns = [
     path('nurse/', views.NurseList.as_view()),
     path('nurse/<int:pk>', views.NurseDetail.as_view()),
 
-    path('frontdesk/', views.ForntDeskList.as_view()),
-    path('frontdesk/<int:pk>', views.FrontDeskDetail.as_view()),
+    path('accountant/', views.AccountantList.as_view()),
+    path('accountant/<int:pk>', views.AccountantDetail.as_view()),
 
     path('reportproblem/', views.ReportProblemList.as_view()),
     path('reportproblem/<int:pk>', views.ReportProblemDetail.as_view()),

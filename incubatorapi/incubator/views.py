@@ -7,7 +7,7 @@ from incubator.models import Consumable
 from incubator.models import XRay
 from incubator.models import Shift
 from incubator.models import User
-from incubator.models import FrontDesk
+from incubator.models import Accountant
 from incubator.models import ReportProblem
 from incubator.models import Doctor
 from incubator.models import Nurse
@@ -31,7 +31,7 @@ from incubator.serializer import ConsumableSerializer
 from incubator.serializer import XRaySerializer
 from incubator.serializer import ShiftSerializer
 from incubator.serializer import UserSerializer
-from incubator.serializer import FrontDeskSerializer
+from incubator.serializer import AccountantSerializer
 from incubator.serializer import ReportProblemSerializer
 from incubator.serializer import DoctorSerializer
 from incubator.serializer import NurseSerializer
@@ -155,15 +155,15 @@ class NurseDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NurseSerializer
 
 # Front Desk Class
-class ForntDeskList(generics.ListCreateAPIView):
-    queryset = FrontDesk.objects.all()
-    serializer_class = FrontDeskSerializer
+class AccountantList(generics.ListCreateAPIView):
+    queryset = Accountant.objects.all()
+    serializer_class = AccountantSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_fields = ['userId']
 
-class FrontDeskDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = FrontDesk.objects.all()
-    serializer_class = FrontDeskSerializer
+class AccountantDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Accountant.objects.all()
+    serializer_class = AccountantSerializer
 
 class ReportProblemList(generics.ListCreateAPIView):
     queryset = ReportProblem.objects.all()

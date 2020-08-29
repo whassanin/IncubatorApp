@@ -84,13 +84,13 @@ class Nurse(models.Model):
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='nursedetial')
 
 # 13
-class FrontDesk(models.Model):
+class Accountant(models.Model):
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     gender = models.BooleanField()
     dateOfBirth = models.DateTimeField()
     createdDate = models.DateTimeField()
-    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='frontdeskdetial')
+    userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='accoutantdetial')
 
 # 1 to many
 

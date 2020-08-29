@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
@@ -82,6 +83,7 @@ ShiftModel shiftModel = new ShiftModel();
 UserModel userModel = new UserModel();
 DoctorModel doctorModel = new DoctorModel();
 NurseModel nurseModel = new NurseModel();
+AccountantModel accountantModel = new AccountantModel();
 ReportProblemModel reportProblemModel = new ReportProblemModel();
 
 // 1 to many

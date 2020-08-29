@@ -72,8 +72,6 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
           child: Text('Loading...'),
         ),
       );
-
-      patientAnalysisModel.readByPatientId(patientModel.currentPatient.userId);
     }
 
     if (widget.userPermission.isPatient) {

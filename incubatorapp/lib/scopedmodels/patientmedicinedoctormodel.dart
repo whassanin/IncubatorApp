@@ -89,8 +89,8 @@ class PatientMedicineDoctorModel extends Model {
     fields.add('patientId');
     values.add(patientId.toString());
 
-    List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
-    patientMedicineDoctorList = patientAnalysisMap
+    List<dynamic> patientMedicineDoctorMap = await _api.filter(fields, values);
+    patientMedicineDoctorList = patientMedicineDoctorMap
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
 

@@ -168,7 +168,9 @@ class StatusModel extends Model {
       statusListMap = await _api.filter(fields, values);
     }
 
-    statusList = statusListMap.map((e) => Status.fromJson(e)).toList();
+    if(statusListMap!=null){
+      statusList = statusListMap.map((e) => Status.fromJson(e)).toList();
+    }
 
     notifyListeners();
 

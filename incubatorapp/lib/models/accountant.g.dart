@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'frontdesk.dart';
+part of 'accountant.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FrontDesk _$FrontDeskFromJson(Map<String, dynamic> json) {
-  return FrontDesk(
+Accountant _$AccountantFromJson(Map<String, dynamic> json) {
+  return Accountant(
     json['userId'] as int,
     json['firstName'] as String,
     json['lastName'] as String,
@@ -21,7 +21,8 @@ FrontDesk _$FrontDeskFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FrontDeskToJson(FrontDesk instance) => <String, dynamic>{
+Map<String, dynamic> _$AccountantToJson(Accountant instance) =>
+    <String, dynamic>{
       'userId': instance.userId,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
