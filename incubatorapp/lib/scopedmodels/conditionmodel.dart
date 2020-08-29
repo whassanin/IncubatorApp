@@ -26,13 +26,13 @@ class ConditionModel extends Model{
     return _currentCondition.name;
   }
 
-  void setCost(double cost){
-    _currentCondition.cost = cost;
+  void setPrice(double price){
+    _currentCondition.price = price;
     notifyListeners();
   }
 
-  double getCost(){
-  return _currentCondition.cost;
+  double getPrice(){
+  return _currentCondition.price;
   }
 
   void readAll() async{

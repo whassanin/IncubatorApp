@@ -3,7 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
-import 'package:incubatorapp/screens/consumablescreen/newpatientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/patientconsumablenursescreen/newpatientconsumablenursescreen.dart';
 import 'package:incubatorapp/widgets/List/patientconsumablenurselistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 

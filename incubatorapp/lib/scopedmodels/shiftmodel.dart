@@ -37,7 +37,7 @@ class ShiftModel extends Model{
   }
 
   void setIsStartTimePM(bool val){
-    _currentShift.isStarTimePM = val;
+    _currentShift.isStartTimePM = val;
     notifyListeners();
   }
 

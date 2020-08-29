@@ -13,7 +13,7 @@ class Incubator(models.Model):
 # 2
 class Condition(models.Model):
     name = models.CharField(max_length=20)
-    cost = models.FloatField()
+    price = models.FloatField()
 
 # 3
 class Analysis(models.Model):
@@ -41,7 +41,7 @@ class XRay(models.Model):
 class Shift(models.Model):
     name = models.CharField(max_length=2)
     startTime = models.IntegerField()
-    isStarTimePM = models.BooleanField()
+    isStartTimePM = models.BooleanField()
     endTime = models.IntegerField()
     isEndTimePM = models.BooleanField()
 

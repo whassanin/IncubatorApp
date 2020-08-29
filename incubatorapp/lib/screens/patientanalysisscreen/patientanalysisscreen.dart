@@ -3,7 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
-import 'package:incubatorapp/screens/analysisscreen/newpatientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 

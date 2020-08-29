@@ -3,7 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
-import 'package:incubatorapp/screens/xrayscreen/editpatientxrayscreen.dart';
+import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/patientxrayscreen/editpatientxrayscreen.dart';
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;

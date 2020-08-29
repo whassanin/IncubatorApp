@@ -3,7 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
-import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
+import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/patientxrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 

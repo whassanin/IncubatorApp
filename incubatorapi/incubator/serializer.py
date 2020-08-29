@@ -216,7 +216,7 @@ class IncubatorSerializer(serializers.ModelSerializer):
 class ConditionSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Condition
-        fields = ['id','name','cost',]
+        fields = ['id','name','price',]
 
 class AnalysisSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -241,7 +241,7 @@ class XRaySerializer(serializers.ModelSerializer):
 class ShiftSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Shift
-        fields = ['id','name','startTime','isStarTimePM','endTime','isEndTimePM']
+        fields = ['id','name','startTime','isStartTimePM','endTime','isEndTimePM']
 
 # non basic data
 

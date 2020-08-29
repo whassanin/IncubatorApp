@@ -6,9 +6,9 @@ part 'condition.g.dart';
 class Condition {
   int id;
   String name;
-  double cost;
+  double price;
 
-  Condition(this.id, this.name, this.cost);
+  Condition(this.id, this.name, this.price);
 
   factory Condition.fromJson(Map<String, dynamic> json) => _$ConditionFromJson(json);
 

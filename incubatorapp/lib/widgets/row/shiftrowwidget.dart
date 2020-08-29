@@ -11,7 +11,7 @@ class ShiftRowWidget extends StatefulWidget {
 class _ShiftRowWidgetState extends State<ShiftRowWidget> {
   int calculateTotalHours() {
     int m = widget.shift.startTime, n = widget.shift.endTime;
-    if (widget.shift.isStarTimePM == true) {
+    if (widget.shift.isStartTimePM == true) {
       m = m + 12;
     }
 
@@ -40,7 +40,7 @@ class _ShiftRowWidgetState extends State<ShiftRowWidget> {
 
     String s = '';
 
-    if (widget.shift.isStarTimePM == false) {
+    if (widget.shift.isStartTimePM == false) {
       s = 'AM';
     } else {
       s = 'PM';

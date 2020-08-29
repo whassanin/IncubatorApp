@@ -5,11 +5,11 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
-import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
-import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
-import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;

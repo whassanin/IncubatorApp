@@ -10,12 +10,12 @@ Condition _$ConditionFromJson(Map<String, dynamic> json) {
   return Condition(
     json['id'] as int,
     json['name'] as String,
-    (json['cost'] as num)?.toDouble(),
+    (json['price'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$ConditionToJson(Condition instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'cost': instance.cost,
+      'price': instance.price,
     };
