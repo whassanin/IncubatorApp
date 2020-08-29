@@ -8,13 +8,12 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientListScreen extends StatelessWidget {
   static const routeName = '/patientListscreen';
 
-  final UserPermission userPermission;
-  PatientListScreen({this.userPermission}){
-    patientModel.filterByState('in');
-  }
+  PatientListScreen();
 
   @override
   Widget build(BuildContext context) {
+    patientModel.filterByState('in');
+
     return ScopedModel(
       model: patientModel,
       child: ScopedModelDescendant(
@@ -22,7 +21,6 @@ class PatientListScreen extends StatelessWidget {
             (BuildContext context, Widget child, PatientModel patientModel) {
           return PatientListWidget(
             patientList: patientModel.patientList,
-            userPermission: userPermission,
           );
         },
       ),

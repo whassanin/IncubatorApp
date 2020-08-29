@@ -13,8 +13,8 @@ import 'package:scoped_model/scoped_model.dart';
 class NurseProfileScreen extends StatelessWidget {
   static const routeName = '/nurseprofilescreen';
 
-  final UserPermission userPermission;
-  NurseProfileScreen({this.userPermission});
+  NurseProfileScreen();
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
@@ -32,9 +32,7 @@ class NurseProfileScreen extends StatelessWidget {
               currentWidget = IndexedStack(
                 index: nurseModel.currentTab,
                 children: <Widget>[
-                  PatientListScreen(
-                    userPermission: userPermission,
-                  ),
+                  PatientListScreen(),
                   NurseShiftScreen(),
                   EditNurseScreen()
                 ],

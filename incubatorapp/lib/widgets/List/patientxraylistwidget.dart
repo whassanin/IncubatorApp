@@ -63,7 +63,7 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('No XRay(s) Available'),
+          child: Text('Loading...'),
         ),
       );
     }

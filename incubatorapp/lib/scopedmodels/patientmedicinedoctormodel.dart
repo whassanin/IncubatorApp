@@ -1,4 +1,5 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -14,12 +15,16 @@ class PatientMedicineDoctorModel extends Model {
 
   void createPatientMedicineDoctor() {
     _currentPatientMedicineDoctor =
-        new PatientMedicineDoctor(0, 0, 0, 0, 0, DateTime.now());
+        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(), DateTime.now());
   }
 
   void editPatientMedicineDoctor(
       PatientMedicineDoctor editPatientMedicineDoctor) {
     _currentPatientMedicineDoctor = editPatientMedicineDoctor;
+  }
+
+  void setList(List<PatientMedicineDoctor> list){
+    patientMedicineDoctorList = list;
   }
 
   void clearList() {
@@ -63,6 +68,16 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.quantity;
   }
 
+  void setDescription(String val)
+  {
+    _currentPatientMedicineDoctor.description = val;
+    notifyListeners();
+  }
+
+  String getDescription(){
+    return _currentPatientMedicineDoctor.description;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientMedicineDoctor.createdDate;
   }
@@ -89,7 +104,9 @@ class PatientMedicineDoctorModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientMedicineDoctor.toJson());
     if (code == 201) {
-      readByPatientId(_currentPatientMedicineDoctor.patientId);
+      patientMedicineDoctorList.add(_currentPatientMedicineDoctor);
+      notifyListeners();
+      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;
@@ -99,8 +116,6 @@ class PatientMedicineDoctorModel extends Model {
     int code = await _api.put(_currentPatientMedicineDoctor.toJson(),
         _currentPatientMedicineDoctor.id.toString());
     if (code == 200) {
-      notifyListeners();
-
       return true;
     }
     return false;

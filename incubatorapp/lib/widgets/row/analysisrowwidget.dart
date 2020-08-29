@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patient.dart';
@@ -23,55 +24,57 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     return v;
   }
 
-  void validate() {
-    String dn = dateFormat(DateTime.now());
-
-    int i = patientAnalysisModel.patientAnalysisList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.analysisId == widget.analysis.id &&
-            dateFormat(element.createdDate) == dn);
-    if (i >= 0) {
-      isSelected = true;
-    } else {
-      isSelected = false;
+  void update() {
+    int index = findAnalysis();
+    if (index >= 0) {
+      delete(index);
+    } else if (index < 0) {
+      save();
     }
   }
 
-  void save() {
+  int findAnalysis() {
+    String dn = dateFormat(DateTime.now());
+
+    int index = -1;
+
+    patientAnalysisModel.patientAnalysisList.forEach((element) {
+      if(element.patientId == widget.patient.userId &&
+          element.analysisId == widget.analysis.id &&
+      dateFormat(element.createdDate) == dn){
+        index = patientAnalysisModel.patientAnalysisList.indexOf(element);
+      }
+    });
+
+   return index;
+  }
+
+  void delete(int index) {
+    patientAnalysisModel.editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
+    patientAnalysisModel.delete();
+  }
+
+  void save() async {
     patientAnalysisModel.createPatientAnalysis();
     patientAnalysisModel.setPatientId(widget.patient.userId);
     patientAnalysisModel.setAnalysisId(widget.analysis.id);
     patientAnalysisModel.create();
   }
 
-  void delete() {
-    String dn = dateFormat(DateTime.now());
-
-    patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.userId);
-    patientAnalysisModel.setAnalysisId(widget.analysis.id);
-
-    int i = patientAnalysisModel.patientAnalysisList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.analysisId == widget.analysis.id &&
-            dateFormat(element.createdDate) == dn);
-
-    if(i >= 0){
-      isSelected = true;
-      patientAnalysisModel.editPatientAnalysis(patientAnalysisModel.patientAnalysisList[i]);
-      patientAnalysisModel.delete();
-    }
-
-  }
-
   Widget row() {
-    validate();
+    int index = findAnalysis();
+
+    Color cardColor = Colors.white;
+    Color textColor = Colors.black;
+
+    if(index >= 0){
+      cardColor = Colors.purpleAccent;
+      textColor = Colors.white;
+    }
 
     Widget rowData = Row(
       children: <Widget>[
-        Text('Id: ' + widget.analysis.id.toString()),
+        Text('Id: ' + widget.analysis.id.toString(),style: TextStyle(color: textColor)),
         SizedBox(
           width: 10,
         ),
@@ -79,31 +82,20 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
           child: Container(
             child: Text(
               'Name: ' + widget.analysis.name,
+                style: TextStyle(color: textColor)
             ),
           ),
         ),
-        (widget.userPermission.isDoctor
-            ? Checkbox(
-                value: isSelected,
-                onChanged: (b) {
-                  isSelected = b;
-                  if (b == true) {
-                    save();
-                  } else {
-                    delete();
-                  }
-                },
-              )
-            : Container())
       ],
     );
 
     Widget rowContainer = Container(
-      height: 50,
+      height: 70,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
     Widget rowCard = Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -115,7 +107,8 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isFrontDesk) {
+        if (widget.userPermission.isDoctor) {
+          update();
         } else {}
       },
       child: Padding(

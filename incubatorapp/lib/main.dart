@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/billsmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
@@ -62,6 +68,7 @@ import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
 import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
+import 'package:huawei_push/constants/channel.dart' as Channel;
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -113,6 +120,7 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
 
+    userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -154,22 +162,17 @@ class MyApp extends StatelessWidget {
         EditNurseScreen.routeName: (context) => EditNurseScreen(),
         NewNurseScreen.routeName: (context) => NewNurseScreen(),
         NurseProfileScreen.routeName: (context) => NurseProfileScreen(),
-
         EditPatientScreen.routeName: (context) => EditPatientScreen(),
         NewPatientScreen.routeName: (context) => NewPatientScreen(),
         PatientDetailScreen.routeName: (context) => PatientDetailScreen(),
-        PatientListScreen.routeName:(context)=>PatientListScreen(),
+        PatientListScreen.routeName: (context) => PatientListScreen(),
         PatientProfileScreen.routeName: (context) => PatientProfileScreen(),
-
-        ReportScreen.routeName:(context)=>ReportScreen(),
-
-        EditDoctorShiftScreen.routeName:(context)=> EditDoctorShiftScreen(),
-        EditNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
-        NewDoctorShiftScreen.routeName:(context)=> NewDoctorShiftScreen(),
-        NewNurseShiftScreen.routeName:(context)=> EditNurseShiftScreen(),
-
-        NewStatusScreen.routeName:(context)=>NewStatusScreen(),
-
+        ReportScreen.routeName: (context) => ReportScreen(),
+        EditDoctorShiftScreen.routeName: (context) => EditDoctorShiftScreen(),
+        EditNurseShiftScreen.routeName: (context) => EditNurseShiftScreen(),
+        NewDoctorShiftScreen.routeName: (context) => NewDoctorShiftScreen(),
+        NewNurseShiftScreen.routeName: (context) => EditNurseShiftScreen(),
+        NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
@@ -181,15 +184,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -197,68 +191,72 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Isolate _isolate;
+  bool _running = false;
+  static int _counter = 0;
+  String notification = '';
+  ReceivePort _receivePort;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  void _start() async {
+    _running = true;
+    _receivePort = ReceivePort();
+    _isolate = await Isolate.spawn(_checkTimer, _receivePort.sendPort);
+    _receivePort.listen(_handleMessage, onDone: () {
+      print('Done');
     });
+  }
+
+  static void _checkTimer(SendPort sendPort) async {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      _counter++;
+      String msg = 'Notification' + _counter.toString();
+      print('SEND:' + msg);
+      sendPort.send(msg);
+    });
+  }
+
+  void _handleMessage(dynamic data) {
+    print('RECEIVED: ' + data);
+    setState(() {
+      notification = data;
+    });
+  }
+
+  void _stop() {
+    if (_isolate != null) {
+      setState(() {
+        _running = false;
+        notification = '';
+      });
+      _receivePort.close();
+      _isolate.kill(priority: Isolate.immediate);
+      _isolate = null;
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Container(
+          child: Text(notification),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _running ? _stop : _start,
+        tooltip: _running ? 'Timer Stop' : 'Timer Start',
+        child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -257,7 +257,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           userModel.update();
           nurseModel.update();
         } else {
-          bool isValid = await userModel.checkEmail(emailTEC.text,false);
+          bool isValid = await userModel.checkEmail(emailTEC.text, false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -286,9 +286,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => NurseProfileScreen(
-                        userPermission: userPermission,
-                      ),
+                      builder: (context) => NurseProfileScreen(),
                     ),
                     ModalRoute.withName('/signinscreen'),
                   );
@@ -388,7 +386,7 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
     if (widget.isEdit != null) {
       if (widget.isEdit) {
         getData();
-      }else {
+      } else {
         emailTEC.text = userModel.getEmail();
       }
     }

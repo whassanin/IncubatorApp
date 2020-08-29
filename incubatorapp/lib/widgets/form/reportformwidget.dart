@@ -31,8 +31,8 @@ class _ReportFormWidgetState extends State<ReportFormWidget> {
       child: TextFormField(
         minLines: null,
         maxLines: null,
-        textAlign: TextAlign.start,
         expands: isExpanded,
+        textAlign: TextAlign.start,
         controller: columnTEC,
         decoration: InputDecoration(
           border: OutlineInputBorder(

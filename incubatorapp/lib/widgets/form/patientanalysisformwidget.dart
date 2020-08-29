@@ -21,12 +21,11 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     // TODO: implement initState
     super.initState();
     nameTEC.text = widget.analysis.name;
-    patientAnalysisModel.editPatientAnalysis(widget.patientAnalysis);
+    resultTEC.text = widget.patientAnalysis.result;
   }
 
   @override
   Widget build(BuildContext context) {
-
     Widget nameTextField = Row(
       children: <Widget>[
         Expanded(
@@ -48,63 +47,70 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
               validator: (v) {
                 return null;
               },
-              onChanged: (v) {},
-              onFieldSubmitted: (v) {},
+              onChanged: (v) {
+              },
+              onFieldSubmitted: (v) {
+              },
             ),
           ),
         )
       ],
     );
 
-    Widget resultTextField = Row(
-      children: <Widget>[
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              controller: resultTEC,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      10,
-                    ),
-                  ),
+    Widget resultTextField = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: TextFormField(
+          minLines: null,
+          maxLines: null,
+          expands: true,
+          controller: resultTEC,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
                 ),
-                labelText: 'Result',
               ),
-              validator: (v) {
-                return null;
-              },
-              onChanged: (v) {
-                patientAnalysisModel.setResult(v);
-              },
-              onFieldSubmitted: (v) {
-                patientAnalysisModel.setResult(v);
-              },
             ),
+            labelText: 'Result',
           ),
-        )
-      ],
+          validator: (v) {
+            if(v.isEmpty){
+              return 'Required';
+            }
+            return null;
+          },
+          onChanged: (v) {
+            patientAnalysisModel.setResult(v);
+          },
+          onFieldSubmitted: (v) {
+            patientAnalysisModel.setResult(v);
+          },
+        ),
+      ),
     );
 
     Widget deleteButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RaisedButton(
-          color: Colors.cyan,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                10,
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
               ),
             ),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              patientAnalysisModel.delete();
+              Navigator.pop(context);
+            },
           ),
-          child: Text('Delete',style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            patientAnalysisModel.delete();
-            Navigator.pop(context);
-          },
         ),
       ),
     );
@@ -112,20 +118,23 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     Widget saveButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RaisedButton(
-          color: Colors.cyan,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                10,
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: Colors.cyan,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
               ),
             ),
+            child: Text('Save', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              patientAnalysisModel.update();
+              Navigator.pop(context);
+            },
           ),
-          child: Text('Save',style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            patientAnalysisModel.update();
-            Navigator.pop(context);
-          },
         ),
       ),
     );
@@ -138,11 +147,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
     );
 
     Widget rowWidget = Column(
-      children: <Widget>[
-        nameTextField,
-        resultTextField,
-        updateButtonsWidget
-      ],
+      children: <Widget>[nameTextField, resultTextField, updateButtonsWidget],
     );
 
     return rowWidget;

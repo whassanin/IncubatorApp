@@ -24,9 +24,24 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['createdDate'] as String),
     json['conditionId'] as int,
     json['incubatorId'] as int,
-    (json['status'] as List)
+    (json['patientanalysis'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientAnalysis.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientxray'] as List)
         ?.map((e) =>
-            e == null ? null : Status.fromJson(e as Map<String, dynamic>))
+            e == null ? null : PatientXRay.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientmedicinedoctor'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientMedicineDoctor.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientconsumablenurse'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientConsumableNurse.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -44,5 +59,8 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'createdDate': instance.createdDate?.toIso8601String(),
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,
-      'status': instance.statusList,
+      'patientanalysis': instance.patientAnalysisList,
+      'patientxray': instance.patientXRaysList,
+      'patientmedicinedoctor': instance.patientMedicineDoctorList,
+      'patientconsumablenurse': instance.patientConsumableNurseList,
     };

@@ -131,13 +131,16 @@ class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
             'medicineId',
             'doctorId',
             'quantity',
+            'description',
+            'date',
+            'status'
             'createdDate',
             ]
 
 # 1 to many serializer
 
 class StatusSerializer(serializers.ModelSerializer):
-    
+
     class Meta: 
         model = Status
         fields = [
@@ -177,6 +180,10 @@ class BillSerializer(serializers.ModelSerializer):
             ]
 
 class PatientSerializer(serializers.ModelSerializer):
+    patientanalysis = PatientAnalysisSerializer(many=True,read_only=True)
+    patientxray = PatientXRaySerializer(many=True,read_only=True)
+    patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
+    patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
     class Meta: 
         model = Patient
         fields = [
@@ -192,6 +199,10 @@ class PatientSerializer(serializers.ModelSerializer):
         'createdDate',
         'conditionId',
         'incubatorId',
+        'patientanalysis',
+        'patientxray',
+        'patientconsumablenurse',
+        'patientmedicinedoctor'
         ]
 
 # main serializers

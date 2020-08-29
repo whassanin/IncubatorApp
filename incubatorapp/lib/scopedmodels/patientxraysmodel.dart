@@ -1,4 +1,5 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -19,6 +20,10 @@ class PatientXRayModel extends Model{
 
   void editPatientXRay(PatientXRay editPatientXRay) {
     _currentPatientXRay = editPatientXRay;
+  }
+
+  void setList(List<PatientXRay> list){
+    patientXRayList = list;
   }
 
   void clearList(){
@@ -89,7 +94,9 @@ class PatientXRayModel extends Model{
   Future<bool> create() async{
     int code = await _api.post(_currentPatientXRay.toJson());
     if (code == 201) {
-      readByPatientId(_currentPatientXRay.patientId);
+      patientXRayList.add(_currentPatientXRay);
+      notifyListeners();
+      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;

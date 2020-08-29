@@ -242,6 +242,13 @@ packages:
       relative: true
     source: path
     version: "5.0.0"
+  huawei_push:
+    dependency: "direct main"
+    description:
+      path: "services/huawei_push"
+      relative: true
+    source: path
+    version: "4.0.4"
   image:
     dependency: transitive
     description:

@@ -18,7 +18,6 @@ class PatientConsumableNurseRowWidget extends StatefulWidget {
 
 class _PatientConsumableNurseRowWidgetState
     extends State<PatientConsumableNurseRowWidget> {
-
   TextEditingController quantityTEC = new TextEditingController();
 
   String dateFormat() {
@@ -28,10 +27,15 @@ class _PatientConsumableNurseRowWidgetState
     return v;
   }
 
-  void update(int v){
-    patientConsumableNurseModel.editPatientConsumableNurse(widget.patientConsumableNurse);
-    patientConsumableNurseModel.setQuantity(v);
-    patientConsumableNurseModel.update();
+  void update(int v) {
+    patientConsumableNurseModel
+        .editPatientConsumableNurse(widget.patientConsumableNurse);
+    if (v == 0) {
+      patientConsumableNurseModel.delete();
+    } else {
+      patientConsumableNurseModel.setQuantity(v);
+      patientConsumableNurseModel.update();
+    }
   }
 
   Widget counterWidget() {
@@ -42,7 +46,7 @@ class _PatientConsumableNurseRowWidgetState
       ),
       onPressed: () {
         int v = int.parse(quantityTEC.text);
-        if(v > 0){
+        if (v > 0) {
           v = v - 1;
           update(v);
         }
@@ -50,7 +54,7 @@ class _PatientConsumableNurseRowWidgetState
     );
 
     int n = 0;
-    if(quantityTEC.text.isNotEmpty){
+    if (quantityTEC.text.isNotEmpty) {
       n = int.parse(quantityTEC.text);
     }
 
@@ -58,8 +62,7 @@ class _PatientConsumableNurseRowWidgetState
       padding: const EdgeInsets.all(8),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(
-              color: ( n >= 1  ? Colors.green : Colors.grey)),
+          border: Border.all(color: (n >= 1 ? Colors.green : Colors.grey)),
           borderRadius: BorderRadius.all(
             Radius.circular(
               10,
@@ -111,11 +114,10 @@ class _PatientConsumableNurseRowWidgetState
       ],
     );
 
-    return (widget.userPermission.isNurse?rowCounterWidget:Container());
+    return (widget.userPermission.isNurse ? rowCounterWidget : Container());
   }
 
   Widget patientConsumableNurseRow(Consumable consumable) {
-
     Widget consumableNameWidget = Container(
       child: Text('Name: ' + consumable.name),
     );
@@ -163,10 +165,7 @@ class _PatientConsumableNurseRowWidgetState
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            displayCol,
-            counterWidget()
-          ],
+          children: <Widget>[displayCol, counterWidget()],
         ),
       ),
       shape: RoundedRectangleBorder(
@@ -186,14 +185,13 @@ class _PatientConsumableNurseRowWidgetState
 
   @override
   Widget build(BuildContext context) {
-
     Widget currentWidget = Container();
 
-    if(consumableModel.consumableList!=null){
-      if(consumableModel.consumableList.length > 0){
+    if (consumableModel.consumableList != null) {
+      if (consumableModel.consumableList.length > 0) {
         Consumable consumable = consumableModel.consumableList
             .where((element) =>
-        element.id == widget.patientConsumableNurse.consumableId)
+                element.id == widget.patientConsumableNurse.consumableId)
             .toList()[0];
 
         quantityTEC.text = widget.patientConsumableNurse.quantity.toString();

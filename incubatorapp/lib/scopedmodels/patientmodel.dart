@@ -37,6 +37,9 @@ class PatientModel extends Model {
       1,
       1,
       null,
+      null,
+      null,
+      null,
     );
   }
 
@@ -191,7 +194,14 @@ class PatientModel extends Model {
           await creditCardModel.readByPatientId(int.parse(id));
     }
 
-    notifyListeners();
+    patientAnalysisModel.setList(_currentPatient.patientAnalysisList);
+    patientXRayModel.setList(_currentPatient.patientXRaysList);
+    patientMedicineDoctorModel.setList(_currentPatient.patientMedicineDoctorList);
+    patientConsumableNurseModel.setList(_currentPatient.patientConsumableNurseList);
+
+    //await Future.delayed(Duration(seconds: 3));
+
+    //notifyListeners();
   }
 
   Future<bool> create() async {

@@ -23,19 +23,30 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
     return v;
   }
 
-  void validate() {
-    String dn = dateFormat(DateTime.now());
-
-    int i = patientXRayModel.patientXRayList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.xRayId == widget.xRay.id &&
-            dateFormat(element.createdDate) == dn);
-    if (i >= 0) {
-      isSelected = true;
-    } else {
-      isSelected = false;
+  void update() {
+    int index = findXRay();
+    if (index >= 0) {
+      delete(index);
+    } else if (index < 0) {
+      save();
     }
+  }
+
+  int findXRay() {
+    int index = -1;
+    patientXRayModel.patientXRayList.forEach((element) {
+      if(element.patientId == widget.patient.userId &&
+          element.xRayId == widget.xRay.id){
+        index = patientXRayModel.patientXRayList.indexOf(element);
+      }
+    });
+
+    return index;
+  }
+
+  void delete(int index) {
+    patientXRayModel.editPatientXRay(patientXRayModel.patientXRayList[index]);
+    patientXRayModel.delete();
   }
 
   void save() {
@@ -45,33 +56,21 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
     patientXRayModel.create();
   }
 
-  void delete() {
-    String dn = dateFormat(DateTime.now());
-
-    patientXRayModel.createPatientXRay();
-    patientXRayModel.setPatientId(widget.patient.userId);
-    patientXRayModel.setXRayId(widget.xRay.id);
-
-    int i = patientXRayModel.patientXRayList.indexWhere(
-            (element) =>
-        element.patientId == widget.patient.userId &&
-            element.xRayId == widget.xRay.id &&
-            dateFormat(element.createdDate) == dn);
-
-    if(i >= 0){
-      isSelected = true;
-      patientXRayModel.editPatientXRay(patientXRayModel.patientXRayList[i]);
-      patientXRayModel.delete();
-    }
-
-  }
-
   Widget row() {
-    validate();
+
+    int index = findXRay();
+
+    Color cardColor = Colors.white;
+    Color textColor = Colors.black;
+
+    if(index >= 0){
+      cardColor = Colors.purpleAccent;
+      textColor = Colors.white;
+    }
 
     Widget rowData = Row(
       children: <Widget>[
-        Text('Id: ' + widget.xRay.id.toString()),
+        Text('Id: ' + widget.xRay.id.toString(),style: TextStyle(color: textColor)),
         SizedBox(
           width: 10,
         ),
@@ -79,31 +78,20 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
           child: Container(
             child: Text(
               'Name: ' + widget.xRay.name,
+                style: TextStyle(color: textColor)
             ),
           ),
         ),
-        (widget.userPermission.isDoctor
-            ? Checkbox(
-                value: isSelected,
-                onChanged: (b) {
-                  isSelected = b;
-                  if (b == true) {
-                    save();
-                  } else {
-                    delete();
-                  }
-                },
-              )
-            : Container())
       ],
     );
 
     Widget rowContainer = Container(
-      height: 50,
+      height: 70,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
     Widget rowCard = Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -115,7 +103,8 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isFrontDesk) {
+        if (widget.userPermission.isDoctor) {
+          update();
         } else {}
       },
       child: Padding(

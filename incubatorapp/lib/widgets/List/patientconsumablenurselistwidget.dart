@@ -69,7 +69,7 @@ class _PatientConsumableNurseListWidgetState
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('No Consumable(s) Available'),
+          child: Text('Loading...'),
         ),
       );
     }
