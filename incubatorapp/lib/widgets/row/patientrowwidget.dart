@@ -111,7 +111,7 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
         patientModel.editPatient(widget.patient);
         if (userPermission.isDoctor || userPermission.isNurse) {
           patientModel.readById(widget.patient.userId.toString(), 0, 1, false);
-        } else if (userPermission.isFrontDesk) {
+        } else if (userPermission.isAccountant) {
           patientModel.readById(widget.patient.userId.toString(), 1, 0, false);
         }
 

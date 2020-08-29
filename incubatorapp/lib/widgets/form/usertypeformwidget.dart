@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/accountantscreen/newaccountantscreen.dart';
 import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
 import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
 import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
@@ -45,6 +46,17 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
     );
   }
 
+  void navigateToNewAccountantScreen() {
+    userModel.setUserType(UserType.accountant);
+    accountantModel.createAccountant();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewAccountantScreen(),
+      ),
+    );
+  }
+
   Widget imageWidget(String imageLocation, String title, double w, double h,
       {VoidCallback fun}) {
     Widget imageWidget = Padding(
@@ -72,13 +84,13 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
 
     Widget cardWidget = Center(
       child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
-          child: columnWidget,
+        ),
+        child: columnWidget,
       ),
     );
 
@@ -119,20 +131,17 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
       fun: navigateToNewPatientScreen,
     );
     Widget frontDeskImage = imageWidget(
-      'assets/patient.png',
-      'Front Desk',
-      iw,
-      ih,
-    );
+        'assets/patient.png', 'Accountant', iw, ih,
+        fun: navigateToNewAccountantScreen);
 
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height-85;
+    double h = MediaQuery.of(context).size.height - 85;
 
     return GridView.count(
       physics: ScrollPhysics(),
       shrinkWrap: true,
       crossAxisCount: 2,
-      childAspectRatio: w/h,
+      childAspectRatio: w / h,
       children: <Widget>[
         doctorImage,
         nurseImage,

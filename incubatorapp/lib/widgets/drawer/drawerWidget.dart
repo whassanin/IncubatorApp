@@ -146,7 +146,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     } else if (userPermission.isPatient) {
       headerData =
           header('assets/patient.png', 'Patient', userModel.getEmail());
-    } else if (userPermission.isFrontDesk) {}
+    } else if (userPermission.isAccountant) {
+      headerData =
+          header('assets/patient.png', 'Accountant', userModel.getEmail());
+    }
 
     return Drawer(
       child: Container(

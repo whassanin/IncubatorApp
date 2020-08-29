@@ -8,7 +8,7 @@ from incubator.models import Patient
 from incubator.models import Bill
 from incubator.models import Status
 from incubator.models import Consumable
-from incubator.models import FrontDesk
+from incubator.models import Accountant
 from incubator.models import Doctor
 from incubator.models import Medicine
 from incubator.models import Nurse
@@ -259,9 +259,9 @@ class UserSerializer(serializers.ModelSerializer):
             'createdDate',
             ]
 
-class FrontDeskSerializer(serializers.ModelSerializer):
+class AccountantSerializer(serializers.ModelSerializer):
     class Meta: 
-        model = FrontDesk
+        model = Accountant
         fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
 
 class DoctorSerializer(serializers.ModelSerializer):

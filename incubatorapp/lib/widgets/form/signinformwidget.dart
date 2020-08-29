@@ -58,7 +58,8 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
       patientModel.readById(userModel.currentUser.id.toString(), 1, 0, true);
       patientModel.setCurrentTab(0);
       Navigator.pushReplacementNamed(context, PatientProfileScreen.routeName);
-    } else if (userPermission.isFrontDesk) {
+    } else if (userPermission.isAccountant) {
+
     } else {
       _onErrorDialog(context);
     }

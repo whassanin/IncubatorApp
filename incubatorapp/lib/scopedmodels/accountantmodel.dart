@@ -1,16 +1,16 @@
 import 'package:incubatorapp/api/api.dart';
-import 'package:incubatorapp/models/frontDesk.dart';
+import 'package:incubatorapp/models/accountant.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class FrontDeskModel extends Model{
+class AccountantModel extends Model{
 
-  Api _api = new Api('frontdesk');
+  Api _api = new Api('accountant');
 
-  List<FrontDesk> frontDeskList;
+  List<Accountant> accountantList;
 
-  FrontDesk _currentFrontDesk;
+  Accountant _currentAccountant;
 
-  FrontDesk get currentFrontDesk => _currentFrontDesk;
+  Accountant get currentAccountant => _currentAccountant;
 
   int _currentTab = 0;
 
@@ -21,66 +21,66 @@ class FrontDeskModel extends Model{
     notifyListeners();
   }
 
-  void createFrontDesk(){
-    _currentFrontDesk = new FrontDesk(0, '', '', true, DateTime.now(), DateTime.now());
+  void createAccountant(){
+    _currentAccountant = new Accountant(0, '', '', true, DateTime.now(), DateTime.now());
   }
 
-  void editFrontDesk(FrontDesk editFrontDesk) {
-    _currentFrontDesk = editFrontDesk;
+  void editAccountant(Accountant editAccountant) {
+    _currentAccountant = editAccountant;
   }
 
   void setFirstName(String val) {
-    _currentFrontDesk.firstName = val;
+    _currentAccountant.firstName = val;
     notifyListeners();
   }
 
   String getFirstName() {
-    return _currentFrontDesk.firstName;
+    return _currentAccountant.firstName;
   }
 
   void setLastName(String val) {
-    _currentFrontDesk.lastName = val;
+    _currentAccountant.lastName = val;
     notifyListeners();
   }
 
   String getLastName() {
-    return _currentFrontDesk.lastName;
+    return _currentAccountant.lastName;
   }
 
   void setGender(bool val) {
-    _currentFrontDesk.gender = val;
+    _currentAccountant.gender = val;
     notifyListeners();
   }
 
   bool getGender() {
-    return _currentFrontDesk.gender;
+    return _currentAccountant.gender;
   }
 
   void setDateOfBirth(DateTime val) {
-    _currentFrontDesk.dateOfBirth = val;
+    _currentAccountant.dateOfBirth = val;
     notifyListeners();
   }
 
   DateTime getDateOfBirth() {
-    return _currentFrontDesk.dateOfBirth;
+    return _currentAccountant.dateOfBirth;
   }
 
   void setUserId(int userId){
-    _currentFrontDesk.userId = userId;
+    _currentAccountant.userId = userId;
     notifyListeners();
   }
 
   int getUserId(){
-    return _currentFrontDesk.userId;
+    return _currentAccountant.userId;
   }
 
   void setCreatedDate(DateTime val) {
-    _currentFrontDesk.createdDate = val;
+    _currentAccountant.createdDate = val;
     notifyListeners();
   }
 
   DateTime getCreatedDate() {
-    return _currentFrontDesk.createdDate;
+    return _currentAccountant.createdDate;
   }
 
   void readAll(){
@@ -90,7 +90,7 @@ class FrontDeskModel extends Model{
   void readById(String id) async {
     Map<String, dynamic> frontDeskMap = await _api.getById(id);
 
-    _currentFrontDesk = FrontDesk.fromJson(frontDeskMap);
+    _currentAccountant = Accountant.fromJson(frontDeskMap);
 
     notifyListeners();
   }
@@ -101,7 +101,7 @@ class FrontDeskModel extends Model{
 
 
   Future<bool> create() async {
-    int code = await _api.post(_currentFrontDesk.toJson());
+    int code = await _api.post(_currentAccountant.toJson());
     if (code == 201) {
 
       return true;
@@ -111,7 +111,7 @@ class FrontDeskModel extends Model{
 
   Future<bool> update() async {
     int code =
-    await _api.put(_currentFrontDesk.toJson(), _currentFrontDesk.userId.toString());
+    await _api.put(_currentAccountant.toJson(), _currentAccountant.userId.toString());
     if (code == 200) {
       notifyListeners();
 
@@ -121,7 +121,7 @@ class FrontDeskModel extends Model{
   }
 
   Future<bool> delete() async {
-    int code = await _api.delete(_currentFrontDesk.userId.toString());
+    int code = await _api.delete(_currentAccountant.userId.toString());
 
     if (code == 204) {
       notifyListeners();
