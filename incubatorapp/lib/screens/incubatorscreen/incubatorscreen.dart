@@ -10,7 +10,6 @@ class IncubatorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    incubatorModel.readAll();
 
     return ScopedModel<IncubatorModel>(
       model: incubatorModel,
@@ -19,22 +18,28 @@ class IncubatorScreen extends StatelessWidget {
             IncubatorModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('Incubator List',style: TextStyle(color: Colors.white)),
               centerTitle: true,
-            ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NewIncubatorScreen(),
-                  ),
-                );
-              },
+              actions: <Widget>[
+                IconButton(
+                  color: Colors.white,
+                  icon: Icon(Icons.add),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewIncubatorScreen(),
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
             body: IncubatorListWidget(
-              incubatorModel: incubatorModel,
+              incubatorList: incubatorModel.incubatorList,
             ),
           );
         },

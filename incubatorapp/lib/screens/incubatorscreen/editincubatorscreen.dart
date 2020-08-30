@@ -16,7 +16,10 @@ class EditIncubatorScreen extends StatelessWidget {
             IncubatorModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('New Incubator Screen',style: TextStyle(color: Colors.white)),
+              leading: BackButton(
+                color: Colors.white,
+              ),
+              title: Text('Edit Incubator Screen',style: TextStyle(color: Colors.white)),
               centerTitle: true,
             ),
             body: IncubatorFormWidget(

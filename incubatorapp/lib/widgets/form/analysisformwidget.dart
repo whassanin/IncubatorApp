@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 
-enum IncubatorColumn { name }
+enum AnalysisColumn { name, price }
 
-class IncubatorFormWidget extends StatefulWidget {
+class AnalysisFormWidget extends StatefulWidget {
   final bool isEdit;
-  IncubatorFormWidget({this.isEdit});
+  AnalysisFormWidget({this.isEdit});
 
   @override
-  _IncubatorFormWidgetState createState() => _IncubatorFormWidgetState();
+  _AnalysisFormWidgetState createState() => _AnalysisFormWidgetState();
 }
 
-class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
+class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
   final _formKey = new GlobalKey<FormState>();
-  TextEditingController nameTEC = new TextEditingController();
 
-  void setData(IncubatorColumn incubatorColumn, String val) {
-    if (incubatorColumn == IncubatorColumn.name) {
-      incubatorModel.setName(val);
+  TextEditingController nameTEC = new TextEditingController();
+  TextEditingController priceTEC = new TextEditingController();
+
+  void setData(AnalysisColumn analysisColumn, String val) {
+    if (analysisColumn == AnalysisColumn.name) {
+      analysisModel.setName(val);
+    } else if (analysisColumn == AnalysisColumn.price) {
+      analysisModel.setPrice(double.parse(val));
     }
   }
 
   void getData() {
-    nameTEC.text = incubatorModel.getName();
+    nameTEC.text = analysisModel.getName();
   }
 
   void save() async {
@@ -32,9 +36,9 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
 
       if (widget.isEdit != null) {
         if (widget.isEdit) {
-          isCheck = await incubatorModel.update();
+          isCheck = await analysisModel.update();
         } else {
-          isCheck = await incubatorModel.create();
+          isCheck = await analysisModel.create();
         }
       }
 
@@ -46,7 +50,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
 
   void delete() async {
     bool isCheck = false;
-    isCheck = await incubatorModel.delete();
+    isCheck = await analysisModel.delete();
     if (isCheck) {
       Navigator.pop(context);
     }
@@ -60,7 +64,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,
-      IncubatorColumn incubatorColumns, TextEditingController columnTEC,
+      AnalysisColumn analysisColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -89,10 +93,10 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
           return null;
         },
         onChanged: (v) {
-          setData(incubatorColumns, v);
+          setData(analysisColumns, v);
         },
         onFieldSubmitted: (v) {
-          setData(incubatorColumns, v);
+          setData(analysisColumns, v);
         },
         onTap: () {
           if (fun != null) {
@@ -103,7 +107,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
     );
   }
 
-  Widget editButtons(String title, Color color,{VoidCallback fun}) {
+  Widget editButtons(String title, Color color, {VoidCallback fun}) {
     Widget button = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -123,7 +127,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              if(fun!=null){
+              if (fun != null) {
                 fun();
               }
             },
@@ -137,23 +141,24 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Widget nameField = columnTextField('Name', false, false, IncubatorColumn.name, nameTEC);
+    Widget nameField =
+        columnTextField('Name', false, false, AnalysisColumn.name, nameTEC);
 
-    Widget saveButton = editButtons('Save', Colors.cyan,fun: save);
+    Widget priceField =
+        columnTextField('Price', true, false, AnalysisColumn.price, nameTEC);
+
+    Widget saveButton = editButtons('Save', Colors.cyan, fun: save);
 
     Widget deleteButton = Container();
 
     if (widget.isEdit != null) {
       if (widget.isEdit) {
-        deleteButton = editButtons('Delete', Colors.red,fun: delete);
+        deleteButton = editButtons('Delete', Colors.red, fun: delete);
       }
     }
 
     Widget rowButtons = Row(
-      children: <Widget>[
-        deleteButton,
-        saveButton
-      ],
+      children: <Widget>[deleteButton, saveButton],
     );
 
     return Form(

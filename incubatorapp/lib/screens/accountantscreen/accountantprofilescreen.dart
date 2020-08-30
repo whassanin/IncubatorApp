@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/menuscreen/menuscreen.dart';
+import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/menuscreen/menuscreen.dart';
 import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/editaccountantscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';

@@ -30,7 +30,6 @@ class NewPatientAnalysisScreen extends StatelessWidget {
             body: AnalysisListWidget(
               patient: patient,
               analysisList: analysisModel.analysisList,
-              userPermission: userPermission,
             ),
           );
         },

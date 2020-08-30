@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/widgets/row/incubatorrowwidget.dart';
 
 class IncubatorListWidget extends StatefulWidget {
-  final IncubatorModel incubatorModel;
-  IncubatorListWidget({this.incubatorModel});
+  final List<Incubator> incubatorList;
+  IncubatorListWidget({this.incubatorList});
   @override
   _IncubatorListWidgetState createState() => _IncubatorListWidgetState();
 }
@@ -17,19 +18,19 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
       ),
     );
 
-    if (widget.incubatorModel.incubatorList == null) {
+    if (widget.incubatorList == null) {
       return current;
     }
-    else if(widget.incubatorModel.incubatorList!=null){
-      if(widget.incubatorModel.incubatorList.length == 0){
+    else if(widget.incubatorList!=null){
+      if(widget.incubatorList.length == 0){
         return current;
       }
     }
 
     return ListView.builder(
-      itemCount: widget.incubatorModel.incubatorList.length,
+      itemCount: widget.incubatorList.length,
       itemBuilder: (BuildContext context, int index) {
-        return IncubatorRowWidget(incubator: widget.incubatorModel.incubatorList[index],);
+        return IncubatorRowWidget(incubator: widget.incubatorList[index],);
       },
     );
   }
