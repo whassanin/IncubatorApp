@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/analysisscreen/editanalysisscreen.dart';
+import 'package:incubatorapp/screens/conditionscreen/editconditionscreen.dart';
 
-class AnalysisRowWidget extends StatefulWidget {
+class ConditionRowWidget extends StatefulWidget {
   final Patient patient;
-  final Analysis analysis;
-  AnalysisRowWidget({
+  final Condition condition;
+  ConditionRowWidget({
     this.patient,
-    this.analysis,
+    this.condition,
   });
   @override
-  _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
+  _ConditionRowWidgetState createState() => _ConditionRowWidgetState();
 }
 
-class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
+class _ConditionRowWidgetState extends State<ConditionRowWidget> {
   bool isSelected = false;
 
   String dateFormat(DateTime dateTime) {
@@ -28,51 +26,39 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   void update() {
-    int index = findAnalysis();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    int index = findCondition();
+    if (index < 0) {
       save();
     }
   }
 
-  void navigateToEditAnalysisScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAnalysisScreen()));
+  void navigateToEditConditionScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditConditionScreen()));
   }
 
-  int findAnalysis() {
+  int findCondition() {
     String dn = dateFormat(DateTime.now());
 
     int index = -1;
 
-    patientAnalysisModel.patientAnalysisList.forEach((element) {
-      if (element.patientId == widget.patient.userId &&
-          element.analysisId == widget.analysis.id &&
-          dateFormat(element.createdDate) == dn) {
-        index = patientAnalysisModel.patientAnalysisList.indexOf(element);
+    conditionModel.conditionList.forEach((element) {
+      if (element.id == widget.patient.conditionId) {
+        index = conditionModel.conditionList.indexOf(element);
       }
     });
 
     return index;
   }
 
-  void delete(int index) {
-    patientAnalysisModel
-        .editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
-    patientAnalysisModel.delete();
-  }
-
   void save() async {
-    patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.userId);
-    patientAnalysisModel.setAnalysisId(widget.analysis.id);
-    patientAnalysisModel.create();
+    patientModel.setConditionId(widget.condition.id);
+    patientModel.update();
   }
 
   Widget row() {
     int index = -1;
     if (widget.patient != null) {
-      index = findAnalysis();
+      index = findCondition();
     }
 
     Color cardColor = Colors.white;
@@ -90,14 +76,14 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.analysis.name,
+            child: Text('Name: ' + widget.condition.name,
                 style: TextStyle(color: textColor)),
           ),
         ),
         (userPermission.isAccountant?Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Price: ' + widget.analysis.price.toString(),
+            child: Text('Price: ' + widget.condition.price.toString(),
                 style: TextStyle(color: textColor)),
           ),
         ):Container()),
@@ -125,8 +111,8 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         if (userPermission.isDoctor) {
           update();
         } else if(userPermission.isAccountant) {
-          analysisModel.editAnalysis(widget.analysis);
-          navigateToEditAnalysisScreen();
+          conditionModel.editCondition(widget.condition);
+          navigateToEditConditionScreen();
         }
       },
       child: Padding(

@@ -2,34 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 
-enum AnalysisColumn { name, price }
+enum MedicineColumn { name, price,amount }
 
-class AnalysisFormWidget extends StatefulWidget {
+class MedicineFormWidget extends StatefulWidget {
   final bool isEdit;
-  AnalysisFormWidget({this.isEdit});
+  MedicineFormWidget({this.isEdit});
 
   @override
-  _AnalysisFormWidgetState createState() => _AnalysisFormWidgetState();
+  _MedicineFormWidgetState createState() => _MedicineFormWidgetState();
 }
 
-class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
+class _MedicineFormWidgetState extends State<MedicineFormWidget> {
   final _formKey = new GlobalKey<FormState>();
 
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController priceTEC = new TextEditingController();
+  TextEditingController amountTEC = new TextEditingController();
 
-  void setData(AnalysisColumn analysisColumn, String val) {
-    if (analysisColumn == AnalysisColumn.name) {
-      analysisModel.setName(val);
-    } else if (analysisColumn == AnalysisColumn.price) {
-      analysisModel.setPrice(double.parse(val));
+  void setData(MedicineColumn medicineColumn, String val) {
+    if (medicineColumn == MedicineColumn.name) {
+      medicineModel.setName(val);
+    } else if (medicineColumn == MedicineColumn.price) {
+      medicineModel.setPrice(double.parse(val));
+    } else if (medicineColumn == MedicineColumn.amount) {
+      medicineModel.setAmount(double.parse(val));
     }
   }
 
   void getData() {
-    nameTEC.text = analysisModel.getName();
-    if (analysisModel.getPrice() > 0) {
-      priceTEC.text = analysisModel.getPrice().toString();
+    nameTEC.text = medicineModel.getName();
+    if (medicineModel.getPrice() > 0) {
+      priceTEC.text = medicineModel.getPrice().toString();
+    }
+    if (medicineModel.getAmount() > 0) {
+      amountTEC.text = medicineModel.getAmount().toString();
     }
   }
 
@@ -39,9 +45,9 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
 
       if (widget.isEdit != null) {
         if (widget.isEdit) {
-          isCheck = await analysisModel.update();
+          isCheck = await medicineModel.update();
         } else {
-          isCheck = await analysisModel.create();
+          isCheck = await medicineModel.create();
         }
       }
 
@@ -53,7 +59,7 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
 
   void delete() async {
     bool isCheck = false;
-    isCheck = await analysisModel.delete();
+    isCheck = await medicineModel.delete();
     if (isCheck) {
       Navigator.pop(context);
     }
@@ -67,7 +73,7 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,
-      AnalysisColumn analysisColumns, TextEditingController columnTEC,
+      MedicineColumn medicineColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -96,10 +102,10 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
           return null;
         },
         onChanged: (v) {
-          setData(analysisColumns, v);
+          setData(medicineColumns, v);
         },
         onFieldSubmitted: (v) {
-          setData(analysisColumns, v);
+          setData(medicineColumns, v);
         },
         onTap: () {
           if (fun != null) {
@@ -145,10 +151,13 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
   @override
   Widget build(BuildContext context) {
     Widget nameField =
-        columnTextField('Name', false, false, AnalysisColumn.name, nameTEC);
+    columnTextField('Name', false, false, MedicineColumn.name, nameTEC);
 
     Widget priceField =
-        columnTextField('Price', true, false, AnalysisColumn.price, priceTEC);
+    columnTextField('Price', true, false, MedicineColumn.price, priceTEC);
+
+    Widget amountField =
+    columnTextField('Amount', true, false, MedicineColumn.amount, amountTEC);
 
     Widget saveButton = editButtons('Save', Colors.cyan, fun: save);
 
@@ -172,6 +181,7 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
           children: <Widget>[
             nameField,
             priceField,
+            amountField,
             rowButtons,
           ],
         ),

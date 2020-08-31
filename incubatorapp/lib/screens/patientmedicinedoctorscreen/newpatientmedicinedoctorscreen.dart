@@ -30,7 +30,6 @@ class NewPatientMedicineDoctorScreen extends StatelessWidget {
             body: MedicineListWidget(
               patient: patient,
               medicineList: medicineModel.medicineList,
-              userPermission: userPermission,
             ),
           );
         },

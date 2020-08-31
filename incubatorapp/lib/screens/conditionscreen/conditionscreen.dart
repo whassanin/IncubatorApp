@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
-import 'package:incubatorapp/screens/analysisscreen/newanalysisscreen.dart';
-import 'package:incubatorapp/widgets/List/analysislistwidget.dart';
+import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
+import 'package:incubatorapp/screens/conditionscreen/newconditionscreen.dart';
+import 'package:incubatorapp/widgets/List/conditionlist.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AnalysisScreen extends StatelessWidget {
-  static const routeName = '/analysisscreen';
+class ConditionScreen extends StatelessWidget {
+  static const routeName = '/conditionscreen';
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<AnalysisModel>(
-      model: analysisModel,
-      child: ScopedModelDescendant<AnalysisModel>(
+    return ScopedModel<ConditionModel>(
+      model: conditionModel,
+      child: ScopedModelDescendant<ConditionModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel incubatorModel) {
+            ConditionModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
               title:
-                  Text('Analysis List', style: TextStyle(color: Colors.white)),
+              Text('Condition List', style: TextStyle(color: Colors.white)),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -31,15 +31,15 @@ class AnalysisScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewAnalysisScreen(),
+                        builder: (context) => NewConditionScreen(),
                       ),
                     );
                   },
                 )
               ],
             ),
-            body: AnalysisListWidget(
-              analysisList: analysisModel.analysisList,
+            body: ConditionListWidget(
+              conditionList: conditionModel.conditionList,
             ),
           );
         },

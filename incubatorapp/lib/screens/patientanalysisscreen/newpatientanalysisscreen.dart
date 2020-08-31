@@ -10,8 +10,7 @@ class NewPatientAnalysisScreen extends StatelessWidget {
   static const routeName = '/newpatientanalysisscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  NewPatientAnalysisScreen({this.patient, this.userPermission});
+  NewPatientAnalysisScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
-import 'package:incubatorapp/screens/analysisscreen/newanalysisscreen.dart';
-import 'package:incubatorapp/widgets/List/analysislistwidget.dart';
+import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
+import 'package:incubatorapp/screens/medicinescreen/newmedicinescreen.dart';
+import 'package:incubatorapp/widgets/List/medicinelistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AnalysisScreen extends StatelessWidget {
-  static const routeName = '/analysisscreen';
+class MedicineScreen extends StatelessWidget {
+  static const routeName = '/medicinescreen';
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<AnalysisModel>(
-      model: analysisModel,
-      child: ScopedModelDescendant<AnalysisModel>(
+    return ScopedModel<MedicineModel>(
+      model: medicineModel,
+      child: ScopedModelDescendant<MedicineModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel incubatorModel) {
+            MedicineModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
               title:
-                  Text('Analysis List', style: TextStyle(color: Colors.white)),
+                  Text('Medicine List', style: TextStyle(color: Colors.white)),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -31,15 +31,15 @@ class AnalysisScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewAnalysisScreen(),
+                        builder: (context) => NewMedicineScreen(),
                       ),
                     );
                   },
                 )
               ],
             ),
-            body: AnalysisListWidget(
-              analysisList: analysisModel.analysisList,
+            body: MedicineListWidget(
+              medicineList: medicineModel.medicineList,
             ),
           );
         },

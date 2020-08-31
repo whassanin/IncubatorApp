@@ -39,7 +39,6 @@ class PatientAnalysisScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => NewPatientAnalysisScreen(
                           patient: patient,
-                          userPermission: userPermission,
                         ),
                       ),
                     );
@@ -49,7 +48,6 @@ class PatientAnalysisScreen extends StatelessWidget {
             ),
             body: PatientAnalysisListWidget(
               patientAnalysisList: patientAnalysisModel.patientAnalysisList,
-              userPermission: userPermission,
             ),
           );
         },

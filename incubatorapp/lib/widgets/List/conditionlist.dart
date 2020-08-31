@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/medicine.dart';
+import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/widgets/row/medicinerowwidget.dart';
+import 'package:incubatorapp/widgets/row/conditionrowwidget.dart';
 
-class MedicineListWidget extends StatefulWidget {
+class ConditionListWidget extends StatefulWidget {
   final Patient patient;
-  final List<Medicine> medicineList;
-  MedicineListWidget({this.patient, this.medicineList,});
+  final List<Condition> conditionList;
+  ConditionListWidget({this.patient,this.conditionList,});
 
   @override
-  _MedicineListWidgetState createState() => _MedicineListWidgetState();
+  _ConditionListWidgetState createState() => _ConditionListWidgetState();
 }
 
-class _MedicineListWidgetState extends State<MedicineListWidget> {
+class _ConditionListWidgetState extends State<ConditionListWidget> {
   Widget _getList() {
     Widget currentWidget = Center(
       child: Container(
@@ -22,21 +21,21 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
       ),
     );
 
-    if (widget.medicineList != null) {
-      if (widget.medicineList.length > 0) {
+    if (widget.conditionList != null) {
+      if (widget.conditionList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.medicineList.length,
+          itemCount: widget.conditionList.length,
           itemBuilder: (BuildContext context, int index) {
-            return MedicineRowWidget(
+            return ConditionRowWidget(
               patient: widget.patient,
-              medicine: widget.medicineList[index],
+              condition: widget.conditionList[index],
             );
           },
         );
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Medicine(s) Available'),
+            child: Text('No Condition(s) Available'),
           ),
         );
       }
@@ -78,7 +77,6 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
             ),
           ),
           onTap: () {
-            patientMedicineDoctorModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),
@@ -90,6 +88,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
         children: <Widget>[positionList, positionSaveButton],
       );
     }
+
 
     return currentWidget;
   }

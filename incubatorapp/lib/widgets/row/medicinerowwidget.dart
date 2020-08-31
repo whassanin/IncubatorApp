@@ -3,12 +3,15 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/medicinescreen/editmedicinescreen.dart';
 
 class MedicineRowWidget extends StatefulWidget {
   final Patient patient;
   final Medicine medicine;
-  final UserPermission userPermission;
-  MedicineRowWidget({this.patient, this.medicine, this.userPermission});
+  MedicineRowWidget({
+    this.patient,
+    this.medicine,
+  });
   @override
   _MedicineRowWidgetState createState() => _MedicineRowWidgetState();
 }
@@ -30,15 +33,19 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     }
   }
 
-  int findMedicine() {
+  void navigateToEditMedicineScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditMedicineScreen()));
+  }
 
+  int findMedicine() {
     int index = -1;
 
     patientMedicineDoctorModel.patientMedicineDoctorList.forEach((element) {
-      if(element.patientId == widget.patient.userId &&
+      if (element.patientId == widget.patient.userId &&
           element.medicineId == widget.medicine.id &&
-          element.doctorId == doctorModel.currentDoctor.userId){
-        index = patientMedicineDoctorModel.patientMedicineDoctorList.indexOf(element);
+          element.doctorId == doctorModel.currentDoctor.userId) {
+        index = patientMedicineDoctorModel.patientMedicineDoctorList
+            .indexOf(element);
       }
     });
 
@@ -61,36 +68,53 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   }
 
   Widget row() {
-
-    int index = findMedicine();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findMedicine();
+    }
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if(index >= 0){
+    if (index >= 0) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
 
-    Widget rowData = Row(
+    Widget rowData = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Id: ' + widget.medicine.id.toString(),style: TextStyle(color: textColor),),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(
-              'Name: ' + widget.medicine.name,
-                style: TextStyle(color: textColor),
-            ),
+            child: Text('Name: ' + widget.medicine.name,
+                style: TextStyle(color: textColor)),
           ),
         ),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.medicine.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Amount: ' + widget.medicine.amount.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
       ],
     );
 
     Widget rowContainer = Container(
-      height: 70,
+      height: 98,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
@@ -107,9 +131,12 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isDoctor) {
+        if (userPermission.isDoctor) {
           update();
-        } else {}
+        } else {
+          medicineModel.editMedicine(widget.medicine);
+          navigateToEditMedicineScreen();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
