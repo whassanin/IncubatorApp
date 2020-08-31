@@ -11,8 +11,7 @@ class PatientXRayScreen extends StatelessWidget {
   static const routeName = '/patientxrayscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  PatientXRayScreen({this.patient,this.userPermission});
+  PatientXRayScreen({this.patient});
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +25,30 @@ class PatientXRayScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('XRay',style: TextStyle(color: Colors.white)),
+              title: Text('XRay', style: TextStyle(color: Colors.white)),
               actions: <Widget>[
-                (userPermission.isDoctor == true?IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPatientXRayScreen(
-                          patient: patient,
-                          userPermission: userPermission,
+                (userPermission.isDoctor == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  },
-                ):Container())
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewPatientXRayScreen(
+                                patient: patient,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
               ],
             ),
             body: PatientXRayListWidget(
               patientXRayList: patientXRayModel.patientXRayList,
-              userPermission: userPermission,
             ),
           );
         },

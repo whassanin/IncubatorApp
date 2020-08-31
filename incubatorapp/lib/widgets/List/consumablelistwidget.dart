@@ -8,9 +8,8 @@ import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 class ConsumableListWidget extends StatefulWidget {
   final Patient patient;
   final List<Consumable> consumableList;
-  final UserPermission userPermission;
   ConsumableListWidget(
-      {this.patient, this.consumableList, this.userPermission});
+      {this.patient, this.consumableList,});
 
   @override
   _ConsumableListWidgetState createState() => _ConsumableListWidgetState();
@@ -32,7 +31,6 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
             return ConsumableRowWidget(
               patient: widget.patient,
               consumable: widget.consumableList[index],
-              userPermission: widget.userPermission,
             );
           },
         );
@@ -88,7 +86,7 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
       ),
     );
 
-    if (widget.userPermission.isNurse) {
+    if (userPermission.isNurse) {
       currentWidget = Stack(
         children: <Widget>[positionList, positionSaveButton],
       );

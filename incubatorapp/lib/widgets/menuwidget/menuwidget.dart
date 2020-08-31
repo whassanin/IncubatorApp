@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/screens/analysisscreen/analysisscreen.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/medicinescreen.dart';
 
@@ -25,6 +26,10 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   void navigateToMedicine(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>MedicineScreen()));
+  }
+
+  void navigateToConsumable(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ConsumableScreen()));
   }
 
   Widget buttonRow(String title, {VoidCallback fun}) {
@@ -78,7 +83,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             buttonRow('Condition',fun: navigateToCondition),
             buttonRow('Analysis',fun: navigateToAnalysis),
             buttonRow('Medicine',fun: navigateToMedicine),
-            buttonRow('Consumable'),
+            buttonRow('Consumable',fun: navigateToConsumable),
             buttonRow('XRay'),
             buttonRow('Shift Hours'),
           ],

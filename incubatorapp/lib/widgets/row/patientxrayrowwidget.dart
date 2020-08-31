@@ -7,8 +7,7 @@ import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubat
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;
-  final UserPermission userPermission;
-  PatientXRayRowWidget({this.patientXRay, this.userPermission});
+  PatientXRayRowWidget({this.patientXRay,});
   @override
   _PatientXRayRowWidgetState createState() => _PatientXRayRowWidgetState();
 }
@@ -79,7 +78,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
-        (widget.userPermission.isPatient
+        (userPermission.isPatient
             ? Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: priceWidget,
@@ -89,7 +88,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (widget.userPermission.isDoctor ? editButtonWidget : Container())
+        (userPermission.isDoctor ? editButtonWidget : Container())
       ],
     );
 

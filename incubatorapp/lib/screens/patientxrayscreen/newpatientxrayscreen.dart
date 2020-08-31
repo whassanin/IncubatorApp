@@ -9,8 +9,7 @@ class NewPatientXRayScreen extends StatelessWidget {
   static const routeName = '/newpatientxrayscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  NewPatientXRayScreen({this.patient,this.userPermission});
+  NewPatientXRayScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class NewPatientXRayScreen extends StatelessWidget {
               ),
               title: Text('Add XRay to Patient',style: TextStyle(color: Colors.white)),
             ),
-            body: XRayListWidget(patient: patient,xRayList: xRayModel.xRayList,userPermission: userPermission,),
+            body: XRayListWidget(patient: patient,xRayList: xRayModel.xRayList,),
           );
         },
       ),

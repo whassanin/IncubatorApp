@@ -11,8 +11,7 @@ class StatusScreen extends StatelessWidget {
   static const routeName = '/statusscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  StatusScreen({this.patient, this.userPermission});
+  StatusScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {

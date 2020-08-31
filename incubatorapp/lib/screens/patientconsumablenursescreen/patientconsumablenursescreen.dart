@@ -11,8 +11,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  PatientConsumableNurseScreen({this.patient, this.userPermission});
+  PatientConsumableNurseScreen({this.patient,});
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
@@ -40,7 +39,6 @@ class PatientConsumableNurseScreen extends StatelessWidget {
                               builder: (context) =>
                                   NewPatientConsumableNurseScreen(
                                     patient: patient,
-                                userPermission: userPermission,
                               ),
                             ),
                           );

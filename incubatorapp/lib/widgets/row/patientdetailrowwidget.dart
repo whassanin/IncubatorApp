@@ -29,7 +29,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => StatusScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -41,7 +40,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientAnalysisScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -54,7 +52,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientXRayScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -67,7 +64,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -80,7 +76,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientConsumableNurseScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );

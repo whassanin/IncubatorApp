@@ -10,8 +10,7 @@ class NewPatientConsumableNurseScreen extends StatelessWidget {
   static const routeName = '/newpatientconsumablenursescreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  NewPatientConsumableNurseScreen({this.patient,this.userPermission});
+  NewPatientConsumableNurseScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,6 @@ class NewPatientConsumableNurseScreen extends StatelessWidget {
             body: ConsumableListWidget(
               patient: patient,
               consumableList: consumableModel.consumableList,
-              userPermission: userPermission,
             ),
           );
         },

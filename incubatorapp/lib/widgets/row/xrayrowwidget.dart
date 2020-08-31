@@ -7,8 +7,7 @@ import 'package:incubatorapp/models/patient.dart';
 class XRayRowWidget extends StatefulWidget {
   final Patient patient;
   final XRay xRay;
-  final UserPermission userPermission;
-  XRayRowWidget({this.patient, this.xRay, this.userPermission});
+  XRayRowWidget({this.patient, this.xRay,});
   @override
   _XRayRowWidgetState createState() => _XRayRowWidgetState();
 }
@@ -103,7 +102,7 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isDoctor) {
+        if (userPermission.isDoctor) {
           update();
         } else {}
       },
