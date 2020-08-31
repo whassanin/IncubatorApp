@@ -4,10 +4,9 @@ import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/widgets/form/shiftformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewShiftScreen extends StatelessWidget {
+class EditShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    shiftModel.createShift();
     return ScopedModel(
       model: shiftModel,
       child: ScopedModelDescendant(
@@ -18,14 +17,14 @@ class NewShiftScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               title: Text(
-                'New Shift Screen',
+                'Edit Shift Screen',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
             ),
             body: ShiftFormWidget(
-              isEdit: false,
+              isEdit: true,
             ),
           );
         },

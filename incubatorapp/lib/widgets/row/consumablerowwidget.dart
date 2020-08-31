@@ -3,6 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/consumablescreen/editconsumablescreen.dart';
 
 class ConsumableRowWidget extends StatefulWidget {
   final Patient patient;
@@ -32,6 +33,10 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     } else if (index < 0) {
       save();
     }
+  }
+
+  void navigateToEditConsumableScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditConsumableScreen()));
   }
 
   int findConsumable() {
@@ -130,7 +135,10 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
       onTap: () {
         if (userPermission.isNurse) {
           update();
-        } else {}
+        } else if(userPermission.isAccountant) {
+          consumableModel.editConsumable(widget.consumable);
+          navigateToEditConsumableScreen();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

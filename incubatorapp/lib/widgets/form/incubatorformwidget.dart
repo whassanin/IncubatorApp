@@ -151,7 +151,7 @@ class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
 
     Widget rowButtons = Row(
       children: <Widget>[
-        deleteButton,
+        /*deleteButton,*/
         saveButton
       ],
     );

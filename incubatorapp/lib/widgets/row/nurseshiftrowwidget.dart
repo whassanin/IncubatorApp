@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/nurseshift.dart';
 import 'package:incubatorapp/models/shift.dart';
-import 'package:incubatorapp/screens/shiftscreen/editnurseshiftscreen.dart';
+import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/nurseshiftscreen/editnurseshiftscreen.dart';
 
 class NurseShiftRowWidget extends StatefulWidget {
   final NurseShift nurseShift;

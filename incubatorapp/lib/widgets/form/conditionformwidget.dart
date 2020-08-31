@@ -161,7 +161,7 @@ class _ConditionFormWidgetState extends State<ConditionFormWidget> {
     }
 
     Widget rowButtons = Row(
-      children: <Widget>[deleteButton, saveButton],
+      children: <Widget>[/*deleteButton,*/ saveButton],
     );
 
     return Form(

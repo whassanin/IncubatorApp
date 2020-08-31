@@ -170,7 +170,7 @@ class _ConsumableFormWidgetState extends State<ConsumableFormWidget> {
     }
 
     Widget rowButtons = Row(
-      children: <Widget>[deleteButton, saveButton],
+      children: <Widget>[/*deleteButton,*/ saveButton],
     );
 
     return Form(

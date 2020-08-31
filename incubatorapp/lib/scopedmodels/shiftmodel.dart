@@ -42,7 +42,7 @@ class ShiftModel extends Model{
   }
 
   bool getIsStartTimePM(){
-    return _currentShift.isEndTimePM;
+    return _currentShift.isStartTimePM;
   }
 
   void setEndTime(int val) {
@@ -72,6 +72,8 @@ class ShiftModel extends Model{
   Future<bool> create() async {
     int code = await _api.post(_currentShift.toJson());
     if (code == 201) {
+      shiftList.add(_currentShift);
+      notifyListeners();
       return true;
     }
     return false;

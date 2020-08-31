@@ -4,6 +4,8 @@ import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/medicinescreen.dart';
+import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
+import 'package:incubatorapp/screens/xrayscreen/xrayscreen.dart';
 
 class MenuWidget extends StatefulWidget {
   @override
@@ -30,6 +32,14 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   void navigateToConsumable(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>ConsumableScreen()));
+  }
+
+  void navigateToXRay(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>XRayScreen()));
+  }
+
+  void navigateToShift(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ShiftScreen()));
   }
 
   Widget buttonRow(String title, {VoidCallback fun}) {
@@ -84,8 +94,8 @@ class _MenuWidgetState extends State<MenuWidget> {
             buttonRow('Analysis',fun: navigateToAnalysis),
             buttonRow('Medicine',fun: navigateToMedicine),
             buttonRow('Consumable',fun: navigateToConsumable),
-            buttonRow('XRay'),
-            buttonRow('Shift Hours'),
+            buttonRow('XRay',fun: navigateToXRay),
+            buttonRow('Shift Hours',fun: navigateToShift),
           ],
         ),
       ),

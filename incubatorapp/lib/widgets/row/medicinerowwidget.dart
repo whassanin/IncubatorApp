@@ -133,7 +133,7 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
       onTap: () {
         if (userPermission.isDoctor) {
           update();
-        } else {
+        } else if(userPermission.isAccountant) {
           medicineModel.editMedicine(widget.medicine);
           navigateToEditMedicineScreen();
         }

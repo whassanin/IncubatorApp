@@ -170,7 +170,7 @@ class _MedicineFormWidgetState extends State<MedicineFormWidget> {
     }
 
     Widget rowButtons = Row(
-      children: <Widget>[deleteButton, saveButton],
+      children: <Widget>[/*deleteButton,*/ saveButton],
     );
 
     return Form(

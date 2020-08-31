@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/doctorshift.dart';
 import 'package:incubatorapp/models/shift.dart';
-import 'package:incubatorapp/screens/shiftscreen/editdoctorshiftscreen.dart';
+import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/doctorshiftscreen/editdoctorshiftscreen.dart';
 
 class DoctorShiftRowWidget extends StatefulWidget {
   final DoctorShift doctorShift;

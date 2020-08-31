@@ -2,34 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 
-enum AnalysisColumn { name, price }
+enum XRayColumn { name, price }
 
-class AnalysisFormWidget extends StatefulWidget {
+class XRayFormWidget extends StatefulWidget {
   final bool isEdit;
-  AnalysisFormWidget({this.isEdit});
+  XRayFormWidget({this.isEdit});
 
   @override
-  _AnalysisFormWidgetState createState() => _AnalysisFormWidgetState();
+  _XRayFormWidgetState createState() => _XRayFormWidgetState();
 }
 
-class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
+class _XRayFormWidgetState extends State<XRayFormWidget> {
   final _formKey = new GlobalKey<FormState>();
 
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController priceTEC = new TextEditingController();
 
-  void setData(AnalysisColumn analysisColumn, String val) {
-    if (analysisColumn == AnalysisColumn.name) {
-      analysisModel.setName(val);
-    } else if (analysisColumn == AnalysisColumn.price) {
-      analysisModel.setPrice(double.parse(val));
+  void setData(XRayColumn xRayColumn, String val) {
+    if (xRayColumn == XRayColumn.name) {
+      xRayModel.setName(val);
+    } else if (xRayColumn == XRayColumn.price) {
+      xRayModel.setPrice(double.parse(val));
     }
   }
 
   void getData() {
-    nameTEC.text = analysisModel.getName();
-    if (analysisModel.getPrice() > 0) {
-      priceTEC.text = analysisModel.getPrice().toString();
+    nameTEC.text = xRayModel.getName();
+    if (xRayModel.getPrice() > 0) {
+      priceTEC.text = xRayModel.getPrice().toString();
     }
   }
 
@@ -39,9 +39,9 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
 
       if (widget.isEdit != null) {
         if (widget.isEdit) {
-          isCheck = await analysisModel.update();
+          isCheck = await xRayModel.update();
         } else {
-          isCheck = await analysisModel.create();
+          isCheck = await xRayModel.create();
         }
       }
 
@@ -53,7 +53,7 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
 
   void delete() async {
     bool isCheck = false;
-    isCheck = await analysisModel.delete();
+    isCheck = await xRayModel.delete();
     if (isCheck) {
       Navigator.pop(context);
     }
@@ -67,7 +67,7 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,
-      AnalysisColumn analysisColumns, TextEditingController columnTEC,
+      XRayColumn xRayColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -96,10 +96,10 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
           return null;
         },
         onChanged: (v) {
-          setData(analysisColumns, v);
+          setData(xRayColumns, v);
         },
         onFieldSubmitted: (v) {
-          setData(analysisColumns, v);
+          setData(xRayColumns, v);
         },
         onTap: () {
           if (fun != null) {
@@ -145,10 +145,10 @@ class _AnalysisFormWidgetState extends State<AnalysisFormWidget> {
   @override
   Widget build(BuildContext context) {
     Widget nameField =
-        columnTextField('Name', false, false, AnalysisColumn.name, nameTEC);
+    columnTextField('Name', false, false, XRayColumn.name, nameTEC);
 
     Widget priceField =
-        columnTextField('Price', true, false, AnalysisColumn.price, priceTEC);
+    columnTextField('Price', true, false, XRayColumn.price, priceTEC);
 
     Widget saveButton = editButtons('Save', Colors.cyan, fun: save);
 
