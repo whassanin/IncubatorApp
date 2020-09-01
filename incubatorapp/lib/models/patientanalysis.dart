@@ -10,9 +10,10 @@ class PatientAnalysis{
   int patientId;
   int analysisId;
   String result;
+  String billStatus;
   DateTime createdDate;
 
-  PatientAnalysis(this.id,this.patientId,this.analysisId,this.result,this.createdDate);
+  PatientAnalysis(this.id,this.patientId,this.analysisId,this.result,this.billStatus,this.createdDate);
 
   factory PatientAnalysis.fromJson(Map<String, dynamic> json) => _$PatientAnalysisFromJson(json);
 

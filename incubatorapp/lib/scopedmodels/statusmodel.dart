@@ -139,7 +139,7 @@ class StatusModel extends Model {
     }
   }
 
-  Future<List<Status>> readByPatientId(int patientId, {int limit}) async {
+  Future<List<Status>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -148,25 +148,7 @@ class StatusModel extends Model {
 
     List<dynamic> statusListMap;
 
-    if (limit != null) {
-      if(limit > 0){
-        fields.add('limit');
-        values.add(limit.toString());
-        Map<String, dynamic> statusMap = await _api.filterWithLimit(
-          fields,
-          values,
-        );
-        statusMap.forEach((e, f) {
-          if (e == 'results') {
-            statusListMap = f;
-          }
-        });
-      }else {
-        statusListMap = await _api.filter(fields, values);
-      }
-    } else {
-      statusListMap = await _api.filter(fields, values);
-    }
+    statusListMap = await _api.filter(fields, values);
 
     if(statusListMap!=null){
       statusList = statusListMap.map((e) => Status.fromJson(e)).toList();

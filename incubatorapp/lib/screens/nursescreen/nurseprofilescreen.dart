@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
+import 'package:incubatorapp/screens/nurseshiftscreen/newnurseshiftscreen.dart';
+import 'package:incubatorapp/screens/nurseshiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
-import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/nurseshiftscreen/newnurseshiftscreen.dart';
-import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/nurseshiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';

@@ -177,29 +177,50 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void readById(
-      String id, int statusLimit, int billLimit, bool isCreditCard) async {
+  void _readForDoctorAndNurse(String id) async {
+    _currentPatient.statusList =
+        await statusModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList =
+        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientId(int.parse(id));
+    _currentPatient.patientMedicineDoctorList =
+        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+  }
+
+  void _readForAccountant(String id) async {
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList =
+        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientId(int.parse(id));
+    _currentPatient.patientMedicineDoctorList =
+        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+  }
+
+  void _readForPatient(String id) async {
+    _readForDoctorAndNurse(id);
+    _readForAccountant(id);
+    _currentPatient.creditCardList =
+        await creditCardModel.readByPatientId(int.parse(id));
+  }
+
+  void readById(String id) async {
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    _currentPatient.statusList =
-        await statusModel.readByPatientId(int.parse(id), limit: statusLimit);
-
-    _currentPatient.billList =
-        await billModel.readByPatientId(int.parse(id), limit: billLimit);
-
-    if (isCreditCard) {
-      _currentPatient.creditCardList =
-          await creditCardModel.readByPatientId(int.parse(id));
+    if (userPermission.isDoctor || userPermission.isNurse) {
+      _readForDoctorAndNurse(id);
+    } else if (userPermission.isAccountant) {
+      _readForAccountant(id);
+    } else if (userPermission.isPatient) {
+      _readForPatient(id);
     }
-
-    patientAnalysisModel.setList(_currentPatient.patientAnalysisList);
-    patientXRayModel.setList(_currentPatient.patientXRaysList);
-    patientMedicineDoctorModel.setList(_currentPatient.patientMedicineDoctorList);
-    patientConsumableNurseModel.setList(_currentPatient.patientConsumableNurseList);
-
-    //await Future.delayed(Duration(seconds: 3));
 
     //notifyListeners();
   }

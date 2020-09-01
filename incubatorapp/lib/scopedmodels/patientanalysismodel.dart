@@ -13,7 +13,7 @@ class PatientAnalysisModel extends Model {
   PatientAnalysis get patientAnalysis => _currentPatientAnalysis;
 
   void createPatientAnalysis() {
-    _currentPatientAnalysis = new PatientAnalysis(0, 0, 0, ' ', DateTime.now());
+    _currentPatientAnalysis = new PatientAnalysis(0, 0, 0, ' ','Pending', DateTime.now());
   }
 
   void editPatientAnalysis(PatientAnalysis editPatientAnalysis) {
@@ -62,7 +62,7 @@ class PatientAnalysisModel extends Model {
     return _currentPatientAnalysis.createdDate;
   }
 
-  void readByPatientId(int patientId) async {
+  Future<List<PatientAnalysis>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -74,6 +74,8 @@ class PatientAnalysisModel extends Model {
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 
     notifyListeners();
+
+    return patientAnalysisList;
   }
 
   void readByAnalysisId(int analysisId) async {

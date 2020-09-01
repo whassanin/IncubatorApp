@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -33,7 +32,7 @@ class PatientProfileScreen extends StatelessWidget {
                 index: patientModel.currentTab,
                 children: <Widget>[
                   PatientDetailScreen(),
-                  BillScreen(patient: patientModel.currentPatient,),
+                  BillScreen(),
                   EditPatientScreen()
                 ],
               );

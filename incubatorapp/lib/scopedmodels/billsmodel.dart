@@ -1,5 +1,15 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/models/consumable.dart';
+import 'package:incubatorapp/models/medicine.dart';
+import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/patientconsumablenurse.dart';
+import 'package:incubatorapp/models/patientmedicinedoctor.dart';
+import 'package:incubatorapp/models/patientxray.dart';
+import 'package:incubatorapp/models/xray.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BillModel extends Model {
@@ -13,6 +23,11 @@ class BillModel extends Model {
 
   void createBill() {
     _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+  }
+
+  Bill newBill(DateTime currentDateTime){
+    Bill newBill = new Bill(0, currentDateTime, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+    return newBill;
   }
 
   void editBill(Bill editBill) {
@@ -95,7 +110,189 @@ class BillModel extends Model {
     return _currentBill.patientId;
   }
 
-  Future<List<Bill>> readByPatientId(int patientId, {int limit}) async {
+  String formatDate(DateTime dateTime){
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+
+    return v;
+  }
+
+  void _calculateAnalysis(Patient cp){
+    List<PatientAnalysis> cpal = cp.patientAnalysisList
+        .where((element) => element.billStatus == 'Pending').toList();
+
+    cpal.forEach((cpa) {
+      int index = billList.indexWhere((cb) => formatDate(cb.createdDate) == formatDate(cpa.createdDate));
+
+      Bill bill;
+
+      if(index < 0){
+        bill = newBill(cpa.createdDate);
+      }else {
+        bill = billList[index];
+      }
+
+      Analysis analysis;
+
+      List<Analysis> cal = analysisModel.analysisList.where((element) => element.id == cpa.analysisId).toList();
+
+      if(cal.length > 0){
+        analysis = cal[0];
+      }
+
+      if(analysis!=null){
+        bill.analysis += analysis.price;
+      }
+
+      if(index < 0){
+        billList.add(bill);
+      }
+      else {
+        billList[index] = bill;
+      }
+
+      cp.billList = billList;
+
+      notifyListeners();
+    });
+  }
+
+  void _calculateXRay(Patient cp){
+    List<PatientXRay> cpxl = cp.patientXRaysList
+        .where((element) => element.billStatus == 'Pending').toList();
+
+    cpxl.forEach((cpx) {
+      int index = billList.indexWhere((cb) => formatDate(cb.createdDate) == formatDate(cpx.createdDate));
+
+      Bill bill;
+
+      if(index < 0){
+        bill = newBill(cpx.createdDate);
+      }else {
+        bill = billList[index];
+      }
+
+      XRay xRay;
+
+      List<XRay> cxl = xRayModel.xRayList.where((element) => element.id == cpx.xRayId).toList();
+
+      if(cxl.length > 0){
+        xRay = cxl[0];
+      }
+
+      if(xRay!=null){
+        bill.xRay += xRay.price;
+      }
+
+      if(index < 0){
+        billList.add(bill);
+      }
+      else {
+        billList[index] = bill;
+      }
+
+      cp.billList = billList;
+
+      notifyListeners();
+    });
+  }
+
+  void _calculateMedicine(Patient cp){
+    List<PatientMedicineDoctor> cpmdl = cp.patientMedicineDoctorList
+        .where((element) => element.billStatus == 'Pending').toList();
+
+    cpmdl.forEach((cpmd) {
+      int index = billList.indexWhere((cb) => formatDate(cb.createdDate) == formatDate(cpmd.createdDate));
+
+      Bill bill;
+
+      if(index < 0){
+        bill = newBill(cpmd.createdDate);
+      }else {
+        bill = billList[index];
+      }
+
+      Medicine medicine;
+
+      List<Medicine> cml = medicineModel.medicineList.where((element) => element.id == cpmd.medicineId).toList();
+
+      if(cml.length > 0){
+        medicine = cml[0];
+      }
+
+      if(medicine!=null){
+        bill.medicine += (medicine.price * cpmd.quantity);
+      }
+
+      if(index < 0){
+        billList.add(bill);
+      }
+      else {
+        billList[index] = bill;
+      }
+
+      cp.billList = billList;
+
+      notifyListeners();
+    });
+  }
+
+  void _calculateConsumable(Patient cp){
+    List<PatientConsumableNurse> cpcnl = cp.patientConsumableNurseList
+        .where((element) => element.billStatus == 'Pending').toList();
+
+    cpcnl.forEach((cpcn) {
+      int index = billList.indexWhere((cb) => formatDate(cb.createdDate) == formatDate(cpcn.createdDate));
+
+      Bill bill;
+
+      if(index < 0){
+        bill = newBill(cpcn.createdDate);
+      }else {
+        bill = billList[index];
+      }
+
+      Consumable consumable;
+
+      List<Consumable> ccl = consumableModel.consumableList.where((element) => element.id == cpcn.consumableId).toList();
+
+      if(ccl.length > 0){
+        consumable = ccl[0];
+      }
+
+      if(consumable!=null){
+        bill.consumable += (consumable.price * cpcn.quantity);
+      }
+
+      if(index < 0){
+        billList.add(bill);
+      }
+      else {
+        billList[index] = bill;
+      }
+
+      cp.billList = billList;
+
+      notifyListeners();
+    });
+  }
+
+  void calculateBills() {
+
+    Patient cp = patientModel.currentPatient;
+
+    _calculateAnalysis(cp);
+
+    _calculateXRay(cp);
+
+    _calculateMedicine(cp);
+
+    _calculateConsumable(cp);
+
+  }
+
+  Future<List<Bill>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -104,25 +301,7 @@ class BillModel extends Model {
 
     List<dynamic> billListMap;
 
-    if (limit != null) {
-      if (limit > 0) {
-        fields.add('limit');
-        values.add(limit.toString());
-        Map<String, dynamic> billMap = await _api.filterWithLimit(
-          fields,
-          values,
-        );
-        billMap.forEach((e, f) {
-          if (e == 'results') {
-            billListMap = f;
-          }
-        });
-      } else {
-        billListMap = await _api.filter(fields, values);
-      }
-    } else {
-      billListMap = await _api.filter(fields, values);
-    }
+    billListMap = await _api.filter(fields, values);
 
     if (billListMap != null) {
       billList = billListMap.map((e) => Bill.fromJson(e)).toList();

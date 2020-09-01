@@ -56,7 +56,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString(), 0, 0, true);
+      patientModel.readById(userModel.currentUser.id.toString());
       patientModel.setCurrentTab(0);
       Navigator.pushReplacementNamed(context, PatientProfileScreen.routeName);
     } else if (userPermission.isAccountant) {

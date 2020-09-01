@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'file:///C:/Users/Waleed%20Hassanin/Documents/GitHub/IncubatorApp/incubatorapp/lib/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
 
 class PatientAnalysisRowWidget extends StatefulWidget {
   final PatientAnalysis patientAnalysis;

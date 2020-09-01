@@ -17,6 +17,7 @@ PatientMedicineDoctor _$PatientMedicineDoctorFromJson(
     json['description'] as String,
     json['status'] as String,
     json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    json['billStatus'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -34,5 +35,6 @@ Map<String, dynamic> _$PatientMedicineDoctorToJson(
       'description': instance.description,
       'status': instance.status,
       'date': instance.date?.toIso8601String(),
+      'billStatus': instance.billStatus,
       'createdDate': instance.createdDate?.toIso8601String(),
     };

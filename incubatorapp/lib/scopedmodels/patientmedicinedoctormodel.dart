@@ -15,7 +15,7 @@ class PatientMedicineDoctorModel extends Model {
 
   void createPatientMedicineDoctor() {
     _currentPatientMedicineDoctor =
-        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(), DateTime.now());
+        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(),'Pending', DateTime.now());
   }
 
   void editPatientMedicineDoctor(
@@ -82,7 +82,7 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.createdDate;
   }
 
-  void readByPatientId(int patientId) async {
+  Future<List<PatientMedicineDoctor>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -95,6 +95,8 @@ class PatientMedicineDoctorModel extends Model {
         .toList();
 
     notifyListeners();
+
+    return patientMedicineDoctorList;
   }
 
   void readByMedicineId() {}

@@ -73,6 +73,20 @@ class _BillListWidgetState extends State<BillListWidget> {
     return paid - total;
   }
 
+  void pay(){
+    creditCardModel.setIsPayment(true);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreditCardScreen(),
+      ),
+    );
+  }
+
+  void calculateBills(){
+    billModel.calculateBills();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -104,6 +118,12 @@ class _BillListWidgetState extends State<BillListWidget> {
           ),
         );
       }
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Bills(s) Available'),
+        ),
+      );
     }
 
     return Padding(
@@ -135,6 +155,51 @@ class _BillListWidgetState extends State<BillListWidget> {
     );
   }
 
+  Widget calculateButton(String title,{VoidCallback fun}){
+
+    Widget buttonContainer = Container(
+      decoration: BoxDecoration(color: Colors.cyan),
+      height: 58,
+      child: Center(
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      ),
+    );
+
+    Widget buttonGesture = GestureDetector(
+      onTap: () {
+        if(fun!=null){
+          fun();
+        }
+      },
+      child: buttonContainer,
+    );
+
+    Widget buttonRow = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          child: buttonGesture,
+        ),
+      ],
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: buttonRow,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget positionList = Positioned(
@@ -158,45 +223,11 @@ class _BillListWidgetState extends State<BillListWidget> {
       ),
     );
 
-    Widget buttonContainer = Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          width: 1,
-          color: Colors.black,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                creditCardModel.setIsPayment(true);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreditCardScreen(),
-                  ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(color: Colors.cyan),
-                height: 58,
-                child: Center(
-                  child: Text(
-                    'Pay',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white,fontSize: 18),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    Widget currentButtonContainer = calculateButton('Pay',fun: pay);
+
+    if(userPermission.isAccountant){
+      currentButtonContainer = calculateButton('Calculate',fun: calculateBills);
+    }
 
     Widget positionTotal = Positioned(
       child: Align(
@@ -206,7 +237,7 @@ class _BillListWidgetState extends State<BillListWidget> {
           child: Column(
             children: <Widget>[
               totalContainer,
-              buttonContainer,
+              currentButtonContainer,
             ],
           ),
         ),

@@ -15,7 +15,7 @@ class PatientConsumableNurseModel extends Model {
 
   void createPatientConsumableNurse() {
     _currentPatientConsumableNurse =
-        new PatientConsumableNurse(0, 0, 0, 0, 0, DateTime.now());
+        new PatientConsumableNurse(0, 0, 0, 0, 0,'Pending', DateTime.now());
   }
 
   void editPatientConsumableNurse(
@@ -72,7 +72,7 @@ class PatientConsumableNurseModel extends Model {
     return _currentPatientConsumableNurse.createdDate;
   }
 
-  void readByPatientId(int patientId) async {
+  Future<List<PatientConsumableNurse>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -85,6 +85,8 @@ class PatientConsumableNurseModel extends Model {
         .toList();
 
     notifyListeners();
+
+    return patientConsumableNurseList;
   }
 
   void readByConsumableId() {}

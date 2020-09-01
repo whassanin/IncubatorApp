@@ -92,6 +92,8 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
       }else {
         currentWidget = rowTitle('No Extra Bills');
       }
+    }else {
+      currentWidget = rowTitle('No Extra Bills');
     }
 
     return currentWidget;
