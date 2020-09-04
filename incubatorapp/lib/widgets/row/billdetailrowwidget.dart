@@ -87,11 +87,17 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           physics: ScrollPhysics(),
           itemCount: widget.patientExtraList.length,
           itemBuilder: (BuildContext context, int i) {
-            int index = extraModel.extraList.indexWhere(
-                (element) => element.id == widget.patientExtraList[i].extraId);
-            String name = extraModel.extraList[index].name;
-            String val = extraModel.extraList[index].price.toString();
-            return rowDetailData(name, val);
+            String d1 = billModel.formatDate(widget.bill.createdDate);
+            String d2 =
+                billModel.formatDate(widget.patientExtraList[i].createdDate);
+            if (d1 == d2) {
+              int index = extraModel.extraList.indexWhere((element) =>
+                  element.id == widget.patientExtraList[i].extraId);
+              String name = extraModel.extraList[index].name;
+              String val = extraModel.extraList[index].price.toString();
+              return rowDetailData(name, val);
+            }
+            return Container();
           },
         );
       } else {
@@ -147,7 +153,7 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
   }
 
   double calculateChange() {
-    return widget.bill.paid -  billModel.calculateBillRow(widget.bill);
+    return widget.bill.paid - billModel.calculateBillRow(widget.bill);
   }
 
   @override
@@ -165,7 +171,8 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           rowTitle('Extra'),
           rowBillExtraList(),
           rowTitle('Total Payment'),
-          rowFooterData('Total', billModel.calculateBillRow(widget.bill).toString()),
+          rowFooterData(
+              'Total', billModel.calculateBillRow(widget.bill).toString()),
           rowFooterData('Paid', widget.bill.paid.toString()),
           rowFooterData('Change', calculateChange().toString()),
         ],

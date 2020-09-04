@@ -160,13 +160,13 @@ class BillModel extends Model {
     return total;
   }
 
-  double countBillDataRows(Patient cp){
+  double countBillDataRows(Patient cp) {
     double count = 0;
-    
+
     List<PatientAnalysis> cpal = cp.patientAnalysisList
         .where((element) => element.billStatus == 'Pending')
         .toList();
-    
+
     count += cpal.length;
 
     List<PatientXRay> cpxl = cp.patientXRaysList
@@ -192,10 +192,10 @@ class BillModel extends Model {
         .toList();
 
     count += cpel.length;
-    
+
     return count;
   }
-  
+
   void _calculateAnalysis(Patient cp) {
     List<PatientAnalysis> cpal = cp.patientAnalysisList
         .where((element) => element.billStatus == 'Pending')
@@ -235,7 +235,9 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
-      notifyListeners();
+      patientAnalysisModel.editPatientAnalysis(cpa);
+      patientAnalysisModel.setBillStatus('Added');
+      patientAnalysisModel.update();
     });
   }
 
@@ -278,7 +280,9 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
-      notifyListeners();
+      patientXRayModel.editPatientXRay(cpx);
+      patientXRayModel.setBillStatus('Added');
+      patientXRayModel.update();
     });
   }
 
@@ -321,7 +325,9 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
-      notifyListeners();
+      patientMedicineDoctorModel.editPatientMedicineDoctor(cpmd);
+      patientMedicineDoctorModel.setBillStatus('Added');
+      patientMedicineDoctorModel.update();
     });
   }
 
@@ -364,7 +370,9 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
-      notifyListeners();
+      patientConsumableNurseModel.editPatientConsumableNurse(cpcn);
+      patientConsumableNurseModel.setBillStatus('Added');
+      patientConsumableNurseModel.update();
     });
   }
 
@@ -410,8 +418,6 @@ class BillModel extends Model {
       patientExtraModel.editPatientExtra(cpe);
       patientExtraModel.setBillStatus('Added');
       patientExtraModel.update();
-
-      notifyListeners();
     });
   }
 
@@ -419,7 +425,7 @@ class BillModel extends Model {
     Patient cp = patientModel.currentPatient;
 
     double count = countBillDataRows(cp);
-    
+
     _calculateAnalysis(cp);
 
     _calculateXRay(cp);
@@ -429,8 +435,9 @@ class BillModel extends Model {
     _calculateConsumable(cp);
 
     _calculateExtra(cp);
-    
-    if(count > 0){
+
+    if (count > 0) {
+      count += 3;
       await Future.delayed(Duration(milliseconds: count.toInt()));
 
       cp.billList.forEach((element) {
@@ -443,7 +450,9 @@ class BillModel extends Model {
         }
       });
 
+      readByPatientId(patientModel.currentPatient.userId);
     }
+
   }
 
   Future<List<Bill>> readByPatientId(int patientId) async {

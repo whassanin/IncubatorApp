@@ -206,15 +206,17 @@ class PatientModel extends Model {
   void _readForAccountant(String id) async {
     _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
     _currentPatient.patientAnalysisList =
-        await patientAnalysisModel.readByPatientId(int.parse(id));
+        await patientAnalysisModel.readByPatientIdAndPendingAnalysis(int.parse(id));
     _currentPatient.patientXRaysList =
-        await patientXRayModel.readByPatientId(int.parse(id));
+        await patientXRayModel.readByPatientIdAndPendingXRay(int.parse(id));
     _currentPatient.patientMedicineDoctorList =
-        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+        await patientMedicineDoctorModel.readByPatientIdAndPendingMedicine(int.parse(id));
     _currentPatient.patientConsumableNurseList =
-        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+        await patientConsumableNurseModel.readByPatientIdAndPendingConsumable(int.parse(id));
     _currentPatient.patientExtraList =
-        await patientExtraModel.readByPatientId(int.parse(id));
+        await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
+
+    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   void _readForPatient(String id) async {

@@ -78,6 +78,15 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.description;
   }
 
+  void setBillStatus(String val) {
+    _currentPatientMedicineDoctor.billStatus = val;
+    notifyListeners();
+  }
+
+  String getBillStatus() {
+    return _currentPatientMedicineDoctor.billStatus;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientMedicineDoctor.createdDate;
   }
@@ -93,6 +102,24 @@ class PatientMedicineDoctorModel extends Model {
     patientMedicineDoctorList = patientMedicineDoctorMap
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
+
+    notifyListeners();
+
+    return patientMedicineDoctorList;
+  }
+
+  Future<List<PatientMedicineDoctor>> readByPatientIdAndPendingMedicine(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+    fields.add('billStatus');
+    values.add('Pending');
+
+    List<dynamic> patientMedicineDoctorMap = await _api.filter(fields, values);
+    patientMedicineDoctorList =
+        patientMedicineDoctorMap.map((e) => PatientMedicineDoctor.fromJson(e)).toList();
 
     notifyListeners();
 

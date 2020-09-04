@@ -489,7 +489,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  Widget displayButtons() {
+  Widget displayFourButtons() {
     Widget firstButton = rowButton(
         Icon(
           FontAwesomeIcons.list,
@@ -506,14 +506,14 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         'Consumable',
         fun: goToConsumableScreen);
 
-    if(userPermission.isNurse){
+    if (userPermission.isNurse) {
       Widget temp = firstButton;
       firstButton = lastButton;
       lastButton = temp;
     }
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10,right: 10),
       child: GridView.count(
         physics: ScrollPhysics(),
         crossAxisCount: 2,
@@ -535,22 +535,70 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               ),
               'Medicine',
               fun: goToMedicineScreen),
-          rowButton(
-              Icon(
-                Icons.playlist_add,
-                color: Colors.white,
-                size: 30,
-              ),
-              'Extra',
-              fun: goToExtraScreen),
-          rowButton(
-              Icon(
-                FontAwesomeIcons.creativeCommonsSampling,
-                color: Colors.white,
-              ),
-              'Condition',
-              fun: goToConditionScreen),
           lastButton,
+        ],
+      ),
+    );
+  }
+
+  Widget displayDoctorButtons() {
+
+    Widget conditionButton = Container();
+
+    Widget incubatorButton = Container();
+
+    Widget stateButton = Container();
+
+    Widget isLightRayButton = Container();
+
+    if (userPermission.isDoctor) {
+      conditionButton = rowButton(
+          Icon(
+            FontAwesomeIcons.creativeCommonsSampling,
+            color: Colors.white,
+          ),
+          'Change Condition',
+          fun: goToConditionScreen);
+
+      incubatorButton = rowButton(
+          Icon(
+            FontAwesomeIcons.creativeCommonsSampling,
+            color: Colors.white,
+          ),
+          'Change Incubator',
+          fun: goToConditionScreen);
+
+      stateButton = rowButton(
+          Icon(
+            FontAwesomeIcons.creativeCommonsSampling,
+            color: Colors.white,
+          ),
+          'Change State',
+          fun: goToConditionScreen);
+
+      isLightRayButton = rowButton(
+          Icon(
+            FontAwesomeIcons.creativeCommonsSampling,
+            color: Colors.white,
+          ),
+          'Change Light Ray',
+          fun: goToConditionScreen);
+
+    }
+
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 10,right: 10),
+      child: GridView.count(
+        physics: ScrollPhysics(),
+        crossAxisCount: 2,
+        childAspectRatio: 2,
+        shrinkWrap: true,
+        children: <Widget>[
+          conditionButton,
+          incubatorButton,
+          stateButton,
+          isLightRayButton,
         ],
       ),
     );
@@ -584,6 +632,32 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     return currentWidget;
   }
 
+  Widget extraButton() {
+    Widget currentWidget = Padding(
+      padding: const EdgeInsets.only(right: 10, left: 10,bottom: 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              height: 100,
+              child: rowButton(
+                Icon(
+                  Icons.playlist_add,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                'Extra',
+                fun: goToExtraScreen,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return currentWidget;
+  }
+
   @override
   Widget build(BuildContext context) {
     Condition condition;
@@ -603,13 +677,18 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         children: <Widget>[
           rowTitle('Information'),
           patientInformationRow(),
-          rowTitle('Condition: ' + (condition != null ? condition.name : '')),
           rowTitle(
-              'Incubator Number: ' + widget.patient.incubatorId.toString()),
+            'Condition: ' + (condition != null ? condition.name : ''),
+          ),
+          rowTitle(
+            'Incubator Number: ' + widget.patient.incubatorId.toString(),
+          ),
           rowTitle('Status'),
           statusRow(),
           addStatusButton(),
-          displayButtons()
+          displayFourButtons(),
+          displayDoctorButtons(),
+          extraButton(),
         ],
       ),
     );

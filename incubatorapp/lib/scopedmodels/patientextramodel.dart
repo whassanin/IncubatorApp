@@ -79,6 +79,24 @@ class PatientExtraModel extends Model {
     return patientExtraList;
   }
 
+  Future<List<PatientExtra>> readByPatientIdAndPendingExtra(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+    fields.add('billStatus');
+    values.add('Pending');
+
+    List<dynamic> patientExtraMap = await _api.filter(fields, values);
+    patientExtraList =
+        patientExtraMap.map((e) => PatientExtra.fromJson(e)).toList();
+
+    notifyListeners();
+
+    return patientExtraList;
+  }
+
   void readByExtraId(int extraId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];

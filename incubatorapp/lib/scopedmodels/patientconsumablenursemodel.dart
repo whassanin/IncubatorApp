@@ -68,6 +68,15 @@ class PatientConsumableNurseModel extends Model {
     return _currentPatientConsumableNurse.quantity;
   }
 
+  void setBillStatus(String val) {
+    _currentPatientConsumableNurse.billStatus = val;
+    notifyListeners();
+  }
+
+  String getBillStatus() {
+    return _currentPatientConsumableNurse.billStatus;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientConsumableNurse.createdDate;
   }
@@ -83,6 +92,24 @@ class PatientConsumableNurseModel extends Model {
     patientConsumableNurseList = patientConsumableNurseMap
         .map((e) => PatientConsumableNurse.fromJson(e))
         .toList();
+
+    notifyListeners();
+
+    return patientConsumableNurseList;
+  }
+
+  Future<List<PatientConsumableNurse>> readByPatientIdAndPendingConsumable(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+    fields.add('billStatus');
+    values.add('Pending');
+
+    List<dynamic> patientConsumableNurseMap = await _api.filter(fields, values);
+    patientConsumableNurseList =
+        patientConsumableNurseMap.map((e) => PatientConsumableNurse.fromJson(e)).toList();
 
     notifyListeners();
 

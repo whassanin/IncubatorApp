@@ -60,6 +60,15 @@ class PatientXRayModel extends Model{
     return _currentPatientXRay.comment;
   }
 
+  void setBillStatus(String val) {
+    _currentPatientXRay.billStatus = val;
+    notifyListeners();
+  }
+
+  String getBillStatus() {
+    return _currentPatientXRay.billStatus;
+  }
+
   DateTime getCreatedDate(){
     return _currentPatientXRay.createdDate;
   }
@@ -74,6 +83,24 @@ class PatientXRayModel extends Model{
 
     List<dynamic> patientXRayMap = await _api.filter(fields, values);
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
+    notifyListeners();
+
+    return patientXRayList;
+  }
+
+  Future<List<PatientXRay>> readByPatientIdAndPendingXRay(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+    fields.add('billStatus');
+    values.add('Pending');
+
+    List<dynamic> patientXRayMap = await _api.filter(fields, values);
+    patientXRayList =
+        patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
+
     notifyListeners();
 
     return patientXRayList;

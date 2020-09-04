@@ -58,6 +58,15 @@ class PatientAnalysisModel extends Model {
     return _currentPatientAnalysis.result;
   }
 
+  void setBillStatus(String val) {
+    _currentPatientAnalysis.billStatus = val;
+    notifyListeners();
+  }
+
+  String getBillStatus() {
+    return _currentPatientAnalysis.billStatus;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientAnalysis.createdDate;
   }
@@ -71,6 +80,24 @@ class PatientAnalysisModel extends Model {
 
     List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
 
+    patientAnalysisList =
+        patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
+
+    notifyListeners();
+
+    return patientAnalysisList;
+  }
+
+  Future<List<PatientAnalysis>> readByPatientIdAndPendingAnalysis(int patientId) async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('patientId');
+    values.add(patientId.toString());
+    fields.add('billStatus');
+    values.add('Pending');
+
+    List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 

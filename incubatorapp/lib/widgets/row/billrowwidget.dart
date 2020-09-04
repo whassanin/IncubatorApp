@@ -66,7 +66,9 @@ class _BillRowWidgetState extends State<BillRowWidget> {
       child: rowCard,
       onTap: () {
         billModel.editBill(widget.bill);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> BillDetailScreen()));
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BillDetailScreen()));
       },
     );
   }
