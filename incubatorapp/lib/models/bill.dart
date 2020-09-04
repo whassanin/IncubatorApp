@@ -1,4 +1,3 @@
-import 'package:incubatorapp/models/billextra.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bill.g.dart';
@@ -12,30 +11,26 @@ class Bill {
 
   double paid;
   double dayCost;
-  double incubatorClean;
   double consumable;
   double analysis;
   double xRay;
   double lightRays;
   double medicine;
+  double extra;
   int patientId;
-
-  @JsonKey(name: 'billextra')
-  List<BillExtra> billExtraList = [];
 
   Bill(
     this.id,
     this.createdDate,
     this.paid,
     this.dayCost,
-    this.incubatorClean,
     this.consumable,
     this.analysis,
     this.xRay,
     this.lightRays,
     this.medicine,
+    this.extra,
     this.patientId,
-    this.billExtraList,
   );
 
   factory Bill.fromJson(Map<String, dynamic> json) => _$BillFromJson(json);

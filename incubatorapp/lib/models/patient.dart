@@ -2,6 +2,7 @@ import 'package:incubatorapp/models/bill.dart';
 import 'package:incubatorapp/models/creditcard.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
+import 'package:incubatorapp/models/patientextra.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/status.dart';
@@ -21,6 +22,7 @@ class Patient {
   String ssn;
   String state;
   DateTime createdDate;
+  bool isOnLightRay;
   int conditionId;
   int incubatorId;
 
@@ -35,6 +37,9 @@ class Patient {
 
   @JsonKey(name: 'patientconsumablenurse')
   List<PatientConsumableNurse> patientConsumableNurseList = [];
+
+  @JsonKey(name: 'patientextra')
+  List<PatientExtra> patientExtraList = [];
 
   @JsonKey(ignore: true)
   List<Status> statusList = [];
@@ -55,6 +60,7 @@ class Patient {
     this.weight,
     this.ssn,
     this.state,
+    this.isOnLightRay,
     this.createdDate,
     this.conditionId,
     this.incubatorId,
@@ -62,6 +68,7 @@ class Patient {
     this.patientXRaysList,
     this.patientMedicineDoctorList,
     this.patientConsumableNurseList,
+    this.patientExtraList,
   );
 
   factory Patient.fromJson(Map<String, dynamic> json) =>

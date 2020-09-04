@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'billextra.dart';
+part of 'extra.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BillExtra _$BillExtraFromJson(Map<String, dynamic> json) {
-  return BillExtra(
+Extra _$ExtraFromJson(Map<String, dynamic> json) {
+  return Extra(
     json['id'] as int,
     json['name'] as String,
-    (json['cost'] as num)?.toDouble(),
+    (json['price'] as num)?.toDouble(),
   );
 }
 
-Map<String, dynamic> _$BillExtraToJson(BillExtra instance) => <String, dynamic>{
+Map<String, dynamic> _$ExtraToJson(Extra instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'cost': instance.cost,
+      'price': instance.price,
     };

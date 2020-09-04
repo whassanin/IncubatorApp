@@ -21,7 +21,7 @@ class BillDetailScreen extends StatelessWidget {
               ),
               title: Text('Bill Detail',style: TextStyle(color: Colors.white)),
             ),
-            body: BillDetailRowWidget(bill: billModel.currentBill,)
+            body: BillDetailRowWidget(billModel.currentBill,patientExtraModel.patientExtraList)
           );
         },
       ),

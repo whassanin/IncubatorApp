@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/extra.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/widgets/row/analysisrowwidget.dart';
+import 'package:incubatorapp/widgets/row/extrarowwidget.dart';
 
-class AnalysisListWidget extends StatefulWidget {
+class ExtraListWidget extends StatefulWidget {
   final Patient patient;
-  final List<Analysis> analysisList;
-  AnalysisListWidget({this.patient,this.analysisList,});
+  final List<Extra> extraList;
+  ExtraListWidget({this.patient,this.extraList,});
 
   @override
-  _AnalysisListWidgetState createState() => _AnalysisListWidgetState();
+  _ExtraListWidgetState createState() => _ExtraListWidgetState();
 }
 
-class _AnalysisListWidgetState extends State<AnalysisListWidget> {
+class _ExtraListWidgetState extends State<ExtraListWidget> {
   Widget _getList() {
     Widget currentWidget = Center(
       child: Container(
@@ -21,21 +21,21 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       ),
     );
 
-    if (widget.analysisList != null) {
-      if (widget.analysisList.length > 0) {
+    if (widget.extraList != null) {
+      if (widget.extraList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.analysisList.length,
+          itemCount: widget.extraList.length,
           itemBuilder: (BuildContext context, int index) {
-            return AnalysisRowWidget(
+            return ExtraRowWidget(
               patient: widget.patient,
-              analysis: widget.analysisList[index],
+              extra: widget.extraList[index],
             );
           },
         );
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Analysis(s) Available'),
+            child: Text('No Extra(s) Available'),
           ),
         );
       }
@@ -77,14 +77,14 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
             ),
           ),
           onTap: () {
-            patientAnalysisModel.readByPatientId(widget.patient.userId);
+            patientExtraModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),
       ),
     );
 
-    if (userPermission.isDoctor) {
+    if (userPermission.isDoctor || userPermission.isNurse) {
       currentWidget = Stack(
         children: <Widget>[positionList, positionSaveButton],
       );

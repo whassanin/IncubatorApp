@@ -5,9 +5,8 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/widgets/row/conditionrowwidget.dart';
 
 class ConditionListWidget extends StatefulWidget {
-  final Patient patient;
   final List<Condition> conditionList;
-  ConditionListWidget({this.patient,this.conditionList,});
+  ConditionListWidget({this.conditionList,});
 
   @override
   _ConditionListWidgetState createState() => _ConditionListWidgetState();
@@ -27,7 +26,6 @@ class _ConditionListWidgetState extends State<ConditionListWidget> {
           itemCount: widget.conditionList.length,
           itemBuilder: (BuildContext context, int index) {
             return ConditionRowWidget(
-              patient: widget.patient,
               condition: widget.conditionList[index],
             );
           },
@@ -77,6 +75,7 @@ class _ConditionListWidgetState extends State<ConditionListWidget> {
             ),
           ),
           onTap: () {
+            patientModel.update();
             Navigator.pop(context);
           },
         ),

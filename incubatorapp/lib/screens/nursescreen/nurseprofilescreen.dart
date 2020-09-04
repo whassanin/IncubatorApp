@@ -16,6 +16,7 @@ class NurseProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ScopedModel(
       model: nurseModel,
       child: ScopedModelDescendant(

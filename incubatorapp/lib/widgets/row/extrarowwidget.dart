@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/extra.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/analysisscreen/editanalysisscreen.dart';
+import 'package:incubatorapp/screens/extrascreen/editextrascreen.dart';
 
-class AnalysisRowWidget extends StatefulWidget {
+class ExtraRowWidget extends StatefulWidget {
   final Patient patient;
-  final Analysis analysis;
-  AnalysisRowWidget({
+  final Extra extra;
+  ExtraRowWidget({
     this.patient,
-    this.analysis,
+    this.extra,
   });
   @override
-  _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
+  _ExtraRowWidgetState createState() => _ExtraRowWidgetState();
 }
 
-class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
+class _ExtraRowWidgetState extends State<ExtraRowWidget> {
   bool isSelected = false;
 
   String dateFormat(DateTime dateTime) {
@@ -27,7 +27,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   void update() {
-    int index = findAnalysis();
+    int index = findExtra();
     if (index >= 0) {
       delete(index);
     } else if (index < 0) {
@@ -35,20 +35,20 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     }
   }
 
-  void navigateToEditAnalysisScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAnalysisScreen()));
+  void navigateToEditExtraScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditExtraScreen()));
   }
 
-  int findAnalysis() {
+  int findExtra() {
     String dn = dateFormat(DateTime.now());
 
     int index = -1;
 
-    patientAnalysisModel.patientAnalysisList.forEach((element) {
+    patientExtraModel.patientExtraList.forEach((element) {
       if (element.patientId == widget.patient.userId &&
-          element.analysisId == widget.analysis.id &&
+          element.extraId == widget.extra.id &&
           dateFormat(element.createdDate) == dn) {
-        index = patientAnalysisModel.patientAnalysisList.indexOf(element);
+        index = patientExtraModel.patientExtraList.indexOf(element);
       }
     });
 
@@ -56,22 +56,22 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   void delete(int index) {
-    patientAnalysisModel
-        .editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
-    patientAnalysisModel.delete();
+    patientExtraModel
+        .editPatientExtra(patientExtraModel.patientExtraList[index]);
+    patientExtraModel.delete();
   }
 
   void save() async {
-    patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.userId);
-    patientAnalysisModel.setAnalysisId(widget.analysis.id);
-    patientAnalysisModel.create();
+    patientExtraModel.createPatientExtra();
+    patientExtraModel.setPatientId(widget.patient.userId);
+    patientExtraModel.setExtraId(widget.extra.id);
+    patientExtraModel.create();
   }
 
   Widget row() {
     int index = -1;
     if (widget.patient != null) {
-      index = findAnalysis();
+      index = findExtra();
     }
 
     Color cardColor = Colors.white;
@@ -89,14 +89,14 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.analysis.name,
+            child: Text('Name: ' + widget.extra.name,
                 style: TextStyle(color: textColor)),
           ),
         ),
         (userPermission.isAccountant?Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Price: ' + widget.analysis.price.toString(),
+            child: Text('Price: ' + widget.extra.price.toString(),
                 style: TextStyle(color: textColor)),
           ),
         ):Container()),
@@ -121,11 +121,11 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (userPermission.isDoctor) {
+        if (userPermission.isDoctor || userPermission.isNurse) {
           update();
         } else if(userPermission.isAccountant) {
-          analysisModel.editAnalysis(widget.analysis);
-          navigateToEditAnalysisScreen();
+          extraModel.editExtra(widget.extra);
+          navigateToEditExtraScreen();
         }
       },
       child: Padding(

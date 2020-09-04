@@ -11,12 +11,12 @@ import 'package:scoped_model/scoped_model.dart';
 class AccountantProfileScreen extends StatelessWidget {
   static const routeName = '/accountantprofilescreen';
 
-  AccountantProfileScreen() {
-    accountantModel.readById('1');
-  }
+  AccountantProfileScreen();
 
   @override
   Widget build(BuildContext context) {
+    accountantModel.readById('2');
+    
     return ScopedModel(
       model: accountantModel,
       child: ScopedModelDescendant(

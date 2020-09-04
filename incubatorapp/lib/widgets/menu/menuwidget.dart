@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/screens/analysisscreen/analysisscreen.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
+import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/medicinescreen/medicinescreen.dart';
 import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
@@ -19,7 +20,7 @@ class _MenuWidgetState extends State<MenuWidget> {
   }
 
   void navigateToCondition(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ConditionScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ConditionScreen(false)));
   }
 
   void navigateToAnalysis(){
@@ -36,6 +37,10 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   void navigateToXRay(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>XRayScreen()));
+  }
+
+  void navigateToExtra(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ExtraScreen()));
   }
 
   void navigateToShift(){
@@ -95,6 +100,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             buttonRow('Medicine',fun: navigateToMedicine),
             buttonRow('Consumable',fun: navigateToConsumable),
             buttonRow('XRay',fun: navigateToXRay),
+            buttonRow('Extra',fun: navigateToExtra),
             buttonRow('Shift Hours',fun: navigateToShift),
           ],
         ),

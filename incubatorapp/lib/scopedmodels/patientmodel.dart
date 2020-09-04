@@ -33,9 +33,11 @@ class PatientModel extends Model {
       0,
       '',
       '',
+      false,
       DateTime.now(),
       1,
       1,
+      null,
       null,
       null,
       null,
@@ -81,6 +83,15 @@ class PatientModel extends Model {
 
   bool getGender() {
     return _currentPatient.gender;
+  }
+
+  void setIsOnLightRay(bool val) {
+    _currentPatient.isOnLightRay = val;
+    notifyListeners();
+  }
+
+  bool getIsOnLightRay() {
+    return _currentPatient.isOnLightRay;
   }
 
   void setDateOfBirth(DateTime val) {
@@ -188,6 +199,8 @@ class PatientModel extends Model {
         await patientMedicineDoctorModel.readByPatientId(int.parse(id));
     _currentPatient.patientConsumableNurseList =
         await patientConsumableNurseModel.readByPatientId(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientId(int.parse(id));
   }
 
   void _readForAccountant(String id) async {
@@ -200,11 +213,24 @@ class PatientModel extends Model {
         await patientMedicineDoctorModel.readByPatientId(int.parse(id));
     _currentPatient.patientConsumableNurseList =
         await patientConsumableNurseModel.readByPatientId(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientId(int.parse(id));
   }
 
   void _readForPatient(String id) async {
-    _readForDoctorAndNurse(id);
-    _readForAccountant(id);
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+    _currentPatient.statusList =
+        await statusModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList =
+        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientId(int.parse(id));
+    _currentPatient.patientMedicineDoctorList =
+        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientId(int.parse(id));
     _currentPatient.creditCardList =
         await creditCardModel.readByPatientId(int.parse(id));
   }

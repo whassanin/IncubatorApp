@@ -5,6 +5,7 @@ from incubator.models import Incubator
 from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
+from incubator.models import Extra
 from incubator.models import Bill
 from incubator.models import Status
 from incubator.models import Consumable
@@ -19,25 +20,13 @@ from incubator.models import ReportProblem
 from incubator.models import DoctorShift
 from incubator.models import NurseShift
 from incubator.models import PatientAnalysis
+from incubator.models import PatientExtra
 from incubator.models import PatientXRay
-from incubator.models import BillExtra
 from incubator.models import CreditCard
 from incubator.models import PatientMedicineDoctor
 from incubator.models import PatientConsumableNurse
 
 # multi-value serializer
-
-
-class BillExtraSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BillExtra
-        fields = [
-            'id',
-            'billId',
-            'name',
-            'cost',
-        ]
-
 
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,7 +42,6 @@ class CreditCardSerializer(serializers.ModelSerializer):
         ]
 
 # many to many serializers
-
 
 class DoctorShiftSerializer(serializers.ModelSerializer):
 
@@ -98,6 +86,19 @@ class PatientAnalysisSerializer(serializers.ModelSerializer):
             'patientId',
             'analysisId',
             'result',
+            'billStatus',
+            'createdDate',
+        ]
+
+
+class PatientExtraSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PatientExtra
+        fields = [
+            'id',
+            'patientId',
+            'extraId',
             'billStatus',
             'createdDate',
         ]
@@ -174,7 +175,6 @@ class StatusSerializer(serializers.ModelSerializer):
 
 
 class BillSerializer(serializers.ModelSerializer):
-    billextra = BillExtraSerializer(many=True, read_only=True)
 
     class Meta:
         model = Bill
@@ -183,14 +183,13 @@ class BillSerializer(serializers.ModelSerializer):
             'date',
             'paid',
             'dayCost',
-            'incubatorClean',
             'consumable',
             'analysis',
             'xRay',
             'lightRays',
             'medicine',
             'patientId',
-            'billextra'
+            'extra'
         ]
 
 
@@ -211,6 +210,7 @@ class PatientSerializer(serializers.ModelSerializer):
             'weight',
             'ssn',
             'state',
+            'isOnLightRay',
             'createdDate',
             'conditionId',
             'incubatorId'
@@ -262,6 +262,12 @@ class ShiftSerializer(serializers.ModelSerializer):
         model = Shift
         fields = ['id', 'name', 'startTime',
                   'isStartTimePM', 'endTime', 'isEndTimePM']
+
+
+class ExtraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Extra
+        fields = ['id', 'name', 'price']
 
 # non basic data
 

@@ -21,23 +21,28 @@ class Analysis(models.Model):
     price = models.FloatField()
 
 # 4
+class Extra(models.Model):
+    name = models.CharField(max_length=200)
+    price = models.FloatField()
+
+# 5
 class Consumable(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
 
-# 5
+# 6
 class Medicine(models.Model):
     name = models.CharField(max_length=200)
     amount = models.FloatField()
     price = models.FloatField()
 
-# 6
+# 7
 class XRay(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
 
-# 7
+# 8
 class Shift(models.Model):
     name = models.CharField(max_length=2)
     startTime = models.IntegerField()
@@ -105,6 +110,7 @@ class Patient(models.Model):
     ssn = models.CharField(max_length=100)
     state = models.CharField(max_length=30)
     createdDate = models.DateTimeField(auto_now=True)
+    isOnLightRay = models.BooleanField()
     userId = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='patientdetail')
     conditionId = models.ForeignKey(Condition,on_delete=models.DO_NOTHING,related_name='patients')
     incubatorId = models.ForeignKey(Incubator,on_delete=models.DO_NOTHING,related_name='patients')
@@ -114,12 +120,12 @@ class Bill(models.Model):
     date = models.DateTimeField()
     paid = models.FloatField()
     dayCost = models.FloatField()
-    incubatorClean = models.FloatField()
     consumable = models.FloatField()
     analysis = models.FloatField()
     xRay = models.FloatField()
     lightRays = models.FloatField()
     medicine = models.FloatField()
+    extra = models.FloatField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='bills')
 
 # 16
@@ -171,6 +177,13 @@ class PatientAnalysis(models.Model):
     createdDate = models.DateTimeField()
 
 # 20
+class PatientExtra(models.Model):
+    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientextra')
+    extraId = models.ForeignKey(Extra,on_delete=models.CASCADE,related_name='extrapatient')
+    billStatus = models.CharField(max_length=50,blank=True)
+    createdDate = models.DateTimeField()
+
+# 21
 class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
@@ -178,7 +191,7 @@ class PatientXRay(models.Model):
     billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
-# 21
+# 22
 class PatientConsumableNurse(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientconsumablenurse')
     consumableId = models.ForeignKey(Consumable,on_delete=models.CASCADE,related_name='consumbalepatientnurse')
@@ -187,7 +200,7 @@ class PatientConsumableNurse(models.Model):
     billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
-# 22
+# 23
 class PatientMedicineDoctor(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientmedicinedoctor')
     medicineId = models.ForeignKey(Medicine,on_delete=models.CASCADE,related_name='medicinepatientdoctor')
@@ -199,12 +212,6 @@ class PatientMedicineDoctor(models.Model):
     createdDate = models.DateTimeField()
 
 # Multi value
-
-# 23
-class BillExtra(models.Model):
-    billId = models.ForeignKey(Bill,on_delete=models.CASCADE,related_name='billextra')
-    name = models.CharField(max_length=100)
-    cost = models.FloatField()
 
 # 24
 class CreditCard(models.Model):

@@ -18,21 +18,7 @@ class _BillRowWidgetState extends State<BillRowWidget> {
     v = v + '/' + widget.bill.createdDate.month.toString();
     v = v + '/' + widget.bill.createdDate.year.toString();
 
-    double total = widget.bill.dayCost +
-        widget.bill.incubatorClean +
-        widget.bill.consumable +
-        widget.bill.analysis +
-        widget.bill.xRay +
-        widget.bill.lightRays +
-        widget.bill.medicine;
-
-    if(widget.bill.billExtraList!=null){
-      if(widget.bill.billExtraList.length > 0){
-        widget.bill.billExtraList.forEach((be) {
-          total+=be.cost;
-        });
-      }
-    }
+    double total = billModel.calculateBillRow(widget.bill);
 
     double change = widget.bill.paid - total;
 

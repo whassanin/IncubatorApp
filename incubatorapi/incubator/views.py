@@ -3,7 +3,9 @@ from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
 from incubator.models import Bill
+from incubator.models import Extra
 from incubator.models import Consumable
+from incubator.models import Extra
 from incubator.models import XRay
 from incubator.models import Shift
 from incubator.models import User
@@ -19,8 +21,8 @@ from incubator.models import PatientAnalysis
 from incubator.models import PatientXRay
 from incubator.models import PatientConsumableNurse
 from incubator.models import PatientMedicineDoctor
-from incubator.models import BillExtra
 from incubator.models import CreditCard
+from incubator.models import PatientExtra
 
 from incubator.serializer import IncubatorSerializer
 from incubator.serializer import AnalysisSerializer
@@ -43,8 +45,9 @@ from incubator.serializer import PatientAnalysisSerializer
 from incubator.serializer import PatientXRaySerializer
 from incubator.serializer import PatientConsumableNurseSerializer
 from incubator.serializer import PatientMedicineDoctorSerializer
-from incubator.serializer import BillExtraSerializer
+from incubator.serializer import ExtraSerializer
 from incubator.serializer import CreditCardSerializer
+from incubator.serializer import PatientExtraSerializer
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -119,6 +122,15 @@ class ShiftList(generics.ListCreateAPIView):
 class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
+
+class ExtraList(generics.ListCreateAPIView):
+    queryset = Extra.objects.all()
+    serializer_class = ExtraSerializer
+
+class ExtraDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Extra.objects.all()
+    serializer_class = ExtraSerializer
+
 
 # None basic Data
 
@@ -271,17 +283,17 @@ class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientMedicineDoctor.objects.all()
     serializer_class = PatientMedicineDoctorSerializer
 
-# Multi value
-
-class BillExtraList(generics.ListCreateAPIView):
-    queryset = BillExtra.objects.all()
-    serializer_class = BillExtraSerializer
+class PatientExtraList(generics.ListCreateAPIView):
+    queryset = PatientExtra.objects.all()
+    serializer_class = PatientExtraSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['billId'] 
+    filterset_fields = ['patientId','extraId','billStatus'] 
 
-class BillExtraDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BillExtra.objects.all()
-    serializer_class = BillExtraSerializer
+class PatientExtraDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PatientExtra.objects.all()
+    serializer_class = PatientExtraSerializer
+
+# Multi value
 
 class CreditCardList(generics.ListCreateAPIView):
     queryset = CreditCard.objects.all()

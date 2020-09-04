@@ -5,13 +5,14 @@ import 'package:http/http.dart' as http;
 class Api {
   String name;
 
-  String _url = 'http://192.168.1.7:8000';
+  String _url = 'http://192.168.1.6:8000';
 
   Api(this.name) {
     _url += '/' + this.name;
   }
 
   Future<List<dynamic>> get() async {
+
     final data = await http.get(
       _url,
       headers: {
@@ -37,15 +38,14 @@ class Api {
     return listMap;
   }
 
-  Future<List<dynamic>> filter(List<String> fields,List<String> values) async {
-
+  Future<List<dynamic>> filter(List<String> fields, List<String> values) async {
     String filterString = '';
 
-    if(fields.length == values.length){
-      for(int i=0;i<fields.length;i++){
-        filterString+=fields[i]+'='+values[i];
-        if((i + 1) < fields.length){
-          filterString+='&';
+    if (fields.length == values.length) {
+      for (int i = 0; i < fields.length; i++) {
+        filterString += fields[i] + '=' + values[i];
+        if ((i + 1) < fields.length) {
+          filterString += '&';
         }
       }
     }
@@ -56,21 +56,26 @@ class Api {
         'content-type': 'application/json',
       },
     );
+    List<dynamic> listMap = [];
 
-    List<dynamic> listMap = jsonDecode(data.body);
+    var currentData = jsonDecode(data.body);
+
+    if (currentData.runtimeType == listMap.runtimeType) {
+      listMap = currentData;
+    }
 
     return listMap;
   }
 
-  Future<Map<String,dynamic>> filterWithLimit(List<String> fields,List<String> values) async {
-
+  Future<Map<String, dynamic>> filterWithLimit(
+      List<String> fields, List<String> values) async {
     String filterString = '';
 
-    if(fields.length == values.length){
-      for(int i=0;i<fields.length;i++){
-        filterString+=fields[i]+'='+values[i];
-        if((i + 1) < fields.length){
-          filterString+='&';
+    if (fields.length == values.length) {
+      for (int i = 0; i < fields.length; i++) {
+        filterString += fields[i] + '=' + values[i];
+        if ((i + 1) < fields.length) {
+          filterString += '&';
         }
       }
     }
@@ -82,7 +87,7 @@ class Api {
       },
     );
 
-    Map<String,dynamic> listMap = jsonDecode(data.body);
+    Map<String, dynamic> listMap = jsonDecode(data.body);
 
     return listMap;
   }
@@ -118,5 +123,4 @@ class Api {
     );
     return data.statusCode;
   }
-
 }

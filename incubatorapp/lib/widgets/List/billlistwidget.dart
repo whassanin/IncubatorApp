@@ -13,65 +13,6 @@ class BillListWidget extends StatefulWidget {
 }
 
 class _BillListWidgetState extends State<BillListWidget> {
-  List<Bill> addCalculatedList = [];
-
-  double calculateTotal() {
-    double total = 0;
-
-    if (widget.billList != null) {
-      if (widget.billList.length > 0) {
-        widget.billList.forEach((b) {
-          int i = addCalculatedList.indexOf(b);
-
-          if (i < 0) {
-            double sum = b.dayCost +
-                b.incubatorClean +
-                b.consumable +
-                b.analysis +
-                b.xRay +
-                b.lightRays +
-                b.medicine;
-
-            if (b.billExtraList != null) {
-              if (b.billExtraList.length > 0) {
-                b.billExtraList.forEach((be) {
-                  sum += be.cost;
-                });
-              }
-            }
-
-            total += sum;
-          }
-        });
-      }
-    }
-
-    return total;
-  }
-
-  double calculatePaid() {
-    double total = 0;
-
-    if (widget.billList != null) {
-      if (widget.billList.length > 0) {
-        widget.billList.forEach((b) {
-          int i = addCalculatedList.indexOf(b);
-
-          if (i < 0) {
-            total += b.paid;
-          }
-        });
-      }
-    }
-
-    return total;
-  }
-
-  double calculateChange() {
-    double total = calculateTotal();
-    double paid = calculatePaid();
-    return paid - total;
-  }
 
   void pay(){
     creditCardModel.setIsPayment(true);
@@ -83,14 +24,9 @@ class _BillListWidgetState extends State<BillListWidget> {
     );
   }
 
-  void calculateBills(){
-    billModel.calculateBills();
-  }
 
   @override
   void initState() {
-    // TODO: implement initState
-    addCalculatedList.clear();
     super.initState();
   }
 
@@ -216,9 +152,9 @@ class _BillListWidgetState extends State<BillListWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          containerTotalWidget('Total:', calculateTotal().toString()),
-          containerTotalWidget('Paid:', calculatePaid().toString()),
-          containerTotalWidget('Change:', calculateChange().toString()),
+          containerTotalWidget('Total:', billModel.calculateTotalCost().toString()),
+          containerTotalWidget('Paid:', billModel.calculateTotalPaid().toString()),
+          containerTotalWidget('Change:', billModel.calculateTotalChange().toString()),
         ],
       ),
     );
@@ -226,7 +162,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     Widget currentButtonContainer = calculateButton('Pay',fun: pay);
 
     if(userPermission.isAccountant){
-      currentButtonContainer = calculateButton('Calculate',fun: calculateBills);
+      currentButtonContainer = calculateButton('Calculate',fun: billModel.calculateBillsForAccountant);
     }
 
     Widget positionTotal = Positioned(

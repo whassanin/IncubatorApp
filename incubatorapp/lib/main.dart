@@ -13,6 +13,7 @@ import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/creditcardmodel.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
+import 'package:incubatorapp/scopedmodels/extramodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
 import 'package:incubatorapp/scopedmodels/analysismodel.dart';
 import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
@@ -20,6 +21,7 @@ import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/scopedmodels/nurseshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
+import 'package:incubatorapp/scopedmodels/patientextramodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
@@ -79,6 +81,7 @@ XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
 ShiftModel shiftModel = new ShiftModel();
+ExtraModel extraModel = new ExtraModel();
 
 UserModel userModel = new UserModel();
 DoctorModel doctorModel = new DoctorModel();
@@ -99,6 +102,7 @@ PatientMedicineDoctorModel patientMedicineDoctorModel =
     new PatientMedicineDoctorModel();
 PatientConsumableNurseModel patientConsumableNurseModel =
     new PatientConsumableNurseModel();
+PatientExtraModel patientExtraModel = new PatientExtraModel();
 
 DoctorShiftModel doctorShiftModel = new DoctorShiftModel();
 NurseShiftModel nurseShiftModel = new NurseShiftModel();
@@ -121,6 +125,7 @@ class MyApp extends StatelessWidget {
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
+    extraModel.readAll();
 
     userPermission.setPermission(UserType.accountant);
 

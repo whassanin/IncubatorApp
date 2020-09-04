@@ -5,10 +5,8 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/screens/conditionscreen/editconditionscreen.dart';
 
 class ConditionRowWidget extends StatefulWidget {
-  final Patient patient;
   final Condition condition;
   ConditionRowWidget({
-    this.patient,
     this.condition,
   });
   @override
@@ -32,8 +30,9 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
     }
   }
 
-  void navigateToEditConditionScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditConditionScreen()));
+  void navigateToEditConditionScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => EditConditionScreen()));
   }
 
   int findCondition() {
@@ -41,12 +40,13 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
 
     int index = -1;
 
-    conditionModel.conditionList.forEach((element) {
-      if (element.id == widget.patient.conditionId) {
-        index = conditionModel.conditionList.indexOf(element);
+    if (userPermission.isDoctor || userPermission.isNurse) {
+      if (patientModel.currentPatient != null) {
+       if(widget.condition.id == patientModel.currentPatient.conditionId){
+         index = 1;
+       }
       }
-    });
-
+    }
     return index;
   }
 
@@ -56,10 +56,7 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findCondition();
-    }
+    int index = findCondition();
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
@@ -80,13 +77,15 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
                 style: TextStyle(color: textColor)),
           ),
         ),
-        (userPermission.isAccountant?Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Text('Price: ' + widget.condition.price.toString(),
-                style: TextStyle(color: textColor)),
-          ),
-        ):Container()),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.condition.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
       ],
     );
 
@@ -110,7 +109,7 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
       onTap: () {
         if (userPermission.isDoctor) {
           update();
-        } else if(userPermission.isAccountant) {
+        } else if (userPermission.isAccountant) {
           conditionModel.editCondition(widget.condition);
           navigateToEditConditionScreen();
         }

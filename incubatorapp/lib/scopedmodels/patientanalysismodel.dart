@@ -70,6 +70,7 @@ class PatientAnalysisModel extends Model {
     values.add(patientId.toString());
 
     List<dynamic> patientAnalysisMap = await _api.filter(fields, values);
+
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 

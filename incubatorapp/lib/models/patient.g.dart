@@ -19,6 +19,7 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     (json['weight'] as num)?.toDouble(),
     json['ssn'] as String,
     json['state'] as String,
+    json['isOnLightRay'] as bool,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -43,6 +44,10 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
             ? null
             : PatientConsumableNurse.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    (json['patientextra'] as List)
+        ?.map((e) =>
+            e == null ? null : PatientExtra.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -57,10 +62,12 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'ssn': instance.ssn,
       'state': instance.state,
       'createdDate': instance.createdDate?.toIso8601String(),
+      'isOnLightRay': instance.isOnLightRay,
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,
       'patientanalysis': instance.patientAnalysisList,
       'patientxray': instance.patientXRaysList,
       'patientmedicinedoctor': instance.patientMedicineDoctorList,
       'patientconsumablenurse': instance.patientConsumableNurseList,
+      'patientextra': instance.patientExtraList,
     };

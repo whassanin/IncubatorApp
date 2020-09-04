@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/models/patientextra.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;
-  BillDetailRowWidget({this.bill});
+  final List<PatientExtra> patientExtraList;
+  BillDetailRowWidget(this.bill, this.patientExtraList);
 
   @override
   _BillDetailRowWidgetState createState() => _BillDetailRowWidgetState();
@@ -77,22 +80,24 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
       ),
     );
 
-    if(widget.bill.billExtraList!=null){
-      if(widget.bill.billExtraList.length > 0){
+    if (widget.patientExtraList != null) {
+      if (widget.patientExtraList.length > 0) {
         currentWidget = ListView.builder(
           shrinkWrap: true,
           physics: ScrollPhysics(),
-          itemCount: widget.bill.billExtraList.length,
+          itemCount: widget.patientExtraList.length,
           itemBuilder: (BuildContext context, int i) {
-            String name = widget.bill.billExtraList[i].name;
-            String val = widget.bill.billExtraList[i].cost.toString();
+            int index = extraModel.extraList.indexWhere(
+                (element) => element.id == widget.patientExtraList[i].extraId);
+            String name = extraModel.extraList[index].name;
+            String val = extraModel.extraList[index].price.toString();
             return rowDetailData(name, val);
           },
         );
-      }else {
+      } else {
         currentWidget = rowTitle('No Extra Bills');
       }
-    }else {
+    } else {
       currentWidget = rowTitle('No Extra Bills');
     }
 
@@ -118,7 +123,9 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Container(
-                child: Text(title, style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
+                child: Text(title,
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               ),
             ),
             Padding(
@@ -136,32 +143,8 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
     );
   }
 
-  double calculateTotal() {
-    double total = 0;
-
-    double sum = widget.bill.dayCost +
-        widget.bill.incubatorClean +
-        widget.bill.consumable +
-        widget.bill.analysis +
-        widget.bill.xRay +
-        widget.bill.lightRays +
-        widget.bill.medicine;
-
-    if(widget.bill.billExtraList!=null){
-      if(widget.bill.billExtraList.length > 0){
-        widget.bill.billExtraList.forEach((be) {
-          sum+=be.cost;
-        });
-      }
-    }
-
-    total += sum;
-
-    return total;
-  }
-
   double calculateChange() {
-    return widget.bill.paid - calculateTotal();
+    return widget.bill.paid -  billModel.calculateBillRow(widget.bill);
   }
 
   @override
@@ -171,7 +154,6 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
         children: <Widget>[
           rowTitle('Basic'),
           rowDetailData('Day Cost', widget.bill.dayCost.toString()),
-          rowDetailData('Cleaning', widget.bill.incubatorClean.toString()),
           rowDetailData('Consumable', widget.bill.consumable.toString()),
           rowDetailData('Analysis', widget.bill.analysis.toString()),
           rowDetailData('XRay', widget.bill.xRay.toString()),
@@ -180,7 +162,7 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           rowTitle('Extra'),
           rowBillExtraList(),
           rowTitle('Total Payment'),
-          rowFooterData('Total', calculateTotal().toString()),
+          rowFooterData('Total', billModel.calculateBillRow(widget.bill).toString()),
           rowFooterData('Paid', widget.bill.paid.toString()),
           rowFooterData('Change', calculateChange().toString()),
         ],

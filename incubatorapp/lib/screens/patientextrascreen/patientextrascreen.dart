@@ -2,31 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
+import 'package:incubatorapp/scopedmodels/patientextramodel.dart';
 import 'package:incubatorapp/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientextrascreen/newpatientextrascreen.dart';
 import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
+import 'package:incubatorapp/widgets/List/patientextralistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientAnalysisScreen extends StatelessWidget {
-  static const routeName = '/patientanalysisscreen';
+class PatientExtraScreen extends StatelessWidget {
+  static const routeName = '/patientextrascreen';
 
   final Patient patient;
-  PatientAnalysisScreen({this.patient,});
+  PatientExtraScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
-      model: patientAnalysisModel,
+      model: patientExtraModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,
-            PatientAnalysisModel patientAnalysisModel) {
+            PatientExtraModel patientExtraModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Analysis',style: TextStyle(color: Colors.white),),
+              title: Text('Extra',style: TextStyle(color: Colors.white),),
               actions: <Widget>[
-                (userPermission.isDoctor == true?IconButton(
+                (userPermission.isDoctor == true || userPermission.isNurse == true?IconButton(
                   icon: Icon(
                     Icons.add,
                     color: Colors.white,
@@ -35,7 +38,7 @@ class PatientAnalysisScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewPatientAnalysisScreen(
+                        builder: (context) => NewPatientExtraScreen(
                           patient: patient,
                         ),
                       ),
@@ -44,8 +47,8 @@ class PatientAnalysisScreen extends StatelessWidget {
                 ):Container())
               ],
             ),
-            body: PatientAnalysisListWidget(
-              patientAnalysisList: patientAnalysisModel.patientAnalysisList,
+            body: PatientExtraListWidget(
+              patientExtraList: patientExtraModel.patientExtraList,
             ),
           );
         },
