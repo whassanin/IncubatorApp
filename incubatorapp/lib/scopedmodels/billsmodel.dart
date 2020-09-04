@@ -160,6 +160,42 @@ class BillModel extends Model {
     return total;
   }
 
+  double countBillDataRows(Patient cp){
+    double count = 0;
+    
+    List<PatientAnalysis> cpal = cp.patientAnalysisList
+        .where((element) => element.billStatus == 'Pending')
+        .toList();
+    
+    count += cpal.length;
+
+    List<PatientXRay> cpxl = cp.patientXRaysList
+        .where((element) => element.billStatus == 'Pending')
+        .toList();
+
+    count += cpxl.length;
+
+    List<PatientMedicineDoctor> cpmdl = cp.patientMedicineDoctorList
+        .where((element) => element.billStatus == 'Pending')
+        .toList();
+
+    count += cpmdl.length;
+
+    List<PatientConsumableNurse> cpcnl = cp.patientConsumableNurseList
+        .where((element) => element.billStatus == 'Pending')
+        .toList();
+
+    count += cpcnl.length;
+
+    List<PatientExtra> cpel = cp.patientExtraList
+        .where((element) => element.billStatus == 'Pending')
+        .toList();
+
+    count += cpel.length;
+    
+    return count;
+  }
+  
   void _calculateAnalysis(Patient cp) {
     List<PatientAnalysis> cpal = cp.patientAnalysisList
         .where((element) => element.billStatus == 'Pending')
@@ -339,7 +375,7 @@ class BillModel extends Model {
 
     cpel.forEach((cpe) {
       int index = billList.indexWhere(
-              (cb) => formatDate(cb.createdDate) == formatDate(cpe.createdDate));
+          (cb) => formatDate(cb.createdDate) == formatDate(cpe.createdDate));
 
       Bill bill;
 
@@ -371,13 +407,19 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
+      patientExtraModel.editPatientExtra(cpe);
+      patientExtraModel.setBillStatus('Added');
+      patientExtraModel.update();
+
       notifyListeners();
     });
   }
 
-  void calculateBillsForAccountant() {
+  void calculateBillsForAccountant() async {
     Patient cp = patientModel.currentPatient;
 
+    double count = countBillDataRows(cp);
+    
     _calculateAnalysis(cp);
 
     _calculateXRay(cp);
@@ -387,6 +429,21 @@ class BillModel extends Model {
     _calculateConsumable(cp);
 
     _calculateExtra(cp);
+    
+    if(count > 0){
+      await Future.delayed(Duration(milliseconds: count.toInt()));
+
+      cp.billList.forEach((element) {
+        _currentBill = element;
+        _currentBill.patientId = patientModel.currentPatient.userId;
+        if (_currentBill.id == 0) {
+          create();
+        } else {
+          update();
+        }
+      });
+
+    }
   }
 
   Future<List<Bill>> readByPatientId(int patientId) async {
@@ -412,7 +469,7 @@ class BillModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentBill.toJson());
     if (code == 201) {
-      billList.add(_currentBill);
+      //billList.add(_currentBill);
 
       notifyListeners();
       return true;

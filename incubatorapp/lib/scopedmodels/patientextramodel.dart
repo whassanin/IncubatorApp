@@ -50,6 +50,15 @@ class PatientExtraModel extends Model {
     return _currentPatientExtra.extraId;
   }
 
+  void setBillStatus(String val) {
+    _currentPatientExtra.billStatus = val;
+    notifyListeners();
+  }
+
+  String getBillStatus() {
+    return _currentPatientExtra.billStatus;
+  }
+
   DateTime getCreatedDate() {
     return _currentPatientExtra.createdDate;
   }

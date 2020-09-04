@@ -105,39 +105,42 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
   }
 
   Widget rowFooterData(String title, String val) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        border: Border(
-          top: BorderSide.none,
-          left: BorderSide(width: 1, color: Colors.black),
-          bottom: BorderSide(width: 1, color: Colors.black),
-          right: BorderSide(width: 1, color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border(
+            top: BorderSide.none,
+            left: BorderSide(width: 1, color: Colors.black),
+            bottom: BorderSide(width: 1, color: Colors.black),
+            right: BorderSide(width: 1, color: Colors.black),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Container(
-                child: Text(title,
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                child: Text(
-                  val,
-                  style: TextStyle(fontSize: 12),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Container(
+                  child: Text(title,
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Container(
+                  child: Text(
+                    val,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
