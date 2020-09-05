@@ -16,7 +16,7 @@ class MenuWidget extends StatefulWidget {
 class _MenuWidgetState extends State<MenuWidget> {
 
   void navigateToIncubator(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>IncubatorScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>IncubatorScreen(false)));
   }
 
   void navigateToCondition(){

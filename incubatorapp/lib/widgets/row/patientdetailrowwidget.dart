@@ -7,6 +7,7 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
 import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
+import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/patientanalysisscreen/patientanalysisscreen.dart';
 import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
 import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
@@ -86,6 +87,15 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => ConditionScreen(true),
+      ),
+    );
+  }
+
+  void goToIncubatorScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => IncubatorScreen(true),
       ),
     );
   }
@@ -562,11 +572,11 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
       incubatorButton = rowButton(
           Icon(
-            FontAwesomeIcons.creativeCommonsSampling,
+            FontAwesomeIcons.procedures,
             color: Colors.white,
           ),
           'Change Incubator',
-          fun: goToConditionScreen);
+          fun: goToIncubatorScreen);
 
       stateButton = rowButton(
           Icon(

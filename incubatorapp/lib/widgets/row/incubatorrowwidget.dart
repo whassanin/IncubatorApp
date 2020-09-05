@@ -11,25 +11,72 @@ class IncubatorRowWidget extends StatefulWidget {
 }
 
 class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
+  String dateFormat(DateTime dateTime) {
+    String v = dateTime.day.toString();
+    v = v + '/' + dateTime.month.toString();
+    v = v + '/' + dateTime.year.toString();
+    return v;
+  }
 
+  void update() {
+    int index = findCondition();
+    if (index < 0) {
+      save();
+    }
+  }
+
+  int findCondition() {
+    String dn = dateFormat(DateTime.now());
+
+    int index = -1;
+
+    if (userPermission.isDoctor || userPermission.isNurse) {
+      if (patientModel.currentPatient != null) {
+        if(widget.incubator.id == patientModel.currentPatient.incubatorId){
+          index = 1;
+        }
+      }
+    }
+    return index;
+  }
+
+  void save() async {
+    patientModel.setIncubatorId(widget.incubator.id);
+    patientModel.update();
+  }
 
   Widget row() {
-    Widget rowData = Row(
+    int index = findCondition();
+
+    Color cardColor = Colors.white;
+    Color textColor = Colors.black;
+
+    if (index >= 0) {
+      cardColor = Colors.purpleAccent;
+      textColor = Colors.white;
+    }
+
+    Widget rowData = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Id: ' + widget.incubator.id.toString()),
-        SizedBox(
-          width: 10,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Text('Number: ' + widget.incubator.name,
+                style: TextStyle(color: textColor)),
+          ),
         ),
-        Text('Company Name: ' + widget.incubator.name),
       ],
     );
 
     Widget rowContainer = Container(
-      height: 50,
+      height: 70,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
     Widget rowCard = Card(
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -41,13 +88,18 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        incubatorModel.editIncubator(widget.incubator);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditIncubatorScreen(),
-          ),
-        );
+        if(userPermission.isDoctor){
+          update();
+        }
+        else if (userPermission.isAccountant) {
+          incubatorModel.editIncubator(widget.incubator);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditIncubatorScreen(),
+            ),
+          );
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

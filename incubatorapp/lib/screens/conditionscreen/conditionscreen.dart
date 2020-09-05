@@ -64,22 +64,6 @@ class ConditionScreen extends StatelessWidget {
                 title: Text('Condition List',
                     style: TextStyle(color: Colors.white)),
                 centerTitle: true,
-                actions: <Widget>[
-                  (userPermission.isAccountant
-                      ? IconButton(
-                          color: Colors.white,
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NewConditionScreen(),
-                              ),
-                            );
-                          },
-                        )
-                      : Container())
-                ],
               ),
               body: ConditionListWidget(
                 conditionList: conditionModel.conditionList,

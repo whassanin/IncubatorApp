@@ -157,7 +157,7 @@ class MyApp extends StatelessWidget {
         NewDoctorScreen.routeName: (context) => NewDoctorScreen(),
         HistoryScreen.routeName: (context) => HistoryScreen(),
         EditIncubatorScreen.routeName: (context) => EditIncubatorScreen(),
-        IncubatorScreen.routeName: (context) => IncubatorScreen(),
+        IncubatorScreen.routeName: (context) => IncubatorScreen(false),
         NewIncubatorScreen.routeName: (context) => NewIncubatorScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),
