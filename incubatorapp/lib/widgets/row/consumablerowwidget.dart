@@ -90,7 +90,7 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.consumable.name,
+            child: Text(widget.consumable.name,
                 style: TextStyle(color: textColor)),
           ),
         ),

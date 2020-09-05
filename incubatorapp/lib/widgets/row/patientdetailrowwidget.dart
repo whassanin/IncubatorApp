@@ -13,6 +13,7 @@ import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsuma
 import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
+import 'package:incubatorapp/screens/statescreen/statescreen.dart';
 import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
@@ -99,6 +100,17 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       ),
     );
   }
+
+
+  void goToStateTypeScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StateTypeScreen(true),
+      ),
+    );
+  }
+
 
   void goToExtraScreen() {
     Navigator.push(
@@ -523,7 +535,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10,right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: GridView.count(
         physics: ScrollPhysics(),
         crossAxisCount: 2,
@@ -552,7 +564,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   }
 
   Widget displayDoctorButtons() {
-
     Widget conditionButton = Container();
 
     Widget incubatorButton = Container();
@@ -580,25 +591,27 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
       stateButton = rowButton(
           Icon(
-            FontAwesomeIcons.creativeCommonsSampling,
+            Icons.verified_user,
             color: Colors.white,
           ),
           'Change State',
-          fun: goToConditionScreen);
+          fun: goToStateTypeScreen);
 
       isLightRayButton = rowButton(
           Icon(
-            FontAwesomeIcons.creativeCommonsSampling,
+            (widget.patient.isOnLightRay
+                ? FontAwesomeIcons.solidLightbulb
+                : FontAwesomeIcons.lightbulb),
             color: Colors.white,
           ),
-          'Change Light Ray',
+          (widget.patient.isOnLightRay
+              ? 'Light Ray is on'
+              : 'Light Ray is Off'),
           fun: goToConditionScreen);
-
     }
 
-
     return Padding(
-      padding: const EdgeInsets.only(left: 10,right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: GridView.count(
         physics: ScrollPhysics(),
         crossAxisCount: 2,
@@ -644,7 +657,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
   Widget extraButton() {
     Widget currentWidget = Padding(
-      padding: const EdgeInsets.only(right: 10, left: 10,bottom: 10),
+      padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
       child: Row(
         children: <Widget>[
           Expanded(

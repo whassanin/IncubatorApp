@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from incubator.models import User
 from incubator.models import Incubator
+from incubator.models import StateType
 from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
@@ -209,7 +210,7 @@ class PatientSerializer(serializers.ModelSerializer):
             'address',
             'weight',
             'ssn',
-            'state',
+            'stateTypeId',
             'isOnLightRay',
             'createdDate',
             'conditionId',
@@ -224,6 +225,12 @@ class PatientSerializer(serializers.ModelSerializer):
 class IncubatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Incubator
+        fields = ['id', 'name']
+
+
+class StateTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StateType
         fields = ['id', 'name']
 
 

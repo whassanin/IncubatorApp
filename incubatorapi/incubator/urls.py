@@ -8,6 +8,9 @@ urlpatterns = [
     path('incubator/', views.IncubatorList.as_view()),
     path('incubator/<int:pk>', views.IncubatorDetail.as_view()),
 
+    path('statetype/', views.StateTypeList.as_view()),
+    path('statetype/<int:pk>', views.StateTypeDetail.as_view()),
+
     path('condition/', views.ConditionList.as_view()),
     path('condition/<int:pk>', views.ConditionDetail.as_view()),
 

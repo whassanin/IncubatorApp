@@ -32,11 +32,11 @@ class PatientModel extends Model {
       '',
       0,
       '',
-      '',
       false,
       DateTime.now(),
       1,
       1,
+      0,
       null,
       null,
       null,
@@ -121,6 +121,15 @@ class PatientModel extends Model {
     return _currentPatient.weight;
   }
 
+  void setStateTypeId(int val) {
+    _currentPatient.stateTypeId = val;
+    notifyListeners();
+  }
+
+  int getStateTypeId() {
+    return _currentPatient.stateTypeId;
+  }
+
   void setSSN(String val) {
     _currentPatient.ssn = val;
     notifyListeners();
@@ -128,15 +137,6 @@ class PatientModel extends Model {
 
   String getSSN() {
     return _currentPatient.ssn;
-  }
-
-  void setState(String state) {
-    _currentPatient.state = state;
-    notifyListeners();
-  }
-
-  String getIsOut() {
-    return _currentPatient.state;
   }
 
   void setCreatedDate(DateTime val) {
@@ -205,14 +205,15 @@ class PatientModel extends Model {
 
   void _readForAccountant(String id) async {
     _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
-    _currentPatient.patientAnalysisList =
-        await patientAnalysisModel.readByPatientIdAndPendingAnalysis(int.parse(id));
+    _currentPatient.patientAnalysisList = await patientAnalysisModel
+        .readByPatientIdAndPendingAnalysis(int.parse(id));
     _currentPatient.patientXRaysList =
         await patientXRayModel.readByPatientIdAndPendingXRay(int.parse(id));
-    _currentPatient.patientMedicineDoctorList =
-        await patientMedicineDoctorModel.readByPatientIdAndPendingMedicine(int.parse(id));
+    _currentPatient.patientMedicineDoctorList = await patientMedicineDoctorModel
+        .readByPatientIdAndPendingMedicine(int.parse(id));
     _currentPatient.patientConsumableNurseList =
-        await patientConsumableNurseModel.readByPatientIdAndPendingConsumable(int.parse(id));
+        await patientConsumableNurseModel
+            .readByPatientIdAndPendingConsumable(int.parse(id));
     _currentPatient.patientExtraList =
         await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
 

@@ -89,7 +89,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.analysis.name,
+            child: Text(widget.analysis.name,
                 style: TextStyle(color: textColor)),
           ),
         ),

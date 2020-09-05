@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/condition.dart';
-import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/conditionscreen/editconditionscreen.dart';
+import 'package:incubatorapp/models/statetype.dart';
+import 'package:incubatorapp/screens/statescreen/editstatescreen.dart';
 
-class ConditionRowWidget extends StatefulWidget {
-  final Condition condition;
-  ConditionRowWidget({
-    this.condition,
-  });
+class StateTypeRowWidget extends StatefulWidget {
+  final StateType stateType;
+  StateTypeRowWidget({this.stateType});
   @override
-  _ConditionRowWidgetState createState() => _ConditionRowWidgetState();
+  _StateRowWidgetState createState() => _StateRowWidgetState();
 }
 
-class _ConditionRowWidgetState extends State<ConditionRowWidget> {
-  bool isSelected = false;
-
+class _StateRowWidgetState extends State<StateTypeRowWidget> {
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -30,11 +25,6 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
     }
   }
 
-  void navigateToEditConditionScreen() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => EditConditionScreen()));
-  }
-
   int findCondition() {
     String dn = dateFormat(DateTime.now());
 
@@ -42,16 +32,16 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
 
     if (userPermission.isDoctor || userPermission.isNurse) {
       if (patientModel.currentPatient != null) {
-       if(widget.condition.id == patientModel.currentPatient.conditionId){
-         index = 1;
-       }
+        if(widget.stateType.id == patientModel.currentPatient.stateTypeId){
+          index = 1;
+        }
       }
     }
     return index;
   }
 
   void save() async {
-    patientModel.setConditionId(widget.condition.id);
+    patientModel.setStateTypeId(widget.stateType.id);
     patientModel.update();
   }
 
@@ -73,20 +63,11 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(widget.condition.name,
+            child: Text(widget.stateType.name,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: textColor)),
           ),
         ),
-        (userPermission.isAccountant
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Text('Price: ' + widget.condition.price.toString(),
-                      style: TextStyle(color: textColor)),
-                ),
-              )
-            : Container()),
       ],
     );
 
@@ -108,11 +89,17 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (userPermission.isDoctor) {
+        if(userPermission.isDoctor){
           update();
-        } else if (userPermission.isAccountant) {
-          conditionModel.editCondition(widget.condition);
-          navigateToEditConditionScreen();
+        }
+        else if (userPermission.isAccountant) {
+          stateTypeModel.editStateType(widget.stateType);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditStateTypeScreen(),
+            ),
+          );
         }
       },
       child: Padding(

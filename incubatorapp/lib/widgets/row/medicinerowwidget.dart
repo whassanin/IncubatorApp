@@ -88,7 +88,7 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.medicine.name,
+            child: Text(widget.medicine.name,
                 style: TextStyle(color: textColor)),
           ),
         ),

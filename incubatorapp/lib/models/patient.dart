@@ -20,11 +20,11 @@ class Patient {
   String address;
   double weight;
   String ssn;
-  String state;
   DateTime createdDate;
   bool isOnLightRay;
   int conditionId;
   int incubatorId;
+  int stateTypeId;
 
   @JsonKey(name: 'patientanalysis')
   List<PatientAnalysis> patientAnalysisList = [];
@@ -59,11 +59,11 @@ class Patient {
     this.address,
     this.weight,
     this.ssn,
-    this.state,
     this.isOnLightRay,
     this.createdDate,
     this.conditionId,
     this.incubatorId,
+    this.stateTypeId,
     this.patientAnalysisList,
     this.patientXRaysList,
     this.patientMedicineDoctorList,

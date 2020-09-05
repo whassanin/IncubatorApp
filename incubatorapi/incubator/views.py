@@ -1,4 +1,5 @@
 from incubator.models import Incubator
+from incubator.models import StateType
 from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
@@ -25,6 +26,7 @@ from incubator.models import CreditCard
 from incubator.models import PatientExtra
 
 from incubator.serializer import IncubatorSerializer
+from incubator.serializer import StateTypeSerializer
 from incubator.serializer import AnalysisSerializer
 from incubator.serializer import ConditionSerializer
 from incubator.serializer import PatientSerializer
@@ -68,6 +70,17 @@ class IncubatorList(generics.ListCreateAPIView):
 class IncubatorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incubator.objects.all()
     serializer_class = IncubatorSerializer
+
+class StateTypeList(generics.ListCreateAPIView):
+    queryset = StateType.objects.all()
+    serializer_class = StateTypeSerializer
+    ordering_fields = ['id']
+    ordering = ['id']
+
+class StateTypeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StateType.objects.all()
+    serializer_class = StateTypeSerializer
+
 
 # Condition Views CLass
 class ConditionList(generics.ListCreateAPIView):
@@ -194,7 +207,7 @@ class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['state','userId']
+    filterset_fields = ['stateTypeId','userId']
 
 class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()

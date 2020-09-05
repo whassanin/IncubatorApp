@@ -27,6 +27,7 @@ import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
 import 'package:incubatorapp/scopedmodels/reportproblemmodel.dart';
 import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
+import 'package:incubatorapp/scopedmodels/statetypemodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
@@ -82,6 +83,7 @@ MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
 ShiftModel shiftModel = new ShiftModel();
 ExtraModel extraModel = new ExtraModel();
+StateTypeModel stateTypeModel = new StateTypeModel();
 
 UserModel userModel = new UserModel();
 DoctorModel doctorModel = new DoctorModel();
@@ -126,6 +128,7 @@ class MyApp extends StatelessWidget {
     medicineModel.readAll();
     consumableModel.readAll();
     extraModel.readAll();
+    stateTypeModel.readAll();
 
     userPermission.setPermission(UserType.doctor);
 

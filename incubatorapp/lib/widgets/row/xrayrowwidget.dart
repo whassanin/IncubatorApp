@@ -81,7 +81,7 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.xRay.name,
+            child: Text(widget.xRay.name,
                 style: TextStyle(color: textColor)),
           ),
         ),

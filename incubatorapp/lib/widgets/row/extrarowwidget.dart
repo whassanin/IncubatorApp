@@ -89,7 +89,7 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text('Name: ' + widget.extra.name,
+            child: Text(widget.extra.name,
                 style: TextStyle(color: textColor)),
           ),
         ),
