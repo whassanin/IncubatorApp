@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/scopedmodels/billsmodel.dart';
+import 'package:incubatorapp/scopedmodels/billmodel.dart';
 import 'package:incubatorapp/widgets/List/billlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 

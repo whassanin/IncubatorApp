@@ -189,8 +189,9 @@ class BillSerializer(serializers.ModelSerializer):
             'xRay',
             'lightRays',
             'medicine',
+            'extra',
+            'discount',
             'patientId',
-            'extra'
         ]
 
 

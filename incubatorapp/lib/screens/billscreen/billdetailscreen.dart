@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/billsmodel.dart';
+import 'package:incubatorapp/scopedmodels/billmodel.dart';
 import 'package:incubatorapp/widgets/row/billdetailrowwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 class BillDetailScreen extends StatelessWidget {
   static const routeName = '/billdetailscreen';
 
@@ -19,9 +20,12 @@ class BillDetailScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Bill Detail',style: TextStyle(color: Colors.white)),
+              title: Text('Bill Detail', style: TextStyle(color: Colors.white)),
             ),
-            body: BillDetailRowWidget(billModel.currentBill,patientExtraModel.patientExtraList)
+            body: BillDetailRowWidget(
+              billModel.currentBill,
+              patientExtraModel.patientExtraList,
+            ),
           );
         },
       ),

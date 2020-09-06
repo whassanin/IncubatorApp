@@ -5,7 +5,6 @@ import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 
 class BillRowWidget extends StatefulWidget {
   final Bill bill;
-
   BillRowWidget({this.bill});
 
   @override
@@ -14,11 +13,13 @@ class BillRowWidget extends StatefulWidget {
 
 class _BillRowWidgetState extends State<BillRowWidget> {
   Widget billRow() {
+    billModel.editBill(widget.bill);
+
     String v = widget.bill.createdDate.day.toString();
     v = v + '/' + widget.bill.createdDate.month.toString();
     v = v + '/' + widget.bill.createdDate.year.toString();
 
-    double total = billModel.calculateBillRow(widget.bill);
+    double total = billModel.calculateBillRowWithDiscount();
 
     double change = widget.bill.paid - total;
 

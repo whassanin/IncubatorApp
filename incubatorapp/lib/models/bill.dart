@@ -17,6 +17,7 @@ class Bill {
   double lightRays;
   double medicine;
   double extra;
+  double discount;
   int patientId;
 
   Bill(
@@ -30,6 +31,7 @@ class Bill {
     this.lightRays,
     this.medicine,
     this.extra,
+    this.discount,
     this.patientId,
   );
 

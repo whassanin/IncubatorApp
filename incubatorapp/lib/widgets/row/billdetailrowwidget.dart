@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
 import 'package:incubatorapp/models/patientextra.dart';
+import 'package:incubatorapp/screens/billscreen/editbillscreen.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;
@@ -14,6 +15,16 @@ class BillDetailRowWidget extends StatefulWidget {
 }
 
 class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
+
+  double calculateChange() {
+    return widget.bill.paid - billModel.calculateBillRowWithDiscount();
+  }
+
+  void navigateToEditBillScreen(){
+    billModel.editBill(widget.bill);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBillScreen()));
+  }
+
   Widget rowTitle(String title) {
     Widget containerTitle = Container(
       decoration: BoxDecoration(
@@ -152,12 +163,50 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
     );
   }
 
-  double calculateChange() {
-    return widget.bill.paid - billModel.calculateBillRow(widget.bill);
+  Widget editButtons(String title, Color color, {VoidCallback fun}) {
+    Widget button = Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Container(
+              height: 60,
+              child: RaisedButton(
+                color: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      10,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  title,
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  if (fun != null) {
+                    fun();
+                  }
+                },
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+
+    return button;
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget navigateButton = editButtons(
+      'Edit',
+      Colors.cyan,
+      fun: navigateToEditBillScreen
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -171,10 +220,12 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           rowTitle('Extra'),
           rowBillExtraList(),
           rowTitle('Total Payment'),
-          rowFooterData(
-              'Total', billModel.calculateBillRow(widget.bill).toString()),
+          rowFooterData('Total Before Discount', billModel.calculateBillRow().toString()),
+          rowFooterData('Discount', billModel.getDiscount().toString()),
+          rowFooterData('Total After Discount', billModel.calculateBillRowWithDiscount().toString()),
           rowFooterData('Paid', widget.bill.paid.toString()),
           rowFooterData('Change', calculateChange().toString()),
+          navigateButton
         ],
       ),
     );

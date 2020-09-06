@@ -18,6 +18,7 @@ Bill _$BillFromJson(Map<String, dynamic> json) {
     (json['lightRays'] as num)?.toDouble(),
     (json['medicine'] as num)?.toDouble(),
     (json['extra'] as num)?.toDouble(),
+    (json['discount'] as num)?.toDouble(),
     json['patientId'] as int,
   );
 }
@@ -33,5 +34,6 @@ Map<String, dynamic> _$BillToJson(Bill instance) => <String, dynamic>{
       'lightRays': instance.lightRays,
       'medicine': instance.medicine,
       'extra': instance.extra,
+      'discount': instance.discount,
       'patientId': instance.patientId,
     };

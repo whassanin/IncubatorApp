@@ -24,11 +24,11 @@ class BillModel extends Model {
   Bill get currentBill => _currentBill;
 
   void createBill() {
-    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0,0, 0);
   }
 
   Bill newBill(DateTime currentDateTime) {
-    Bill newBill = new Bill(0, currentDateTime, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    Bill newBill = new Bill(0, currentDateTime, 0, 0, 0, 0, 0, 0, 0, 0,0, 0);
     return newBill;
   }
 
@@ -104,6 +104,14 @@ class BillModel extends Model {
     return _currentBill.extra;
   }
 
+  void setDiscount(double discount) {
+    _currentBill.discount = discount;
+  }
+
+  double getDiscount() {
+    return _currentBill.discount;
+  }
+
   void setPatientId(int patientId) {
     _currentBill.patientId = patientId;
   }
@@ -120,14 +128,26 @@ class BillModel extends Model {
     return v;
   }
 
-  double calculateBillRow(Bill bill) {
-    double total = bill.dayCost +
-        bill.extra +
-        bill.consumable +
-        bill.analysis +
-        bill.xRay +
-        bill.lightRays +
-        bill.medicine;
+  double calculateBillRow() {
+    double total = _currentBill.dayCost +
+        _currentBill.extra +
+        _currentBill.consumable +
+        _currentBill.analysis +
+        _currentBill.xRay +
+        _currentBill.lightRays +
+        _currentBill.medicine;
+
+    return total;
+  }
+
+  double calculateBillRowWithDiscount() {
+    double total = _currentBill.dayCost +
+        _currentBill.extra +
+        _currentBill.consumable +
+        _currentBill.analysis +
+        _currentBill.xRay +
+        _currentBill.lightRays +
+        _currentBill.medicine - _currentBill.discount;
 
     return total;
   }
@@ -136,7 +156,8 @@ class BillModel extends Model {
     double total = 0;
     if (billList != null) {
       billList.forEach((b) {
-        total += calculateBillRow(b);
+        _currentBill = b;
+        total += calculateBillRow();
       });
     }
     return total;
@@ -152,10 +173,22 @@ class BillModel extends Model {
     return total;
   }
 
+  double calculateTotalDiscount(){
+    double total = 0;
+    if (billList != null) {
+      billList.forEach((b) {
+        total += b.discount;
+      });
+    }
+    return total;
+  }
+
   double calculateTotalChange() {
     double total = 0;
     double cost = calculateTotalCost();
     double paid = calculateTotalPaid();
+    double discount = calculateTotalDiscount();
+    cost = cost - discount;
     total = paid - cost;
     return total;
   }

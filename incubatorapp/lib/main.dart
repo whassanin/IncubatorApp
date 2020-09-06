@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
-import 'package:incubatorapp/scopedmodels/billsmodel.dart';
+import 'package:incubatorapp/scopedmodels/billmodel.dart';
 import 'package:incubatorapp/scopedmodels/conditionmodel.dart';
 import 'package:incubatorapp/scopedmodels/consumablemodel.dart';
 import 'package:incubatorapp/scopedmodels/creditcardmodel.dart';
@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    userPermission.setPermission(UserType.nurse);
+    userPermission.setPermission(UserType.accountant);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -186,7 +186,7 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
       },
-      home: NurseProfileScreen(),
+      home: AccountantProfileScreen(),
     );
   }
 }

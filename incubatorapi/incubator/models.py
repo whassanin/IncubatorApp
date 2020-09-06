@@ -130,6 +130,7 @@ class Bill(models.Model):
     lightRays = models.FloatField()
     medicine = models.FloatField()
     extra = models.FloatField()
+    discount = models.FloatField()
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='bills')
 
 # 17
