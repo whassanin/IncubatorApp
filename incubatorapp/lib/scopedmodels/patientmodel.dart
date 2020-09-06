@@ -201,6 +201,7 @@ class PatientModel extends Model {
         await patientConsumableNurseModel.readByPatientId(int.parse(id));
     _currentPatient.patientExtraList =
         await patientExtraModel.readByPatientId(int.parse(id));
+    notifyListeners();
   }
 
   void _readForAccountant(String id) async {
@@ -218,6 +219,7 @@ class PatientModel extends Model {
         await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
 
     patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
+    //notifyListeners();
   }
 
   void _readForPatient(String id) async {
@@ -236,6 +238,8 @@ class PatientModel extends Model {
         await patientExtraModel.readByPatientId(int.parse(id));
     _currentPatient.creditCardList =
         await creditCardModel.readByPatientId(int.parse(id));
+    notifyListeners();
+
   }
 
   void readById(String id) async {
@@ -249,6 +253,7 @@ class PatientModel extends Model {
       _readForAccountant(id);
     } else if (userPermission.isPatient) {
       _readForPatient(id);
+      notifyListeners();
     }
 
     //notifyListeners();

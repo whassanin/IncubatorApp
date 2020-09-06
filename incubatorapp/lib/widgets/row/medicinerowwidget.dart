@@ -33,17 +33,20 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     }
   }
 
-  void navigateToEditMedicineScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditMedicineScreen()));
+  void navigateToEditMedicineScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditMedicineScreen()));
   }
 
   int findMedicine() {
+    String dn = dateFormat(DateTime.now());
     int index = -1;
 
     patientMedicineDoctorModel.patientMedicineDoctorList.forEach((element) {
       if (element.patientId == widget.patient.userId &&
           element.medicineId == widget.medicine.id &&
-          element.doctorId == doctorModel.currentDoctor.userId) {
+          element.doctorId == doctorModel.currentDoctor.userId &&
+          dateFormat(element.createdDate) == dn) {
         index = patientMedicineDoctorModel.patientMedicineDoctorList
             .indexOf(element);
       }
@@ -88,8 +91,8 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(widget.medicine.name,
-                style: TextStyle(color: textColor)),
+            child:
+                Text(widget.medicine.name, style: TextStyle(color: textColor)),
           ),
         ),
         (userPermission.isAccountant
@@ -133,7 +136,7 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
       onTap: () {
         if (userPermission.isDoctor) {
           update();
-        } else if(userPermission.isAccountant) {
+        } else if (userPermission.isAccountant) {
           medicineModel.editMedicine(widget.medicine);
           navigateToEditMedicineScreen();
         }

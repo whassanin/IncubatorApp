@@ -572,6 +572,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
     Widget isLightRayButton = Container();
 
+    Widget currentWidget = Container();
     if (userPermission.isDoctor || userPermission.isNurse) {
       conditionButton = rowButton(
           Icon(
@@ -608,23 +609,25 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               ? 'Light Ray is on'
               : 'Light Ray is Off'),
           fun: goToConditionScreen);
+
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: GridView.count(
+          physics: ScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio: 2,
+          shrinkWrap: true,
+          children: <Widget>[
+            conditionButton,
+            incubatorButton,
+            stateButton,
+            isLightRayButton,
+          ],
+        ),
+      );
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: GridView.count(
-        physics: ScrollPhysics(),
-        crossAxisCount: 2,
-        childAspectRatio: 2,
-        shrinkWrap: true,
-        children: <Widget>[
-          conditionButton,
-          incubatorButton,
-          stateButton,
-          isLightRayButton,
-        ],
-      ),
-    );
+    return currentWidget;
   }
 
   Widget addStatusButton() {
