@@ -572,7 +572,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
     Widget isLightRayButton = Container();
 
-    if (userPermission.isDoctor) {
+    if (userPermission.isDoctor || userPermission.isNurse) {
       conditionButton = rowButton(
           Icon(
             FontAwesomeIcons.creativeCommonsSampling,

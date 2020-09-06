@@ -173,12 +173,12 @@ class PatientModel extends Model {
 
   void search() {}
 
-  void filterByState(String state) async {
+  void filterByStateType(int stateTypeId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('state');
-    values.add(state);
+    fields.add('stateTypeId');
+    values.add(stateTypeId.toString());
 
     List<dynamic> patientListMap = await _api.filter(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
