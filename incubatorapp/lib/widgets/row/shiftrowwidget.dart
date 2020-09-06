@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/shift.dart';
+import 'package:incubatorapp/screens/shiftscreen/editshiftscreen.dart';
 
 class ShiftRowWidget extends StatefulWidget {
   final Shift shift;
@@ -11,7 +13,7 @@ class ShiftRowWidget extends StatefulWidget {
 class _ShiftRowWidgetState extends State<ShiftRowWidget> {
   int calculateTotalHours() {
     int m = widget.shift.startTime, n = widget.shift.endTime;
-    if (widget.shift.isStarTimePM == true) {
+    if (widget.shift.isStartTimePM == true) {
       m = m + 12;
     }
 
@@ -40,7 +42,7 @@ class _ShiftRowWidgetState extends State<ShiftRowWidget> {
 
     String s = '';
 
-    if (widget.shift.isStarTimePM == false) {
+    if (widget.shift.isStartTimePM == false) {
       s = 'AM';
     } else {
       s = 'PM';
@@ -70,7 +72,7 @@ class _ShiftRowWidgetState extends State<ShiftRowWidget> {
 
     Widget totalTimeRow = Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(
+      child: Text('Total Hours: '+
         calculateTotalHours().toString(),
       ),
     );
@@ -87,12 +89,22 @@ class _ShiftRowWidgetState extends State<ShiftRowWidget> {
     );
 
     Widget shiftCard = Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0))
+      ),
       child: dataColumn,
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: shiftCard,
+    return GestureDetector(
+      onTap: (){
+        shiftModel.editShift(widget.shift);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditShiftScreen()));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: shiftCard,
+      ),
     );
   }
 }

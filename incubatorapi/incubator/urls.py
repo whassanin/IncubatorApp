@@ -8,6 +8,9 @@ urlpatterns = [
     path('incubator/', views.IncubatorList.as_view()),
     path('incubator/<int:pk>', views.IncubatorDetail.as_view()),
 
+    path('statetype/', views.StateTypeList.as_view()),
+    path('statetype/<int:pk>', views.StateTypeDetail.as_view()),
+
     path('condition/', views.ConditionList.as_view()),
     path('condition/<int:pk>', views.ConditionDetail.as_view()),
 
@@ -25,6 +28,9 @@ urlpatterns = [
 
     path('shift/', views.ShiftList.as_view()),
     path('shift/<int:pk>', views.ShiftDetail.as_view()),
+
+    path('extra/', views.ExtraList.as_view()),
+    path('extra/<int:pk>', views.ExtraDetail.as_view()),
 
     # Non basic data
     path('user/', views.UserList.as_view()),
@@ -70,11 +76,11 @@ urlpatterns = [
     path('patientmedicinedoctor/', views.PatientMedicineDoctorList.as_view()),
     path('patientmedicinedoctor/<int:pk>', views.PatientMedicineDoctortDetail.as_view()),
 
+    path('patientextra/', views.PatientExtraList.as_view()),
+    path('patientextra/<int:pk>', views.PatientExtraDetail.as_view()),
+
     # Multi value
-
-    path('billextra/', views.BillExtraList.as_view()),
-    path('billextra/<int:pk>', views.BillExtraDetail.as_view()),
-
+    
     path('creditcard/', views.CreditCardList.as_view()),
     path('creditcard/<int:pk>', views.CreditCardDetail.as_view()),
 

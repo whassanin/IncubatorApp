@@ -1,16 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/models/patientextra.dart';
+import 'package:incubatorapp/screens/billscreen/editbillscreen.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;
-  BillDetailRowWidget({this.bill});
+  final List<PatientExtra> patientExtraList;
+  BillDetailRowWidget(this.bill, this.patientExtraList);
 
   @override
   _BillDetailRowWidgetState createState() => _BillDetailRowWidgetState();
 }
 
 class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
+
+  double calculateChange() {
+    return widget.bill.paid - billModel.calculateBillRowWithDiscount();
+  }
+
+  void navigateToEditBillScreen(){
+    billModel.editBill(widget.bill);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBillScreen()));
+  }
+
   Widget rowTitle(String title) {
     Widget containerTitle = Container(
       decoration: BoxDecoration(
@@ -77,99 +91,127 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
       ),
     );
 
-    if(widget.bill.billExtraList!=null){
-      if(widget.bill.billExtraList.length > 0){
+    if (widget.patientExtraList != null) {
+      if (widget.patientExtraList.length > 0) {
         currentWidget = ListView.builder(
           shrinkWrap: true,
           physics: ScrollPhysics(),
-          itemCount: widget.bill.billExtraList.length,
+          itemCount: widget.patientExtraList.length,
           itemBuilder: (BuildContext context, int i) {
-            String name = widget.bill.billExtraList[i].name;
-            String val = widget.bill.billExtraList[i].cost.toString();
-            return rowDetailData(name, val);
+            String d1 = billModel.formatDate(widget.bill.createdDate);
+            String d2 =
+                billModel.formatDate(widget.patientExtraList[i].createdDate);
+            if (d1 == d2) {
+              int index = extraModel.extraList.indexWhere((element) =>
+                  element.id == widget.patientExtraList[i].extraId);
+              String name = extraModel.extraList[index].name;
+              String val = extraModel.extraList[index].price.toString();
+              return rowDetailData(name, val);
+            }
+            return Container();
           },
         );
-      }else {
+      } else {
         currentWidget = rowTitle('No Extra Bills');
       }
+    } else {
+      currentWidget = rowTitle('No Extra Bills');
     }
 
     return currentWidget;
   }
 
   Widget rowFooterData(String title, String val) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        border: Border(
-          top: BorderSide.none,
-          left: BorderSide(width: 1, color: Colors.black),
-          bottom: BorderSide(width: 1, color: Colors.black),
-          right: BorderSide(width: 1, color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border(
+            top: BorderSide.none,
+            left: BorderSide(width: 1, color: Colors.black),
+            bottom: BorderSide(width: 1, color: Colors.black),
+            right: BorderSide(width: 1, color: Colors.black),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Container(
-                child: Text(title, style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Container(
-                child: Text(
-                  val,
-                  style: TextStyle(fontSize: 12),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Container(
+                  child: Text(title,
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Container(
+                  child: Text(
+                    val,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  double calculateTotal() {
-    double total = 0;
+  Widget editButtons(String title, Color color, {VoidCallback fun}) {
+    Widget button = Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Container(
+              height: 60,
+              child: RaisedButton(
+                color: color,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      10,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  title,
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  if (fun != null) {
+                    fun();
+                  }
+                },
+              ),
+            ),
+          ),
+        )
+      ],
+    );
 
-    double sum = widget.bill.dayCost +
-        widget.bill.incubatorClean +
-        widget.bill.consumable +
-        widget.bill.analysis +
-        widget.bill.xRay +
-        widget.bill.lightRays +
-        widget.bill.medicine;
-
-    if(widget.bill.billExtraList!=null){
-      if(widget.bill.billExtraList.length > 0){
-        widget.bill.billExtraList.forEach((be) {
-          sum+=be.cost;
-        });
-      }
-    }
-
-    total += sum;
-
-    return total;
-  }
-
-  double calculateChange() {
-    return widget.bill.paid - calculateTotal();
+    return button;
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget navigateButton = editButtons(
+      'Edit',
+      Colors.cyan,
+      fun: navigateToEditBillScreen
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           rowTitle('Basic'),
           rowDetailData('Day Cost', widget.bill.dayCost.toString()),
-          rowDetailData('Cleaning', widget.bill.incubatorClean.toString()),
           rowDetailData('Consumable', widget.bill.consumable.toString()),
           rowDetailData('Analysis', widget.bill.analysis.toString()),
           rowDetailData('XRay', widget.bill.xRay.toString()),
@@ -178,9 +220,12 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           rowTitle('Extra'),
           rowBillExtraList(),
           rowTitle('Total Payment'),
-          rowFooterData('Total', calculateTotal().toString()),
+          rowFooterData('Total Before Discount', billModel.calculateBillRow().toString()),
+          rowFooterData('Discount', billModel.getDiscount().toString()),
+          rowFooterData('Total After Discount', billModel.calculateBillRowWithDiscount().toString()),
           rowFooterData('Paid', widget.bill.paid.toString()),
           rowFooterData('Change', calculateChange().toString()),
+          navigateButton
         ],
       ),
     );

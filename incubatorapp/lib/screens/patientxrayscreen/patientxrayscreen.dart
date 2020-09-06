@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
-import 'package:incubatorapp/screens/medicinescreen/newpatientmedicinedoctorscreen.dart';
-import 'package:incubatorapp/widgets/List/patientmedicinedoctorlistwidget.dart';
+import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
+import 'package:incubatorapp/screens/patientxrayscreen/newpatientxrayscreen.dart';
+import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientMedicineDoctorScreen extends StatelessWidget {
-  static const routeName = '/patientmedicinedoctorscreen';
+class PatientXRayScreen extends StatelessWidget {
+  static const routeName = '/patientxrayscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  PatientMedicineDoctorScreen({this.patient, this.userPermission});
+  PatientXRayScreen({this.patient});
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
-      model: patientMedicineDoctorModel,
+      model: patientXRayModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,
-            PatientMedicineDoctorModel patientMedicineDoctorModel) {
+            PatientXRayModel patientXRayModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Medicine',style: TextStyle(color: Colors.white)),
+              title: Text('XRay', style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true
                     ? IconButton(
@@ -38,10 +36,8 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  NewPatientMedicineDoctorScreen(
+                              builder: (context) => NewPatientXRayScreen(
                                 patient: patient,
-                                userPermission: userPermission,
                               ),
                             ),
                           );
@@ -50,10 +46,8 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
                     : Container())
               ],
             ),
-            body: PatientMedicineDoctorListWidget(
-              patientMedicineDoctorList:
-                  patientMedicineDoctorModel.patientMedicineDoctorList,
-              userPermission: userPermission,
+            body: PatientXRayListWidget(
+              patientXRayList: patientXRayModel.patientXRayList,
             ),
           );
         },

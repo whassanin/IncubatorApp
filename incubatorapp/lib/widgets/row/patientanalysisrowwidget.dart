@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patientanalysis.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/analysisscreen/editpatientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
 
 class PatientAnalysisRowWidget extends StatefulWidget {
   final PatientAnalysis patientAnalysis;
-  final UserPermission userPermission;
-  PatientAnalysisRowWidget({this.patientAnalysis, this.userPermission});
+  PatientAnalysisRowWidget({this.patientAnalysis,});
   @override
   _PatientAnalysisRowWidgetState createState() =>
       _PatientAnalysisRowWidgetState();
@@ -76,7 +74,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: analysisNameWidget,
         ),
-        (widget.userPermission.isPatient
+        (userPermission.isPatient
             ? Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: priceWidget,
@@ -90,7 +88,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (widget.userPermission.isDoctor ? editButtonWidget : Container())
+        (userPermission.isDoctor ? editButtonWidget : Container())
       ],
     );
 

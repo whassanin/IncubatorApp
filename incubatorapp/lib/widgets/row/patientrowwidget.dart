@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
 
 class PatientRowWidget extends StatefulWidget {
@@ -110,17 +111,26 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
       onTap: () {
         patientModel.editPatient(widget.patient);
         if (userPermission.isDoctor || userPermission.isNurse) {
-          patientModel.readById(widget.patient.userId.toString(), 0, 1, false);
-        } else if (userPermission.isAccountant) {
-          patientModel.readById(widget.patient.userId.toString(), 1, 0, false);
-        }
+          patientModel.readById(widget.patient.userId.toString());
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PatientDetailScreen(),
-          ),
-        );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PatientDetailScreen(),
+            ),
+          );
+
+        } else if (userPermission.isAccountant) {
+          patientModel.readById(widget.patient.userId.toString());
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BillScreen(),
+            ),
+          );
+
+        }
       },
     );
   }

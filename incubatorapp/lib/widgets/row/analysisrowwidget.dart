@@ -3,13 +3,15 @@ import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/analysisscreen/editanalysisscreen.dart';
 
 class AnalysisRowWidget extends StatefulWidget {
   final Patient patient;
   final Analysis analysis;
-  final UserPermission userPermission;
-  AnalysisRowWidget({this.patient, this.analysis, this.userPermission});
+  AnalysisRowWidget({
+    this.patient,
+    this.analysis,
+  });
   @override
   _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
 }
@@ -33,24 +35,29 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     }
   }
 
+  void navigateToEditAnalysisScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAnalysisScreen()));
+  }
+
   int findAnalysis() {
     String dn = dateFormat(DateTime.now());
 
     int index = -1;
 
     patientAnalysisModel.patientAnalysisList.forEach((element) {
-      if(element.patientId == widget.patient.userId &&
+      if (element.patientId == widget.patient.userId &&
           element.analysisId == widget.analysis.id &&
-      dateFormat(element.createdDate) == dn){
+          dateFormat(element.createdDate) == dn) {
         index = patientAnalysisModel.patientAnalysisList.indexOf(element);
       }
     });
 
-   return index;
+    return index;
   }
 
   void delete(int index) {
-    patientAnalysisModel.editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
+    patientAnalysisModel
+        .editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
     patientAnalysisModel.delete();
   }
 
@@ -62,30 +69,37 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   Widget row() {
-    int index = findAnalysis();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findAnalysis();
+    }
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if(index >= 0){
+    if (index >= 0) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
 
-    Widget rowData = Row(
+    Widget rowData = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Id: ' + widget.analysis.id.toString(),style: TextStyle(color: textColor)),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(
-              'Name: ' + widget.analysis.name,
-                style: TextStyle(color: textColor)
-            ),
+            child: Text(widget.analysis.name,
+                style: TextStyle(color: textColor)),
           ),
         ),
+        (userPermission.isAccountant?Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Text('Price: ' + widget.analysis.price.toString(),
+                style: TextStyle(color: textColor)),
+          ),
+        ):Container()),
       ],
     );
 
@@ -107,9 +121,12 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isDoctor) {
+        if (userPermission.isDoctor) {
           update();
-        } else {}
+        } else if(userPermission.isAccountant) {
+          analysisModel.editAnalysis(widget.analysis);
+          navigateToEditAnalysisScreen();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

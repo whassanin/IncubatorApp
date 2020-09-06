@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
+
+enum IncubatorColumn { name }
 
 class IncubatorFormWidget extends StatefulWidget {
   final bool isEdit;
@@ -11,108 +14,144 @@ class IncubatorFormWidget extends StatefulWidget {
 
 class _IncubatorFormWidgetState extends State<IncubatorFormWidget> {
   final _formKey = new GlobalKey<FormState>();
-  TextEditingController nameTED = new TextEditingController();
+  TextEditingController nameTEC = new TextEditingController();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    nameTED.text = incubatorModel.getName();
+  void setData(IncubatorColumn incubatorColumn, String val) {
+    if (incubatorColumn == IncubatorColumn.name) {
+      incubatorModel.setName(val);
+    }
+  }
+
+  void getData() {
+    nameTEC.text = incubatorModel.getName();
   }
 
   void save() async {
-    bool isCheck = false;
+    if (_formKey.currentState.validate()) {
+      bool isCheck = false;
 
-    if (widget.isEdit != null) {
-      if (widget.isEdit) {
-        isCheck = await incubatorModel.update();
-      } else {
-        isCheck = await incubatorModel.create();
+      if (widget.isEdit != null) {
+        if (widget.isEdit) {
+          isCheck = await incubatorModel.update();
+        } else {
+          isCheck = await incubatorModel.create();
+        }
       }
-    } else {
-      isCheck = await incubatorModel.create();
-    }
 
-    await Future.delayed(Duration(seconds: 1));
-    if (isCheck) {
-      Navigator.pop(context);
+      if (isCheck) {
+        Navigator.pop(context);
+      }
     }
   }
 
   void delete() async {
     bool isCheck = false;
     isCheck = await incubatorModel.delete();
-    await Future.delayed(Duration(seconds: 1));
     if (isCheck) {
       Navigator.pop(context);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget nameField = TextFormField(
-      controller: nameTED,
-      decoration: InputDecoration(
-        labelText: 'Name',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        errorStyle: TextStyle(fontSize: 14.0),
-      ),
-      validator: (v) {
-        if (v.isEmpty || v == null) {
-          return 'Required';
-        } else {
-          incubatorModel.setName(v);
-        }
-        return null;
-      },
-      onChanged: (v) {
-        incubatorModel.setName(v);
-      },
-      onFieldSubmitted: (v) {
-        incubatorModel.setName(v);
-      },
-    );
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
-    Widget saveButton = Expanded(
-      child: RaisedButton(
-        color: Colors.cyan,
-        child: Text('Save',style: TextStyle(color: Colors.white)),
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            save();
+  Widget columnTextField(String name, bool isNumber, bool isObscure,
+      IncubatorColumn incubatorColumns, TextEditingController columnTEC,
+      {VoidCallback fun}) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: TextFormField(
+        obscureText: isObscure,
+        controller: columnTEC,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                10,
+              ),
+            ),
+          ),
+          labelText: name,
+        ),
+        readOnly: (fun != null ? true : false),
+        keyboardType: (isNumber ? TextInputType.number : null),
+        inputFormatters: (isNumber
+            ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
+            : null),
+        validator: (v) {
+          if (v.isEmpty) {
+            return 'Required';
+          }
+          return null;
+        },
+        onChanged: (v) {
+          setData(incubatorColumns, v);
+        },
+        onFieldSubmitted: (v) {
+          setData(incubatorColumns, v);
+        },
+        onTap: () {
+          if (fun != null) {
+            fun();
           }
         },
       ),
     );
+  }
+
+  Widget editButtons(String title, Color color,{VoidCallback fun}) {
+    Widget button = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text(
+              title,
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if(fun!=null){
+                fun();
+              }
+            },
+          ),
+        ),
+      ),
+    );
+
+    return button;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget nameField = columnTextField('Name', false, false, IncubatorColumn.name, nameTEC);
+
+    Widget saveButton = editButtons('Save', Colors.cyan,fun: save);
 
     Widget deleteButton = Container();
 
     if (widget.isEdit != null) {
       if (widget.isEdit) {
-        deleteButton = Expanded(
-          child: RaisedButton(
-            color: Colors.cyan,
-            child: Text('Delete',style: TextStyle(color: Colors.white)),
-            onPressed: () {
-              delete();
-            },
-          ),
-        );
+        deleteButton = editButtons('Delete', Colors.red,fun: delete);
       }
     }
 
     Widget rowButtons = Row(
       children: <Widget>[
-        deleteButton,
-        (widget.isEdit != null
-            ? SizedBox(
-                width: 10,
-              )
-            : Container()),
+        /*deleteButton,*/
         saveButton
       ],
     );

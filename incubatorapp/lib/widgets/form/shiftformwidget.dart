@@ -42,15 +42,16 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
   }
 
   void getData() {
+    nameTEC.text = shiftModel.getName();
     startTimeTEC.text = shiftModel.getStartTime().toString();
     endTimeTEC.text = shiftModel.getEndTime().toString();
-    if (shiftModel.getIsStartTimePM()) {
+    if (shiftModel.getIsStartTimePM()==false) {
       isStartTimePMTEC.text = 'AM';
     } else {
       isStartTimePMTEC.text = 'PM';
     }
 
-    if (shiftModel.getIsEndTimePM()) {
+    if (shiftModel.getIsEndTimePM()==false) {
       isEndTimePMTEC.text = 'AM';
     } else {
       isEndTimePMTEC.text = 'PM';
@@ -164,6 +165,7 @@ class _ShiftFormWidgetState extends State<ShiftFormWidget> {
                   } else {
                     shiftModel.create();
                   }
+                  Navigator.pop(context);
                 }
               }
             },

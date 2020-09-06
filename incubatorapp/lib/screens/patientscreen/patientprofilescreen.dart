@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -16,6 +15,7 @@ class PatientProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    patientModel.readById('1');
     return ScopedModel(
       model: patientModel,
       child: ScopedModelDescendant(
@@ -33,7 +33,7 @@ class PatientProfileScreen extends StatelessWidget {
                 index: patientModel.currentTab,
                 children: <Widget>[
                   PatientDetailScreen(),
-                  BillScreen(patient: patientModel.currentPatient,),
+                  BillScreen(),
                   EditPatientScreen()
                 ],
               );
@@ -42,18 +42,18 @@ class PatientProfileScreen extends StatelessWidget {
 
           String title = 'Profile';
 
-          if(patientModel.currentTab == 0){
+          if (patientModel.currentTab == 0) {
             title = 'Patient Profile';
-          }else if(patientModel.currentTab == 1){
+          } else if (patientModel.currentTab == 1) {
             title = 'Patient Bills';
-          }else if(patientModel.currentTab == 2){
+          } else if (patientModel.currentTab == 2) {
             title = 'Patient Account';
           }
 
           return Scaffold(
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
-              title: Text(title,style: TextStyle(color: Colors.white)),
+              title: Text(title, style: TextStyle(color: Colors.white)),
             ),
             body: currentWidget,
             bottomNavigationBar: BottomNavigatorWidget(userPermission),

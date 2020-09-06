@@ -9,7 +9,7 @@ class Shift {
   int id;
   String name;
   int startTime;
-  bool isStarTimePM;
+  bool isStartTimePM;
   int endTime;
   bool isEndTimePM;
 
@@ -23,7 +23,7 @@ class Shift {
     this.id,
     this.name,
     this.startTime,
-    this.isStarTimePM,
+    this.isStartTimePM,
     this.endTime,
     this.isEndTimePM,
   );

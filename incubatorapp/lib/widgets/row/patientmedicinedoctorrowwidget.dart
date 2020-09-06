@@ -4,14 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/medicinescreen/editpatientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/patientmedicinedoctorscreen/editpatientmedicinedoctorscreen.dart';
 
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;
-  final UserPermission userPermission;
   PatientMedicineDoctorRowWidget(
-      {this.patientMedicineDoctor, this.userPermission});
+      {this.patientMedicineDoctor,});
   @override
   _PatientMedicineDoctorRowWidgetState createState() =>
       _PatientMedicineDoctorRowWidgetState();
@@ -116,7 +114,7 @@ class _PatientMedicineDoctorRowWidgetState
       ],
     );
 
-    return (widget.userPermission.isDoctor ? rowCounterWidget : Container());
+    return (userPermission.isDoctor ? rowCounterWidget : Container());
   }
 
   Widget patientMedicineDoctorRow(Medicine medicine) {
@@ -179,7 +177,7 @@ class _PatientMedicineDoctorRowWidgetState
           padding: const EdgeInsets.all(2.0),
           child: resultWidget,
         ),
-        (widget.userPermission.isPatient
+        (userPermission.isPatient
             ? Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: priceWidget,
@@ -201,7 +199,7 @@ class _PatientMedicineDoctorRowWidgetState
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[displayCol, counterWidget()],
             ),
-            ((widget.userPermission.isDoctor || userPermission.isNurse)
+            ((userPermission.isDoctor || userPermission.isNurse)
                 ? editButtonWidget
                 : Container())
           ],

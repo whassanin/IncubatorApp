@@ -1,9 +1,12 @@
 from incubator.models import Incubator
+from incubator.models import StateType
 from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
 from incubator.models import Bill
+from incubator.models import Extra
 from incubator.models import Consumable
+from incubator.models import Extra
 from incubator.models import XRay
 from incubator.models import Shift
 from incubator.models import User
@@ -19,10 +22,11 @@ from incubator.models import PatientAnalysis
 from incubator.models import PatientXRay
 from incubator.models import PatientConsumableNurse
 from incubator.models import PatientMedicineDoctor
-from incubator.models import BillExtra
 from incubator.models import CreditCard
+from incubator.models import PatientExtra
 
 from incubator.serializer import IncubatorSerializer
+from incubator.serializer import StateTypeSerializer
 from incubator.serializer import AnalysisSerializer
 from incubator.serializer import ConditionSerializer
 from incubator.serializer import PatientSerializer
@@ -43,8 +47,9 @@ from incubator.serializer import PatientAnalysisSerializer
 from incubator.serializer import PatientXRaySerializer
 from incubator.serializer import PatientConsumableNurseSerializer
 from incubator.serializer import PatientMedicineDoctorSerializer
-from incubator.serializer import BillExtraSerializer
+from incubator.serializer import ExtraSerializer
 from incubator.serializer import CreditCardSerializer
+from incubator.serializer import PatientExtraSerializer
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -65,6 +70,17 @@ class IncubatorList(generics.ListCreateAPIView):
 class IncubatorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incubator.objects.all()
     serializer_class = IncubatorSerializer
+
+class StateTypeList(generics.ListCreateAPIView):
+    queryset = StateType.objects.all()
+    serializer_class = StateTypeSerializer
+    ordering_fields = ['id']
+    ordering = ['id']
+
+class StateTypeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StateType.objects.all()
+    serializer_class = StateTypeSerializer
+
 
 # Condition Views CLass
 class ConditionList(generics.ListCreateAPIView):
@@ -119,6 +135,15 @@ class ShiftList(generics.ListCreateAPIView):
 class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
+
+class ExtraList(generics.ListCreateAPIView):
+    queryset = Extra.objects.all()
+    serializer_class = ExtraSerializer
+
+class ExtraDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Extra.objects.all()
+    serializer_class = ExtraSerializer
+
 
 # None basic Data
 
@@ -182,7 +207,7 @@ class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['state','userId']
+    filterset_fields = ['stateTypeId','userId']
 
 class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
@@ -235,7 +260,7 @@ class PatientAnalysisList(generics.ListCreateAPIView):
     queryset = PatientAnalysis.objects.all().order_by('-createdDate') 
     serializer_class = PatientAnalysisSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['patientId','analysisId']
+    filterset_fields = ['patientId','analysisId','billStatus']
 
 class PatientAnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientAnalysis.objects.all()
@@ -245,7 +270,7 @@ class PatientXRayList(generics.ListCreateAPIView):
     queryset = PatientXRay.objects.all().order_by('-createdDate')
     serializer_class = PatientXRaySerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['patientId','xRayId']
+    filterset_fields = ['patientId','xRayId','billStatus']
 
 class PatientXRayDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientXRay.objects.all()
@@ -255,7 +280,7 @@ class PatientConsumableNurseList(generics.ListCreateAPIView):
     queryset = PatientConsumableNurse.objects.all().order_by('-createdDate')
     serializer_class = PatientConsumableNurseSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['patientId','consumableId','nurseId']
+    filterset_fields = ['patientId','consumableId','nurseId','billStatus']
 
 class PatientConsumableNursetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientConsumableNurse.objects.all()
@@ -265,23 +290,23 @@ class PatientMedicineDoctorList(generics.ListCreateAPIView):
     queryset = PatientMedicineDoctor.objects.all().order_by('-createdDate')
     serializer_class = PatientMedicineDoctorSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['patientId','medicineId','doctorId'] 
+    filterset_fields = ['patientId','medicineId','doctorId','billStatus'] 
 
 class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PatientMedicineDoctor.objects.all()
     serializer_class = PatientMedicineDoctorSerializer
 
-# Multi value
-
-class BillExtraList(generics.ListCreateAPIView):
-    queryset = BillExtra.objects.all()
-    serializer_class = BillExtraSerializer
+class PatientExtraList(generics.ListCreateAPIView):
+    queryset = PatientExtra.objects.all()
+    serializer_class = PatientExtraSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['billId'] 
+    filterset_fields = ['patientId','extraId','billStatus'] 
 
-class BillExtraDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BillExtra.objects.all()
-    serializer_class = BillExtraSerializer
+class PatientExtraDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PatientExtra.objects.all()
+    serializer_class = PatientExtraSerializer
+
+# Multi value
 
 class CreditCardList(generics.ListCreateAPIView):
     queryset = CreditCard.objects.all()

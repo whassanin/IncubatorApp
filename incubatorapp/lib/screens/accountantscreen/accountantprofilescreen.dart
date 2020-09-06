@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/editaccountantscreen.dart';
+import 'package:incubatorapp/screens/menuscreen/menuscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
@@ -14,10 +15,13 @@ class AccountantProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    accountantModel.readById('4');
+    
     return ScopedModel(
       model: accountantModel,
       child: ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, AccountantModel accountantModel) {
+        builder: (BuildContext context, Widget child,
+            AccountantModel accountantModel) {
           Widget currentWidget = Center(
             child: Container(
               child: CircularProgressIndicator(),
@@ -30,6 +34,7 @@ class AccountantProfileScreen extends StatelessWidget {
                 index: accountantModel.currentTab,
                 children: <Widget>[
                   PatientListScreen(),
+                  MenuScreen(),
                   EditAccountantScreen(),
                 ],
               );
@@ -41,6 +46,8 @@ class AccountantProfileScreen extends StatelessWidget {
           if (accountantModel.currentTab == 0) {
             title = 'Patient List';
           } else if (accountantModel.currentTab == 1) {
+            title = 'Data Management';
+          } else if (accountantModel.currentTab == 2) {
             title = 'Account';
           }
 

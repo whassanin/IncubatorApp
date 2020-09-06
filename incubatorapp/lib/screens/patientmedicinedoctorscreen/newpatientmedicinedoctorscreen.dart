@@ -10,8 +10,7 @@ class NewPatientMedicineDoctorScreen extends StatelessWidget {
   static const routeName = '/newpatientmedicinedoctorscreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  NewPatientMedicineDoctorScreen({this.patient, this.userPermission});
+  NewPatientMedicineDoctorScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,6 @@ class NewPatientMedicineDoctorScreen extends StatelessWidget {
             body: MedicineListWidget(
               patient: patient,
               medicineList: medicineModel.medicineList,
-              userPermission: userPermission,
             ),
           );
         },

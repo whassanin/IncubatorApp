@@ -32,10 +32,12 @@ class PatientModel extends Model {
       '',
       0,
       '',
-      '',
+      false,
       DateTime.now(),
       1,
       1,
+      0,
+      null,
       null,
       null,
       null,
@@ -83,6 +85,15 @@ class PatientModel extends Model {
     return _currentPatient.gender;
   }
 
+  void setIsOnLightRay(bool val) {
+    _currentPatient.isOnLightRay = val;
+    notifyListeners();
+  }
+
+  bool getIsOnLightRay() {
+    return _currentPatient.isOnLightRay;
+  }
+
   void setDateOfBirth(DateTime val) {
     _currentPatient.dateOfBirth = val;
     notifyListeners();
@@ -110,6 +121,15 @@ class PatientModel extends Model {
     return _currentPatient.weight;
   }
 
+  void setStateTypeId(int val) {
+    _currentPatient.stateTypeId = val;
+    notifyListeners();
+  }
+
+  int getStateTypeId() {
+    return _currentPatient.stateTypeId;
+  }
+
   void setSSN(String val) {
     _currentPatient.ssn = val;
     notifyListeners();
@@ -117,15 +137,6 @@ class PatientModel extends Model {
 
   String getSSN() {
     return _currentPatient.ssn;
-  }
-
-  void setState(String state) {
-    _currentPatient.state = state;
-    notifyListeners();
-  }
-
-  String getIsOut() {
-    return _currentPatient.state;
   }
 
   void setCreatedDate(DateTime val) {
@@ -162,12 +173,12 @@ class PatientModel extends Model {
 
   void search() {}
 
-  void filterByState(String state) async {
+  void filterByStateType(int stateTypeId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
-    fields.add('state');
-    values.add(state);
+    fields.add('stateTypeId');
+    values.add(stateTypeId.toString());
 
     List<dynamic> patientListMap = await _api.filter(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
@@ -177,29 +188,73 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void readById(
-      String id, int statusLimit, int billLimit, bool isCreditCard) async {
+  void _readForDoctorAndNurse(String id) async {
+    _currentPatient.statusList =
+        await statusModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList =
+        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientId(int.parse(id));
+    _currentPatient.patientMedicineDoctorList =
+        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientId(int.parse(id));
+    notifyListeners();
+  }
+
+  void _readForAccountant(String id) async {
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList = await patientAnalysisModel
+        .readByPatientIdAndPendingAnalysis(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientIdAndPendingXRay(int.parse(id));
+    _currentPatient.patientMedicineDoctorList = await patientMedicineDoctorModel
+        .readByPatientIdAndPendingMedicine(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel
+            .readByPatientIdAndPendingConsumable(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
+
+    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
+    //notifyListeners();
+  }
+
+  void _readForPatient(String id) async {
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+    _currentPatient.statusList =
+        await statusModel.readByPatientId(int.parse(id));
+    _currentPatient.patientAnalysisList =
+        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientXRaysList =
+        await patientXRayModel.readByPatientId(int.parse(id));
+    _currentPatient.patientMedicineDoctorList =
+        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
+    _currentPatient.patientConsumableNurseList =
+        await patientConsumableNurseModel.readByPatientId(int.parse(id));
+    _currentPatient.patientExtraList =
+        await patientExtraModel.readByPatientId(int.parse(id));
+    _currentPatient.creditCardList =
+        await creditCardModel.readByPatientId(int.parse(id));
+    notifyListeners();
+
+  }
+
+  void readById(String id) async {
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    _currentPatient.statusList =
-        await statusModel.readByPatientId(int.parse(id), limit: statusLimit);
-
-    _currentPatient.billList =
-        await billModel.readByPatientId(int.parse(id), limit: billLimit);
-
-    if (isCreditCard) {
-      _currentPatient.creditCardList =
-          await creditCardModel.readByPatientId(int.parse(id));
+    if (userPermission.isDoctor || userPermission.isNurse) {
+      _readForDoctorAndNurse(id);
+    } else if (userPermission.isAccountant) {
+      _readForAccountant(id);
+    } else if (userPermission.isPatient) {
+      _readForPatient(id);
+      notifyListeners();
     }
-
-    patientAnalysisModel.setList(_currentPatient.patientAnalysisList);
-    patientXRayModel.setList(_currentPatient.patientXRaysList);
-    patientMedicineDoctorModel.setList(_currentPatient.patientMedicineDoctorList);
-    patientConsumableNurseModel.setList(_currentPatient.patientConsumableNurseList);
-
-    //await Future.delayed(Duration(seconds: 3));
 
     //notifyListeners();
   }

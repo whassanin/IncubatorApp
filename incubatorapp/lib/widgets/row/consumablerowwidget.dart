@@ -3,15 +3,14 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/consumablescreen/editconsumablescreen.dart';
 
 class ConsumableRowWidget extends StatefulWidget {
   final Patient patient;
   final Consumable consumable;
-  final UserPermission userPermission;
   ConsumableRowWidget({
     this.patient,
     this.consumable,
-    this.userPermission,
   });
   @override
   _ConsumableRowWidgetState createState() => _ConsumableRowWidgetState();
@@ -34,6 +33,10 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     } else if (index < 0) {
       save();
     }
+  }
+
+  void navigateToEditConsumableScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditConsumableScreen()));
   }
 
   int findConsumable() {
@@ -67,7 +70,10 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   }
 
   Widget row() {
-    int index = findConsumable();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findConsumable();
+    }
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
@@ -77,28 +83,40 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
       textColor = Colors.white;
     }
 
-    Widget rowData = Row(
+    Widget rowData = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Id: ' + widget.consumable.id.toString(),
-          style: TextStyle(color: textColor),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(
-              'Name: ' + widget.consumable.name,
-              style: TextStyle(color: textColor),
-            ),
+            child: Text(widget.consumable.name,
+                style: TextStyle(color: textColor)),
           ),
         ),
+        (userPermission.isAccountant
+            ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Text('Price: ' + widget.consumable.price.toString(),
+                style: TextStyle(color: textColor)),
+          ),
+        )
+            : Container()),
+        (userPermission.isAccountant
+            ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Text('Amount: ' + widget.consumable.amount.toString(),
+                style: TextStyle(color: textColor)),
+          ),
+        )
+            : Container()),
       ],
     );
 
     Widget rowContainer = Container(
-      height: 70,
+      height: 98,
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
@@ -115,9 +133,12 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isNurse) {
+        if (userPermission.isNurse) {
           update();
-        } else {}
+        } else if(userPermission.isAccountant) {
+          consumableModel.editConsumable(widget.consumable);
+          navigateToEditConsumableScreen();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

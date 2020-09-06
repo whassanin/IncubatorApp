@@ -12,6 +12,7 @@ PatientAnalysis _$PatientAnalysisFromJson(Map<String, dynamic> json) {
     json['patientId'] as int,
     json['analysisId'] as int,
     json['result'] as String,
+    json['billStatus'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -24,5 +25,6 @@ Map<String, dynamic> _$PatientAnalysisToJson(PatientAnalysis instance) =>
       'patientId': instance.patientId,
       'analysisId': instance.analysisId,
       'result': instance.result,
+      'billStatus': instance.billStatus,
       'createdDate': instance.createdDate?.toIso8601String(),
     };

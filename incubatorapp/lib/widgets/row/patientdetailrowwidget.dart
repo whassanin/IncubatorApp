@@ -5,11 +5,16 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/analysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
+import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
+import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/patientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
+import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
+import 'package:incubatorapp/screens/statescreen/statescreen.dart';
 import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
-import 'package:incubatorapp/screens/xrayscreen/patientxrayscreen.dart';
-import 'package:incubatorapp/screens/medicinescreen/patientmedicinedoctorscreen.dart';
-import 'package:incubatorapp/screens/consumablescreen/patientconsumablenursescreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
@@ -29,7 +34,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => StatusScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
@@ -41,46 +45,79 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       MaterialPageRoute(
         builder: (context) => PatientAnalysisScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
   }
 
   void goToXRayScreen() {
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PatientXRayScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
   }
 
   void goToMedicineScreen() {
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
         ),
       ),
     );
   }
 
   void goToConsumableScreen() {
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PatientConsumableNurseScreen(
           patient: widget.patient,
-          userPermission: widget.userPermission,
+        ),
+      ),
+    );
+  }
+
+  void goToConditionScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConditionScreen(true),
+      ),
+    );
+  }
+
+  void goToIncubatorScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => IncubatorScreen(true),
+      ),
+    );
+  }
+
+
+  void goToStateTypeScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StateTypeScreen(true),
+      ),
+    );
+  }
+
+
+  void goToExtraScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PatientExtraScreen(
+          patient: widget.patient,
         ),
       ),
     );
@@ -239,7 +276,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               softWrap: true,
             ),
             Padding(
-              padding: const EdgeInsets.only(top:5.0),
+              padding: const EdgeInsets.only(top: 5.0),
               child: Text(val),
             ),
           ],
@@ -458,7 +495,10 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 padding: const EdgeInsets.all(4.0),
                 child: icon,
               ),
-              Text(title,style: TextStyle(color: Colors.white),),
+              Text(
+                title,
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
           onPressed: () {
@@ -471,21 +511,38 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  Widget displayButtons() {
+  Widget displayFourButtons() {
+    Widget firstButton = rowButton(
+        Icon(
+          FontAwesomeIcons.list,
+          color: Colors.white,
+        ),
+        'Analysis',
+        fun: goToAnalysisScreen);
+
+    Widget lastButton = rowButton(
+        Icon(
+          FontAwesomeIcons.thList,
+          color: Colors.white,
+        ),
+        'Consumable',
+        fun: goToConsumableScreen);
+
+    if (userPermission.isNurse) {
+      Widget temp = firstButton;
+      firstButton = lastButton;
+      lastButton = temp;
+    }
+
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: GridView.count(
+        physics: ScrollPhysics(),
         crossAxisCount: 2,
         childAspectRatio: 2,
         shrinkWrap: true,
         children: <Widget>[
-          rowButton(
-              Icon(
-                FontAwesomeIcons.list,
-                color: Colors.white,
-              ),
-              'Analysis',
-              fun: goToAnalysisScreen),
+          firstButton,
           rowButton(
               Icon(
                 FontAwesomeIcons.xRay,
@@ -500,16 +557,77 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
               ),
               'Medicine',
               fun: goToMedicineScreen),
-          rowButton(
-              Icon(
-                FontAwesomeIcons.thList,
-                color: Colors.white,
-              ),
-              'Consumable',
-              fun: goToConsumableScreen),
+          lastButton,
         ],
       ),
     );
+  }
+
+  Widget displayDoctorButtons() {
+    Widget conditionButton = Container();
+
+    Widget incubatorButton = Container();
+
+    Widget stateButton = Container();
+
+    Widget isLightRayButton = Container();
+
+    Widget currentWidget = Container();
+    if (userPermission.isDoctor || userPermission.isNurse) {
+      conditionButton = rowButton(
+          Icon(
+            FontAwesomeIcons.creativeCommonsSampling,
+            color: Colors.white,
+          ),
+          'Change Condition',
+          fun: goToConditionScreen);
+
+      incubatorButton = rowButton(
+          Icon(
+            FontAwesomeIcons.procedures,
+            color: Colors.white,
+          ),
+          'Change Incubator',
+          fun: goToIncubatorScreen);
+
+      stateButton = rowButton(
+          Icon(
+            Icons.verified_user,
+            color: Colors.white,
+          ),
+          'Change State',
+          fun: goToStateTypeScreen);
+
+      isLightRayButton = rowButton(
+          Icon(
+            (widget.patient.isOnLightRay
+                ? FontAwesomeIcons.solidLightbulb
+                : FontAwesomeIcons.lightbulb),
+            color: Colors.white,
+          ),
+          (widget.patient.isOnLightRay
+              ? 'Light Ray is on'
+              : 'Light Ray is Off'),
+          fun: goToConditionScreen);
+
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: GridView.count(
+          physics: ScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio: 2,
+          shrinkWrap: true,
+          children: <Widget>[
+            conditionButton,
+            incubatorButton,
+            stateButton,
+            isLightRayButton,
+          ],
+        ),
+      );
+    }
+
+    return currentWidget;
   }
 
   Widget addStatusButton() {
@@ -540,6 +658,32 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     return currentWidget;
   }
 
+  Widget extraButton() {
+    Widget currentWidget = Padding(
+      padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              height: 100,
+              child: rowButton(
+                Icon(
+                  Icons.playlist_add,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                'Extra',
+                fun: goToExtraScreen,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return currentWidget;
+  }
+
   @override
   Widget build(BuildContext context) {
     Condition condition;
@@ -559,13 +703,18 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         children: <Widget>[
           rowTitle('Information'),
           patientInformationRow(),
-          rowTitle('Condition: ' + (condition!=null?condition.name:'')),
           rowTitle(
-              'Incubator Number: ' + widget.patient.incubatorId.toString()),
+            'Condition: ' + (condition != null ? condition.name : ''),
+          ),
+          rowTitle(
+            'Incubator Number: ' + widget.patient.incubatorId.toString(),
+          ),
           rowTitle('Status'),
           statusRow(),
           addStatusButton(),
-          displayButtons()
+          displayFourButtons(),
+          displayDoctorButtons(),
+          extraButton(),
         ],
       ),
     );

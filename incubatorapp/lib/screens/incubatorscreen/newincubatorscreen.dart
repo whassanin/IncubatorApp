@@ -19,10 +19,15 @@ class NewIncubatorScreen extends StatelessWidget {
             IncubatorModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
+              leading: BackButton(
+                color: Colors.white,
+              ),
               title: Text('New Incubator Screen',style: TextStyle(color: Colors.white)),
               centerTitle: true,
             ),
-            body: IncubatorFormWidget()
+            body: IncubatorFormWidget(
+              isEdit: false,
+            )
           );
         },
       ),

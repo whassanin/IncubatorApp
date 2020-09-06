@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
-import 'package:incubatorapp/screens/xrayscreen/newpatientxrayscreen.dart';
-import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
+import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
+import 'package:incubatorapp/scopedmodels/patientextramodel.dart';
+import 'package:incubatorapp/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
+import 'package:incubatorapp/screens/patientextrascreen/newpatientextrascreen.dart';
+import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
+import 'package:incubatorapp/widgets/List/patientextralistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientXRayScreen extends StatelessWidget {
-  static const routeName = '/patientxrayscreen';
+class PatientExtraScreen extends StatelessWidget {
+  static const routeName = '/patientextrascreen';
 
   final Patient patient;
-  final UserPermission userPermission;
-  PatientXRayScreen({this.patient,this.userPermission});
+  PatientExtraScreen({this.patient,});
 
   @override
   Widget build(BuildContext context) {
     return ScopedModel(
-      model: patientXRayModel,
+      model: patientExtraModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,
-            PatientXRayModel patientXRayModel) {
+            PatientExtraModel patientExtraModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('XRay',style: TextStyle(color: Colors.white)),
+              title: Text('Extra',style: TextStyle(color: Colors.white),),
               actions: <Widget>[
-                (userPermission.isDoctor == true?IconButton(
+                (userPermission.isDoctor == true || userPermission.isNurse == true?IconButton(
                   icon: Icon(
                     Icons.add,
                     color: Colors.white,
@@ -37,9 +38,8 @@ class PatientXRayScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewPatientXRayScreen(
+                        builder: (context) => NewPatientExtraScreen(
                           patient: patient,
-                          userPermission: userPermission,
                         ),
                       ),
                     );
@@ -47,9 +47,8 @@ class PatientXRayScreen extends StatelessWidget {
                 ):Container())
               ],
             ),
-            body: PatientXRayListWidget(
-              patientXRayList: patientXRayModel.patientXRayList,
-              userPermission: userPermission,
+            body: PatientExtraListWidget(
+              patientExtraList: patientExtraModel.patientExtraList,
             ),
           );
         },

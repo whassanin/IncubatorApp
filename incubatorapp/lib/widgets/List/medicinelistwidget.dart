@@ -8,8 +8,7 @@ import 'package:incubatorapp/widgets/row/medicinerowwidget.dart';
 class MedicineListWidget extends StatefulWidget {
   final Patient patient;
   final List<Medicine> medicineList;
-  final UserPermission userPermission;
-  MedicineListWidget({this.patient, this.medicineList, this.userPermission});
+  MedicineListWidget({this.patient, this.medicineList,});
 
   @override
   _MedicineListWidgetState createState() => _MedicineListWidgetState();
@@ -31,7 +30,6 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
             return MedicineRowWidget(
               patient: widget.patient,
               medicine: widget.medicineList[index],
-              userPermission: widget.userPermission,
             );
           },
         );
@@ -87,7 +85,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
       ),
     );
 
-    if (widget.userPermission.isDoctor) {
+    if (userPermission.isDoctor) {
       currentWidget = Stack(
         children: <Widget>[positionList, positionSaveButton],
       );

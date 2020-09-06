@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/editdoctorscreen.dart';
+import 'package:incubatorapp/screens/doctorshiftscreen/doctorshiftscreen.dart';
+import 'package:incubatorapp/screens/doctorshiftscreen/newdoctorshiftscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/doctorshiftscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/newdoctorshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -17,6 +16,7 @@ class DoctorProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    doctorModel.readById('1');
     return ScopedModel(
       model: doctorModel,
       child: ScopedModelDescendant(

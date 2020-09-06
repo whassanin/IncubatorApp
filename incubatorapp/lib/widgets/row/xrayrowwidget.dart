@@ -3,19 +3,20 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
 import 'package:incubatorapp/models/patient.dart';
+import 'package:incubatorapp/screens/xrayscreen/editxrayscreen.dart';
 
 class XRayRowWidget extends StatefulWidget {
   final Patient patient;
   final XRay xRay;
-  final UserPermission userPermission;
-  XRayRowWidget({this.patient, this.xRay, this.userPermission});
+  XRayRowWidget({
+    this.patient,
+    this.xRay,
+  });
   @override
   _XRayRowWidgetState createState() => _XRayRowWidgetState();
 }
 
 class _XRayRowWidgetState extends State<XRayRowWidget> {
-  bool isSelected = false;
-
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -32,11 +33,18 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
     }
   }
 
+  void navigateToEditXRayScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditXRayScreen()));
+  }
+
   int findXRay() {
+    String dn = dateFormat(DateTime.now());
     int index = -1;
     patientXRayModel.patientXRayList.forEach((element) {
-      if(element.patientId == widget.patient.userId &&
-          element.xRayId == widget.xRay.id){
+      if (element.patientId == widget.patient.userId &&
+          element.xRayId == widget.xRay.id &&
+          dateFormat(element.createdDate) == dn) {
         index = patientXRayModel.patientXRayList.indexOf(element);
       }
     });
@@ -57,31 +65,38 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
   }
 
   Widget row() {
-
-    int index = findXRay();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findXRay();
+    }
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if(index >= 0){
+    if (index >= 0) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
 
-    Widget rowData = Row(
+    Widget rowData = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Id: ' + widget.xRay.id.toString(),style: TextStyle(color: textColor)),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(
-              'Name: ' + widget.xRay.name,
-                style: TextStyle(color: textColor)
-            ),
+            child: Text(widget.xRay.name, style: TextStyle(color: textColor)),
           ),
         ),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.xRay.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
       ],
     );
 
@@ -103,9 +118,13 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (widget.userPermission.isDoctor) {
+        if (userPermission.isDoctor) {
           update();
-        } else {}
+        } else if (userPermission.isAccountant) {
+          xRayModel.editXRay(widget.xRay);
+          print('Name:' + xRayModel.getName());
+          navigateToEditXRayScreen();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

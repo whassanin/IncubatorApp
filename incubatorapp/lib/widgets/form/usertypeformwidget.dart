@@ -130,7 +130,7 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
       ih,
       fun: navigateToNewPatientScreen,
     );
-    Widget frontDeskImage = imageWidget(
+    Widget accountantImage = imageWidget(
         'assets/patient.png', 'Accountant', iw, ih,
         fun: navigateToNewAccountantScreen);
 
@@ -146,7 +146,7 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
         doctorImage,
         nurseImage,
         patientImage,
-        frontDeskImage,
+        accountantImage,
       ],
     );
   }

@@ -130,7 +130,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white),),
             onPressed: () {
               patientMedicineDoctorModel.update();
               Navigator.pop(context);

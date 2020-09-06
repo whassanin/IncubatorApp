@@ -163,7 +163,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
               patientModel.setCreatedDate(DateTime.now());
               patientModel.setConditionId(1);
               patientModel.setIncubatorId(1);
-              patientModel.setState('In');
+              patientModel.setStateTypeId(1);
               patientModel.create();
 
               userPermission.setPermission(UserType.patient);

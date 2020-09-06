@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
+import 'package:incubatorapp/screens/nurseshiftscreen/newnurseshiftscreen.dart';
+import 'package:incubatorapp/screens/nurseshiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/newnurseshiftscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/nurseshiftscreen.dart';
 import 'package:incubatorapp/widgets/bottomnavigator/bottomnavigatorwidget.dart';
 import 'package:incubatorapp/widgets/drawer/drawerWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -17,6 +16,9 @@ class NurseProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    nurseModel.readById('3');
+
     return ScopedModel(
       model: nurseModel,
       child: ScopedModelDescendant(

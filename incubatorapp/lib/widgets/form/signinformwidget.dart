@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
+import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
@@ -55,11 +56,18 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
         ),
       );
     } else if (userPermission.isPatient) {
-      patientModel.readById(userModel.currentUser.id.toString(), 1, 0, true);
+      patientModel.readById(userModel.currentUser.id.toString());
       patientModel.setCurrentTab(0);
       Navigator.pushReplacementNamed(context, PatientProfileScreen.routeName);
     } else if (userPermission.isAccountant) {
-
+      accountantModel.readById(userModel.currentUser.id.toString());
+      accountantModel.setCurrentTab(0);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AccountantProfileScreen(),
+        ),
+      );
     } else {
       _onErrorDialog(context);
     }

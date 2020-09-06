@@ -2,9 +2,11 @@ from rest_framework import serializers
 
 from incubator.models import User
 from incubator.models import Incubator
+from incubator.models import StateType
 from incubator.models import Analysis
 from incubator.models import Condition
 from incubator.models import Patient
+from incubator.models import Extra
 from incubator.models import Bill
 from incubator.models import Status
 from incubator.models import Consumable
@@ -19,26 +21,16 @@ from incubator.models import ReportProblem
 from incubator.models import DoctorShift
 from incubator.models import NurseShift
 from incubator.models import PatientAnalysis
+from incubator.models import PatientExtra
 from incubator.models import PatientXRay
-from incubator.models import BillExtra
 from incubator.models import CreditCard
 from incubator.models import PatientMedicineDoctor
 from incubator.models import PatientConsumableNurse
 
 # multi-value serializer
 
-class BillExtraSerializer(serializers.ModelSerializer):
-    class Meta: 
-        model = BillExtra
-        fields = [
-            'id',
-            'billId',
-            'name',
-            'cost',
-            ]
-
 class CreditCardSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = CreditCard
         fields = [
             'id',
@@ -48,13 +40,13 @@ class CreditCardSerializer(serializers.ModelSerializer):
             'expireMonth',
             'createdDate',
             'patientId'
-            ]
+        ]
 
 # many to many serializers
 
 class DoctorShiftSerializer(serializers.ModelSerializer):
 
-    class Meta: 
+    class Meta:
         model = DoctorShift
         fields = [
             'id',
@@ -66,11 +58,12 @@ class DoctorShiftSerializer(serializers.ModelSerializer):
             'isSignedOut',
             'createdDate',
             'changedDate'
-            ]
+        ]
+
 
 class NurseShiftSerializer(serializers.ModelSerializer):
 
-    class Meta: 
+    class Meta:
         model = NurseShift
         fields = [
             'id',
@@ -82,35 +75,53 @@ class NurseShiftSerializer(serializers.ModelSerializer):
             'isSignedOut',
             'createdDate',
             'changedDate'
-            ]
+        ]
+
 
 class PatientAnalysisSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
+
+    class Meta:
         model = PatientAnalysis
         fields = [
             'id',
             'patientId',
             'analysisId',
             'result',
+            'billStatus',
             'createdDate',
-            ]
+        ]
+
+
+class PatientExtraSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PatientExtra
+        fields = [
+            'id',
+            'patientId',
+            'extraId',
+            'billStatus',
+            'createdDate',
+        ]
+
 
 class PatientXRaySerializer(serializers.ModelSerializer):
-    
-    class Meta: 
+
+    class Meta:
         model = PatientXRay
         fields = [
             'id',
             'patientId',
             'xRayId',
             'comment',
+            'billStatus',
             'createdDate',
-            ]
+        ]
+
 
 class PatientConsumableNurseSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
+
+    class Meta:
         model = PatientConsumableNurse
         fields = [
             'id',
@@ -118,12 +129,14 @@ class PatientConsumableNurseSerializer(serializers.ModelSerializer):
             'consumableId',
             'nurseId',
             'quantity',
+            'billStatus',
             'createdDate',
-            ]
+        ]
+
 
 class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
+
+    class Meta:
         model = PatientMedicineDoctor
         fields = [
             'id',
@@ -133,15 +146,16 @@ class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
             'quantity',
             'description',
             'date',
-            'status'
+            'billStatus',
             'createdDate',
-            ]
+        ]
 
 # 1 to many serializer
 
+
 class StatusSerializer(serializers.ModelSerializer):
 
-    class Meta: 
+    class Meta:
         model = Status
         fields = [
             'id',
@@ -158,96 +172,117 @@ class StatusSerializer(serializers.ModelSerializer):
             'createdDate',
             'patientId',
             'nurseId'
-            ]
+        ]
+
 
 class BillSerializer(serializers.ModelSerializer):
-    billextra = BillExtraSerializer(many=True,read_only=True)
-    class Meta: 
+
+    class Meta:
         model = Bill
         fields = [
             'id',
             'date',
             'paid',
             'dayCost',
-            'incubatorClean',
             'consumable',
             'analysis',
             'xRay',
             'lightRays',
             'medicine',
+            'extra',
+            'discount',
             'patientId',
-            'billextra'
-            ]
+        ]
+
 
 class PatientSerializer(serializers.ModelSerializer):
-    patientanalysis = PatientAnalysisSerializer(many=True,read_only=True)
-    patientxray = PatientXRaySerializer(many=True,read_only=True)
-    patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
-    patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
-    class Meta: 
+    # patientanalysis = PatientAnalysisSerializer(many=True,read_only=True)
+    # patientxray = PatientXRaySerializer(many=True,read_only=True)
+    # patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
+    # patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
+    class Meta:
         model = Patient
         fields = [
-        'userId',
-        'motherName',
-        'fatherName',
-        'gender',
-        'dateOfBirth',
-        'address',
-        'weight',
-        'ssn',
-        'state',
-        'createdDate',
-        'conditionId',
-        'incubatorId',
-        'patientanalysis',
-        'patientxray',
-        'patientconsumablenurse',
-        'patientmedicinedoctor'
+            'userId',
+            'motherName',
+            'fatherName',
+            'gender',
+            'dateOfBirth',
+            'address',
+            'weight',
+            'ssn',
+            'stateTypeId',
+            'isOnLightRay',
+            'createdDate',
+            'conditionId',
+            'incubatorId'
         ]
 
 # main serializers
 
 # basic data
+
+
 class IncubatorSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Incubator
-        fields = ['id','name']
+        fields = ['id', 'name']
+
+
+class StateTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StateType
+        fields = ['id', 'name']
+
 
 class ConditionSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Condition
-        fields = ['id','name','cost',]
+        fields = ['id', 'name', 'price', ]
+
 
 class AnalysisSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Analysis
-        fields = ['id','name','price']
+        fields = ['id', 'name', 'price']
+
 
 class ConsumableSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Consumable
-        fields = ['id','name','amount','price']
+        fields = ['id', 'name', 'amount', 'price']
+
 
 class MedicineSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Medicine
-        fields = ['id','name','amount','price']
+        fields = ['id', 'name', 'amount', 'price']
+
 
 class XRaySerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = XRay
-        fields = ['id','name','price']
+        fields = ['id', 'name', 'price']
+
 
 class ShiftSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Shift
-        fields = ['id','name','startTime','isStarTimePM','endTime','isEndTimePM']
+        fields = ['id', 'name', 'startTime',
+                  'isStartTimePM', 'endTime', 'isEndTimePM']
+
+
+class ExtraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Extra
+        fields = ['id', 'name', 'price']
 
 # non basic data
 
+
 class UserSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
+
+    class Meta:
         model = User
         fields = [
             'id',
@@ -257,24 +292,32 @@ class UserSerializer(serializers.ModelSerializer):
             'phone',
             'provider',
             'createdDate',
-            ]
+        ]
+
 
 class AccountantSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Accountant
-        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
+        fields = ['userId', 'firstName', 'lastName',
+                  'gender', 'dateOfBirth', 'createdDate']
+
 
 class DoctorSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Doctor
-        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
+        fields = ['userId', 'firstName', 'lastName',
+                  'gender', 'dateOfBirth', 'createdDate']
+
 
 class NurseSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Nurse
-        fields = ['userId','firstName','lastName','gender','dateOfBirth','createdDate']
+        fields = ['userId', 'firstName', 'lastName',
+                  'gender', 'dateOfBirth', 'createdDate']
+
 
 class ReportProblemSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = ReportProblem
-        fields = ['id','subject','body','mailFrom','mailTo','status','createdDate']
+        fields = ['id', 'subject', 'body', 'mailFrom',
+                  'mailTo', 'status', 'createdDate']
