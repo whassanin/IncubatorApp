@@ -17,7 +17,7 @@ class NurseProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    nurseModel.readById('3');
+    //nurseModel.readById('3');
 
     return ScopedModel(
       model: nurseModel,
