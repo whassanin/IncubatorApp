@@ -7,7 +7,10 @@ import 'package:incubatorapp/widgets/row/analysisrowwidget.dart';
 class AnalysisListWidget extends StatefulWidget {
   final Patient patient;
   final List<Analysis> analysisList;
-  AnalysisListWidget({this.patient,this.analysisList,});
+  AnalysisListWidget({
+    this.patient,
+    this.analysisList,
+  });
 
   @override
   _AnalysisListWidgetState createState() => _AnalysisListWidgetState();
@@ -21,28 +24,67 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       ),
     );
 
-    if (widget.analysisList != null) {
-      if (widget.analysisList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.analysisList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return AnalysisRowWidget(
-              patient: widget.patient,
-              analysis: widget.analysisList[index],
-            );
-          },
-        );
-      } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Analysis(s) Available'),
+    Widget searchTextField = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        height: 70,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(labelText: 'Search here...'),
+                onChanged: (v) {
+                  analysisModel.search(v);
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    if (analysisModel.searchList.length > 0) {
+      currentWidget = Column(
+        children: <Widget>[
+          searchTextField,
+          Expanded(
+            child: ListView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: analysisModel.searchList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return AnalysisRowWidget(
+                  patient: widget.patient,
+                  analysis: analysisModel.searchList[index],
+                );
+              },
+            ),
           ),
-        );
-      }
+        ],
+      );
+    } else if (widget.analysisList.length > 0) {
+      currentWidget = Column(
+        children: <Widget>[
+          searchTextField,
+          Expanded(
+            child: ListView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.analysisList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return AnalysisRowWidget(
+                  patient: widget.patient,
+                  analysis: widget.analysisList[index],
+                );
+              },
+            ),
+          ),
+        ],
+      );
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('Loading...'),
+          child: Text('No Analysis(s) Available'),
         ),
       );
     }
@@ -89,7 +131,6 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
         children: <Widget>[positionList, positionSaveButton],
       );
     }
-
 
     return currentWidget;
   }

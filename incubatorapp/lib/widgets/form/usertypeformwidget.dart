@@ -131,8 +131,8 @@ class _UserTypeFromWidgetState extends State<UserTypeFromWidget> {
       fun: navigateToNewPatientScreen,
     );
     Widget accountantImage = imageWidget(
-        'assets/patient.png', 'Accountant', iw, ih,
-        fun: navigateToNewAccountantScreen);
+        'assets/accountant.png', 'Accountant', iw, ih,
+        fun: navigateToNewAccountantScreen,);
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height - 85;

@@ -55,6 +55,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 # Create your views here.
 
@@ -92,7 +93,7 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ConditionSerializer
 
 # Analysis Views Class
-class AnalysisList(generics.ListCreateAPIView):
+class AnalysisList(generics.ListAPIView):
     queryset = Analysis.objects.all()
     serializer_class = AnalysisSerializer
 
