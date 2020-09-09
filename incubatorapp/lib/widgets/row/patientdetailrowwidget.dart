@@ -27,8 +27,6 @@ class PatientDetailRowWidget extends StatefulWidget {
 
 class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   void goToStatusScreen() {
-    statusModel.readByPatientId(widget.patient.userId);
-
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -517,7 +515,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           FontAwesomeIcons.list,
           color: Colors.white,
         ),
-        'Analysis',
+        'Laboratory',
         fun: goToAnalysisScreen);
 
     Widget lastButton = rowButton(

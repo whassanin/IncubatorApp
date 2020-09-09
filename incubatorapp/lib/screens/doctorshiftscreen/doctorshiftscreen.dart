@@ -9,7 +9,7 @@ class DoctorShiftScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     doctorShiftModel.readByDoctorId(doctorModel.currentDoctor.userId);
 
-    return ScopedModel(
+    return ScopedModel<DoctorShiftModel>(
       model: doctorShiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context,Widget child,DoctorShiftModel doctorShiftModel){

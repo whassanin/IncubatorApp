@@ -15,7 +15,9 @@ class StatusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    statusModel.readByPatientId(this.patient.userId);
+
+    return ScopedModel<StatusModel>(
       model: statusModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, StatusModel statusModel) {

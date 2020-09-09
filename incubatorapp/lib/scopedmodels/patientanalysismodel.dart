@@ -101,6 +101,8 @@ class PatientAnalysisModel extends Model {
     patientAnalysisList =
         patientAnalysisMap.map((e) => PatientAnalysis.fromJson(e)).toList();
 
+
+
     notifyListeners();
 
     return patientAnalysisList;
@@ -123,8 +125,6 @@ class PatientAnalysisModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientAnalysis.toJson());
     if (code == 201) {
-      patientAnalysisList.add(_currentPatientAnalysis);
-      notifyListeners();
       readByPatientId(patientModel.currentPatient.userId);
       return true;
     }

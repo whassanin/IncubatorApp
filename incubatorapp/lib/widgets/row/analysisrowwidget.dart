@@ -35,8 +35,9 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     }
   }
 
-  void navigateToEditAnalysisScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAnalysisScreen()));
+  void navigateToEditAnalysisScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditAnalysisScreen()));
   }
 
   int findAnalysis() {
@@ -89,17 +90,19 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(widget.analysis.name,
-                style: TextStyle(color: textColor)),
+            child:
+                Text(widget.analysis.name, style: TextStyle(color: textColor)),
           ),
         ),
-        (userPermission.isAccountant?Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Text('Price: ' + widget.analysis.price.toString(),
-                style: TextStyle(color: textColor)),
-          ),
-        ):Container()),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.analysis.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
       ],
     );
 
@@ -123,7 +126,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
       onTap: () {
         if (userPermission.isDoctor) {
           update();
-        } else if(userPermission.isAccountant) {
+        } else if (userPermission.isAccountant) {
           analysisModel.editAnalysis(widget.analysis);
           navigateToEditAnalysisScreen();
         }

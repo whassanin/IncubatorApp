@@ -6,7 +6,9 @@ import 'package:incubatorapp/screens/patientanalysisscreen/editpatientanalysissc
 
 class PatientAnalysisRowWidget extends StatefulWidget {
   final PatientAnalysis patientAnalysis;
-  PatientAnalysisRowWidget({this.patientAnalysis,});
+  PatientAnalysisRowWidget({
+    this.patientAnalysis,
+  });
   @override
   _PatientAnalysisRowWidgetState createState() =>
       _PatientAnalysisRowWidgetState();
@@ -119,11 +121,14 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
 
     if (analysisModel.analysisList != null) {
       if (analysisModel.analysisList.length > 0) {
-        Analysis analysis = analysisModel.analysisList
-            .where((element) => element.id == widget.patientAnalysis.analysisId)
-            .toList()[0];
+        int index = analysisModel.analysisList.indexWhere(
+            (element) => element.id == widget.patientAnalysis.analysisId);
 
-        currentWidget = patientAnalysisRow(analysis);
+        if (index >= 0) {
+          Analysis analysis = analysisModel.analysisList[index];
+
+          currentWidget = patientAnalysisRow(analysis);
+        }
       }
     }
 

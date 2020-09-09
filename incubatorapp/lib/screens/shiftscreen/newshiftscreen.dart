@@ -8,7 +8,7 @@ class NewShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     shiftModel.createShift();
-    return ScopedModel(
+    return ScopedModel<ShiftModel>(
       model: shiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, ShiftModel shiftModel) {

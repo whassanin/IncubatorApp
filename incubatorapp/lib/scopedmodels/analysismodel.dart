@@ -7,7 +7,9 @@ class AnalysisModel extends Model {
 
   List<analysisName.Analysis> analysisList = [];
 
-  List<analysisName.Analysis> searchList = [];
+  String _searchName;
+
+  String get searchName=>_searchName;
 
   analysisName.Analysis _currentAnalysis;
 
@@ -36,6 +38,11 @@ class AnalysisModel extends Model {
     return _currentAnalysis.price;
   }
 
+  void setSearchName(String val) {
+    _searchName = val;
+    notifyListeners();
+  }
+
   void readAll() async {
     List<dynamic> analysisListMap = await _api.get();
     analysisList =
@@ -43,15 +50,15 @@ class AnalysisModel extends Model {
     notifyListeners();
   }
 
-  void search(String val) {
-    print(val);
-    if (val.isNotEmpty) {
-      searchList =
-          analysisList.where((element) => element.name.contains(val)).toList();
-      print(searchList.length);
-    }else {
-      searchList.clear();
-    }
+  void search(String val) async {
+    _searchName = val;
+    analysisList.clear();
+    notifyListeners();
+
+    List<dynamic> analysisListMap = await _api.search(val);
+    analysisList =
+        analysisListMap.map((e) => analysisName.Analysis.fromJson(e)).toList();
+
     notifyListeners();
   }
 

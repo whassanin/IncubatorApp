@@ -38,6 +38,25 @@ class Api {
     return listMap;
   }
 
+  Future<List<dynamic>> search(String value) async {
+
+    final data = await http.get(
+      _url + '/?' + 'search='+value,
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+    List<dynamic> listMap = [];
+
+    var currentData = jsonDecode(data.body);
+
+    if (currentData.runtimeType == listMap.runtimeType) {
+      listMap = currentData;
+    }
+
+    return listMap;
+  }
+
   Future<List<dynamic>> filter(List<String> fields, List<String> values) async {
     String filterString = '';
 

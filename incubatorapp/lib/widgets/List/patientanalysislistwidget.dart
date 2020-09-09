@@ -27,10 +27,13 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
             (pa) {
               int index = addCalculatedList.indexOf(pa);
               if (index < 0) {
-                Analysis analysis = analysisModel.analysisList
-                    .where((a) => a.id == pa.analysisId)
-                    .toList()[0];
-                total += analysis.price;
+
+                int ia = analysisModel.analysisList.indexWhere((a) => a.id == pa.analysisId);
+
+                if (ia > 0){
+                  Analysis analysis = analysisModel.analysisList[ia];
+                  total += analysis.price;
+                }
               }
             },
           );

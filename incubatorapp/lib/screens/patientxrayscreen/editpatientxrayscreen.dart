@@ -15,7 +15,7 @@ class EditPatientXRayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

@@ -96,6 +96,8 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
 class AnalysisList(generics.ListAPIView):
     queryset = Analysis.objects.all()
     serializer_class = AnalysisSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 class AnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Analysis.objects.all()

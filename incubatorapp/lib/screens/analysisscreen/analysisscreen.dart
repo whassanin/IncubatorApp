@@ -14,7 +14,7 @@ class AnalysisScreen extends StatelessWidget {
       model: analysisModel,
       child: ScopedModelDescendant<AnalysisModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel incubatorModel) {
+            AnalysisModel analysisModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(

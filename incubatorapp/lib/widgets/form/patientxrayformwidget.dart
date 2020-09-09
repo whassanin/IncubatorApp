@@ -123,7 +123,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save'),
+            child: Text('Save',style: TextStyle(color: Colors.white),),
             onPressed: () {
               patientXRayModel.update();
               Navigator.pop(context);

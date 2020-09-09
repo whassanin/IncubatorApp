@@ -17,7 +17,7 @@ class DoctorProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     doctorModel.readById('1');
-    return ScopedModel(
+    return ScopedModel<DoctorModel>(
       model: doctorModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, DoctorModel doctorModel) {

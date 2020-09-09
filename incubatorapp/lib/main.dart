@@ -32,6 +32,7 @@ import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
+import 'package:incubatorapp/screens/analysisscreen/searchanalysisscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
@@ -185,6 +186,7 @@ class MyApp extends StatelessWidget {
         NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
+        SearchAnalysisScreen.routeName:(context)=>SearchAnalysisScreen(),
       },
       home: DoctorProfileScreen(),
     );

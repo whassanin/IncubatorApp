@@ -14,7 +14,7 @@ class NewPatientMedicineDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<PatientMedicineDoctorModel>(
       model: patientMedicineDoctorModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

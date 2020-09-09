@@ -19,7 +19,7 @@ class NurseProfileScreen extends StatelessWidget {
 
     //nurseModel.readById('3');
 
-    return ScopedModel(
+    return ScopedModel<NurseModel>(
       model: nurseModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, NurseModel nurseModel) {
