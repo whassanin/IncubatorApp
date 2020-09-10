@@ -108,14 +108,17 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           children: <Widget>[
             searchTextField(),
             Expanded(
-              child: ListView.builder(
-                itemCount: widget.medicineList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return MedicineRowWidget(
-                    patient: widget.patient,
-                    medicine: widget.medicineList[index],
-                  );
-                },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: ListView.builder(
+                  itemCount: widget.medicineList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MedicineRowWidget(
+                      patient: widget.patient,
+                      medicine: widget.medicineList[index],
+                    );
+                  },
+                ),
               ),
             ),
           ],

@@ -35,6 +35,7 @@ import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dart';
 import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
 import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
 import 'package:incubatorapp/screens/creditcardscreen/editcreditcardscreen.dart';
@@ -134,7 +135,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    userPermission.setPermission(UserType.doctor);
+    //userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -191,9 +192,10 @@ class MyApp extends StatelessWidget {
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
         SearchLaboratoryScreen.routeName:(context)=>SearchLaboratoryScreen(),
         SearchXRayScreen.routeName:(context)=>SearchXRayScreen(),
-        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen()
+        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen(),
+        SearchConsumableScreen.routeName:(context)=>SearchConsumableScreen()
       },
-      home: DoctorProfileScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

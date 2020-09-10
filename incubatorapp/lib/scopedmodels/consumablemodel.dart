@@ -6,7 +6,9 @@ class ConsumableModel extends Model{
   Api _api = new Api('consumable');
 
   List<Consumable> consumableList;
+  String _searchName;
 
+  String get searchName=>_searchName;
   Consumable _currentConsumable;
 
   void createConsumable(){
@@ -44,14 +46,27 @@ class ConsumableModel extends Model{
     return _currentConsumable.price;
   }
 
+  void setSearchName(String val) {
+    _searchName = val;
+    notifyListeners();
+  }
+
   void readAll() async {
     List<dynamic> consumableListMap = await _api.get();
     consumableList = consumableListMap.map((e) => Consumable.fromJson(e)).toList();
     notifyListeners();
   }
 
-  void search(){
+  void search(String val) async {
+    _searchName = val;
+    consumableList.clear();
+    notifyListeners();
 
+    List<dynamic> consumableListMap = await _api.search(val);
+    consumableList =
+        consumableListMap.map((e) => Consumable.fromJson(e)).toList();
+
+    notifyListeners();
   }
 
   Future<bool> create() async {
