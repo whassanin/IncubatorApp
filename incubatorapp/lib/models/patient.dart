@@ -1,8 +1,8 @@
 import 'package:incubatorapp/models/bill.dart';
 import 'package:incubatorapp/models/creditcard.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/patientextra.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/status.dart';
@@ -26,8 +26,8 @@ class Patient {
   int incubatorId;
   int stateTypeId;
 
-  @JsonKey(name: 'patientanalysis')
-  List<PatientAnalysis> patientAnalysisList = [];
+  @JsonKey(name: 'patientlaboratory')
+  List<PatientLaboratory> patientLaboratoryList = [];
 
   @JsonKey(name: 'patientxray')
   List<PatientXRay> patientXRaysList = [];
@@ -64,7 +64,7 @@ class Patient {
     this.conditionId,
     this.incubatorId,
     this.stateTypeId,
-    this.patientAnalysisList,
+    this.patientLaboratoryList,
     this.patientXRaysList,
     this.patientMedicineDoctorList,
     this.patientConsumableNurseList,

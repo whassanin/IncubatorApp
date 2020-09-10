@@ -19,7 +19,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     return v;
   }
 
-  Widget patientAnalysisRow(XRay xRay) {
+  Widget patientLaboratoryRow(XRay xRay) {
     Widget xRayNameWidget = Container(
       child: Text('Name: ' + xRay.name),
     );
@@ -121,7 +121,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
             .where((element) => element.id == widget.patientXRay.xRayId)
             .toList()[0];
 
-        currentWidget = patientAnalysisRow(xRay);
+        currentWidget = patientLaboratoryRow(xRay);
       }
     }
     return currentWidget;

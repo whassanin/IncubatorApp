@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/analysisscreen/editanalysisscreen.dart';
+import 'package:incubatorapp/screens/laboratoryscreen/editlaboratoryscreen.dart';
 
-class AnalysisRowWidget extends StatefulWidget {
+class LaboratoryRowWidget extends StatefulWidget {
   final Patient patient;
-  final Analysis analysis;
-  AnalysisRowWidget({
+  final Laboratory laboratory;
+  LaboratoryRowWidget({
     this.patient,
-    this.analysis,
+    this.laboratory,
   });
   @override
-  _AnalysisRowWidgetState createState() => _AnalysisRowWidgetState();
+  _LaboratoryRowWidgetState createState() => _LaboratoryRowWidgetState();
 }
 
-class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
+class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
   bool isSelected = false;
 
   String dateFormat(DateTime dateTime) {
@@ -27,7 +27,7 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   void update() {
-    int index = findAnalysis();
+    int index = findLaboratory();
     if (index >= 0) {
       delete(index);
     } else if (index < 0) {
@@ -35,21 +35,21 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
     }
   }
 
-  void navigateToEditAnalysisScreen() {
+  void navigateToEditLaboratoryScreen() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditAnalysisScreen()));
+        context, MaterialPageRoute(builder: (context) => EditLaboratoryScreen()));
   }
 
-  int findAnalysis() {
+  int findLaboratory() {
     String dn = dateFormat(DateTime.now());
 
     int index = -1;
 
-    patientAnalysisModel.patientAnalysisList.forEach((element) {
+    patientLaboratoryModel.patientLaboratoryList.forEach((element) {
       if (element.patientId == widget.patient.userId &&
-          element.analysisId == widget.analysis.id &&
+          element.laboratoryId == widget.laboratory.id &&
           dateFormat(element.createdDate) == dn) {
-        index = patientAnalysisModel.patientAnalysisList.indexOf(element);
+        index = patientLaboratoryModel.patientLaboratoryList.indexOf(element);
       }
     });
 
@@ -57,22 +57,22 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
   }
 
   void delete(int index) {
-    patientAnalysisModel
-        .editPatientAnalysis(patientAnalysisModel.patientAnalysisList[index]);
-    patientAnalysisModel.delete();
+    patientLaboratoryModel
+        .editPatientLaboratory(patientLaboratoryModel.patientLaboratoryList[index]);
+    patientLaboratoryModel.delete();
   }
 
   void save() async {
-    patientAnalysisModel.createPatientAnalysis();
-    patientAnalysisModel.setPatientId(widget.patient.userId);
-    patientAnalysisModel.setAnalysisId(widget.analysis.id);
-    patientAnalysisModel.create();
+    patientLaboratoryModel.createPatientLaboratory();
+    patientLaboratoryModel.setPatientId(widget.patient.userId);
+    patientLaboratoryModel.setLaboratoryId(widget.laboratory.id);
+    patientLaboratoryModel.create();
   }
 
   Widget row() {
     int index = -1;
     if (widget.patient != null) {
-      index = findAnalysis();
+      index = findLaboratory();
     }
 
     Color cardColor = Colors.white;
@@ -91,14 +91,14 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             child:
-                Text(widget.analysis.name, style: TextStyle(color: textColor)),
+                Text(widget.laboratory.name, style: TextStyle(color: textColor)),
           ),
         ),
         (userPermission.isAccountant
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  child: Text('Price: ' + widget.analysis.price.toString(),
+                  child: Text('Price: ' + widget.laboratory.price.toString(),
                       style: TextStyle(color: textColor)),
                 ),
               )
@@ -127,8 +127,8 @@ class _AnalysisRowWidgetState extends State<AnalysisRowWidget> {
         if (userPermission.isDoctor) {
           update();
         } else if (userPermission.isAccountant) {
-          analysisModel.editAnalysis(widget.analysis);
-          navigateToEditAnalysisScreen();
+          laboratoryModel.editLaboratory(widget.laboratory);
+          navigateToEditLaboratoryScreen();
         }
       },
       child: Padding(

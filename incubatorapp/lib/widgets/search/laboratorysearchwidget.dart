@@ -24,7 +24,7 @@ class _SearchLaboratoryWidgetState extends State<SearchLaboratoryWidget> {
                 decoration: InputDecoration(labelText: 'Search here...'),
                 onFieldSubmitted: (v) {},
                 onChanged: (v) {
-                  analysisModel.search(v);
+                  laboratoryModel.search(v);
                 },
               ),
             )

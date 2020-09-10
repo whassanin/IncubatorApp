@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
+import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/analysisscreen/searchanalysisscreen.dart';
-import 'package:incubatorapp/widgets/row/analysisrowwidget.dart';
+import 'package:incubatorapp/screens/laboratoryscreen/searchlaboratoryscreen.dart';
+import 'package:incubatorapp/widgets/row/laboratoryrowwidget.dart';
 
-class AnalysisListWidget extends StatefulWidget {
+class LaboratoryListWidget extends StatefulWidget {
   final Patient patient;
-  final List<Analysis> analysisList;
-  AnalysisListWidget({
+  final List<Laboratory> laboratoryList;
+  LaboratoryListWidget({
     this.patient,
-    this.analysisList,
+    this.laboratoryList,
   });
 
   @override
-  _AnalysisListWidgetState createState() => _AnalysisListWidgetState();
+  _LaboratoryListWidgetState createState() => _LaboratoryListWidgetState();
 }
 
-class _AnalysisListWidgetState extends State<AnalysisListWidget> {
+class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
   void clearSearch() {
-    analysisModel.setSearchName('');
-    analysisModel.readAll();
+    laboratoryModel.setSearchName('');
+    laboratoryModel.readAll();
   }
 
   Widget searchTextField() {
@@ -28,9 +28,9 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
 
     String search = 'Search here...';
 
-    if (analysisModel.searchName != null) {
-      if (analysisModel.searchName.isNotEmpty) {
-        search = analysisModel.searchName;
+    if (laboratoryModel.searchName != null) {
+      if (laboratoryModel.searchName.isNotEmpty) {
+        search = laboratoryModel.searchName;
         isSearch = true;
       }
     }
@@ -50,7 +50,7 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
 
     Widget displayTextGestureDetector = GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, SearchAnalysisScreen.routeName);
+        Navigator.pushNamed(context, SearchLaboratoryScreen.routeName);
       },
       child: displayTextContainer,
     );
@@ -103,8 +103,8 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       ),
     );
 
-    if (widget.analysisList != null) {
-      if (widget.analysisList.length > 0) {
+    if (widget.laboratoryList != null) {
+      if (widget.laboratoryList.length > 0) {
         currentWidget = Column(
           children: <Widget>[
             searchTextField(),
@@ -112,11 +112,11 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
               child: ListView.builder(
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.analysisList.length,
+                itemCount: widget.laboratoryList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return AnalysisRowWidget(
+                  return LaboratoryRowWidget(
                     patient: widget.patient,
-                    analysis: widget.analysisList[index],
+                    laboratory: widget.laboratoryList[index],
                   );
                 },
               ),
@@ -126,14 +126,14 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Analysis(s) Available'),
+            child: Text('No Laboratory(s) Available'),
           ),
         );
       }
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('No Analysis(s) Available'),
+          child: Text('No Laboratory(s) Available'),
         ),
       );
     }
@@ -169,7 +169,7 @@ class _AnalysisListWidgetState extends State<AnalysisListWidget> {
           ),
           onTap: () {
             clearSearch();
-            patientAnalysisModel.readByPatientId(widget.patient.userId);
+            patientLaboratoryModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

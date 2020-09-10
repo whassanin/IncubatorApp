@@ -6,11 +6,10 @@ import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
-import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/patientanalysisscreen.dart';
 import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
 import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
+import 'package:incubatorapp/screens/patientlaboratoryscreen/patientlaboratoryscreen.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/statescreen/statescreen.dart';
@@ -37,11 +36,11 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-  void goToAnalysisScreen() {
+  void goToLaboratoryScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PatientAnalysisScreen(
+        builder: (context) => PatientLaboratoryScreen(
           patient: widget.patient,
         ),
       ),
@@ -516,7 +515,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           color: Colors.white,
         ),
         'Laboratory',
-        fun: goToAnalysisScreen);
+        fun: goToLaboratoryScreen);
 
     Widget lastButton = rowButton(
         Icon(

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
+import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
 import 'package:incubatorapp/widgets/search/laboratorysearchwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class SearchAnalysisScreen extends StatelessWidget {
-  static const routeName = '/searchanalysisscreen';
+class SearchLaboratoryScreen extends StatelessWidget {
+  static const routeName = '/searchlaboratoryscreen';
 
-  SearchAnalysisScreen();
+  SearchLaboratoryScreen();
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<AnalysisModel>(
-      model: analysisModel,
-      child: ScopedModelDescendant<AnalysisModel>(
+    return ScopedModel<LaboratoryModel>(
+      model: laboratoryModel,
+      child: ScopedModelDescendant<LaboratoryModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel incubatorModel) {
+            LaboratoryModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(

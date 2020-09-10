@@ -213,7 +213,7 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
           rowTitle('Basic'),
           rowDetailData('Day Cost', widget.bill.dayCost.toString()),
           rowDetailData('Consumable', widget.bill.consumable.toString()),
-          rowDetailData('Analysis', widget.bill.analysis.toString()),
+          rowDetailData('Laboratory', widget.bill.laboratory.toString()),
           rowDetailData('XRay', widget.bill.xRay.toString()),
           rowDetailData('Light Ray', widget.bill.lightRays.toString()),
           rowDetailData('Medicine', widget.bill.medicine.toString()),

@@ -1,6 +1,6 @@
 from incubator.models import Incubator
 from incubator.models import StateType
-from incubator.models import Analysis
+from incubator.models import Laboratory
 from incubator.models import Condition
 from incubator.models import Patient
 from incubator.models import Bill
@@ -18,7 +18,7 @@ from incubator.models import Medicine
 from incubator.models import Status
 from incubator.models import DoctorShift
 from incubator.models import NurseShift
-from incubator.models import PatientAnalysis
+from incubator.models import PatientLaboratory
 from incubator.models import PatientXRay
 from incubator.models import PatientConsumableNurse
 from incubator.models import PatientMedicineDoctor
@@ -27,7 +27,7 @@ from incubator.models import PatientExtra
 
 from incubator.serializer import IncubatorSerializer
 from incubator.serializer import StateTypeSerializer
-from incubator.serializer import AnalysisSerializer
+from incubator.serializer import LaboratorySerializer
 from incubator.serializer import ConditionSerializer
 from incubator.serializer import PatientSerializer
 from incubator.serializer import BillSerializer
@@ -43,7 +43,7 @@ from incubator.serializer import DoctorShiftSerializer
 from incubator.serializer import NurseShiftSerializer
 from incubator.serializer import MedicineSerializer
 from incubator.serializer import StatusSerializer
-from incubator.serializer import PatientAnalysisSerializer
+from incubator.serializer import PatientLaboratorySerializer
 from incubator.serializer import PatientXRaySerializer
 from incubator.serializer import PatientConsumableNurseSerializer
 from incubator.serializer import PatientMedicineDoctorSerializer
@@ -92,16 +92,16 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Condition.objects.all()
     serializer_class = ConditionSerializer
 
-# Analysis Views Class
-class AnalysisList(generics.ListAPIView):
-    queryset = Analysis.objects.all()
-    serializer_class = AnalysisSerializer
+# Laboratory Views Class
+class LaboratoryList(generics.ListAPIView):
+    queryset = Laboratory.objects.all()
+    serializer_class = LaboratorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
 
-class AnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Analysis.objects.all()
-    serializer_class = AnalysisSerializer
+class LaboratoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Laboratory.objects.all()
+    serializer_class = LaboratorySerializer
 
 # Consumable Views Class
 class ConsumableList(generics.ListCreateAPIView):
@@ -259,15 +259,15 @@ class NurseShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = NurseShift.objects.all()
     serializer_class = NurseShiftSerializer
 
-class PatientAnalysisList(generics.ListCreateAPIView):
-    queryset = PatientAnalysis.objects.all().order_by('-createdDate') 
-    serializer_class = PatientAnalysisSerializer
+class PatientLaboratoryList(generics.ListCreateAPIView):
+    queryset = PatientLaboratory.objects.all().order_by('-createdDate') 
+    serializer_class = PatientLaboratorySerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['patientId','analysisId','billStatus']
+    filterset_fields = ['patientId','laboratoryId','billStatus']
 
-class PatientAnalysisDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PatientAnalysis.objects.all()
-    serializer_class = PatientAnalysisSerializer
+class PatientLaboratoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PatientLaboratory.objects.all()
+    serializer_class = PatientLaboratorySerializer
 
 class PatientXRayList(generics.ListCreateAPIView):
     queryset = PatientXRay.objects.all().order_by('-createdDate')

@@ -7,7 +7,7 @@ import 'package:incubatorapp/widgets/form/patientxrayformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EditPatientXRayScreen extends StatelessWidget {
-  static const routeName = '/editpatientanalysisscreen';
+  static const routeName = '/editpatientlaboratoryscreen';
 
   final XRay xRay;
   final PatientXRay patientXRay;

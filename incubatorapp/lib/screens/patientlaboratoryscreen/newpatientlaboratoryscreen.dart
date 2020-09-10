@@ -1,45 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
-import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
-import 'package:incubatorapp/widgets/List/analysislistwidget.dart';
+import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
+import 'package:incubatorapp/scopedmodels/patientlaboratorymodel.dart';
+import 'package:incubatorapp/widgets/List/laboratorylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewPatientAnalysisScreen extends StatelessWidget {
-  static const routeName = '/newpatientanalysisscreen';
+class NewPatientLaboratoryScreen extends StatelessWidget {
+  static const routeName = '/newpatientlaboratoryscreen';
 
   final Patient patient;
-  NewPatientAnalysisScreen({
+  NewPatientLaboratoryScreen({
     this.patient,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<PatientAnalysisModel>(
-      model: patientAnalysisModel,
+    return ScopedModel<PatientLaboratoryModel>(
+      model: patientLaboratoryModel,
       child: ScopedModelDescendant(builder:
-          (BuildContext context, Widget child, PatientAnalysisModel patientAnalysisModel) {
-        return ScopedModel<AnalysisModel>(
-          model: analysisModel,
+          (BuildContext context, Widget child, PatientLaboratoryModel patientLaboratoryModel) {
+        return ScopedModel<LaboratoryModel>(
+          model: laboratoryModel,
           child: ScopedModelDescendant(
             builder: (BuildContext context, Widget child,
-                AnalysisModel analysisModel) {
+                LaboratoryModel laboratoryModel) {
               return Scaffold(
                 appBar: AppBar(
                   leading: BackButton(
                     color: Colors.white,
                   ),
                   title: Text(
-                    'Add Analysis to Patient',
+                    'Add Laboratory to Patient',
                     style: TextStyle(
                       color: Colors.white,
                     ),
                   ),
                 ),
-                body: AnalysisListWidget(
+                body: LaboratoryListWidget(
                   patient: patient,
-                  analysisList: analysisModel.analysisList,
+                  laboratoryList: laboratoryModel.laboratoryList,
                 ),
               );
             },

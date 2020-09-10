@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
-import 'package:incubatorapp/screens/analysisscreen/newanalysisscreen.dart';
-import 'package:incubatorapp/widgets/List/analysislistwidget.dart';
+import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
+import 'package:incubatorapp/screens/laboratoryscreen/newlaboratoryscreen.dart';
+import 'package:incubatorapp/widgets/List/laboratorylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AnalysisScreen extends StatelessWidget {
-  static const routeName = '/analysisscreen';
+class LaboratoryScreen extends StatelessWidget {
+  static const routeName = '/laboratoryscreen';
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<AnalysisModel>(
-      model: analysisModel,
-      child: ScopedModelDescendant<AnalysisModel>(
+    return ScopedModel<LaboratoryModel>(
+      model: laboratoryModel,
+      child: ScopedModelDescendant<LaboratoryModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel analysisModel) {
+            LaboratoryModel laboratoryModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
               title:
-                  Text('Analysis List', style: TextStyle(color: Colors.white)),
+                  Text('Laboratory List', style: TextStyle(color: Colors.white)),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -31,15 +31,15 @@ class AnalysisScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewAnalysisScreen(),
+                        builder: (context) => NewLaboratoryScreen(),
                       ),
                     );
                   },
                 )
               ],
             ),
-            body: AnalysisListWidget(
-              analysisList: analysisModel.analysisList,
+            body: LaboratoryListWidget(
+              laboratoryList: laboratoryModel.laboratoryList,
             ),
           );
         },
