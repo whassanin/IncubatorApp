@@ -7,7 +7,9 @@ class MedicineModel extends Model{
   Api _api = new Api('medicine');
 
   List<Medicine> medicineList;
+  String _searchName;
 
+  String get searchName=>_searchName;
   Medicine _currentMedicine;
 
   void createMedicine(){
@@ -45,14 +47,27 @@ class MedicineModel extends Model{
     return _currentMedicine.price;
   }
 
+  void setSearchName(String val) {
+    _searchName = val;
+    notifyListeners();
+  }
+
   void readAll() async {
     List<dynamic> medicineListMap = await _api.get();
     medicineList = medicineListMap.map((e) => Medicine.fromJson(e)).toList();
     notifyListeners();
   }
 
-  void search(){
+  void search(String val) async {
+    _searchName = val;
+    medicineList.clear();
+    notifyListeners();
 
+    List<dynamic> medicineListMap = await _api.search(val);
+    medicineList =
+        medicineListMap.map((e) => Medicine.fromJson(e)).toList();
+
+    notifyListeners();
   }
 
   Future<bool> create() async {

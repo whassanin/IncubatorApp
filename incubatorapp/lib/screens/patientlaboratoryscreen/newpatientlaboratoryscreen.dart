@@ -6,13 +6,27 @@ import 'package:incubatorapp/scopedmodels/patientlaboratorymodel.dart';
 import 'package:incubatorapp/widgets/List/laboratorylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewPatientLaboratoryScreen extends StatelessWidget {
+class NewPatientLaboratoryScreen extends StatefulWidget {
   static const routeName = '/newpatientlaboratoryscreen';
 
   final Patient patient;
   NewPatientLaboratoryScreen({
     this.patient,
   });
+
+  @override
+  _NewPatientLaboratoryScreenState createState() => _NewPatientLaboratoryScreenState();
+}
+
+class _NewPatientLaboratoryScreenState extends State<NewPatientLaboratoryScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    laboratoryModel.setSearchName('');
+    laboratoryModel.readAll();
+    patientLaboratoryModel.readByPatientId(widget.patient.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +52,7 @@ class NewPatientLaboratoryScreen extends StatelessWidget {
                   ),
                 ),
                 body: LaboratoryListWidget(
-                  patient: patient,
+                  patient: widget.patient,
                   laboratoryList: laboratoryModel.laboratoryList,
                 ),
               );

@@ -107,6 +107,8 @@ class LaboratoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class ConsumableList(generics.ListCreateAPIView):
     queryset = Consumable.objects.all()
     serializer_class = ConsumableSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name'] 
 
 class ConsumableDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Consumable.objects.all()
@@ -116,6 +118,8 @@ class ConsumableDetail(generics.RetrieveUpdateDestroyAPIView):
 class MedicineList(generics.ListCreateAPIView):
     queryset = Medicine.objects.all()
     serializer_class = MedicineSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name'] 
 
 class MedicineDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Medicine.objects.all()
@@ -125,6 +129,8 @@ class MedicineDetail(generics.RetrieveUpdateDestroyAPIView):
 class XRayList(generics.ListCreateAPIView):
     queryset = XRay.objects.all()
     serializer_class = XRaySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 class XRayDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = XRay.objects.all()

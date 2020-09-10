@@ -52,6 +52,7 @@ import 'package:incubatorapp/screens/laboratoryscreen/searchlaboratoryscreen.dar
 import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/searchmedicinescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
@@ -75,6 +76,7 @@ import 'package:incubatorapp/screens/reportscreen/reportscreen.dart';
 import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:huawei_push/constants/channel.dart' as Channel;
+import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -188,6 +190,8 @@ class MyApp extends StatelessWidget {
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
         SearchLaboratoryScreen.routeName:(context)=>SearchLaboratoryScreen(),
+        SearchXRayScreen.routeName:(context)=>SearchXRayScreen(),
+        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen()
       },
       home: DoctorProfileScreen(),
     );

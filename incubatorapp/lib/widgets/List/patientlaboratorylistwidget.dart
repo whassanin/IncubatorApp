@@ -28,10 +28,10 @@ class _PatientLaboratoryListWidgetState extends State<PatientLaboratoryListWidge
               int index = addCalculatedList.indexOf(pa);
               if (index < 0) {
 
-                int ia = laboratoryModel.laboratoryList.indexWhere((a) => a.id == pa.laboratoryId);
+                int il = laboratoryModel.laboratoryList.indexWhere((a) => a.id == pa.laboratoryId);
 
-                if (ia > 0){
-                  Laboratory laboratory = laboratoryModel.laboratoryList[ia];
+                if (il >= 0){
+                  Laboratory laboratory = laboratoryModel.laboratoryList[il];
                   total += laboratory.price;
                 }
               }

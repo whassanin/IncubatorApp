@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
-import 'package:incubatorapp/widgets/search/laboratorysearchwidget.dart';
+import 'package:incubatorapp/scopedmodels/xraymodel.dart';
+import 'package:incubatorapp/widgets/search/searchxraywidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class SearchLaboratoryScreen extends StatelessWidget {
-  static const routeName = '/searchlaboratoryscreen';
+class SearchXRayScreen extends StatelessWidget {
+  static const routeName = '/searchxrayscreen';
 
-  SearchLaboratoryScreen();
+  SearchXRayScreen();
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<LaboratoryModel>(
-      model: laboratoryModel,
-      child: ScopedModelDescendant<LaboratoryModel>(
+    return ScopedModel<XRayModel>(
+      model: xRayModel,
+      child: ScopedModelDescendant<XRayModel>(
         builder: (BuildContext context, Widget childWidget,
-            LaboratoryModel laboratoryModel) {
+            XRayModel xRayModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
               title: Text(
-                'Search Laboratory Screen',
+                'Search XRay Screen',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -31,7 +31,7 @@ class SearchLaboratoryScreen extends StatelessWidget {
             ),
             body: Center(
               child: Container(
-                child: SearchLaboratoryWidget(),
+                child: SearchXRayWidget(),
               ),
             ),
           );

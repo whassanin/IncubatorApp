@@ -2,38 +2,46 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/xray.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class XRayModel extends Model{
-
+class XRayModel extends Model {
   Api _api = new Api('xray');
 
   List<XRay> xRayList;
 
+  String _searchName;
+
+  String get searchName => _searchName;
+
   XRay _currentXRay;
 
-  void createXRay(){
-    _currentXRay = new XRay(0, '',0);
+  void createXRay() {
+    _currentXRay = new XRay(0, '', 0);
   }
 
-  void editXRay(XRay editXRay){
+  void editXRay(XRay editXRay) {
     _currentXRay = editXRay;
   }
 
-  void setName(String val){
+  void setName(String val) {
     _currentXRay.name = val;
     notifyListeners();
   }
 
-  String getName(){
+  String getName() {
     return _currentXRay.name;
   }
 
-  void setPrice(double val){
+  void setPrice(double val) {
     _currentXRay.price = val;
     notifyListeners();
   }
 
-  double getPrice(){
+  double getPrice() {
     return _currentXRay.price;
+  }
+
+  void setSearchName(String val) {
+    _searchName = val;
+    notifyListeners();
   }
 
   void readAll() async {
@@ -42,8 +50,15 @@ class XRayModel extends Model{
     notifyListeners();
   }
 
-  void search(){
+  void search(String val) async {
+    _searchName = val;
+    xRayList.clear();
+    notifyListeners();
 
+    List<dynamic> xRayListMap = await _api.search(val);
+    xRayList = xRayListMap.map((e) => XRay.fromJson(e)).toList();
+
+    notifyListeners();
   }
 
   Future<bool> create() async {
@@ -58,8 +73,8 @@ class XRayModel extends Model{
   }
 
   Future<bool> update() async {
-    int code = await _api.put(
-        _currentXRay.toJson(), _currentXRay.id.toString());
+    int code =
+        await _api.put(_currentXRay.toJson(), _currentXRay.id.toString());
 
     if (code == 200) {
       notifyListeners();
@@ -80,5 +95,4 @@ class XRayModel extends Model{
     }
     return false;
   }
-
 }
