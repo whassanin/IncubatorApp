@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/laboratory.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
 
-class PatientAnalysisFormWidget extends StatefulWidget {
-  final PatientAnalysis patientAnalysis;
-  final Analysis analysis;
-  PatientAnalysisFormWidget({this.patientAnalysis, this.analysis});
+class PatientLaboratoryFormWidget extends StatefulWidget {
+  final PatientLaboratory patientLaboratory;
+  final Laboratory laboratory;
+  PatientLaboratoryFormWidget({this.patientLaboratory, this.laboratory});
   @override
-  _PatientAnalysisFormWidgetState createState() =>
-      _PatientAnalysisFormWidgetState();
+  _PatientLaboratoryFormWidgetState createState() =>
+      _PatientLaboratoryFormWidgetState();
 }
 
-class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
+class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController resultTEC = new TextEditingController();
 
@@ -20,8 +20,8 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    nameTEC.text = widget.analysis.name;
-    resultTEC.text = widget.patientAnalysis.result;
+    nameTEC.text = widget.laboratory.name;
+    resultTEC.text = widget.patientLaboratory.result;
   }
 
   @override
@@ -42,7 +42,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
                     ),
                   ),
                 ),
-                labelText: 'Analysis Name',
+                labelText: 'Laboratory Name',
               ),
               validator: (v) {
                 return null;
@@ -82,10 +82,10 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
             return null;
           },
           onChanged: (v) {
-            patientAnalysisModel.setResult(v);
+            patientLaboratoryModel.setResult(v);
           },
           onFieldSubmitted: (v) {
-            patientAnalysisModel.setResult(v);
+            patientLaboratoryModel.setResult(v);
           },
         ),
       ),
@@ -107,7 +107,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
             ),
             child: Text('Delete', style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientAnalysisModel.delete();
+              patientLaboratoryModel.delete();
               Navigator.pop(context);
             },
           ),
@@ -131,7 +131,7 @@ class _PatientAnalysisFormWidgetState extends State<PatientAnalysisFormWidget> {
             ),
             child: Text('Save', style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientAnalysisModel.update();
+              patientLaboratoryModel.update();
               Navigator.pop(context);
             },
           ),

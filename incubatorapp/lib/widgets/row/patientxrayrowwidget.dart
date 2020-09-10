@@ -6,7 +6,9 @@ import 'package:incubatorapp/screens/patientxrayscreen/editpatientxrayscreen.dar
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;
-  PatientXRayRowWidget({this.patientXRay,});
+  PatientXRayRowWidget({
+    this.patientXRay,
+  });
   @override
   _PatientXRayRowWidgetState createState() => _PatientXRayRowWidgetState();
 }
@@ -19,7 +21,7 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
     return v;
   }
 
-  Widget patientAnalysisRow(XRay xRay) {
+  Widget patientLaboratoryRow(XRay xRay) {
     Widget xRayNameWidget = Container(
       child: Text('Name: ' + xRay.name),
     );
@@ -117,11 +119,13 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
 
     if (xRayModel.xRayList != null) {
       if (xRayModel.xRayList.length > 0) {
-        XRay xRay = xRayModel.xRayList
-            .where((element) => element.id == widget.patientXRay.xRayId)
-            .toList()[0];
+        int index = xRayModel.xRayList
+            .indexWhere((element) => element.id == widget.patientXRay.xRayId);
+        if (index >= 0) {
+          XRay xRay = xRayModel.xRayList[index];
 
-        currentWidget = patientAnalysisRow(xRay);
+          currentWidget = patientLaboratoryRow(xRay);
+        }
       }
     }
     return currentWidget;

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientextramodel.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
 import 'package:incubatorapp/screens/patientextrascreen/newpatientextrascreen.dart';
-import 'package:incubatorapp/widgets/List/patientanalysislistwidget.dart';
 import 'package:incubatorapp/widgets/List/patientextralistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -17,7 +14,8 @@ class PatientExtraScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    patientExtraModel.readByPatientId(this.patient.userId);
+    return ScopedModel<PatientExtraModel>(
       model: patientExtraModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

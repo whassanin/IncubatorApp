@@ -11,7 +11,7 @@ class PatientDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<PatientModel>(
       model: patientModel,
       child: ScopedModelDescendant(
         builder:
@@ -24,10 +24,14 @@ class PatientDetailScreen extends StatelessWidget {
 
           if (patientModel.currentPatient != null) {
             if (patientModel.currentPatient.userId != null) {
-              currentWidget = PatientDetailRowWidget(
-                patient: patientModel.currentPatient,
-                userPermission: userPermission,
-              );
+              if(patientModel.isLoading!=null){
+                if (patientModel.isLoading == false) {
+                  currentWidget = PatientDetailRowWidget(
+                    patient: patientModel.currentPatient,
+                    userPermission: userPermission,
+                  );
+                }
+              }
             }
           }
 

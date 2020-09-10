@@ -7,6 +7,10 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientModel extends Model {
   Api _api = new Api('patient');
 
+  bool _isLoading;
+
+  bool get isLoading => _isLoading;
+
   List<Patient> patientList;
 
   Patient _currentPatient;
@@ -189,10 +193,13 @@ class PatientModel extends Model {
   }
 
   void _readForDoctorAndNurse(String id) async {
+    _isLoading = true;
+    notifyListeners();
+
     _currentPatient.statusList =
         await statusModel.readByPatientId(int.parse(id));
-    _currentPatient.patientAnalysisList =
-        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientLaboratoryList =
+        await patientLaboratoryModel.readByPatientId(int.parse(id));
     _currentPatient.patientXRaysList =
         await patientXRayModel.readByPatientId(int.parse(id));
     _currentPatient.patientMedicineDoctorList =
@@ -201,13 +208,19 @@ class PatientModel extends Model {
         await patientConsumableNurseModel.readByPatientId(int.parse(id));
     _currentPatient.patientExtraList =
         await patientExtraModel.readByPatientId(int.parse(id));
+    print('reading');
+
+    await Future.delayed(Duration(seconds: 2));
+
+    _isLoading = false;
+
     notifyListeners();
   }
 
   void _readForAccountant(String id) async {
     _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
-    _currentPatient.patientAnalysisList = await patientAnalysisModel
-        .readByPatientIdAndPendingAnalysis(int.parse(id));
+    _currentPatient.patientLaboratoryList = await patientLaboratoryModel
+        .readByPatientIdAndPendingLaboratory(int.parse(id));
     _currentPatient.patientXRaysList =
         await patientXRayModel.readByPatientIdAndPendingXRay(int.parse(id));
     _currentPatient.patientMedicineDoctorList = await patientMedicineDoctorModel
@@ -226,8 +239,8 @@ class PatientModel extends Model {
     _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
     _currentPatient.statusList =
         await statusModel.readByPatientId(int.parse(id));
-    _currentPatient.patientAnalysisList =
-        await patientAnalysisModel.readByPatientId(int.parse(id));
+    _currentPatient.patientLaboratoryList =
+        await patientLaboratoryModel.readByPatientId(int.parse(id));
     _currentPatient.patientXRaysList =
         await patientXRayModel.readByPatientId(int.parse(id));
     _currentPatient.patientMedicineDoctorList =
@@ -238,6 +251,9 @@ class PatientModel extends Model {
         await patientExtraModel.readByPatientId(int.parse(id));
     _currentPatient.creditCardList =
         await creditCardModel.readByPatientId(int.parse(id));
+
+    await Future.delayed(Duration(seconds: 1));
+
     notifyListeners();
 
   }
@@ -253,10 +269,8 @@ class PatientModel extends Model {
       _readForAccountant(id);
     } else if (userPermission.isPatient) {
       _readForPatient(id);
-      notifyListeners();
     }
 
-    //notifyListeners();
   }
 
   Future<bool> create() async {

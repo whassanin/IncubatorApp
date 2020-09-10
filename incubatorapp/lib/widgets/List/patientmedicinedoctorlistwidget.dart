@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientmedicinedoctorrowwidget.dart';
 
 class PatientMedicineDoctorListWidget extends StatefulWidget {
   final List<PatientMedicineDoctor> patientMedicineDoctorList;
-  PatientMedicineDoctorListWidget(
-      {this.patientMedicineDoctorList,});
+  PatientMedicineDoctorListWidget({
+    this.patientMedicineDoctorList,
+  });
 
   @override
   _PatientMedicineDoctorListWidgetState createState() =>
@@ -27,10 +27,13 @@ class _PatientMedicineDoctorListWidgetState
           int index = addCalculatedList.indexOf(pmd);
 
           if (index < 0) {
-            Medicine medicine = medicineModel.medicineList
-                .where((a) => a.id == pmd.medicineId)
-                .toList()[0];
-            total += (medicine.price * pmd.quantity);
+            int im = medicineModel.medicineList
+                .indexWhere((a) => a.id == pmd.medicineId);
+
+            if (im >= 0) {
+              Medicine medicine = medicineModel.medicineList[im];
+              total += (medicine.price * pmd.quantity);
+            }
           }
         });
       }
@@ -62,7 +65,7 @@ class _PatientMedicineDoctorListWidgetState
           ),
         );
       }
-    }else {
+    } else {
       currentWidget = Center(
         child: Container(
           child: Text('Loading...'),
@@ -121,8 +124,6 @@ class _PatientMedicineDoctorListWidgetState
       currentWidget = Stack(
         children: <Widget>[positionList, positionTotal],
       );
-    } else if (userPermission.isDoctor) {
-
     }
 
     return currentWidget;

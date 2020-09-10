@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:huawei_push/push.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
 import 'package:incubatorapp/scopedmodels/billmodel.dart';
@@ -15,13 +16,13 @@ import 'package:incubatorapp/scopedmodels/doctormodel.dart';
 import 'package:incubatorapp/scopedmodels/doctorshiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/extramodel.dart';
 import 'package:incubatorapp/scopedmodels/incubatormodel.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
+import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
 import 'package:incubatorapp/scopedmodels/medicinemodel.dart';
 import 'package:incubatorapp/scopedmodels/nursemodel.dart';
 import 'package:incubatorapp/scopedmodels/nurseshiftmodel.dart';
-import 'package:incubatorapp/scopedmodels/patientanalysismodel.dart';
 import 'package:incubatorapp/scopedmodels/patientconsumablenursemodel.dart';
 import 'package:incubatorapp/scopedmodels/patientextramodel.dart';
+import 'package:incubatorapp/scopedmodels/patientlaboratorymodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/scopedmodels/patientmodel.dart';
 import 'package:incubatorapp/scopedmodels/patientxraysmodel.dart';
@@ -34,6 +35,7 @@ import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
+import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dart';
 import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
 import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
 import 'package:incubatorapp/screens/creditcardscreen/editcreditcardscreen.dart';
@@ -47,19 +49,21 @@ import 'package:incubatorapp/screens/historyscreen/historyscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/newincubatorscreen.dart';
+import 'package:incubatorapp/screens/laboratoryscreen/searchlaboratoryscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
+import 'package:incubatorapp/screens/medicinescreen/searchmedicinescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/editnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 import 'package:incubatorapp/screens/nurseshiftscreen/editnurseshiftscreen.dart';
 import 'package:incubatorapp/screens/nurseshiftscreen/newnurseshiftscreen.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/newpatientanalysisscreen.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/patientanalysisscreen.dart';
 import 'package:incubatorapp/screens/patientconsumablenursescreen/newpatientconsumablenursescreen.dart';
 import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
+import 'package:incubatorapp/screens/patientlaboratoryscreen/editpatientlaboratoryscreen.dart';
+import 'package:incubatorapp/screens/patientlaboratoryscreen/newpatientlaboratoryscreen.dart';
+import 'package:incubatorapp/screens/patientlaboratoryscreen/patientlaboratoryscreen.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/editpatientscreen.dart';
@@ -73,11 +77,12 @@ import 'package:incubatorapp/screens/reportscreen/reportscreen.dart';
 import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:huawei_push/constants/channel.dart' as Channel;
+import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
 ConditionModel conditionModel = ConditionModel();
-AnalysisModel analysisModel = new AnalysisModel();
+LaboratoryModel laboratoryModel = new LaboratoryModel();
 XRayModel xRayModel = new XRayModel();
 MedicineModel medicineModel = new MedicineModel();
 ConsumableModel consumableModel = new ConsumableModel();
@@ -98,7 +103,7 @@ StatusModel statusModel = new StatusModel();
 CreditCardModel creditCardModel = new CreditCardModel();
 
 // many to many
-PatientAnalysisModel patientAnalysisModel = new PatientAnalysisModel();
+PatientLaboratoryModel patientLaboratoryModel = new PatientLaboratoryModel();
 PatientXRayModel patientXRayModel = new PatientXRayModel();
 PatientMedicineDoctorModel patientMedicineDoctorModel =
     new PatientMedicineDoctorModel();
@@ -123,14 +128,14 @@ class MyApp extends StatelessWidget {
     incubatorModel.readAll();
     conditionModel.readAll();
     shiftModel.readAll();
-    analysisModel.readAll();
+    laboratoryModel.readAll();
     xRayModel.readAll();
     medicineModel.readAll();
     consumableModel.readAll();
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    userPermission.setPermission(UserType.doctor);
+    //userPermission.setPermission(UserType.doctor);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -140,11 +145,11 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        EditPatientAnalysisScreen.routeName: (context) =>
-            EditPatientAnalysisScreen(),
-        NewPatientAnalysisScreen.routeName: (context) =>
-            NewPatientAnalysisScreen(),
-        PatientAnalysisScreen.routeName: (context) => PatientAnalysisScreen(),
+        EditPatientLaboratoryScreen.routeName: (context) =>
+            EditPatientLaboratoryScreen(),
+        NewPatientLaboratoryScreen.routeName: (context) =>
+            NewPatientLaboratoryScreen(),
+        PatientLaboratoryScreen.routeName: (context) => PatientLaboratoryScreen(),
         BillDetailScreen.routeName: (context) => BillDetailScreen(),
         BillScreen.routeName: (context) => BillScreen(),
         NewPatientConsumableNurseScreen.routeName: (context) =>
@@ -185,8 +190,12 @@ class MyApp extends StatelessWidget {
         NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
+        SearchLaboratoryScreen.routeName:(context)=>SearchLaboratoryScreen(),
+        SearchXRayScreen.routeName:(context)=>SearchXRayScreen(),
+        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen(),
+        SearchConsumableScreen.routeName:(context)=>SearchConsumableScreen()
       },
-      home: DoctorProfileScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

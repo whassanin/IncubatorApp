@@ -11,7 +11,7 @@ class NewNurseShiftScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     nurseShiftModel.createNurseShift();
 
-    return ScopedModel(
+    return ScopedModel<NurseShiftModel>(
       model: nurseShiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

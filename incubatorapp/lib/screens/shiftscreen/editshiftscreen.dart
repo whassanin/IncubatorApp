@@ -7,7 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 class EditShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<ShiftModel>(
       model: shiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, ShiftModel shiftModel) {

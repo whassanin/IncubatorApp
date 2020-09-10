@@ -20,7 +20,7 @@ class Condition(models.Model):
     price = models.FloatField()
 
 # 4
-class Analysis(models.Model):
+class Laboratory(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
 
@@ -125,7 +125,7 @@ class Bill(models.Model):
     paid = models.FloatField()
     dayCost = models.FloatField()
     consumable = models.FloatField()
-    analysis = models.FloatField()
+    laboratory = models.FloatField()
     xRay = models.FloatField()
     lightRays = models.FloatField()
     medicine = models.FloatField()
@@ -174,9 +174,9 @@ class NurseShift(models.Model):
     changedDate = models.DateTimeField()
 
 # 20
-class PatientAnalysis(models.Model):
-    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientanalysis')
-    analysisId = models.ForeignKey(Analysis,on_delete=models.CASCADE,related_name='analysispatient')
+class PatientLaboratory(models.Model):
+    patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientlaboratory')
+    laboratoryId = models.ForeignKey(Laboratory,on_delete=models.CASCADE,related_name='laboratorypatient')
     result = models.CharField(max_length=500,blank=True)
     billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()

@@ -11,7 +11,7 @@ class PatientConsumableNurseListWidget extends StatefulWidget {
   final List<PatientConsumableNurse> patientConsumableNurseList;
   final UserPermission userPermission;
   PatientConsumableNurseListWidget(
-      {this.patient,this.patientConsumableNurseList, this.userPermission});
+      {this.patient, this.patientConsumableNurseList, this.userPermission});
 
   @override
   _PatientConsumableNurseListWidgetState createState() =>
@@ -30,10 +30,14 @@ class _PatientConsumableNurseListWidgetState
           int index = addCalculatedList.indexOf(pcn);
 
           if (index < 0) {
-            Consumable consumable = consumableModel.consumableList
-                .where((a) => a.id == pcn.consumableId)
-                .toList()[0];
-            total += (consumable.price * pcn.quantity);
+            int ic = consumableModel.consumableList
+                .indexWhere((a) => a.id == pcn.consumableId);
+
+            if (ic >= 0) {
+              Consumable consumable = consumableModel.consumableList[ic];
+
+              total += (consumable.price * pcn.quantity);
+            }
           }
         });
       }
@@ -89,7 +93,6 @@ class _PatientConsumableNurseListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    calculate();
 
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));

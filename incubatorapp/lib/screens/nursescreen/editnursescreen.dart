@@ -9,7 +9,7 @@ class EditNurseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<NurseModel>(
       model: nurseModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget childWidget,

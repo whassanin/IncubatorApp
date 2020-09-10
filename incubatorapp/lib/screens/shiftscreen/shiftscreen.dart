@@ -8,7 +8,7 @@ import 'package:incubatorapp/main.dart';
 class ShiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<ShiftModel>(
       model: shiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context,Widget child,ShiftModel shiftModel){

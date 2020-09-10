@@ -3,6 +3,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dart';
 import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 
 class ConsumableListWidget extends StatefulWidget {
@@ -16,6 +17,85 @@ class ConsumableListWidget extends StatefulWidget {
 }
 
 class _ConsumableListWidgetState extends State<ConsumableListWidget> {
+
+  void clearSearch() {
+    consumableModel.setSearchName('');
+    consumableModel.readAll();
+  }
+
+  Widget searchTextField() {
+    bool isSearch = false;
+
+    String search = 'Search here...';
+
+    if (consumableModel.searchName != null) {
+      if (consumableModel.searchName.isNotEmpty) {
+        search = consumableModel.searchName;
+        isSearch = true;
+      }
+    }
+
+    Widget displayTextContainer = Container(
+      height: 70,
+      child: Padding(
+        padding: const EdgeInsets.only(
+            left: 8.0, right: 8.0, top: 25.0, bottom: 8.0),
+        child: Text(
+          search,
+          textAlign: TextAlign.left,
+          style: TextStyle(),
+        ),
+      ),
+    );
+
+    Widget displayTextGestureDetector = GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, SearchConsumableScreen.routeName);
+      },
+      child: displayTextContainer,
+    );
+
+    Widget displayTextIconButton = IconButton(
+      icon: Icon(Icons.cancel),
+      onPressed: () {
+        isSearch = false;
+        clearSearch();
+      },
+    );
+
+    if (isSearch == false) {
+      displayTextIconButton = Container();
+    }
+
+    Widget displayTextRow = Row(
+      children: <Widget>[
+        Expanded(
+          child: displayTextGestureDetector,
+        ),
+        displayTextIconButton,
+      ],
+    );
+
+    Widget displayTextRowContainer = Container(
+      height: 70,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              10.0,
+            ),
+          ),
+          border: Border.all(width: 1)),
+      child: displayTextRow,
+    );
+
+    Widget searchTF = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: displayTextRowContainer,
+    );
+
+    return searchTF;
+  }
+
   Widget _getList() {
     Widget currentWidget = Center(
       child: Container(
@@ -25,14 +105,24 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
 
     if (widget.consumableList != null) {
       if (widget.consumableList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.consumableList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ConsumableRowWidget(
-              patient: widget.patient,
-              consumable: widget.consumableList[index],
-            );
-          },
+        currentWidget = Column(
+          children: <Widget>[
+            searchTextField(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: ListView.builder(
+                  itemCount: widget.consumableList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ConsumableRowWidget(
+                      patient: widget.patient,
+                      consumable: widget.consumableList[index],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         );
       } else {
         currentWidget = Center(
@@ -79,6 +169,7 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
             ),
           ),
           onTap: () {
+            clearSearch();
             patientConsumableNurseModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },

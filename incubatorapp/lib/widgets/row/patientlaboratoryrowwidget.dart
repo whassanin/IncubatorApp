@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
-import 'package:incubatorapp/screens/patientanalysisscreen/editpatientanalysisscreen.dart';
+import 'package:incubatorapp/models/laboratory.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
+import 'package:incubatorapp/screens/patientlaboratoryscreen/editpatientlaboratoryscreen.dart';
 
-class PatientAnalysisRowWidget extends StatefulWidget {
-  final PatientAnalysis patientAnalysis;
-  PatientAnalysisRowWidget({this.patientAnalysis,});
+class PatientLaboratoryRowWidget extends StatefulWidget {
+  final PatientLaboratory patientLaboratory;
+  PatientLaboratoryRowWidget({
+    this.patientLaboratory,
+  });
   @override
-  _PatientAnalysisRowWidgetState createState() =>
-      _PatientAnalysisRowWidgetState();
+  _PatientLaboratoryRowWidgetState createState() =>
+      _PatientLaboratoryRowWidgetState();
 }
 
-class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
+class _PatientLaboratoryRowWidgetState extends State<PatientLaboratoryRowWidget> {
   String dateFormat() {
-    String v = widget.patientAnalysis.createdDate.day.toString();
-    v = v + '/' + widget.patientAnalysis.createdDate.month.toString();
-    v = v + '/' + widget.patientAnalysis.createdDate.year.toString();
+    String v = widget.patientLaboratory.createdDate.day.toString();
+    v = v + '/' + widget.patientLaboratory.createdDate.month.toString();
+    v = v + '/' + widget.patientLaboratory.createdDate.year.toString();
     return v;
   }
 
-  Widget patientAnalysisRow(Analysis analysis) {
-    Widget analysisNameWidget = Container(
-      child: Text('Name: ' + analysis.name),
+  Widget patientLaboratoryRow(Laboratory laboratory) {
+    Widget laboratoryNameWidget = Container(
+      child: Text('Name: ' + laboratory.name),
     );
 
     Widget priceWidget = Container(
-      child: Text('Price: ' + analysis.price.toString()),
+      child: Text('Price: ' + laboratory.price.toString()),
     );
 
     Widget resultWidget = Container(
-      child: Text('Result: ' + widget.patientAnalysis.result),
+      child: Text('Result: ' + widget.patientLaboratory.result),
     );
 
     Widget createdDateWidget = Container(
@@ -50,13 +52,13 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
             ),
             child: Text('Edit'),
             onPressed: () {
-              patientAnalysisModel.editPatientAnalysis(widget.patientAnalysis);
+              patientLaboratoryModel.editPatientLaboratory(widget.patientLaboratory);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditPatientAnalysisScreen(
-                    patientAnalysis: widget.patientAnalysis,
-                    analysis: analysis,
+                  builder: (context) => EditPatientLaboratoryScreen(
+                    patientLaboratory: widget.patientLaboratory,
+                    laboratory: laboratory,
                   ),
                 ),
               );
@@ -72,7 +74,7 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(2.0),
-          child: analysisNameWidget,
+          child: laboratoryNameWidget,
         ),
         (userPermission.isPatient
             ? Padding(
@@ -117,13 +119,16 @@ class _PatientAnalysisRowWidgetState extends State<PatientAnalysisRowWidget> {
   Widget build(BuildContext context) {
     Widget currentWidget = Container();
 
-    if (analysisModel.analysisList != null) {
-      if (analysisModel.analysisList.length > 0) {
-        Analysis analysis = analysisModel.analysisList
-            .where((element) => element.id == widget.patientAnalysis.analysisId)
-            .toList()[0];
+    if (laboratoryModel.laboratoryList != null) {
+      if (laboratoryModel.laboratoryList.length > 0) {
+        int index = laboratoryModel.laboratoryList.indexWhere(
+            (element) => element.id == widget.patientLaboratory.laboratoryId);
 
-        currentWidget = patientAnalysisRow(analysis);
+        if (index >= 0) {
+          Laboratory laboratory = laboratoryModel.laboratoryList[index];
+
+          currentWidget = patientLaboratoryRow(laboratory);
+        }
       }
     }
 

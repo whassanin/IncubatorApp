@@ -17,7 +17,7 @@ class EditCreditCardScreen extends StatelessWidget {
       title = 'Selected Credit Card';
     }
 
-    return ScopedModel(
+    return ScopedModel<CreditCardModel>(
       model: creditCardModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

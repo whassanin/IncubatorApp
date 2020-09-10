@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/scopedmodels/analysismodel.dart';
-import 'package:incubatorapp/widgets/form/analysisformwidget.dart';
+import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
+import 'package:incubatorapp/widgets/form/laboratoryformwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NewAnalysisScreen extends StatelessWidget {
-  static const routeName = '/newanalysisscreen';
+class NewLaboratoryScreen extends StatelessWidget {
+  static const routeName = '/newlaboratoryscreen';
 
-  NewAnalysisScreen();
+  NewLaboratoryScreen();
 
   @override
   Widget build(BuildContext context) {
-    analysisModel.createAnalysis();
-    return ScopedModel<AnalysisModel>(
-      model: analysisModel,
-      child: ScopedModelDescendant<AnalysisModel>(
+    laboratoryModel.createLaboratory();
+    return ScopedModel<LaboratoryModel>(
+      model: laboratoryModel,
+      child: ScopedModelDescendant<LaboratoryModel>(
         builder: (BuildContext context, Widget childWidget,
-            AnalysisModel incubatorModel) {
+            LaboratoryModel incubatorModel) {
           return Scaffold(
             appBar: AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('New Analysis Screen',
+              title: Text('New Laboratory Screen',
                   style: TextStyle(color: Colors.white)),
               centerTitle: true,
             ),
-            body: AnalysisFormWidget(
+            body: LaboratoryFormWidget(
               isEdit: false,
             ),
           );

@@ -12,7 +12,7 @@ class CreditCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
+    return ScopedModel<CreditCardModel>(
       model: creditCardModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

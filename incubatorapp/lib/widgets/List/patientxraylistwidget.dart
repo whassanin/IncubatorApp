@@ -7,7 +7,9 @@ import 'package:incubatorapp/widgets/row/patientxrayrowwidget.dart';
 
 class PatientXRayListWidget extends StatefulWidget {
   final List<PatientXRay> patientXRayList;
-  PatientXRayListWidget({this.patientXRayList,});
+  PatientXRayListWidget({
+    this.patientXRayList,
+  });
 
   @override
   _PatientXRayListWidgetState createState() => _PatientXRayListWidgetState();
@@ -24,9 +26,13 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
           int index = addCalculatedList.indexOf(px);
 
           if (index < 0) {
-            XRay xRay =
-                xRayModel.xRayList.where((x) => x.id == px.xRayId).toList()[0];
-            total += xRay.price;
+            int ix = xRayModel.xRayList.indexWhere((x) => x.id == px.xRayId);
+
+            if (ix >= 0) {
+              XRay xRay = xRayModel.xRayList[ix];
+
+              total += xRay.price;
+            }
           }
         });
       }
@@ -84,7 +90,7 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    calculate();
+    Widget currentWidget = getList();
 
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
@@ -111,11 +117,20 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
       ),
     );
 
-    return Stack(
+    if (userPermission.isPatient) {
+      calculate();
+      currentWidget = Stack(
+        children: <Widget>[positionList, positionTotal],
+      );
+    }
+
+/*    Stack(
       children: <Widget>[
         positionList,
         (userPermission.isPatient ? positionTotal : Container()),
       ],
-    );
+    );*/
+
+    return currentWidget;
   }
 }

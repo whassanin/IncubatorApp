@@ -13,7 +13,7 @@ class NewStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     statusModel.createStatus();
-    return ScopedModel(
+    return ScopedModel<StatusModel>(
       model: statusModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget childWidget,

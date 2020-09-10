@@ -14,8 +14,8 @@ urlpatterns = [
     path('condition/', views.ConditionList.as_view()),
     path('condition/<int:pk>', views.ConditionDetail.as_view()),
 
-    path('analysis/', views.AnalysisList.as_view()),
-    path('analysis/<int:pk>', views.AnalysisDetail.as_view()),
+    path('laboratory/', views.LaboratoryList.as_view()),
+    path('laboratory/<int:pk>', views.LaboratoryDetail.as_view()),
 
     path('consumable/', views.ConsumableList.as_view()),
     path('consumable/<int:pk>', views.ConsumableDetail.as_view()),
@@ -64,8 +64,8 @@ urlpatterns = [
     path('nurseshift/', views.NurseShiftList.as_view()),
     path('nurseshift/<int:pk>', views.NurseShiftDetail.as_view()),
 
-    path('patientanalysis/', views.PatientAnalysisList.as_view()),
-    path('patientanalysis/<int:pk>', views.PatientAnalysisDetail.as_view()),
+    path('patientlaboratory/', views.PatientLaboratoryList.as_view()),
+    path('patientlaboratory/<int:pk>', views.PatientLaboratoryDetail.as_view()),
 
     path('patientxray/', views.PatientXRayList.as_view()),
     path('patientxray/<int:pk>', views.PatientXRayDetail.as_view()),

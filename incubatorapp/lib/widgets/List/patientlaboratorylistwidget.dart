@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
+import 'package:incubatorapp/models/laboratory.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/widgets/row/patientanalysisrowwidget.dart';
+import 'package:incubatorapp/widgets/row/patientlaboratoryrowwidget.dart';
 
-class PatientAnalysisListWidget extends StatefulWidget {
-  final List<PatientAnalysis> patientAnalysisList;
-  PatientAnalysisListWidget({this.patientAnalysisList,});
+class PatientLaboratoryListWidget extends StatefulWidget {
+  final List<PatientLaboratory> patientLaboratoryList;
+  PatientLaboratoryListWidget({this.patientLaboratoryList,});
 
   @override
-  _PatientAnalysisListWidgetState createState() =>
-      _PatientAnalysisListWidgetState();
+  _PatientLaboratoryListWidgetState createState() =>
+      _PatientLaboratoryListWidgetState();
 }
 
-class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
-  List<PatientAnalysis> addCalculatedList = [];
+class _PatientLaboratoryListWidgetState extends State<PatientLaboratoryListWidget> {
+  List<PatientLaboratory> addCalculatedList = [];
 
   double calculate() {
     double total = 0;
 
-    if (analysisModel.analysisList != null) {
-      if (widget.patientAnalysisList != null) {
-        if (widget.patientAnalysisList.length > 0) {
-          widget.patientAnalysisList.forEach(
+    if (laboratoryModel.laboratoryList != null) {
+      if (widget.patientLaboratoryList != null) {
+        if (widget.patientLaboratoryList.length > 0) {
+          widget.patientLaboratoryList.forEach(
             (pa) {
               int index = addCalculatedList.indexOf(pa);
               if (index < 0) {
-                Analysis analysis = analysisModel.analysisList
-                    .where((a) => a.id == pa.analysisId)
-                    .toList()[0];
-                total += analysis.price;
+
+                int il = laboratoryModel.laboratoryList.indexWhere((a) => a.id == pa.laboratoryId);
+
+                if (il >= 0){
+                  Laboratory laboratory = laboratoryModel.laboratoryList[il];
+                  total += laboratory.price;
+                }
               }
             },
           );
@@ -47,20 +50,20 @@ class _PatientAnalysisListWidgetState extends State<PatientAnalysisListWidget> {
       ),
     );
 
-    if (widget.patientAnalysisList != null) {
-      if (widget.patientAnalysisList.length > 0) {
+    if (widget.patientLaboratoryList != null) {
+      if (widget.patientLaboratoryList.length > 0) {
         currentWidget = ListView.builder(
-          itemCount: widget.patientAnalysisList.length,
+          itemCount: widget.patientLaboratoryList.length,
           itemBuilder: (BuildContext context, int i) {
-            return PatientAnalysisRowWidget(
-              patientAnalysis: widget.patientAnalysisList[i],
+            return PatientLaboratoryRowWidget(
+              patientLaboratory: widget.patientLaboratoryList[i],
             );
           },
         );
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Analysis(s) Available'),
+            child: Text('No Laboratory(s) Available'),
           ),
         );
       }

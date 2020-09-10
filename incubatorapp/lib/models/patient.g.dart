@@ -25,10 +25,10 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     json['conditionId'] as int,
     json['incubatorId'] as int,
     json['stateTypeId'] as int,
-    (json['patientanalysis'] as List)
+    (json['patientlaboratory'] as List)
         ?.map((e) => e == null
             ? null
-            : PatientAnalysis.fromJson(e as Map<String, dynamic>))
+            : PatientLaboratory.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     (json['patientxray'] as List)
         ?.map((e) =>
@@ -65,7 +65,7 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,
       'stateTypeId': instance.stateTypeId,
-      'patientanalysis': instance.patientAnalysisList,
+      'patientlaboratory': instance.patientLaboratoryList,
       'patientxray': instance.patientXRaysList,
       'patientmedicinedoctor': instance.patientMedicineDoctorList,
       'patientconsumablenurse': instance.patientConsumableNurseList,

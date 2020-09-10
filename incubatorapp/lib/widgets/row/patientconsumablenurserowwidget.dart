@@ -189,13 +189,13 @@ class _PatientConsumableNurseRowWidgetState
 
     if (consumableModel.consumableList != null) {
       if (consumableModel.consumableList.length > 0) {
-        Consumable consumable = consumableModel.consumableList
-            .where((element) =>
-                element.id == widget.patientConsumableNurse.consumableId)
-            .toList()[0];
-
-        quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
-        currentWidget = patientConsumableNurseRow(consumable);
+        int index = consumableModel.consumableList.indexWhere((element) =>
+            element.id == widget.patientConsumableNurse.consumableId);
+        if (index >= 0) {
+          Consumable consumable = consumableModel.consumableList[index];
+          quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
+          currentWidget = patientConsumableNurseRow(consumable);
+        }
       }
     }
 

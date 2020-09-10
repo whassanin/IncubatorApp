@@ -12,7 +12,7 @@ class Bill {
   double paid;
   double dayCost;
   double consumable;
-  double analysis;
+  double laboratory;
   double xRay;
   double lightRays;
   double medicine;
@@ -26,7 +26,7 @@ class Bill {
     this.paid,
     this.dayCost,
     this.consumable,
-    this.analysis,
+    this.laboratory,
     this.xRay,
     this.lightRays,
     this.medicine,

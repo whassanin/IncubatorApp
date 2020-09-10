@@ -123,8 +123,6 @@ class PatientXRayModel extends Model{
   Future<bool> create() async{
     int code = await _api.post(_currentPatientXRay.toJson());
     if (code == 201) {
-      patientXRayList.add(_currentPatientXRay);
-      notifyListeners();
       readByPatientId(patientModel.currentPatient.userId);
       return true;
     }

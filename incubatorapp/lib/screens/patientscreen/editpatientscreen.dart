@@ -15,7 +15,7 @@ class EditPatientScreen extends StatelessWidget {
       ),
     );
 
-    return ScopedModel(
+    return ScopedModel<PatientModel>(
       model: patientModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget childWidget,

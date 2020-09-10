@@ -145,6 +145,7 @@ class PatientMedicineDoctorModel extends Model {
     int code = await _api.put(_currentPatientMedicineDoctor.toJson(),
         _currentPatientMedicineDoctor.id.toString());
     if (code == 200) {
+      notifyListeners();
       return true;
     }
     return false;

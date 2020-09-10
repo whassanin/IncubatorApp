@@ -10,7 +10,7 @@ class UserTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return ScopedModel(
+    return ScopedModel<UserModel>(
       model: userModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context,Widget child, UserModel userModel){

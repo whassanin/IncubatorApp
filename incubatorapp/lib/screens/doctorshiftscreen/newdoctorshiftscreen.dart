@@ -11,7 +11,7 @@ class NewDoctorShiftScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     doctorShiftModel.createDoctorShift();
 
-    return ScopedModel(
+    return ScopedModel<DoctorShiftModel>(
       model: doctorShiftModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child,

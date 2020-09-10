@@ -8,8 +8,9 @@ import 'package:incubatorapp/screens/patientmedicinedoctorscreen/editpatientmedi
 
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;
-  PatientMedicineDoctorRowWidget(
-      {this.patientMedicineDoctor,});
+  PatientMedicineDoctorRowWidget({
+    this.patientMedicineDoctor,
+  });
   @override
   _PatientMedicineDoctorRowWidgetState createState() =>
       _PatientMedicineDoctorRowWidgetState();
@@ -233,13 +234,15 @@ class _PatientMedicineDoctorRowWidgetState
 
     if (medicineModel.medicineList != null) {
       if (medicineModel.medicineList.length > 0) {
-        Medicine medicine = medicineModel.medicineList
-            .where((element) =>
-                element.id == widget.patientMedicineDoctor.medicineId)
-            .toList()[0];
+        int index = medicineModel.medicineList.indexWhere(
+            (element) => element.id == widget.patientMedicineDoctor.medicineId);
 
-        quantityTEC.text = widget.patientMedicineDoctor.quantity.toString();
-        currentWidget = patientMedicineDoctorRow(medicine);
+        if (index >= 0) {
+          Medicine medicine = medicineModel.medicineList[index];
+
+          quantityTEC.text = widget.patientMedicineDoctor.quantity.toString();
+          currentWidget = patientMedicineDoctorRow(medicine);
+        }
       }
     }
     return currentWidget;

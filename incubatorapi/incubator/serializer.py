@@ -3,7 +3,7 @@ from rest_framework import serializers
 from incubator.models import User
 from incubator.models import Incubator
 from incubator.models import StateType
-from incubator.models import Analysis
+from incubator.models import Laboratory
 from incubator.models import Condition
 from incubator.models import Patient
 from incubator.models import Extra
@@ -20,7 +20,7 @@ from incubator.models import ReportProblem
 
 from incubator.models import DoctorShift
 from incubator.models import NurseShift
-from incubator.models import PatientAnalysis
+from incubator.models import PatientLaboratory
 from incubator.models import PatientExtra
 from incubator.models import PatientXRay
 from incubator.models import CreditCard
@@ -78,14 +78,14 @@ class NurseShiftSerializer(serializers.ModelSerializer):
         ]
 
 
-class PatientAnalysisSerializer(serializers.ModelSerializer):
+class PatientLaboratorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PatientAnalysis
+        model = PatientLaboratory
         fields = [
             'id',
             'patientId',
-            'analysisId',
+            'laboratoryId',
             'result',
             'billStatus',
             'createdDate',
@@ -185,7 +185,7 @@ class BillSerializer(serializers.ModelSerializer):
             'paid',
             'dayCost',
             'consumable',
-            'analysis',
+            'laboratory',
             'xRay',
             'lightRays',
             'medicine',
@@ -241,9 +241,9 @@ class ConditionSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', ]
 
 
-class AnalysisSerializer(serializers.ModelSerializer):
+class LaboratorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Analysis
+        model = Laboratory
         fields = ['id', 'name', 'price']
 
 

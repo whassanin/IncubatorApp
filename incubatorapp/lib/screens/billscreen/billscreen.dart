@@ -12,7 +12,7 @@ class BillScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return ScopedModel(
+    return ScopedModel<BillModel>(
       model: billModel,
       child: ScopedModelDescendant(
         builder: (BuildContext context, Widget child, BillModel billModel) {

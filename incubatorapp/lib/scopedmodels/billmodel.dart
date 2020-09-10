@@ -1,14 +1,14 @@
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/analysis.dart';
 import 'package:incubatorapp/models/bill.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/extra.dart';
+import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/patientanalysis.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/patientextra.dart';
+import 'package:incubatorapp/models/patientlaboratory.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/xray.dart';
@@ -64,12 +64,12 @@ class BillModel extends Model {
     return _currentBill.consumable;
   }
 
-  void setAnalysis(double analysis) {
-    _currentBill.analysis = analysis;
+  void setLaboratory(double laboratory) {
+    _currentBill.laboratory = laboratory;
   }
 
-  double getAnalysis() {
-    return _currentBill.analysis;
+  double getLaboratory() {
+    return _currentBill.laboratory;
   }
 
   void setXRay(double xRay) {
@@ -132,7 +132,7 @@ class BillModel extends Model {
     double total = _currentBill.dayCost +
         _currentBill.extra +
         _currentBill.consumable +
-        _currentBill.analysis +
+        _currentBill.laboratory +
         _currentBill.xRay +
         _currentBill.lightRays +
         _currentBill.medicine;
@@ -144,7 +144,7 @@ class BillModel extends Model {
     double total = _currentBill.dayCost +
         _currentBill.extra +
         _currentBill.consumable +
-        _currentBill.analysis +
+        _currentBill.laboratory +
         _currentBill.xRay +
         _currentBill.lightRays +
         _currentBill.medicine - _currentBill.discount;
@@ -196,7 +196,7 @@ class BillModel extends Model {
   double countBillDataRows(Patient cp) {
     double count = 0;
 
-    List<PatientAnalysis> cpal = cp.patientAnalysisList
+    List<PatientLaboratory> cpal = cp.patientLaboratoryList
         .where((element) => element.billStatus == 'Pending')
         .toList();
 
@@ -229,8 +229,8 @@ class BillModel extends Model {
     return count;
   }
 
-  void _calculateAnalysis(Patient cp) {
-    List<PatientAnalysis> cpal = cp.patientAnalysisList
+  void _calculateLaboratory(Patient cp) {
+    List<PatientLaboratory> cpal = cp.patientLaboratoryList
         .where((element) => element.billStatus == 'Pending')
         .toList();
 
@@ -246,18 +246,18 @@ class BillModel extends Model {
         bill = billList[index];
       }
 
-      Analysis analysis;
+      Laboratory laboratory;
 
-      List<Analysis> cal = analysisModel.analysisList
-          .where((element) => element.id == cpa.analysisId)
+      List<Laboratory> cal = laboratoryModel.laboratoryList
+          .where((element) => element.id == cpa.laboratoryId)
           .toList();
 
       if (cal.length > 0) {
-        analysis = cal[0];
+        laboratory = cal[0];
       }
 
-      if (analysis != null) {
-        bill.analysis += analysis.price;
+      if (laboratory != null) {
+        bill.laboratory += laboratory.price;
       }
 
       if (index < 0) {
@@ -268,9 +268,9 @@ class BillModel extends Model {
 
       cp.billList = billList;
 
-      patientAnalysisModel.editPatientAnalysis(cpa);
-      patientAnalysisModel.setBillStatus('Added');
-      patientAnalysisModel.update();
+      patientLaboratoryModel.editPatientLaboratory(cpa);
+      patientLaboratoryModel.setBillStatus('Added');
+      patientLaboratoryModel.update();
     });
   }
 
@@ -459,7 +459,7 @@ class BillModel extends Model {
 
     double count = countBillDataRows(cp);
 
-    _calculateAnalysis(cp);
+    _calculateLaboratory(cp);
 
     _calculateXRay(cp);
 

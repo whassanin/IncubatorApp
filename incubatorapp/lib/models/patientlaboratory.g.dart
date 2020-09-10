@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'patientanalysis.dart';
+part of 'patientlaboratory.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PatientAnalysis _$PatientAnalysisFromJson(Map<String, dynamic> json) {
-  return PatientAnalysis(
+PatientLaboratory _$PatientLaboratoryFromJson(Map<String, dynamic> json) {
+  return PatientLaboratory(
     json['id'] as int,
     json['patientId'] as int,
-    json['analysisId'] as int,
+    json['laboratoryId'] as int,
     json['result'] as String,
     json['billStatus'] as String,
     json['createdDate'] == null
@@ -19,11 +19,11 @@ PatientAnalysis _$PatientAnalysisFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$PatientAnalysisToJson(PatientAnalysis instance) =>
+Map<String, dynamic> _$PatientLaboratoryToJson(PatientLaboratory instance) =>
     <String, dynamic>{
       'id': instance.id,
       'patientId': instance.patientId,
-      'analysisId': instance.analysisId,
+      'laboratoryId': instance.laboratoryId,
       'result': instance.result,
       'billStatus': instance.billStatus,
       'createdDate': instance.createdDate?.toIso8601String(),
