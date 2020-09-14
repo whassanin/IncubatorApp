@@ -13,6 +13,8 @@ class XRayModel extends Model {
 
   XRay _currentXRay;
 
+  XRay get currentXRay => _currentXRay;
+
   void createXRay() {
     _currentXRay = new XRay(0, '', 0);
   }

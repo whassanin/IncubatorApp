@@ -9,6 +9,8 @@ class StateTypeModel extends Model {
 
   StateType _currentStateType;
 
+  StateType get currentStateType => _currentStateType;
+
   void createStateType() {
     _currentStateType = new StateType(0, '');
   }

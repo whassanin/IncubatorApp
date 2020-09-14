@@ -93,7 +93,7 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ConditionSerializer
 
 # Laboratory Views Class
-class LaboratoryList(generics.ListAPIView):
+class LaboratoryList(generics.ListCreateAPIView):
     queryset = Laboratory.objects.all()
     serializer_class = LaboratorySerializer
     filter_backends = [filters.SearchFilter]

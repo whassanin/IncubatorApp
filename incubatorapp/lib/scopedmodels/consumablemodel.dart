@@ -11,6 +11,8 @@ class ConsumableModel extends Model{
   String get searchName=>_searchName;
   Consumable _currentConsumable;
 
+  Consumable get currentConsumable => _currentConsumable;
+
   void createConsumable(){
     _currentConsumable = new Consumable(0, '',0,0);
   }

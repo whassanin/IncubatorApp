@@ -26,7 +26,7 @@ SECRET_KEY = '4x6w-n5r&1u#0*dzzn#e+w!(hym0@_qo2@pqmhgz^8v(ah922u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://incubatorsystem.herokuapp.com/','*']
 #'localhost','0.0.0.0','192.168.1.8','192.168.1.7','192.168.1.12'
 
 # Application definition

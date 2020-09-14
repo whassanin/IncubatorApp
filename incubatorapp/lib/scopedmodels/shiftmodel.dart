@@ -10,6 +10,8 @@ class ShiftModel extends Model{
 
   Shift _currentShift;
 
+  Shift get currentShift => _currentShift;
+
   void createShift() {
     _currentShift = new Shift(0,'',0,true,0,false);
   }

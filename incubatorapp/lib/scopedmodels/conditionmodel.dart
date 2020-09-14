@@ -9,6 +9,8 @@ class ConditionModel extends Model{
 
   conditionName.Condition _currentCondition;
 
+  conditionName.Condition get currentCondition => _currentCondition;
+
   void createCondition(){
     _currentCondition = new conditionName.Condition(0, '', 0);
   }

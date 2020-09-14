@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
@@ -78,6 +79,7 @@ import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:huawei_push/constants/channel.dart' as Channel;
 import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
+import 'package:incubatorapp/util/basicdata.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -149,7 +151,8 @@ class MyApp extends StatelessWidget {
             EditPatientLaboratoryScreen(),
         NewPatientLaboratoryScreen.routeName: (context) =>
             NewPatientLaboratoryScreen(),
-        PatientLaboratoryScreen.routeName: (context) => PatientLaboratoryScreen(),
+        PatientLaboratoryScreen.routeName: (context) =>
+            PatientLaboratoryScreen(),
         BillDetailScreen.routeName: (context) => BillDetailScreen(),
         BillScreen.routeName: (context) => BillScreen(),
         NewPatientConsumableNurseScreen.routeName: (context) =>
@@ -190,12 +193,14 @@ class MyApp extends StatelessWidget {
         NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
-        SearchLaboratoryScreen.routeName:(context)=>SearchLaboratoryScreen(),
-        SearchXRayScreen.routeName:(context)=>SearchXRayScreen(),
-        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen(),
-        SearchConsumableScreen.routeName:(context)=>SearchConsumableScreen()
+        SearchLaboratoryScreen.routeName: (context) => SearchLaboratoryScreen(),
+        SearchXRayScreen.routeName: (context) => SearchXRayScreen(),
+        SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
+        SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: WelcomeScreen(),
+      home: MyHomePage(
+        title: 'Utilities',
+      ),
     );
   }
 }
@@ -215,6 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static int _counter = 0;
   String notification = '';
   ReceivePort _receivePort;
+  BasicData bd = new BasicData();
 
   void _start() async {
     _running = true;
@@ -259,19 +265,82 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  void createBasicData() {
+
+/*
+    print('Incubator List:'+incubatorModel.incubatorList.length.toString());*/
+
+/*
+    print('Condition List:'+conditionModel.conditionList.length.toString());*/
+
+/*
+    print('Shift List:'+shiftModel.shiftList.length.toString());*/
+
+/*
+    print('Laboratory List:'+laboratoryModel.laboratoryList.length.toString());*/
+
+/*
+    print('XRay List:'+xRayModel.xRayList.length.toString());*/
+
+/*
+    print('Medicine List:'+medicineModel.medicineList.length.toString());*/
+
+/*
+    print('Consumable List:'+consumableModel.consumableList.length.toString());*/
+
+/*
+    print('Extra List:'+extraModel.extraList.length.toString());*/
+
+/*
+    print('State Type List:'+stateTypeModel.stateTypeList.length.toString());*/
+  }
+
+  Widget buttonWidget(String title, VoidCallback fun) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            child: Text(title),
+            onPressed: () {
+              fun();
+            },
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+/*    Container(
+      child: Text(notification),
+    ),*/
+
+    //onPressed: _running ? _stop : _start
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Center(
-        child: Container(
-          child: Text(notification),
+        child: Column(
+          children: <Widget>[
+            buttonWidget('Add Incubator List',bd.addIncubatorData),
+            buttonWidget('Add Condition List',bd.addConditionData),
+            buttonWidget('Add Shift List',bd.addShiftData),
+            buttonWidget('Add Laboratory List',bd.addLaboratoryData),
+            buttonWidget('Add XRay List',bd.addXRayData),
+            buttonWidget('Add Medicine List',bd.addMedicineData),
+            buttonWidget('Add Consumable List',bd.addConsumableData),
+            buttonWidget('Add Extra List',bd.addExtraData),
+            buttonWidget('Add State Type List',bd.addStateTypeData),
+          ],
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _running ? _stop : _start,
+        //onPressed: createBasicData,
         tooltip: _running ? 'Timer Stop' : 'Timer Start',
         child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
       ),

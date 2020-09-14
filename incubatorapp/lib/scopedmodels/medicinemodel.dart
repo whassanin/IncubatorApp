@@ -12,6 +12,8 @@ class MedicineModel extends Model{
   String get searchName=>_searchName;
   Medicine _currentMedicine;
 
+  Medicine get currentMedicine => _currentMedicine;
+
   void createMedicine(){
     _currentMedicine = new Medicine(0, '',0,0);
   }

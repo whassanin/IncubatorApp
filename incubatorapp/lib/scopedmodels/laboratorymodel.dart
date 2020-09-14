@@ -13,6 +13,8 @@ class LaboratoryModel extends Model {
 
   Laboratory _currentLaboratory;
 
+  Laboratory get currentLaboratory => _currentLaboratory;
+
   void createLaboratory() {
     _currentLaboratory = new Laboratory(0, '', 0);
   }
