@@ -45,7 +45,9 @@ class PatientModel extends Model {
   }
 
   void editPatient(Patient editPatient) {
+    _isLoading = true;
     _currentPatient = editPatient;
+    notifyListeners();
   }
 
   void setUserId(int userId) {
@@ -188,11 +190,14 @@ class PatientModel extends Model {
   }
 
   void _readForDoctorAndNurse(String id) async {
-    _isLoading = true;
-    notifyListeners();
 
     _currentPatient.statusList =
         await statusModel.readByPatientId(int.parse(id));
+
+    _isLoading = false;
+
+    notifyListeners();
+
     _currentPatient.patientLaboratoryList =
         await patientLaboratoryModel.readByPatientId(int.parse(id));
     _currentPatient.patientXRaysList =
@@ -204,12 +209,6 @@ class PatientModel extends Model {
     _currentPatient.patientExtraList =
         await patientExtraModel.readByPatientId(int.parse(id));
     print('reading');
-
-    await Future.delayed(Duration(seconds: 2));
-
-    _isLoading = false;
-
-    notifyListeners();
   }
 
   void _readForAccountant(String id) async {
