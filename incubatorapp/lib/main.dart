@@ -304,24 +304,24 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              buttonWidget('Add Incubator List', bd.addIncubatorData),
-              buttonWidget('Add Condition List', bd.addConditionData),
-              buttonWidget('Add Shift List', bd.addShiftData),
-              buttonWidget('Add Laboratory List', bd.addLaboratoryData),
-              buttonWidget('Add XRay List', bd.addXRayData),
-              buttonWidget('Add Medicine List', bd.addMedicineData),
-              buttonWidget('Add Consumable List', bd.addConsumableData),
-              buttonWidget('Add Extra List', bd.addExtraData),
-              buttonWidget('Add State Type List', bd.addStateTypeData),
-              buttonWidget('Add Users Patient List', ud.addUserDataIsPatient),
-              buttonWidget('Get Users Patient List', ud.getUserTypeIsPatient),
-              buttonWidget('Add Patient List', ud.addPatientData),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+/*              buttonWidget('Add Incubator List', bd.addIncubatorData),
+            buttonWidget('Add Condition List', bd.addConditionData),
+            buttonWidget('Add Shift List', bd.addShiftData),
+            buttonWidget('Add Laboratory List', bd.addLaboratoryData),
+            buttonWidget('Add XRay List', bd.addXRayData),
+            buttonWidget('Add Medicine List', bd.addMedicineData),
+            buttonWidget('Add Consumable List', bd.addConsumableData),
+            buttonWidget('Add Extra List', bd.addExtraData),
+            buttonWidget('Add State Type List', bd.addStateTypeData),
+            buttonWidget('Add Users Patient List', ud.addUserDataIsPatient),
+            buttonWidget('Get Users Patient List', ud.getUserTypeIsPatient),
+            buttonWidget('Add Patient List', ud.addPatientData),*/
+            buttonWidget('Get Patient List', ud.getPatientList),
+            buttonWidget('Add Patient Status List', ud.addPatientStatus),
+          ],
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.

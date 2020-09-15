@@ -20,18 +20,22 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
 
     if (widget.incubatorList == null) {
       return current;
-    }
-    else if(widget.incubatorList!=null){
-      if(widget.incubatorList.length == 0){
+    } else if (widget.incubatorList != null) {
+      if (widget.incubatorList.length == 0) {
         return current;
       }
     }
 
-    return ListView.builder(
-      itemCount: widget.incubatorList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return IncubatorRowWidget(incubator: widget.incubatorList[index],);
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 70),
+      child: ListView.builder(
+        itemCount: widget.incubatorList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return IncubatorRowWidget(
+            incubator: widget.incubatorList[index],
+          );
+        },
+      ),
     );
   }
 
@@ -74,7 +78,6 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
         children: <Widget>[positionList, positionSaveButton],
       );
     }
-
 
     return currentWidget;
   }

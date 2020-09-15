@@ -7,7 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientModel extends Model {
   Api _api = new Api('patient');
 
-  bool _isLoading;
+  bool _isLoading = false;
 
   bool get isLoading => _isLoading;
 
@@ -184,6 +184,8 @@ class PatientModel extends Model {
     List<dynamic> patientListMap = await _api.filter(fields, values);
     patientList = patientListMap.map((e) => Patient.fromJson(e)).toList();
 
+    print(patientList.length);
+
     await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
@@ -208,11 +210,11 @@ class PatientModel extends Model {
         await patientConsumableNurseModel.readByPatientId(int.parse(id));
     _currentPatient.patientExtraList =
         await patientExtraModel.readByPatientId(int.parse(id));
-    print('reading');
   }
 
   void _readForAccountant(String id) async {
     _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+
     _currentPatient.patientLaboratoryList = await patientLaboratoryModel
         .readByPatientIdAndPendingLaboratory(int.parse(id));
     _currentPatient.patientXRaysList =
@@ -226,13 +228,20 @@ class PatientModel extends Model {
         await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
 
     patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
-    //notifyListeners();
+
+    _isLoading = false;
+
+    notifyListeners();
   }
 
   void _readForPatient(String id) async {
-    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
     _currentPatient.statusList =
         await statusModel.readByPatientId(int.parse(id));
+
+    _isLoading = false;
+
+    notifyListeners();
+
     _currentPatient.patientLaboratoryList =
         await patientLaboratoryModel.readByPatientId(int.parse(id));
     _currentPatient.patientXRaysList =
@@ -246,9 +255,7 @@ class PatientModel extends Model {
     _currentPatient.creditCardList =
         await creditCardModel.readByPatientId(int.parse(id));
 
-    await Future.delayed(Duration(seconds: 1));
-
-    notifyListeners();
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
 
   }
 

@@ -73,6 +73,10 @@ class UserData {
     userModel.readByUserTypeIsPatient();
   }
 
+  void getPatientList() {
+    patientModel.filterByStateType(1);
+  }
+
   void addPatientData() {
     patientModel.createPatient();
     patientModel.setMotherName('Nesreen');
@@ -200,5 +204,52 @@ class UserData {
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
+  }
+
+  void addPatientStatus() {
+    double hr = 85;
+    double pr = 80;
+    double ox = 90;
+    double su = 90;
+    double ur = 25;
+    double st = 25;
+    double bp = 90;
+    double tp = 38;
+    double itp = 38;
+    int d = 1;
+
+    patientModel.patientList.forEach((element) {
+      for (int i = 0; i < 10; i++) {
+        statusModel.createStatus();
+        statusModel.setNurseId(13);
+        statusModel.setPatientId(element.userId);
+        statusModel.setHeartRate(hr);
+        statusModel.setPulseRate(pr);
+        statusModel.setOxygen(ox);
+        statusModel.setWeight(element.weight);
+        statusModel.setSugar(su);
+        statusModel.setUrine(ur);
+        statusModel.setStool(st);
+        statusModel.setBloodPressure(bp);
+        statusModel.setTemperature(tp);
+        statusModel.setIncubatorTemperature(itp);
+        if (d > 9) {
+          statusModel.setDate(DateTime.parse('2020-04-' + d.toString()));
+        } else {
+          statusModel.setDate(DateTime.parse('2020-04-0' + d.toString()));
+        }
+        statusModel.create();
+
+        hr++;
+        pr++;
+        ox++;
+        su++;
+        ur++;
+        st++;
+        bp++;
+        element.weight += 50;
+        d += 1;
+      }
+    });
   }
 }

@@ -108,6 +108,13 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
+  void setLightRay(){
+    if(widget.patient.isOnLightRay){
+      patientModel.setIsOnLightRay(false);
+    }else {
+      patientModel.setIsOnLightRay(true);
+    }
+  }
 
   void goToExtraScreen() {
     Navigator.push(
@@ -605,7 +612,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           (widget.patient.isOnLightRay
               ? 'Light Ray is on'
               : 'Light Ray is Off'),
-          fun: goToConditionScreen);
+          fun: setLightRay);
 
       currentWidget = Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
