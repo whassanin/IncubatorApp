@@ -17,6 +17,8 @@ class UserModel extends Model {
 
   User get currentUser => _currentUser;
 
+  List<User> userList;
+
   String confirmPassword;
 
   void createUser() {
@@ -182,6 +184,20 @@ class UserModel extends Model {
     setPermission();
 
     //notifyListeners();
+  }
+
+  void readByUserTypeIsPatient() async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('userType');
+    values.add('UserType.patient');
+
+    List<dynamic> userListMap = await _api.filter(fields, values);
+    userList = userListMap.map((e) => User.fromJson(e)).toList();
+
+    print(userList.length);
+
   }
 
   Future<bool> create() async {

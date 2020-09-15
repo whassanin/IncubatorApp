@@ -80,6 +80,7 @@ import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:huawei_push/constants/channel.dart' as Channel;
 import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
 import 'package:incubatorapp/util/basicdata.dart';
+import 'package:incubatorapp/util/userdata.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -137,7 +138,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.doctor);
+    userPermission.setPermission(UserType.accountant);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -199,7 +200,7 @@ class MyApp extends StatelessWidget {
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
       home: MyHomePage(
-        title: 'Utilities',
+        title: 'Display Data',
       ),
     );
   }
@@ -221,6 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String notification = '';
   ReceivePort _receivePort;
   BasicData bd = new BasicData();
+  UserData ud = new UserData();
 
   void _start() async {
     _running = true;
@@ -265,36 +267,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void createBasicData() {
-
-/*
-    print('Incubator List:'+incubatorModel.incubatorList.length.toString());*/
-
-/*
-    print('Condition List:'+conditionModel.conditionList.length.toString());*/
-
-/*
-    print('Shift List:'+shiftModel.shiftList.length.toString());*/
-
-/*
-    print('Laboratory List:'+laboratoryModel.laboratoryList.length.toString());*/
-
-/*
-    print('XRay List:'+xRayModel.xRayList.length.toString());*/
-
-/*
-    print('Medicine List:'+medicineModel.medicineList.length.toString());*/
-
-/*
-    print('Consumable List:'+consumableModel.consumableList.length.toString());*/
-
-/*
-    print('Extra List:'+extraModel.extraList.length.toString());*/
-
-/*
-    print('State Type List:'+stateTypeModel.stateTypeList.length.toString());*/
-  }
-
   Widget buttonWidget(String title, VoidCallback fun) {
     return Row(
       children: <Widget>[
@@ -314,9 +286,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 /*    Container(
       child: Text(notification),
-    ),*/
+    ),
 
-    //onPressed: _running ? _stop : _start
+    floatingActionButton: new FloatingActionButton(
+      //onPressed: _running ? _stop : _start,
+      tooltip: _running ? 'Timer Stop' : 'Timer Start',
+      child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+    )
+    */
+
+    DateTime d = DateTime.parse('2020-04-01');
+
+    print(d.toString());
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -325,24 +307,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            buttonWidget('Add Incubator List',bd.addIncubatorData),
-            buttonWidget('Add Condition List',bd.addConditionData),
-            buttonWidget('Add Shift List',bd.addShiftData),
-            buttonWidget('Add Laboratory List',bd.addLaboratoryData),
-            buttonWidget('Add XRay List',bd.addXRayData),
-            buttonWidget('Add Medicine List',bd.addMedicineData),
-            buttonWidget('Add Consumable List',bd.addConsumableData),
-            buttonWidget('Add Extra List',bd.addExtraData),
-            buttonWidget('Add State Type List',bd.addStateTypeData),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              buttonWidget('Add Incubator List', bd.addIncubatorData),
+              buttonWidget('Add Condition List', bd.addConditionData),
+              buttonWidget('Add Shift List', bd.addShiftData),
+              buttonWidget('Add Laboratory List', bd.addLaboratoryData),
+              buttonWidget('Add XRay List', bd.addXRayData),
+              buttonWidget('Add Medicine List', bd.addMedicineData),
+              buttonWidget('Add Consumable List', bd.addConsumableData),
+              buttonWidget('Add Extra List', bd.addExtraData),
+              buttonWidget('Add State Type List', bd.addStateTypeData),
+              buttonWidget('Add Users Patient List', ud.addUserDataIsPatient),
+              buttonWidget('Get Users Patient List', ud.getUserTypeIsPatient),
+              buttonWidget('Add Patient List', ud.addPatientData),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        //onPressed: createBasicData,
-        tooltip: _running ? 'Timer Stop' : 'Timer Start',
-        child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
