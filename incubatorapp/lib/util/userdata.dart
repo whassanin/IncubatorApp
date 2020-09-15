@@ -86,6 +86,7 @@ class UserData {
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(1);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Nariman');
@@ -99,6 +100,7 @@ class UserData {
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(2);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Sara');
@@ -112,6 +114,7 @@ class UserData {
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(3);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Somya');
@@ -125,6 +128,7 @@ class UserData {
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(4);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Engy');
@@ -138,6 +142,7 @@ class UserData {
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(5);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Yasmin');
@@ -151,6 +156,7 @@ class UserData {
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(6);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Mirna');
@@ -164,6 +170,7 @@ class UserData {
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(7);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Alyaa');
@@ -177,6 +184,7 @@ class UserData {
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(8);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
     patientModel.createPatient();
     patientModel.setMotherName('Dalia');
@@ -190,6 +198,7 @@ class UserData {
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(9);
     patientModel.setStateTypeId(1);
+    patientModel.setSSN('1234567891011');
     patientModel.create();
   }
 }

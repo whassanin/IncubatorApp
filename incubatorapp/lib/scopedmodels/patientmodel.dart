@@ -41,11 +41,6 @@ class PatientModel extends Model {
       1,
       1,
       0,
-      null,
-      null,
-      null,
-      null,
-      null,
     );
   }
 
