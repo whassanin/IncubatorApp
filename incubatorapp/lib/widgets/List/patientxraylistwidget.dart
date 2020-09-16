@@ -49,20 +49,24 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
 
     if (widget.patientXRayList != null) {
       if (widget.patientXRayList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.patientXRayList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PatientXRayRowWidget(
-              patientXRay: widget.patientXRayList[i],
-            );
-          },
-        );
+        if (patientXRayModel.isAdding == false) {
+          currentWidget = ListView.builder(
+            itemCount: widget.patientXRayList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return PatientXRayRowWidget(
+                patientXRay: widget.patientXRayList[i],
+              );
+            },
+          );
+        }
       } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No XRay(s) Available'),
-          ),
-        );
+        if (patientXRayModel.isAdding == false) {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No XRay(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(

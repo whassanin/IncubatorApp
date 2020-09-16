@@ -54,21 +54,25 @@ class _PatientConsumableNurseListWidgetState
 
     if (widget.patientConsumableNurseList != null) {
       if (widget.patientConsumableNurseList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.patientConsumableNurseList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PatientConsumableNurseRowWidget(
-              patientConsumableNurse: widget.patientConsumableNurseList[i],
-              userPermission: widget.userPermission,
-            );
-          },
-        );
+        if (patientConsumableNurseModel.isAdding == false) {
+          currentWidget = ListView.builder(
+            itemCount: widget.patientConsumableNurseList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return PatientConsumableNurseRowWidget(
+                patientConsumableNurse: widget.patientConsumableNurseList[i],
+                userPermission: widget.userPermission,
+              );
+            },
+          );
+        }
       } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Consumable(s) Available'),
-          ),
-        );
+        if (patientConsumableNurseModel.isAdding == false) {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Consumable(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(
@@ -93,7 +97,6 @@ class _PatientConsumableNurseListWidgetState
 
   @override
   Widget build(BuildContext context) {
-
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
 

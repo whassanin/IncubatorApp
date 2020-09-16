@@ -198,6 +198,8 @@ class PatientModel extends Model {
 
     _isLoading = false;
 
+    await Future.delayed(Duration(seconds: 1));
+
     notifyListeners();
 
     _currentPatient.patientLaboratoryList =

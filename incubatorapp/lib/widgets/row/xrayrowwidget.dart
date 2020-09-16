@@ -17,6 +17,8 @@ class XRayRowWidget extends StatefulWidget {
 }
 
 class _XRayRowWidgetState extends State<XRayRowWidget> {
+  bool isSelected = false;
+
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -25,10 +27,11 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
   }
 
   void update() {
-    int index = findXRay();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    if (isSelected) {
+      isSelected = false;
+      delete();
+    } else {
+      isSelected = true;
       save();
     }
   }
@@ -52,7 +55,8 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
     return index;
   }
 
-  void delete(int index) {
+  void delete() {
+    int index = findXRay();
     patientXRayModel.editPatientXRay(patientXRayModel.patientXRayList[index]);
     patientXRayModel.delete();
   }
@@ -65,15 +69,10 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findXRay();
-    }
-
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if (index >= 0) {
+    if (isSelected) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
@@ -122,7 +121,6 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
           update();
         } else if (userPermission.isAccountant) {
           xRayModel.editXRay(widget.xRay);
-          print('Name:' + xRayModel.getName());
           navigateToEditXRayScreen();
         }
       },
@@ -137,6 +135,14 @@ class _XRayRowWidgetState extends State<XRayRowWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findXRay();
+
+      if (index > -1) {
+        isSelected = true;
+      }
+    }
   }
 
   @override

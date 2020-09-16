@@ -170,7 +170,6 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           ),
           onTap: () {
             clearSearch();
-            patientConsumableNurseModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

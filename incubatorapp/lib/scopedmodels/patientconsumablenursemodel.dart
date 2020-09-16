@@ -6,6 +6,8 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientConsumableNurseModel extends Model {
   Api _api = new Api('patientconsumablenurse');
 
+  bool isAdding = false;
+
   List<PatientConsumableNurse> patientConsumableNurseList;
 
   PatientConsumableNurse _currentPatientConsumableNurse;
@@ -54,6 +56,7 @@ class PatientConsumableNurseModel extends Model {
 
   void setConsumableId(int consumableId) {
     _currentPatientConsumableNurse.consumableId = consumableId;
+    notifyListeners();
   }
 
   int getConsumableId() {
@@ -79,6 +82,14 @@ class PatientConsumableNurseModel extends Model {
 
   DateTime getCreatedDate() {
     return _currentPatientConsumableNurse.createdDate;
+  }
+
+  void setIsAdding(bool val){
+    isAdding = val;
+    if(isAdding==false){
+      readByPatientId(patientModel.currentPatient.userId);
+    }
+    notifyListeners();
   }
 
   Future<List<PatientConsumableNurse>> readByPatientId(int patientId) async {
@@ -123,9 +134,6 @@ class PatientConsumableNurseModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientConsumableNurse.toJson());
     if (code == 201) {
-      patientConsumableNurseList.add(_currentPatientConsumableNurse);
-      notifyListeners();
-      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;

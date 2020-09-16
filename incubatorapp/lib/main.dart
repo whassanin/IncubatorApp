@@ -138,7 +138,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.accountant);
+    //userPermission.setPermission(UserType.patient);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -280,6 +280,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget basicDataButtons() {
+    return Column(
+      children: [
+        buttonWidget('Add Incubator List', bd.addIncubatorData),
+        buttonWidget('Add Condition List', bd.addConditionData),
+        buttonWidget('Add Shift List', bd.addShiftData),
+        buttonWidget('Add Laboratory List', bd.addLaboratoryData),
+        buttonWidget('Add XRay List', bd.addXRayData),
+        buttonWidget('Add Medicine List', bd.addMedicineData),
+        buttonWidget('Add Consumable List', bd.addConsumableData),
+        buttonWidget('Add Extra List', bd.addExtraData),
+        buttonWidget('Add State Type List', bd.addStateTypeData),
+      ],
+    );
+  }
+
+  Widget userDataButton() {
+    return Column(
+      children: [
+        buttonWidget('Add Doctor', ud.addUserDoctor),
+        buttonWidget('Add Nurse', ud.addUserNurse),
+        buttonWidget('Add User of type Patient', ud.addUserPatient),
+        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
+      ],
+    );
+  }
+
+  Widget patientDataDetail(){
+    return Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Status', ud.addPatientStatus),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 /*    Container(
@@ -305,24 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-/*              buttonWidget('Add Incubator List', bd.addIncubatorData),
-            buttonWidget('Add Condition List', bd.addConditionData),
-            buttonWidget('Add Shift List', bd.addShiftData),
-            buttonWidget('Add Laboratory List', bd.addLaboratoryData),
-            buttonWidget('Add XRay List', bd.addXRayData),
-            buttonWidget('Add Medicine List', bd.addMedicineData),
-            buttonWidget('Add Consumable List', bd.addConsumableData),
-            buttonWidget('Add Extra List', bd.addExtraData),
-            buttonWidget('Add State Type List', bd.addStateTypeData),
-            buttonWidget('Add Users Patient List', ud.addUserDataIsPatient),
-            buttonWidget('Get Users Patient List', ud.getUserTypeIsPatient),
-            buttonWidget('Add Patient List', ud.addPatientData),*/
-            buttonWidget('Get Patient List', ud.getPatientList),
-            buttonWidget('Add Patient Status List', ud.addPatientStatus),
-          ],
-        ),
+        child: patientDataDetail(),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

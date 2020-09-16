@@ -6,6 +6,8 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientLaboratoryModel extends Model {
   Api _api = new Api('patientlaboratory');
 
+  bool isAdding = false;
+
   List<PatientLaboratory> patientLaboratoryList;
 
   PatientLaboratory _currentPatientLaboratory;
@@ -13,14 +15,15 @@ class PatientLaboratoryModel extends Model {
   PatientLaboratory get patientLaboratory => _currentPatientLaboratory;
 
   void createPatientLaboratory() {
-    _currentPatientLaboratory = new PatientLaboratory(0, 0, 0, ' ','Pending', DateTime.now());
+    _currentPatientLaboratory =
+        new PatientLaboratory(0, 0, 0, ' ', 'Pending', DateTime.now());
   }
 
   void editPatientLaboratory(PatientLaboratory editPatientLaboratory) {
     _currentPatientLaboratory = editPatientLaboratory;
   }
 
-  void setList(List<PatientLaboratory> list){
+  void setList(List<PatientLaboratory> list) {
     patientLaboratoryList = list;
   }
 
@@ -71,6 +74,14 @@ class PatientLaboratoryModel extends Model {
     return _currentPatientLaboratory.createdDate;
   }
 
+  void setIsAdding(bool val){
+    isAdding = val;
+    if(isAdding==false){
+      readByPatientId(patientModel.currentPatient.userId);
+    }
+    notifyListeners();
+  }
+
   Future<List<PatientLaboratory>> readByPatientId(int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
@@ -88,7 +99,8 @@ class PatientLaboratoryModel extends Model {
     return patientLaboratoryList;
   }
 
-  Future<List<PatientLaboratory>> readByPatientIdAndPendingLaboratory(int patientId) async {
+  Future<List<PatientLaboratory>> readByPatientIdAndPendingLaboratory(
+      int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -100,8 +112,6 @@ class PatientLaboratoryModel extends Model {
     List<dynamic> patientLaboratoryMap = await _api.filter(fields, values);
     patientLaboratoryList =
         patientLaboratoryMap.map((e) => PatientLaboratory.fromJson(e)).toList();
-
-
 
     notifyListeners();
 
@@ -125,18 +135,16 @@ class PatientLaboratoryModel extends Model {
   Future<bool> create() async {
     int code = await _api.post(_currentPatientLaboratory.toJson());
     if (code == 201) {
-      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;
   }
 
   Future<bool> update() async {
-    int code = await _api.put(_currentPatientLaboratory.toJson(), _currentPatientLaboratory.id.toString());
-
+    int code = await _api.put(_currentPatientLaboratory.toJson(),
+        _currentPatientLaboratory.id.toString());
     if (code == 200) {
       notifyListeners();
-
       return true;
     }
     return false;

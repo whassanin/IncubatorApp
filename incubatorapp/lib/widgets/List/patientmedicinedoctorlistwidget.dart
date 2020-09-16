@@ -50,20 +50,24 @@ class _PatientMedicineDoctorListWidgetState
 
     if (widget.patientMedicineDoctorList != null) {
       if (widget.patientMedicineDoctorList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.patientMedicineDoctorList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PatientMedicineDoctorRowWidget(
-              patientMedicineDoctor: widget.patientMedicineDoctorList[i],
-            );
-          },
-        );
+        if (patientMedicineDoctorModel.isAdding == false) {
+          currentWidget = ListView.builder(
+            itemCount: widget.patientMedicineDoctorList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return PatientMedicineDoctorRowWidget(
+                patientMedicineDoctor: widget.patientMedicineDoctorList[i],
+              );
+            },
+          );
+        }
       } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Medicine(s) Available'),
-          ),
-        );
+        if (patientMedicineDoctorModel.isAdding == false) {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Medicine(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(

@@ -3,7 +3,48 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
 
 class UserData {
-  void addUserDataIsPatient() {
+
+  void addUserDoctor() async{
+    userModel.createUser();
+    userModel.setProvider(UserProvider.other);
+    userModel.setEmail('naima@gmail.com');
+    userModel.setPassword('admin');
+    userModel.setPhone('0123456789');
+    userModel.setUserType(UserType.doctor);
+    userModel.create();
+
+    await Future.delayed(Duration(seconds: 2));
+
+    doctorModel.createDoctor();
+    doctorModel.setUserId(1);
+    doctorModel.setFirstName('Naima');
+    doctorModel.setLastName('AbdelMenam');
+    doctorModel.setDateOfBirth(DateTime.now());
+    doctorModel.setGender(false);
+    doctorModel.create();
+  }
+
+  void addUserNurse() async{
+    userModel.createUser();
+    userModel.setProvider(UserProvider.other);
+    userModel.setEmail('radwa@gmail.com');
+    userModel.setPassword('admin');
+    userModel.setPhone('0123456789');
+    userModel.setUserType(UserType.nurse);
+    userModel.create();
+
+    await Future.delayed(Duration(seconds: 2));
+
+    nurseModel.createNurse();
+    nurseModel.setUserId(2);
+    nurseModel.setFirstName('Radwa');
+    nurseModel.setLastName('Makhlouf');
+    nurseModel.setDateOfBirth(DateTime.now());
+    nurseModel.setGender(false);
+    nurseModel.create();
+  }
+
+  void addUserPatient() {
     userModel.createUser();
     userModel.setUserType(UserType.patient);
     userModel.setEmail('mahmoud@gmail.com');
@@ -69,15 +110,7 @@ class UserData {
     userModel.create();
   }
 
-  void getUserTypeIsPatient() {
-    userModel.readByUserTypeIsPatient();
-  }
-
-  void getPatientList() {
-    patientModel.filterByStateType(1);
-  }
-
-  void addPatientData() {
+  void addPatientDetailData() {
     patientModel.createPatient();
     patientModel.setMotherName('Nesreen');
     patientModel.setFatherName('Ahmed');
@@ -86,7 +119,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(500);
     patientModel.setIsOnLightRay(true);
-    patientModel.setUserId(2);
+    patientModel.setUserId(3);
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(1);
     patientModel.setStateTypeId(1);
@@ -206,6 +239,10 @@ class UserData {
     patientModel.create();
   }
 
+  void getPatientList() {
+    patientModel.filterByStateType(1);
+  }
+
   void addPatientStatus() {
     double hr = 85;
     double pr = 80;
@@ -216,12 +253,13 @@ class UserData {
     double bp = 90;
     double tp = 38;
     double itp = 38;
-    int d = 1;
+    int d;
 
     patientModel.patientList.forEach((element) {
+      d = 1;
       for (int i = 0; i < 10; i++) {
         statusModel.createStatus();
-        statusModel.setNurseId(13);
+        statusModel.setNurseId(2);
         statusModel.setPatientId(element.userId);
         statusModel.setHeartRate(hr);
         statusModel.setPulseRate(pr);

@@ -14,7 +14,7 @@ class PatientXRayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patientXRayModel.readByPatientId(this.patient.userId);
+    //patientXRayModel.readByPatientId(this.patient.userId);
 
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,

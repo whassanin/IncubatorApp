@@ -77,7 +77,6 @@ class _ExtraListWidgetState extends State<ExtraListWidget> {
             ),
           ),
           onTap: () {
-            patientExtraModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

@@ -169,7 +169,6 @@ class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
           ),
           onTap: () {
             clearSearch();
-            patientLaboratoryModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

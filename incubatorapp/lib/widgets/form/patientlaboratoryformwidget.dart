@@ -12,7 +12,8 @@ class PatientLaboratoryFormWidget extends StatefulWidget {
       _PatientLaboratoryFormWidgetState();
 }
 
-class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidget> {
+class _PatientLaboratoryFormWidgetState
+    extends State<PatientLaboratoryFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController resultTEC = new TextEditingController();
 
@@ -22,6 +23,20 @@ class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidge
     super.initState();
     nameTEC.text = widget.laboratory.name;
     resultTEC.text = widget.patientLaboratory.result;
+  }
+
+  void save() async {
+    bool isCheck = await patientLaboratoryModel.update();
+    if (isCheck) {
+      Navigator.pop(context);
+    }
+  }
+
+  void delete() async{
+    bool isCheck = await patientLaboratoryModel.delete();
+    if (isCheck) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -47,10 +62,8 @@ class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidge
               validator: (v) {
                 return null;
               },
-              onChanged: (v) {
-              },
-              onFieldSubmitted: (v) {
-              },
+              onChanged: (v) {},
+              onFieldSubmitted: (v) {},
             ),
           ),
         )
@@ -76,7 +89,7 @@ class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidge
             labelText: 'Result',
           ),
           validator: (v) {
-            if(v.isEmpty){
+            if (v.isEmpty) {
               return 'Required';
             }
             return null;
@@ -107,8 +120,7 @@ class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidge
             ),
             child: Text('Delete', style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientLaboratoryModel.delete();
-              Navigator.pop(context);
+              delete();
             },
           ),
         ),
@@ -131,8 +143,7 @@ class _PatientLaboratoryFormWidgetState extends State<PatientLaboratoryFormWidge
             ),
             child: Text('Save', style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientLaboratoryModel.update();
-              Navigator.pop(context);
+              save();
             },
           ),
         ),

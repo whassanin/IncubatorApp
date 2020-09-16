@@ -5,10 +5,11 @@ import 'package:incubatorapp/models/patientextra.dart';
 
 class PatientExtraRowWidget extends StatefulWidget {
   final PatientExtra patientExtra;
-  PatientExtraRowWidget({this.patientExtra,});
+  PatientExtraRowWidget({
+    this.patientExtra,
+  });
   @override
-  _PatientExtraRowWidgetState createState() =>
-      _PatientExtraRowWidgetState();
+  _PatientExtraRowWidgetState createState() => _PatientExtraRowWidgetState();
 }
 
 class _PatientExtraRowWidgetState extends State<PatientExtraRowWidget> {
@@ -32,37 +33,19 @@ class _PatientExtraRowWidgetState extends State<PatientExtraRowWidget> {
       child: Text('Date: ' + dateFormat()),
     );
 
-    Widget editButtonWidget = Container();
-
-    /*
-     Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text('Edit'),
-            onPressed: () {
-              patientExtraModel.editPatientExtra(widget.patientExtra);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPatientExtraScreen(
-                    patientExtra: widget.patientExtra,
-                    extra: extra,
-                  ),
-                ),
-              );
-            },
-          ),
+    Widget editButtonWidget = RaisedButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
         ),
-      ],
-    );*/
+      ),
+      child: Text('Delete',style: TextStyle(color: Colors.white),),
+      color: Colors.red,
+      onPressed: () {
+        patientExtraModel.editPatientExtra(widget.patientExtra);
+        patientExtraModel.delete();
+      },
+    );
 
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -74,22 +57,29 @@ class _PatientExtraRowWidgetState extends State<PatientExtraRowWidget> {
         ),
         (userPermission.isPatient
             ? Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: priceWidget,
-        )
+                padding: const EdgeInsets.all(2.0),
+                child: priceWidget,
+              )
             : Container()),
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (userPermission.isDoctor ? editButtonWidget : Container())
       ],
     );
 
     Widget displayCard = Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: displayCol,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            displayCol,
+            (userPermission.isDoctor || userPermission.isNurse
+                ? editButtonWidget
+                : Container())
+          ],
+        ),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(

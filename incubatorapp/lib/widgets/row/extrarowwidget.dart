@@ -27,16 +27,18 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
   }
 
   void update() {
-    int index = findExtra();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    if (isSelected) {
+      isSelected = false;
+      delete();
+    } else {
+      isSelected = true;
       save();
     }
   }
 
-  void navigateToEditExtraScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditExtraScreen()));
+  void navigateToEditExtraScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditExtraScreen()));
   }
 
   int findExtra() {
@@ -55,7 +57,8 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
     return index;
   }
 
-  void delete(int index) {
+  void delete() {
+    int index = findExtra();
     patientExtraModel
         .editPatientExtra(patientExtraModel.patientExtraList[index]);
     patientExtraModel.delete();
@@ -69,15 +72,10 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findExtra();
-    }
-
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if (index >= 0) {
+    if (isSelected) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
@@ -89,23 +87,37 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: Text(widget.extra.name,
-                style: TextStyle(color: textColor)),
+            child: Text(widget.extra.name, style: TextStyle(color: textColor)),
           ),
         ),
-        (userPermission.isAccountant?Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Text('Price: ' + widget.extra.price.toString(),
-                style: TextStyle(color: textColor)),
-          ),
-        ):Container()),
+        (userPermission.isAccountant
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.extra.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
+            : Container()),
       ],
+    );
+
+    Widget deleteButton = RaisedButton(
+      child: Text('Delete'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0))
+      ),
+      onPressed: (){
+        delete();
+      },
     );
 
     Widget rowContainer = Container(
       height: 70,
-      child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: rowData,
+      ),
     );
 
     Widget rowCard = Card(
@@ -123,7 +135,7 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
       onTap: () {
         if (userPermission.isDoctor || userPermission.isNurse) {
           update();
-        } else if(userPermission.isAccountant) {
+        } else if (userPermission.isAccountant) {
           extraModel.editExtra(widget.extra);
           navigateToEditExtraScreen();
         }
@@ -139,6 +151,14 @@ class _ExtraRowWidgetState extends State<ExtraRowWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findExtra();
+
+      if (index > -1) {
+        isSelected = true;
+      }
+    }
   }
 
   @override

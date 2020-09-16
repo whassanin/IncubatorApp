@@ -26,7 +26,14 @@ class _NewPatientXRayScreenState extends State<NewPatientXRayScreen> {
     super.dispose();
     xRayModel.setSearchName('');
     xRayModel.readAll();
-    patientXRayModel.readByPatientId(widget.patient.userId);
+    patientXRayModel.setIsAdding(false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    patientXRayModel.setIsAdding(true);
   }
 
   @override

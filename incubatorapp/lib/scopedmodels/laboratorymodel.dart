@@ -68,7 +68,6 @@ class LaboratoryModel extends Model {
     int code = await _api.post(_currentLaboratory.toJson());
     if (code == 201) {
       laboratoryList.add(_currentLaboratory);
-
       notifyListeners();
       return true;
     }
