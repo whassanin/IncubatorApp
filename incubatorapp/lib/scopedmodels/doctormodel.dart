@@ -58,6 +58,7 @@ class DoctorModel extends Model{
 
   void setDateOfBirth(DateTime val) {
     _currentDoctor.dateOfBirth = val;
+    print(_currentDoctor.dateOfBirth.toString());
     notifyListeners();
   }
 
