@@ -240,7 +240,11 @@ class PatientModel extends Model {
     _currentPatient.statusList =
         await statusModel.readByPatientId(int.parse(id));
 
+    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
+
     _isLoading = false;
+
+    await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
 
@@ -256,8 +260,6 @@ class PatientModel extends Model {
         await patientExtraModel.readByPatientId(int.parse(id));
     _currentPatient.creditCardList =
         await creditCardModel.readByPatientId(int.parse(id));
-
-    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
 
   }
 

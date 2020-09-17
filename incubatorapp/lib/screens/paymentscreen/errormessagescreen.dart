@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 
-class SuccessfulMessageScreen extends StatelessWidget {
-  static const routeName = '/successfulmessagescreen';
+class ErrorMessageScreen extends StatelessWidget {
+  static const routeName = '/errormessagescreen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.cyan,
+        color: Colors.red,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                Icons.check_circle,
+                Icons.cancel,
                 size: 150,
                 color: Colors.white,
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Payment Successful!',
+                  'Payment Error!',
                   style: TextStyle(fontSize: 30, color: Colors.white),
                 ),
               ),
@@ -38,11 +38,10 @@ class SuccessfulMessageScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: Center(child: Text('Continue')),
+                  child: Center(child: Text('Back')),
                 ),
                 onTap: () {
-                  Navigator.popUntil(context,
-                      ModalRoute.withName(PatientProfileScreen.routeName));
+                  Navigator.pop(context);
                 },
               )
             ],

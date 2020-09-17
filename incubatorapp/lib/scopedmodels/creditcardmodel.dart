@@ -5,15 +5,15 @@ import 'package:scoped_model/scoped_model.dart';
 class CreditCardModel extends Model{
   Api _api = new Api('creditcard');
 
+  bool _isPayment = false;
+
+  bool get isPayment => _isPayment;
+
   CreditCard _currentCreditCard;
 
   List<CreditCard> creditCardList;
 
   CreditCard get currentCreditCard => _currentCreditCard;
-
-  bool _isPayment = false;
-
-  bool get isPayment => _isPayment;
 
   void setIsPayment(bool val){
     _isPayment = val;
@@ -34,7 +34,25 @@ class CreditCardModel extends Model{
   }
 
   String getNumber(){
-    return _currentCreditCard.number;
+
+    String number = '';
+
+    for (int i = 0; i < _currentCreditCard.number.length - 4; i++) {
+      int v = int.tryParse(_currentCreditCard.number[i]);
+      if (v == null) {
+        number += '  ';
+      } else {
+        number += 'x';
+      }
+    }
+
+    for (int i = _currentCreditCard.number.length - 4;
+    i < _currentCreditCard.number.length;
+    i++) {
+      number += _currentCreditCard.number[i];
+    }
+
+    return number;
   }
 
   void setHolder(String val){
@@ -74,6 +92,27 @@ class CreditCardModel extends Model{
   }
 
   DateTime get createDate => _currentCreditCard.createdDate;
+
+  bool validateDate() {
+    bool isCheck = false;
+
+    int cm = DateTime.now().month;
+    int cy = DateTime.now().year;
+    int m = _currentCreditCard.expireMonth;
+    int y = _currentCreditCard.expireYear;
+
+    if (y > cy) {
+      isCheck = true;
+    } else {
+      if (y == cy) {
+        if (m >= cm) {
+          isCheck = true;
+        }
+      }
+    }
+
+    return isCheck;
+  }
 
   Future<List<CreditCard>> readByPatientId(int patientId) async{
     List<String> fields = <String>[];

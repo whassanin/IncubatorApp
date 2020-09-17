@@ -13,17 +13,18 @@ class BillListWidget extends StatefulWidget {
 }
 
 class _BillListWidgetState extends State<BillListWidget> {
-
-  void pay(){
-    creditCardModel.setIsPayment(true);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CreditCardScreen(),
-      ),
-    );
+  void pay() {
+    double t = billModel.calculateTotalChange();
+    if (t > 0) {
+      creditCardModel.setIsPayment(true);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CreditCardScreen(),
+        ),
+      );
+    }
   }
-
 
   @override
   void initState() {
@@ -91,8 +92,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     );
   }
 
-  Widget calculateButton(String title,{VoidCallback fun}){
-
+  Widget calculateButton(String title, {VoidCallback fun}) {
     Widget buttonContainer = Container(
       decoration: BoxDecoration(color: Colors.cyan),
       height: 58,
@@ -107,7 +107,7 @@ class _BillListWidgetState extends State<BillListWidget> {
 
     Widget buttonGesture = GestureDetector(
       onTap: () {
-        if(fun!=null){
+        if (fun != null) {
           fun();
         }
       },
@@ -152,17 +152,21 @@ class _BillListWidgetState extends State<BillListWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          containerTotalWidget('Total:', billModel.calculateTotalCost().toString()),
-          containerTotalWidget('Paid:', billModel.calculateTotalPaid().toString()),
-          containerTotalWidget('Change:', billModel.calculateTotalChange().toString()),
+          containerTotalWidget(
+              'Total:', billModel.calculateTotalCost().toString()),
+          containerTotalWidget(
+              'Paid:', billModel.calculateTotalPaid().toString()),
+          containerTotalWidget(
+              'Change:', billModel.calculateTotalChange().toString()),
         ],
       ),
     );
 
-    Widget currentButtonContainer = calculateButton('Pay',fun: pay);
+    Widget currentButtonContainer = calculateButton('Pay', fun: pay);
 
-    if(userPermission.isAccountant){
-      currentButtonContainer = calculateButton('Calculate',fun: billModel.calculateBillsForAccountant);
+    if (userPermission.isAccountant) {
+      currentButtonContainer = calculateButton('Calculate',
+          fun: billModel.calculateBillsForAccountant);
     }
 
     Widget positionTotal = Positioned(

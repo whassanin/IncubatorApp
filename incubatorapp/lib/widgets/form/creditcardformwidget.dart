@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
 import 'package:incubatorapp/screens/paymentscreen/successfullmessagescreen.dart';
 
 enum CreditCardColumn { number, holder, expireYear, expireMonth, cvv }
+
+class CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var text = newValue.text;
+
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    var buffer = new StringBuffer();
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      var nonZeroIndex = i + 1;
+      if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
+        buffer.write('  '); // Add double spaces.
+      }
+    }
+
+    var string = buffer.toString();
+    return newValue.copyWith(
+        text: string,
+        selection: new TextSelection.collapsed(offset: string.length));
+  }
+}
 
 class CreditCardFormWidget extends StatefulWidget {
   final bool isEdit;
@@ -36,7 +61,7 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
 
   void getData() {
     numberTEC.text = creditCardModel.getNumber();
-    holderTEC.text = creditCardModel.getNumber();
+    holderTEC.text = creditCardModel.getHolder();
     expireMonthTEC.text = creditCardModel.getExpireMonth().toString();
     expireYearTEC.text = creditCardModel.getExpireYear().toString();
   }
@@ -54,117 +79,44 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
     }
   }
 
-  void payment() {
-    if (_formKey.currentState.validate()) {
-      creditCardModel.setIsPayment(false);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SuccessfulMessageScreen(),
-        ),
-      );
-    }
+  void delete() {
+    creditCardModel.delete();
   }
 
-  bool validateDate() {
-    bool isCheck = false;
-
-    int cm = DateTime.now().month;
-    int cy = DateTime.now().year;
-    int m = creditCardModel.getExpireMonth();
-    int y = creditCardModel.getExpireYear();
-
-    if (y > cy) {
-      isCheck = true;
-    } else {
-      if (y == cy) {
-        if (m >= cm) {
-          isCheck = true;
-        }
-      }
-    }
-
-    return isCheck;
+  Widget button(String title, Color color, VoidCallback fun) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Container(
+          height: 60,
+          child: RaisedButton(
+            color: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10,
+                ),
+              ),
+            ),
+            child: Text(
+              title,
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if (fun != null) {
+                fun();
+              }
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   Widget editButtons() {
-    Widget paymentButton = Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Container(
-          height: 60,
-          child: RaisedButton(
-            color: Colors.cyan,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text(
-              'Pay',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              payment();
-            },
-          ),
-        ),
-      ),
-    );
+    Widget saveButton = button('Save', Colors.cyan, save);
 
-    Widget saveButton = Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Container(
-          height: 60,
-          child: RaisedButton(
-            color: Colors.cyan,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text(
-              'Save',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              save();
-            },
-          ),
-        ),
-      ),
-    );
-
-    Widget deleteButton = Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Container(
-          height: 60,
-          child: RaisedButton(
-            color: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text(
-              'Delete',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              creditCardModel.delete();
-            },
-          ),
-        ),
-      ),
-    );
+    Widget deleteButton = button('Delete', Colors.red, delete);
 
     Widget rowCreateButtons = Row(
       children: <Widget>[saveButton],
@@ -174,23 +126,16 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
       children: <Widget>[deleteButton, saveButton],
     );
 
-    Widget rowPaymentButtons = Row(
-      children: <Widget>[paymentButton],
-    );
-
     Widget rowButtons = Container();
 
-    if (creditCardModel.isPayment) {
-      rowButtons = rowPaymentButtons;
-    } else {
-      if (widget.isEdit != null) {
-        if (widget.isEdit) {
-          rowButtons = rowEditButtons;
-        } else {
-          rowButtons = rowCreateButtons;
-        }
+    if (widget.isEdit != null) {
+      if (widget.isEdit) {
+        rowButtons = rowEditButtons;
+      } else {
+        rowButtons = rowCreateButtons;
       }
     }
+
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: rowButtons,
@@ -218,19 +163,30 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
         readOnly: (fun != null ? true : false),
         keyboardType: (isNumber ? TextInputType.number : null),
         inputFormatters: (isNumber
-            ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
+            ? <TextInputFormatter>[
+                WhitelistingTextInputFormatter.digitsOnly,
+                (creditCardColumn == CreditCardColumn.number
+                    ? new CardNumberInputFormatter()
+                    : null)
+              ]
             : null),
         validator: (v) {
           if (v.isEmpty) {
             return 'Required';
           } else {
             if (creditCardColumn == CreditCardColumn.expireMonth) {
-              if (validateDate() == false) {
+              if (creditCardModel.validateDate() == false) {
                 return 'invalid month';
               }
             } else if (creditCardColumn == CreditCardColumn.expireYear) {
-              if (validateDate() == false) {
+              if (creditCardModel.validateDate() == false) {
                 return 'invalid Year';
+              }
+            } else if (creditCardColumn == CreditCardColumn.number) {
+              if (creditCardModel.getNumber().length > 22) {
+                return 'invalid Number';
+              } else if (creditCardModel.getNumber().length < 22) {
+                return 'invalid Number';
               }
             }
           }
@@ -251,6 +207,82 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
     );
   }
 
+  void showMonthPicker() {
+    Widget monthList = ListView.separated(
+      shrinkWrap: true,
+      itemCount: 12,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(
+            (index + 1).toString(),
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            expireMonthTEC.text = (index + 1).toString();
+            setData(CreditCardColumn.expireMonth, (index + 1).toString());
+            Navigator.pop(context);
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            Container(
+              width: 150,
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: monthList,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showYearPicker() {
+    DateTime dt = DateTime.now();
+    int currentYear = dt.year - 1;
+    int lastYear = 50;
+    Widget yearList = ListView.separated(
+      shrinkWrap: true,
+      itemCount: lastYear,
+      itemBuilder: (BuildContext context, int index) {
+        currentYear = currentYear + 1;
+        return ListTile(
+          title: Text(
+            (currentYear).toString(),
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            expireYearTEC.text = currentYear.toString();
+            setData(CreditCardColumn.expireYear, currentYear.toString());
+            Navigator.pop(context);
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            Container(
+              width: 150,
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: yearList,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -262,19 +294,6 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Widget cvvTextField = Container();
-
-    if (creditCardModel.isPayment != null) {
-      if (creditCardModel.isPayment) {
-        cvvTextField = columnTextField(
-          'CVV',
-          true,
-          false,
-          CreditCardColumn.cvv,
-          cvvTEC,
-        );
-      }
-    }
 
     return Form(
       key: _formKey,
@@ -297,21 +316,12 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
                 CreditCardColumn.holder,
                 holderTEC,
               ),
-              columnTextField(
-                'Expire Month',
-                true,
-                false,
-                CreditCardColumn.expireMonth,
-                expireMonthTEC,
-              ),
-              columnTextField(
-                'Expire Year',
-                true,
-                false,
-                CreditCardColumn.expireYear,
-                expireYearTEC,
-              ),
-              cvvTextField,
+              columnTextField('Expire Month', true, false,
+                  CreditCardColumn.expireMonth, expireMonthTEC,
+                  fun: showMonthPicker),
+              columnTextField('Expire Year', true, false,
+                  CreditCardColumn.expireYear, expireYearTEC,
+                  fun: showYearPicker),
               editButtons(),
             ],
           ),

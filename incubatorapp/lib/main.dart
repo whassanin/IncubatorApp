@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.doctor);
+    //userPermission.setPermission(UserType.patient);
 
     return MaterialApp(
       title: 'Flutter Demo',

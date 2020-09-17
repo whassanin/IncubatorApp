@@ -201,11 +201,15 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Widget navigateButton = editButtons(
-      'Edit',
-      Colors.cyan,
-      fun: navigateToEditBillScreen
-    );
+    Widget navigateButton = Container();
+
+    if(userPermission.isAccountant){
+      navigateButton = editButtons(
+          'Edit',
+          Colors.cyan,
+          fun: navigateToEditBillScreen
+      );
+    }
 
     return SingleChildScrollView(
       child: Column(

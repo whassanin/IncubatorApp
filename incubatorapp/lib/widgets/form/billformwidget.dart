@@ -111,9 +111,6 @@ class _BillFormWidgetState extends State<BillFormWidget> {
             ? <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly]
             : null),
         validator: (v) {
-          if (v.isEmpty) {
-            return 'Required';
-          }
           return null;
         },
         onChanged: (v) {
