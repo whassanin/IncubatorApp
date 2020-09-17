@@ -82,10 +82,14 @@ class _PatientConsumableNurseListWidgetState
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 75),
-      child: currentWidget,
-    );
+    if (userPermission.isPatient) {
+      currentWidget = Padding(
+        padding: const EdgeInsets.only(bottom: 75),
+        child: currentWidget,
+      );
+    }
+
+    return currentWidget;
   }
 
   @override

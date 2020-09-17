@@ -41,12 +41,14 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   }
 
   int findConsumable() {
+    String dn = dateFormat(DateTime.now());
     int index = -1;
 
     patientConsumableNurseModel.patientConsumableNurseList.forEach((element) {
       if (element.patientId == widget.patient.userId &&
           element.consumableId == widget.consumable.id &&
-          element.nurseId == nurseModel.currentNurse.userId) {
+          element.nurseId == nurseModel.currentNurse.userId &&
+          dateFormat(element.createdDate) == dn) {
         index = patientConsumableNurseModel.patientConsumableNurseList
             .indexOf(element);
       }
