@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
-import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/widgets/row/conditionrowwidget.dart';
 
 class ConditionListWidget extends StatefulWidget {

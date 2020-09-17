@@ -26,7 +26,6 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
   }
 
   int findCondition() {
-    String dn = dateFormat(DateTime.now());
 
     int index = -1;
 

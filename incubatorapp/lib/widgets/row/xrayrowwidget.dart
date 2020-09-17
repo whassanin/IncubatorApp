@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/models/xray.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/screens/xrayscreen/editxrayscreen.dart';

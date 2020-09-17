@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/consumablescreen/editconsumablescreen.dart';
 
 class ConsumableRowWidget extends StatefulWidget {

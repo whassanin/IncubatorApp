@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
-import 'package:incubatorapp/models/patientxray.dart';
-import 'package:incubatorapp/models/xray.dart';
 
 class PatientMedicineDoctorFormWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;

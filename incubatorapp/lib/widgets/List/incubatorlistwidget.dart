@@ -18,25 +18,25 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
       ),
     );
 
-    if (widget.incubatorList == null) {
-      return current;
-    } else if (widget.incubatorList != null) {
-      if (widget.incubatorList.length == 0) {
-        return current;
+
+    if(widget.incubatorList!=null){
+      if(widget.incubatorList.length > 0){
+        current = ListView.builder(
+          itemCount: widget.incubatorList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return IncubatorRowWidget(
+              incubator: widget.incubatorList[index],
+            );
+          },
+        );
+      }else {
+
       }
+    }else {
+
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 70),
-      child: ListView.builder(
-        itemCount: widget.incubatorList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return IncubatorRowWidget(
-            incubator: widget.incubatorList[index],
-          );
-        },
-      ),
-    );
+    return current;
   }
 
   @override
@@ -51,7 +51,7 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           child: Container(
-            height: 70,
+            height: (userPermission.isDoctor||userPermission.isNurse?70:0),
             decoration: BoxDecoration(
               color: Colors.cyan,
             ),

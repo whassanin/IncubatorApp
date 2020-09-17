@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/extra.dart';
 import 'package:incubatorapp/models/patient.dart';

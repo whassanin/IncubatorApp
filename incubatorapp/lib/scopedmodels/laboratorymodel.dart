@@ -9,7 +9,7 @@ class LaboratoryModel extends Model {
 
   String _searchName;
 
-  String get searchName=>_searchName;
+  String get searchName => _searchName;
 
   Laboratory _currentLaboratory;
 
@@ -54,12 +54,10 @@ class LaboratoryModel extends Model {
 
   void search(String val) async {
     _searchName = val;
-    laboratoryList.clear();
-    notifyListeners();
 
-    List<dynamic> laboratoryListMap = await _api.search(val);
-    laboratoryList =
-        laboratoryListMap.map((e) => Laboratory.fromJson(e)).toList();
+    laboratoryList = laboratoryList
+        .where((element) => element.name.toLowerCase().contains(val))
+        .toList();
 
     notifyListeners();
   }

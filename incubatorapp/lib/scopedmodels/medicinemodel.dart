@@ -2,50 +2,49 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class MedicineModel extends Model{
-
+class MedicineModel extends Model {
   Api _api = new Api('medicine');
 
   List<Medicine> medicineList;
   String _searchName;
 
-  String get searchName=>_searchName;
+  String get searchName => _searchName;
   Medicine _currentMedicine;
 
   Medicine get currentMedicine => _currentMedicine;
 
-  void createMedicine(){
-    _currentMedicine = new Medicine(0, '',0,0);
+  void createMedicine() {
+    _currentMedicine = new Medicine(0, '', 0, 0);
   }
 
-  void editMedicine(Medicine editMedicine){
+  void editMedicine(Medicine editMedicine) {
     _currentMedicine = editMedicine;
   }
 
-  void setName(String val){
+  void setName(String val) {
     _currentMedicine.name = val;
     notifyListeners();
   }
 
-  String getName(){
+  String getName() {
     return _currentMedicine.name;
   }
 
-  void setAmount(double val){
+  void setAmount(double val) {
     _currentMedicine.amount = val;
     notifyListeners();
   }
 
-  double getAmount(){
+  double getAmount() {
     return _currentMedicine.amount;
   }
 
-  void setPrice(double val){
+  void setPrice(double val) {
     _currentMedicine.price = val;
     notifyListeners();
   }
 
-  double getPrice(){
+  double getPrice() {
     return _currentMedicine.price;
   }
 
@@ -62,12 +61,10 @@ class MedicineModel extends Model{
 
   void search(String val) async {
     _searchName = val;
-    medicineList.clear();
-    notifyListeners();
 
-    List<dynamic> medicineListMap = await _api.search(val);
-    medicineList =
-        medicineListMap.map((e) => Medicine.fromJson(e)).toList();
+    medicineList = medicineList
+        .where((element) => element.name.toLowerCase().contains(val))
+        .toList();
 
     notifyListeners();
   }
@@ -106,5 +103,4 @@ class MedicineModel extends Model{
     }
     return false;
   }
-
 }

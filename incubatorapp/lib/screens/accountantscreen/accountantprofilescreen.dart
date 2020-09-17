@@ -15,7 +15,7 @@ class AccountantProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //accountantModel.readById('4');
+    accountantModel.readById('12');
 
     return ScopedModel<AccountantModel>(
       model: accountantModel,

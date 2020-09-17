@@ -54,11 +54,10 @@ class XRayModel extends Model {
 
   void search(String val) async {
     _searchName = val;
-    xRayList.clear();
-    notifyListeners();
 
-    List<dynamic> xRayListMap = await _api.search(val);
-    xRayList = xRayListMap.map((e) => XRay.fromJson(e)).toList();
+    xRayList
+        .where((element) => element.name.toLowerCase().contains(val))
+        .toList();
 
     notifyListeners();
   }
