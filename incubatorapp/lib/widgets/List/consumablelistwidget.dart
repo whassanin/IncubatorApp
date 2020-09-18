@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dart';
 import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 
 class ConsumableListWidget extends StatefulWidget {
   final Patient patient;
   final List<Consumable> consumableList;
-  ConsumableListWidget(
-      {this.patient, this.consumableList,});
+  ConsumableListWidget({
+    this.patient,
+    this.consumableList,
+  });
 
   @override
   _ConsumableListWidgetState createState() => _ConsumableListWidgetState();
 }
 
 class _ConsumableListWidgetState extends State<ConsumableListWidget> {
-
   void clearSearch() {
     consumableModel.setSearchName('');
     consumableModel.readAll();
@@ -103,25 +103,41 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
       ),
     );
 
+    Widget currentList = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 70),
+        child: ListView.builder(
+          itemCount: widget.consumableList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ConsumableRowWidget(
+              patient: widget.patient,
+              consumable: widget.consumableList[index],
+            );
+          },
+        ),
+      ),
+    );
+
+    if (userPermission.isAccountant) {
+      currentList = Expanded(
+        child: ListView.builder(
+          itemCount: widget.consumableList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ConsumableRowWidget(
+              patient: widget.patient,
+              consumable: widget.consumableList[index],
+            );
+          },
+        ),
+      );
+    }
+
     if (widget.consumableList != null) {
       if (widget.consumableList.length > 0) {
         currentWidget = Column(
           children: <Widget>[
             searchTextField(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70),
-                child: ListView.builder(
-                  itemCount: widget.consumableList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ConsumableRowWidget(
-                      patient: widget.patient,
-                      consumable: widget.consumableList[index],
-                    );
-                  },
-                ),
-              ),
-            ),
+            currentList,
           ],
         );
       } else {
@@ -170,7 +186,6 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           ),
           onTap: () {
             clearSearch();
-            patientConsumableNurseModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

@@ -26,7 +26,6 @@ class _StateRowWidgetState extends State<StateTypeRowWidget> {
   }
 
   int findCondition() {
-    String dn = dateFormat(DateTime.now());
 
     int index = -1;
 

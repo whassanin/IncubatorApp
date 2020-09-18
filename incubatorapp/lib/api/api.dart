@@ -5,7 +5,11 @@ import 'package:http/http.dart' as http;
 class Api {
   String name;
 
-  String _url = 'http://10.16.3.64:8000';
+  //https://incubatorsystem.herokuapp.com
+
+  //http://192.168.1.12:8000
+
+  String _url = 'http://192.168.1.12:8000';
 
   Api(this.name) {
     _url += '/' + this.name;

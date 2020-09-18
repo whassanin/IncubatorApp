@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/creditcard.dart';
 import 'package:incubatorapp/screens/creditcardscreen/editcreditcardscreen.dart';
+import 'package:incubatorapp/screens/paymentscreen/paymentscreen.dart';
 
 class CreditCardRowWidget extends StatefulWidget {
   final CreditCard creditCard;
@@ -49,12 +50,29 @@ class _CreditCardRowWidgetState extends State<CreditCardRowWidget> {
         ' / ' +
         widget.creditCard.expireYear.toString();
 
+    String number = '';
+
+    for (int i = 0; i < widget.creditCard.number.length - 4; i++) {
+      int v = int.tryParse(widget.creditCard.number[i]);
+      if (v == null) {
+        number += '  ';
+      } else {
+        number += 'x';
+      }
+    }
+
+    for (int i = widget.creditCard.number.length - 4;
+        i < widget.creditCard.number.length;
+        i++) {
+      number += widget.creditCard.number[i];
+    }
+
     Widget columnInfoList = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         display('Holder', widget.creditCard.holder),
-        display('Number', widget.creditCard.number),
+        display('Number', number),
         display('Expire Date:', expirationDate),
       ],
     );
@@ -75,12 +93,31 @@ class _CreditCardRowWidgetState extends State<CreditCardRowWidget> {
       child: cardColumn,
       onTap: () {
         creditCardModel.editCreditCard(widget.creditCard);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditCreditCardScreen(),
-          ),
-        );
+
+        if (creditCardModel.isPayment) {
+          if (creditCardModel.validateDate()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PaymentScreen(),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditCreditCardScreen(),
+              ),
+            );
+          }
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditCreditCardScreen(),
+            ),
+          );
+        }
       },
     );
 

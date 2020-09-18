@@ -102,7 +102,15 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (nurseColumns == NurseColumns.confirmPassword) {
+            if (nurseColumns == NurseColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            }
+            else if (nurseColumns == NurseColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
@@ -136,12 +144,13 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
               child: CalendarDatePicker(
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
+                currentDate: nurseModel.currentNurse.dateOfBirth,
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();
                   v = v + '/' + d.year.toString();
-
+                  setData(NurseColumns.dateOfBirth, d);
                   dateOfBirthTEC.text = v;
                   Navigator.pop(context);
                 },

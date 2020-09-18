@@ -24,13 +24,18 @@ class _NewPatientConsumableNurseScreenState extends State<NewPatientConsumableNu
     super.dispose();
     consumableModel.setSearchName('');
     consumableModel.readAll();
-    patientConsumableNurseModel.readByPatientId(widget.patient.userId);
+    patientConsumableNurseModel.setIsAdding(false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    patientConsumableNurseModel.setIsAdding(true);
   }
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,

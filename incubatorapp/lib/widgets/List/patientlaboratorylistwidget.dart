@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patientlaboratory.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientlaboratoryrowwidget.dart';
 
 class PatientLaboratoryListWidget extends StatefulWidget {
   final List<PatientLaboratory> patientLaboratoryList;
-  PatientLaboratoryListWidget({this.patientLaboratoryList,});
+  PatientLaboratoryListWidget({
+    this.patientLaboratoryList,
+  });
 
   @override
   _PatientLaboratoryListWidgetState createState() =>
       _PatientLaboratoryListWidgetState();
 }
 
-class _PatientLaboratoryListWidgetState extends State<PatientLaboratoryListWidget> {
+class _PatientLaboratoryListWidgetState
+    extends State<PatientLaboratoryListWidget> {
   List<PatientLaboratory> addCalculatedList = [];
 
   double calculate() {
@@ -27,10 +29,10 @@ class _PatientLaboratoryListWidgetState extends State<PatientLaboratoryListWidge
             (pa) {
               int index = addCalculatedList.indexOf(pa);
               if (index < 0) {
+                int il = laboratoryModel.laboratoryList
+                    .indexWhere((a) => a.id == pa.laboratoryId);
 
-                int il = laboratoryModel.laboratoryList.indexWhere((a) => a.id == pa.laboratoryId);
-
-                if (il >= 0){
+                if (il >= 0) {
                   Laboratory laboratory = laboratoryModel.laboratoryList[il];
                   total += laboratory.price;
                 }
@@ -52,20 +54,24 @@ class _PatientLaboratoryListWidgetState extends State<PatientLaboratoryListWidge
 
     if (widget.patientLaboratoryList != null) {
       if (widget.patientLaboratoryList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.patientLaboratoryList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PatientLaboratoryRowWidget(
-              patientLaboratory: widget.patientLaboratoryList[i],
-            );
-          },
-        );
-      } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Laboratory(s) Available'),
-          ),
-        );
+        if (patientLaboratoryModel.isAdding == false) {
+          currentWidget = ListView.builder(
+            itemCount: widget.patientLaboratoryList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return PatientLaboratoryRowWidget(
+                patientLaboratory: widget.patientLaboratoryList[i],
+              );
+            },
+          );
+        }
+      }else {
+        if(patientLaboratoryModel.isAdding == false){
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Laboratory(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(

@@ -8,6 +8,8 @@ class PatientXRayModel extends Model{
 
   Api _apiReverse = new Api('xraypatient');
 
+  bool isAdding = false;
+
   List<PatientXRay> patientXRayList;
 
   PatientXRay _currentPatientXRay;
@@ -44,8 +46,9 @@ class PatientXRayModel extends Model{
     return _currentPatientXRay.patientId;
   }
 
-  void setXRayId(int xrayId){
-    _currentPatientXRay.xRayId = xrayId;
+  void setXRayId(int xRayId){
+    _currentPatientXRay.xRayId = xRayId;
+    notifyListeners();
   }
 
   int getXRayId(){
@@ -71,6 +74,14 @@ class PatientXRayModel extends Model{
 
   DateTime getCreatedDate(){
     return _currentPatientXRay.createdDate;
+  }
+
+  void setIsAdding(bool val){
+    isAdding = val;
+    if(isAdding==false){
+      readByPatientId(patientModel.currentPatient.userId);
+    }
+    notifyListeners();
   }
 
   Future<List<PatientXRay>> readByPatientId(int patientId) async {
@@ -123,7 +134,6 @@ class PatientXRayModel extends Model{
   Future<bool> create() async{
     int code = await _api.post(_currentPatientXRay.toJson());
     if (code == 201) {
-      readByPatientId(patientModel.currentPatient.userId);
       return true;
     }
     return false;

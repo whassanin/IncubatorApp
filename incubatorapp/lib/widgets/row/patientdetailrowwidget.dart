@@ -11,6 +11,7 @@ import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsuma
 import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
 import 'package:incubatorapp/screens/patientlaboratoryscreen/patientlaboratoryscreen.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/screens/patientscreen/livescreen.dart';
 import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
 import 'package:incubatorapp/screens/statescreen/statescreen.dart';
 import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
@@ -98,7 +99,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
-
   void goToStateTypeScreen() {
     Navigator.push(
       context,
@@ -108,6 +108,13 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     );
   }
 
+  void setLightRay() {
+    if (widget.patient.isOnLightRay) {
+      patientModel.setIsOnLightRay(false);
+    } else {
+      patientModel.setIsOnLightRay(true);
+    }
+  }
 
   void goToExtraScreen() {
     Navigator.push(
@@ -116,6 +123,15 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
         builder: (context) => PatientExtraScreen(
           patient: widget.patient,
         ),
+      ),
+    );
+  }
+
+  void goToLiveScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LiveScreen(),
       ),
     );
   }
@@ -605,7 +621,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           (widget.patient.isOnLightRay
               ? 'Light Ray is on'
               : 'Light Ray is Off'),
-          fun: goToConditionScreen);
+          fun: setLightRay);
 
       currentWidget = Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -657,7 +673,9 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
 
   Widget extraButton() {
     Widget currentWidget = Padding(
-      padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
+      padding: (userPermission.isPatient
+          ? const EdgeInsets.only(right: 10, left: 10, bottom: 2)
+          : const EdgeInsets.only(right: 10, left: 10, bottom: 10)),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -671,6 +689,32 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                 ),
                 'Extra',
                 fun: goToExtraScreen,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return currentWidget;
+  }
+
+  Widget liveButton() {
+    Widget currentWidget = Padding(
+      padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              height: 100,
+              child: rowButton(
+                Icon(
+                  Icons.playlist_add,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                'Live',
+                fun: goToLiveScreen,
               ),
             ),
           ),
@@ -712,6 +756,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           displayFourButtons(),
           displayDoctorButtons(),
           extraButton(),
+          (userPermission.isPatient ? liveButton() : Container())
         ],
       ),
     );

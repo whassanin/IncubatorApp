@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/medicinescreen/editmedicinescreen.dart';
 
 class MedicineRowWidget extends StatefulWidget {
@@ -17,6 +16,7 @@ class MedicineRowWidget extends StatefulWidget {
 }
 
 class _MedicineRowWidgetState extends State<MedicineRowWidget> {
+  bool isSelected = false;
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -25,10 +25,11 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   }
 
   void update() {
-    int index = findMedicine();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    if (isSelected) {
+      isSelected = false;
+      delete();
+    } else {
+      isSelected = true;
       save();
     }
   }
@@ -55,7 +56,8 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     return index;
   }
 
-  void delete(int index) {
+  void delete() {
+    int index = findMedicine();
     patientMedicineDoctorModel.editPatientMedicineDoctor(
         patientMedicineDoctorModel.patientMedicineDoctorList[index]);
     patientMedicineDoctorModel.delete();
@@ -71,15 +73,10 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findMedicine();
-    }
-
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if (index >= 0) {
+    if (isSelected) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
@@ -117,7 +114,7 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
     );
 
     Widget rowContainer = Container(
-      height: 98,
+      height: (userPermission.isDoctor ? 70 : 98),
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
@@ -152,6 +149,14 @@ class _MedicineRowWidgetState extends State<MedicineRowWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findMedicine();
+
+      if (index > -1) {
+        isSelected = true;
+      }
+    }
   }
 
   @override

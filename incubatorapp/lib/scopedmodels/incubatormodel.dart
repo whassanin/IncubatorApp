@@ -9,6 +9,8 @@ class IncubatorModel extends Model {
 
   Incubator _currentIncubator;
 
+  Incubator get currentIncubator => _currentIncubator;
+
   void createIncubator() {
     _currentIncubator = new Incubator(0, '');
   }

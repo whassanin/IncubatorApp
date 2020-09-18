@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/laboratorymodel.dart';
-import 'package:incubatorapp/widgets/search/laboratorysearchwidget.dart';
+import 'package:incubatorapp/widgets/search/searchlaboratorywidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SearchLaboratoryScreen extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/patientmedicinedoctormodel.dart';
 import 'package:incubatorapp/screens/patientmedicinedoctorscreen/newpatientmedicinedoctorscreen.dart';
 import 'package:incubatorapp/widgets/List/patientmedicinedoctorlistwidget.dart';
@@ -15,7 +14,6 @@ class PatientMedicineDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patientMedicineDoctorModel.readByPatientId(this.patient.userId);
 
     return ScopedModel<PatientMedicineDoctorModel>(
       model: patientMedicineDoctorModel,

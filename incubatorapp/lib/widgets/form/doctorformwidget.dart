@@ -101,7 +101,15 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (doctorColumns == DoctorColumns.confirmPassword) {
+            if (doctorColumns == DoctorColumns.password){
+              String m = userModel.validatePassword(v);
+              if(m.isEmpty){
+                return null;
+              }else {
+                return m;
+              }
+            }
+            else if (doctorColumns == DoctorColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
@@ -136,11 +144,12 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 356)),
+                currentDate: doctorModel.currentDoctor.dateOfBirth,
                 onDateChanged: (d) {
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();
                   v = v + '/' + d.year.toString();
-
+                  setData(DoctorColumns.dateOfBirth,d);
                   dateOfBirthTEC.text = v;
                   Navigator.pop(context);
                 },

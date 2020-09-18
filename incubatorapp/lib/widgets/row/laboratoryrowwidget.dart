@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:huawei_push/push.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patient.dart';
@@ -27,17 +26,18 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
   }
 
   void update() {
-    int index = findLaboratory();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    if (isSelected) {
+      isSelected = false;
+      delete();
+    } else {
+      isSelected = true;
       save();
     }
   }
 
   void navigateToEditLaboratoryScreen() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditLaboratoryScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => EditLaboratoryScreen()));
   }
 
   int findLaboratory() {
@@ -56,13 +56,16 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
     return index;
   }
 
-  void delete(int index) {
-    patientLaboratoryModel
-        .editPatientLaboratory(patientLaboratoryModel.patientLaboratoryList[index]);
-    patientLaboratoryModel.delete();
+  void delete() {
+    int index = findLaboratory();
+    if (index > -1) {
+      patientLaboratoryModel.editPatientLaboratory(
+          patientLaboratoryModel.patientLaboratoryList[index]);
+      patientLaboratoryModel.delete();
+    }
   }
 
-  void save() async {
+  void save() {
     patientLaboratoryModel.createPatientLaboratory();
     patientLaboratoryModel.setPatientId(widget.patient.userId);
     patientLaboratoryModel.setLaboratoryId(widget.laboratory.id);
@@ -70,15 +73,10 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findLaboratory();
-    }
-
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if (index >= 0) {
+    if (isSelected) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
@@ -90,8 +88,8 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child:
-                Text(widget.laboratory.name, style: TextStyle(color: textColor)),
+            child: Text(widget.laboratory.name,
+                style: TextStyle(color: textColor)),
           ),
         ),
         (userPermission.isAccountant
@@ -142,6 +140,13 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findLaboratory();
+      if (index > -1) {
+        isSelected = true;
+      }
+    }
   }
 
   @override

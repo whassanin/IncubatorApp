@@ -143,7 +143,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
           userModel.update();
           patientModel.update();
         } else {
-          bool isValid = await userModel.checkEmail(emailTEC.text,false);
+          bool isValid = await userModel.checkEmail(emailTEC.text, false);
 
           await Future.delayed(Duration(seconds: 1));
 
@@ -242,7 +242,15 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (patientColumns == PatientColumns.confirmPassword) {
+            if (patientColumns == PatientColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            }
+            else if (patientColumns == PatientColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
@@ -276,12 +284,13 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
               child: CalendarDatePicker(
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
+                currentDate: patientModel.currentPatient.dateOfBirth,
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();
                   v = v + '/' + d.year.toString();
-
+                  setData(PatientColumns.dateOfBirth, d);
                   dateOfBirthTEC.text = v;
                   Navigator.pop(context);
                 },
@@ -406,7 +415,7 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
     if (widget.isEdit != null) {
       if (widget.isEdit) {
         getData();
-      }else {
+      } else {
         emailTEC.text = userModel.getEmail();
       }
     }

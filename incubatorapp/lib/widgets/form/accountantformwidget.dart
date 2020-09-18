@@ -36,20 +36,20 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
   TextEditingController confirmPasswordTEC = new TextEditingController();
   TextEditingController phoneTEC = new TextEditingController();
 
-  void setData(AccountantColumns frontDeskColumns, Object val) {
-    if (frontDeskColumns == AccountantColumns.firstName) {
+  void setData(AccountantColumns accountantColumns, Object val) {
+    if (accountantColumns == AccountantColumns.firstName) {
       accountantModel.setFirstName(val);
-    } else if (frontDeskColumns == AccountantColumns.lastName) {
+    } else if (accountantColumns == AccountantColumns.lastName) {
       accountantModel.setLastName(val);
-    } else if (frontDeskColumns == AccountantColumns.gender) {
+    } else if (accountantColumns == AccountantColumns.gender) {
       accountantModel.setGender(val);
-    } else if (frontDeskColumns == AccountantColumns.dateOfBirth) {
+    } else if (accountantColumns == AccountantColumns.dateOfBirth) {
       accountantModel.setDateOfBirth(DateTime.parse(val.toString()));
-    } else if (frontDeskColumns == AccountantColumns.email) {
+    } else if (accountantColumns == AccountantColumns.email) {
       userModel.setEmail(val);
-    } else if (frontDeskColumns == AccountantColumns.password) {
+    } else if (accountantColumns == AccountantColumns.password) {
       userModel.setPassword(val);
-    } else if (frontDeskColumns == AccountantColumns.phone) {
+    } else if (accountantColumns == AccountantColumns.phone) {
       userModel.setPhone(val);
     }
   }
@@ -75,7 +75,7 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
   }
 
   Widget columnTextField(String name, bool isNumber, bool isObscure,
-      AccountantColumns frontDeskColumns, TextEditingController columnTEC,
+      AccountantColumns accountantColumns, TextEditingController columnTEC,
       {VoidCallback fun}) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -101,7 +101,14 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (frontDeskColumns == AccountantColumns.confirmPassword) {
+            if (accountantColumns == AccountantColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            } else if (accountantColumns == AccountantColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
@@ -110,10 +117,10 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
           return null;
         },
         onChanged: (v) {
-          setData(frontDeskColumns, v);
+          setData(accountantColumns, v);
         },
         onFieldSubmitted: (v) {
-          setData(frontDeskColumns, v);
+          setData(accountantColumns, v);
         },
         onTap: () {
           if (fun != null) {
@@ -135,12 +142,13 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
               child: CalendarDatePicker(
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
+                currentDate: accountantModel.currentAccountant.dateOfBirth,
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();
                   v = v + '/' + d.year.toString();
-
+                  setData(AccountantColumns.dateOfBirth, d);
                   dateOfBirthTEC.text = v;
                   Navigator.pop(context);
                 },
@@ -436,36 +444,36 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
               ),
               (widget.isEdit != null
                   ? (widget.isEdit == false
-                  ? columnTextField(
-                'Email',
-                false,
-                false,
-                AccountantColumns.email,
-                emailTEC,
-              )
-                  : Container())
+                      ? columnTextField(
+                          'Email',
+                          false,
+                          false,
+                          AccountantColumns.email,
+                          emailTEC,
+                        )
+                      : Container())
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit == false
-                  ? columnTextField(
-                'Password',
-                false,
-                true,
-                AccountantColumns.password,
-                passwordTEC,
-              )
-                  : Container())
+                      ? columnTextField(
+                          'Password',
+                          false,
+                          true,
+                          AccountantColumns.password,
+                          passwordTEC,
+                        )
+                      : Container())
                   : Container()),
               (widget.isEdit != null
                   ? (widget.isEdit == false
-                  ? columnTextField(
-                'Confirm Password',
-                false,
-                true,
-                AccountantColumns.confirmPassword,
-                confirmPasswordTEC,
-              )
-                  : Container())
+                      ? columnTextField(
+                          'Confirm Password',
+                          false,
+                          true,
+                          AccountantColumns.confirmPassword,
+                          confirmPasswordTEC,
+                        )
+                      : Container())
                   : Container()),
               editButtons(),
             ],

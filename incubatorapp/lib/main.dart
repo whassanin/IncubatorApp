@@ -1,11 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:huawei_push/push.dart';
-import 'package:incubatorapp/models/patientlaboratory.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/accountantmodel.dart';
 import 'package:incubatorapp/scopedmodels/billmodel.dart';
@@ -78,6 +74,8 @@ import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/screens/welcomescreen.dart';
 import 'package:huawei_push/constants/channel.dart' as Channel;
 import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
+import 'package:incubatorapp/util/basicdata.dart';
+import 'package:incubatorapp/util/userdata.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -135,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.doctor);
+    //userPermission.setPermission(UserType.patient);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -149,7 +147,8 @@ class MyApp extends StatelessWidget {
             EditPatientLaboratoryScreen(),
         NewPatientLaboratoryScreen.routeName: (context) =>
             NewPatientLaboratoryScreen(),
-        PatientLaboratoryScreen.routeName: (context) => PatientLaboratoryScreen(),
+        PatientLaboratoryScreen.routeName: (context) =>
+            PatientLaboratoryScreen(),
         BillDetailScreen.routeName: (context) => BillDetailScreen(),
         BillScreen.routeName: (context) => BillScreen(),
         NewPatientConsumableNurseScreen.routeName: (context) =>
@@ -190,10 +189,10 @@ class MyApp extends StatelessWidget {
         NewStatusScreen.routeName: (context) => NewStatusScreen(),
         PatientXRayScreen.routeName: (context) => PatientXRayScreen(),
         NewPatientXRayScreen.routeName: (context) => NewPatientXRayScreen(),
-        SearchLaboratoryScreen.routeName:(context)=>SearchLaboratoryScreen(),
-        SearchXRayScreen.routeName:(context)=>SearchXRayScreen(),
-        SearchMedicineScreen.routeName:(context)=>SearchMedicineScreen(),
-        SearchConsumableScreen.routeName:(context)=>SearchConsumableScreen()
+        SearchLaboratoryScreen.routeName: (context) => SearchLaboratoryScreen(),
+        SearchXRayScreen.routeName: (context) => SearchXRayScreen(),
+        SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
+        SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
       home: WelcomeScreen(),
     );
@@ -215,6 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static int _counter = 0;
   String notification = '';
   ReceivePort _receivePort;
+  BasicData bd = new BasicData();
+  UserData ud = new UserData();
 
   void _start() async {
     _running = true;
@@ -259,21 +260,83 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  Widget buttonWidget(String title, VoidCallback fun) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            child: Text(title),
+            onPressed: () {
+              fun();
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget basicDataButtons() {
+    return Column(
+      children: [
+        buttonWidget('Add Incubator List', bd.addIncubatorData),
+        buttonWidget('Add Condition List', bd.addConditionData),
+        buttonWidget('Add Shift List', bd.addShiftData),
+        buttonWidget('Add Laboratory List', bd.addLaboratoryData),
+        buttonWidget('Add XRay List', bd.addXRayData),
+        buttonWidget('Add Medicine List', bd.addMedicineData),
+        buttonWidget('Add Consumable List', bd.addConsumableData),
+        buttonWidget('Add Extra List', bd.addExtraData),
+        buttonWidget('Add State Type List', bd.addStateTypeData),
+      ],
+    );
+  }
+
+  Widget userDataButton() {
+    return Column(
+      children: [
+        buttonWidget('Add Doctor', ud.addUserDoctor),
+        buttonWidget('Add Nurse', ud.addUserNurse),
+        buttonWidget('Add User of type Patient', ud.addUserPatient),
+        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
+      ],
+    );
+  }
+
+  Widget patientDataDetail(){
+    return Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Status', ud.addPatientStatus),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+/*    Container(
+      child: Text(notification),
+    ),
+
+    floatingActionButton: new FloatingActionButton(
+      //onPressed: _running ? _stop : _start,
+      tooltip: _running ? 'Timer Stop' : 'Timer Start',
+      child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+    )
+    */
+
+    DateTime d = DateTime.parse('2020-04-01');
+
+    print(d.toString());
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Container(
-          child: Text(notification),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _running ? _stop : _start,
-        tooltip: _running ? 'Timer Stop' : 'Timer Start',
-        child: _running ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+      body: SingleChildScrollView(
+        child: patientDataDetail(),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

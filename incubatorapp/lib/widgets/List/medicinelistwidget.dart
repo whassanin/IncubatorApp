@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/medicinescreen/searchmedicinescreen.dart';
 import 'package:incubatorapp/widgets/row/medicinerowwidget.dart';
 
 class MedicineListWidget extends StatefulWidget {
   final Patient patient;
   final List<Medicine> medicineList;
-  MedicineListWidget({this.patient, this.medicineList,});
+  MedicineListWidget({
+    this.patient,
+    this.medicineList,
+  });
 
   @override
   _MedicineListWidgetState createState() => _MedicineListWidgetState();
 }
 
 class _MedicineListWidgetState extends State<MedicineListWidget> {
-
   void clearSearch() {
     medicineModel.setSearchName('');
     medicineModel.readAll();
@@ -102,25 +103,41 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
       ),
     );
 
+    Widget currentList = Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 70),
+        child: ListView.builder(
+          itemCount: widget.medicineList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return MedicineRowWidget(
+              patient: widget.patient,
+              medicine: widget.medicineList[index],
+            );
+          },
+        ),
+      ),
+    );
+
+    if(userPermission.isAccountant){
+      currentList = Expanded(
+        child: ListView.builder(
+          itemCount: widget.medicineList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return MedicineRowWidget(
+              patient: widget.patient,
+              medicine: widget.medicineList[index],
+            );
+          },
+        ),
+      );
+    }
+
     if (widget.medicineList != null) {
       if (widget.medicineList.length > 0) {
         currentWidget = Column(
           children: <Widget>[
             searchTextField(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70),
-                child: ListView.builder(
-                  itemCount: widget.medicineList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MedicineRowWidget(
-                      patient: widget.patient,
-                      medicine: widget.medicineList[index],
-                    );
-                  },
-                ),
-              ),
-            ),
+            currentList
           ],
         );
       } else {
@@ -153,7 +170,8 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           child: Container(
-            height: 70,
+            height:
+                (userPermission.isDoctor || userPermission.isNurse ? 70 : 0),
             decoration: BoxDecoration(
               color: Colors.cyan,
             ),
@@ -169,7 +187,6 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           ),
           onTap: () {
             clearSearch();
-            patientMedicineDoctorModel.readByPatientId(widget.patient.userId);
             Navigator.pop(context);
           },
         ),

@@ -5,10 +5,25 @@ import 'package:incubatorapp/screens/creditcardscreen/newcreditcardscreen.dart';
 import 'package:incubatorapp/widgets/List/creditcardlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class CreditCardScreen extends StatelessWidget {
+class CreditCardScreen extends StatefulWidget {
   static const routeName = '/creditcardscreen';
 
   CreditCardScreen();
+
+  @override
+  _CreditCardScreenState createState() => _CreditCardScreenState();
+}
+
+class _CreditCardScreenState extends State<CreditCardScreen> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    if(creditCardModel.isPayment == true){
+      creditCardModel.setIsPayment(false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

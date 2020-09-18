@@ -93,7 +93,7 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ConditionSerializer
 
 # Laboratory Views Class
-class LaboratoryList(generics.ListAPIView):
+class LaboratoryList(generics.ListCreateAPIView):
     queryset = Laboratory.objects.all()
     serializer_class = LaboratorySerializer
     filter_backends = [filters.SearchFilter]
@@ -160,7 +160,7 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ['email','password','provider','phone']
+    filterset_fields = ['email','password','provider','phone','userType']
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

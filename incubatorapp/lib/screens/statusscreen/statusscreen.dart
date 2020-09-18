@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/screens/statusscreen/newstatusscreen.dart';
 import 'package:incubatorapp/widgets/List/statuslistwidget.dart';

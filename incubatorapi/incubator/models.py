@@ -220,7 +220,7 @@ class PatientMedicineDoctor(models.Model):
 
 # 25
 class CreditCard(models.Model):
-    number = models.CharField(max_length=20)
+    number = models.CharField(max_length=30)
     holder = models.CharField(max_length=150)
     expireYear = models.IntegerField()
     expireMonth = models.IntegerField()

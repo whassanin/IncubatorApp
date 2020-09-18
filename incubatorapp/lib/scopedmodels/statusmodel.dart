@@ -20,6 +20,10 @@ class StatusModel extends Model {
     _currentStatus = editStatus;
   }
 
+  void setDate(DateTime dateTime){
+    _currentStatus.createdDate = dateTime;
+  }
+
   void setHeartRate(double heartRate) {
     _currentStatus.heartRate = heartRate;
     notifyListeners();

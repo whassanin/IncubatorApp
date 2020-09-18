@@ -15,7 +15,6 @@ class PatientLaboratoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    patientLaboratoryModel.readByPatientId(this.patient.userId);
 
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,

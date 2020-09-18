@@ -9,6 +9,8 @@ class ExtraModel extends Model{
 
   extraName.Extra _currentExtra;
 
+  extraName.Extra get currentExtra => _currentExtra;
+
   void createExtra(){
     _currentExtra = new extraName.Extra(0, '',0);
   }

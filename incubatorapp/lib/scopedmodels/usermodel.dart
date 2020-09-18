@@ -17,6 +17,8 @@ class UserModel extends Model {
 
   User get currentUser => _currentUser;
 
+  List<User> userList;
+
   String confirmPassword;
 
   void createUser() {
@@ -75,6 +77,23 @@ class UserModel extends Model {
 
   String getUserType() {
     return _currentUser.userType;
+  }
+
+  String validatePassword(String v){
+    RegExp re = new RegExp(
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    String message = '';
+    if (re.hasMatch(v)) {
+      _currentUser.password = v;
+    } else {
+      String n1 = "Minimum 1 Uppercase\n";
+      String n2 = "Minimum 1 Lowercase\n";
+      String n3 = "Minimum 1 Numeric Number\n";
+      String n4 = "Minimum 1 Special Character\n";
+      String n5 = r"[@#$&*~]";
+      message = n1 + n2 + n3 + n4 + n5;
+    }
+    return message;
   }
 
   void setPermission() {
@@ -182,6 +201,20 @@ class UserModel extends Model {
     setPermission();
 
     //notifyListeners();
+  }
+
+  void readByUserTypeIsPatient() async {
+    List<String> fields = <String>[];
+    List<String> values = <String>[];
+
+    fields.add('userType');
+    values.add('UserType.patient');
+
+    List<dynamic> userListMap = await _api.filter(fields, values);
+    userList = userListMap.map((e) => User.fromJson(e)).toList();
+
+    print(userList.length);
+
   }
 
   Future<bool> create() async {

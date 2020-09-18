@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/consumablescreen/editconsumablescreen.dart';
 
 class ConsumableRowWidget extends StatefulWidget {
@@ -27,25 +26,29 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   }
 
   void update() {
-    int index = findConsumable();
-    if (index >= 0) {
-      delete(index);
-    } else if (index < 0) {
+    if (isSelected) {
+      isSelected = false;
+      delete();
+    } else {
+      isSelected = true;
       save();
     }
   }
 
-  void navigateToEditConsumableScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditConsumableScreen()));
+  void navigateToEditConsumableScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => EditConsumableScreen()));
   }
 
   int findConsumable() {
+    String dn = dateFormat(DateTime.now());
     int index = -1;
 
     patientConsumableNurseModel.patientConsumableNurseList.forEach((element) {
       if (element.patientId == widget.patient.userId &&
           element.consumableId == widget.consumable.id &&
-          element.nurseId == nurseModel.currentNurse.userId) {
+          element.nurseId == nurseModel.currentNurse.userId &&
+          dateFormat(element.createdDate) == dn) {
         index = patientConsumableNurseModel.patientConsumableNurseList
             .indexOf(element);
       }
@@ -54,7 +57,8 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
     return index;
   }
 
-  void delete(int index) {
+  void delete() {
+    int index = findConsumable();
     patientConsumableNurseModel.editPatientConsumableNurse(
         patientConsumableNurseModel.patientConsumableNurseList[index]);
     patientConsumableNurseModel.delete();
@@ -70,15 +74,10 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   }
 
   Widget row() {
-    int index = -1;
-    if (widget.patient != null) {
-      index = findConsumable();
-    }
-
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
 
-    if (index >= 0) {
+    if (isSelected) {
       cardColor = Colors.purpleAccent;
       textColor = Colors.white;
     }
@@ -96,27 +95,27 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
         ),
         (userPermission.isAccountant
             ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Text('Price: ' + widget.consumable.price.toString(),
-                style: TextStyle(color: textColor)),
-          ),
-        )
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Price: ' + widget.consumable.price.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
             : Container()),
         (userPermission.isAccountant
             ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Text('Amount: ' + widget.consumable.amount.toString(),
-                style: TextStyle(color: textColor)),
-          ),
-        )
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Amount: ' + widget.consumable.amount.toString(),
+                      style: TextStyle(color: textColor)),
+                ),
+              )
             : Container()),
       ],
     );
 
     Widget rowContainer = Container(
-      height: 98,
+      height: (userPermission.isNurse ? 70 : 98),
       child: Padding(padding: const EdgeInsets.only(left: 10), child: rowData),
     );
 
@@ -135,7 +134,7 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
       onTap: () {
         if (userPermission.isNurse) {
           update();
-        } else if(userPermission.isAccountant) {
+        } else if (userPermission.isAccountant) {
           consumableModel.editConsumable(widget.consumable);
           navigateToEditConsumableScreen();
         }
@@ -151,6 +150,14 @@ class _ConsumableRowWidgetState extends State<ConsumableRowWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int index = -1;
+    if (widget.patient != null) {
+      index = findConsumable();
+
+      if (index > -1) {
+        isSelected = true;
+      }
+    }
   }
 
   @override

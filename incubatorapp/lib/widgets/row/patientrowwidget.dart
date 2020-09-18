@@ -22,10 +22,20 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
     return v;
   }
 
-  Widget patientContent(String title, String val) {
+  Widget patientContent(String title, String val,bool isFirst,bool isLast) {
+    BorderRadius br;
+
+    if(isFirst){
+      br = BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0));
+    }
+    else if(isLast){
+      br = BorderRadius.only(bottomLeft: Radius.circular(10.0),bottomRight: Radius.circular(10.0));
+    }
+
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
+        borderRadius: br,
         border: Border(
           top: BorderSide(width: 1, color: Colors.black),
           left: BorderSide(width: 1, color: Colors.black),
@@ -77,14 +87,14 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
 
     Widget contentCol = Column(
       children: <Widget>[
-        patientContent('Mother Name:', widget.patient.motherName),
-        patientContent('Father Name:', widget.patient.fatherName),
-        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female')),
-        patientContent('Entered Date:', dateFormat(widget.patient.createdDate)),
+        patientContent('Mother Name:', widget.patient.motherName,true,false),
+        patientContent('Father Name:', widget.patient.fatherName,false,false),
+        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female'),false,false),
+        patientContent('Entered Date:', dateFormat(widget.patient.createdDate),false,false),
         patientContent(
-            'Incubator number:', widget.patient.incubatorId.toString()),
+            'Incubator number:', widget.patient.incubatorId.toString(),false,false),
         (condition != null
-            ? patientContent('Condition:', condition.name)
+            ? patientContent('Condition:', condition.name,false,true)
             : Container()),
       ],
     );

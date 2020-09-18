@@ -6,11 +6,12 @@ import 'package:incubatorapp/widgets/row/patientextrarowwidget.dart';
 
 class PatientExtraListWidget extends StatefulWidget {
   final List<PatientExtra> patientExtraList;
-  PatientExtraListWidget({this.patientExtraList,});
+  PatientExtraListWidget({
+    this.patientExtraList,
+  });
 
   @override
-  _PatientExtraListWidgetState createState() =>
-      _PatientExtraListWidgetState();
+  _PatientExtraListWidgetState createState() => _PatientExtraListWidgetState();
 }
 
 class _PatientExtraListWidgetState extends State<PatientExtraListWidget> {
@@ -23,7 +24,7 @@ class _PatientExtraListWidgetState extends State<PatientExtraListWidget> {
       if (widget.patientExtraList != null) {
         if (widget.patientExtraList.length > 0) {
           widget.patientExtraList.forEach(
-                (pa) {
+            (pa) {
               int index = addCalculatedList.indexOf(pa);
               if (index < 0) {
                 Extra extra = extraModel.extraList
@@ -48,20 +49,24 @@ class _PatientExtraListWidgetState extends State<PatientExtraListWidget> {
 
     if (widget.patientExtraList != null) {
       if (widget.patientExtraList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.patientExtraList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PatientExtraRowWidget(
-              patientExtra: widget.patientExtraList[i],
-            );
-          },
-        );
+        if (patientExtraModel.isAdding == false) {
+          currentWidget = ListView.builder(
+            itemCount: widget.patientExtraList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return PatientExtraRowWidget(
+                patientExtra: widget.patientExtraList[i],
+              );
+            },
+          );
+        }
       } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Extra(s) Available'),
-          ),
-        );
+        if (patientExtraModel.isAdding == false) {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Extra(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(

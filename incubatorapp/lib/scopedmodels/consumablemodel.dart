@@ -2,47 +2,49 @@ import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ConsumableModel extends Model{
+class ConsumableModel extends Model {
   Api _api = new Api('consumable');
 
   List<Consumable> consumableList;
   String _searchName;
 
-  String get searchName=>_searchName;
+  String get searchName => _searchName;
   Consumable _currentConsumable;
 
-  void createConsumable(){
-    _currentConsumable = new Consumable(0, '',0,0);
+  Consumable get currentConsumable => _currentConsumable;
+
+  void createConsumable() {
+    _currentConsumable = new Consumable(0, '', 0, 0);
   }
 
-  void editConsumable(Consumable editConsumable){
+  void editConsumable(Consumable editConsumable) {
     _currentConsumable = editConsumable;
   }
 
-  void setName(String val){
+  void setName(String val) {
     _currentConsumable.name = val;
     notifyListeners();
   }
 
-  String getName(){
+  String getName() {
     return _currentConsumable.name;
   }
 
-  void setAmount(double val){
+  void setAmount(double val) {
     _currentConsumable.amount = val;
     notifyListeners();
   }
 
-  double getAmount(){
+  double getAmount() {
     return _currentConsumable.amount;
   }
 
-  void setPrice(double val){
+  void setPrice(double val) {
     _currentConsumable.price = val;
     notifyListeners();
   }
 
-  double getPrice(){
+  double getPrice() {
     return _currentConsumable.price;
   }
 
@@ -53,18 +55,17 @@ class ConsumableModel extends Model{
 
   void readAll() async {
     List<dynamic> consumableListMap = await _api.get();
-    consumableList = consumableListMap.map((e) => Consumable.fromJson(e)).toList();
+    consumableList =
+        consumableListMap.map((e) => Consumable.fromJson(e)).toList();
     notifyListeners();
   }
 
   void search(String val) async {
     _searchName = val;
-    consumableList.clear();
-    notifyListeners();
 
-    List<dynamic> consumableListMap = await _api.search(val);
-    consumableList =
-        consumableListMap.map((e) => Consumable.fromJson(e)).toList();
+    consumableList = consumableList
+        .where((element) => element.name.toLowerCase().contains(val))
+        .toList();
 
     notifyListeners();
   }
@@ -103,5 +104,4 @@ class ConsumableModel extends Model{
     }
     return false;
   }
-
 }

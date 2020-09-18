@@ -41,7 +41,6 @@ class SuccessfulMessageScreen extends StatelessWidget {
                   child: Center(child: Text('Continue')),
                 ),
                 onTap: () {
-                  creditCardModel.setIsPayment(false);
                   Navigator.popUntil(context,
                       ModalRoute.withName(PatientProfileScreen.routeName));
                 },

@@ -27,7 +27,14 @@ class _NewPatientMedicineDoctorScreenState
     super.dispose();
     medicineModel.setSearchName('');
     medicineModel.readAll();
-    patientMedicineDoctorModel.readByPatientId(widget.patient.userId);
+    patientMedicineDoctorModel.setIsAdding(false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    patientMedicineDoctorModel.setIsAdding(true);
   }
 
   @override
