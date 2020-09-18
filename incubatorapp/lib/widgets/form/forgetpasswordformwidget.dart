@@ -95,7 +95,15 @@ class _ForgetPasswordFormWidgetState extends State<ForgetPasswordFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (userColumn == UserColumn.confirmPassword) {
+            if (userColumn == UserColumn.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            }
+            else if (userColumn == UserColumn.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }

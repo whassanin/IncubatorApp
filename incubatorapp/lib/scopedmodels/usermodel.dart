@@ -79,6 +79,23 @@ class UserModel extends Model {
     return _currentUser.userType;
   }
 
+  String validatePassword(String v){
+    RegExp re = new RegExp(
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    String message = '';
+    if (re.hasMatch(v)) {
+      _currentUser.password = v;
+    } else {
+      String n1 = "Minimum 1 Uppercase\n";
+      String n2 = "Minimum 1 Lowercase\n";
+      String n3 = "Minimum 1 Numeric Number\n";
+      String n4 = "Minimum 1 Special Character\n";
+      String n5 = r"[@#$&*~]";
+      message = n1 + n2 + n3 + n4 + n5;
+    }
+    return message;
+  }
+
   void setPermission() {
     UserType userType;
     if (_currentUser.userType.toString() == UserType.doctor.toString()) {

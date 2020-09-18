@@ -101,7 +101,14 @@ class _AccountantFormWidgetState extends State<AccountantFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (accountantColumns == AccountantColumns.confirmPassword) {
+            if (accountantColumns == AccountantColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            } else if (accountantColumns == AccountantColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }

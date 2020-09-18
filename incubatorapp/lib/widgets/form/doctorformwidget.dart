@@ -101,7 +101,15 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (doctorColumns == DoctorColumns.confirmPassword) {
+            if (doctorColumns == DoctorColumns.password){
+              String m = userModel.validatePassword(v);
+              if(m.isEmpty){
+                return null;
+              }else {
+                return m;
+              }
+            }
+            else if (doctorColumns == DoctorColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }

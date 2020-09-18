@@ -242,7 +242,15 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (patientColumns == PatientColumns.confirmPassword) {
+            if (patientColumns == PatientColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            }
+            else if (patientColumns == PatientColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }

@@ -102,7 +102,15 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (nurseColumns == NurseColumns.confirmPassword) {
+            if (nurseColumns == NurseColumns.password) {
+              String m = userModel.validatePassword(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            }
+            else if (nurseColumns == NurseColumns.confirmPassword) {
               if (userModel.getPassword() != confirmPasswordTEC.text) {
                 return 'Mismatch password';
               }
