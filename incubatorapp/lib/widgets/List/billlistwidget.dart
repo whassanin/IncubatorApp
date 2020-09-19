@@ -49,11 +49,19 @@ class _BillListWidgetState extends State<BillListWidget> {
           },
         );
       } else {
-        currentWidget = Center(
-          child: Container(
-            child: Text('No Bills(s) Available'),
-          ),
-        );
+        if (billModel.isLoading == true) {
+          currentWidget = Center(
+            child: Container(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }else {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Bills(s) Available'),
+            ),
+          );
+        }
       }
     } else {
       currentWidget = Center(

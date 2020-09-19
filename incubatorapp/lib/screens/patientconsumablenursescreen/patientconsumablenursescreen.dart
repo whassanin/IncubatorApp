@@ -6,11 +6,25 @@ import 'package:incubatorapp/screens/patientconsumablenursescreen/newpatientcons
 import 'package:incubatorapp/widgets/List/patientconsumablenurselistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientConsumableNurseScreen extends StatelessWidget {
+class PatientConsumableNurseScreen extends StatefulWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final Patient patient;
   PatientConsumableNurseScreen({this.patient,});
+
+  @override
+  _PatientConsumableNurseScreenState createState() => _PatientConsumableNurseScreenState();
+}
+
+class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScreen> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    patientConsumableNurseModel.clearList();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -38,7 +52,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   NewPatientConsumableNurseScreen(
-                                    patient: patient,
+                                    patient: widget.patient,
                               ),
                             ),
                           );

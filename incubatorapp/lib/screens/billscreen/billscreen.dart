@@ -4,10 +4,22 @@ import 'package:incubatorapp/scopedmodels/billmodel.dart';
 import 'package:incubatorapp/widgets/List/billlistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class BillScreen extends StatelessWidget {
+class BillScreen extends StatefulWidget {
   static const routeName = '/billscreen';
 
   BillScreen();
+
+  @override
+  _BillScreenState createState() => _BillScreenState();
+}
+
+class _BillScreenState extends State<BillScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    billModel.clearList();
+  }
 
   @override
   Widget build(BuildContext context) {

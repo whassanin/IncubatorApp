@@ -8,6 +8,10 @@ class PatientConsumableNurseModel extends Model {
 
   bool isAdding = false;
 
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
   List<PatientConsumableNurse> patientConsumableNurseList;
 
   PatientConsumableNurse _currentPatientConsumableNurse;
@@ -27,15 +31,6 @@ class PatientConsumableNurseModel extends Model {
 
   void setList(List<PatientConsumableNurse> list){
     patientConsumableNurseList = list;
-  }
-
-  void clearList() {
-    if (patientConsumableNurseList != null) {
-      if (patientConsumableNurseList.length > 0) {
-        patientConsumableNurseList.clear();
-        notifyListeners();
-      }
-    }
   }
 
   void setPatientId(int patientId) {
@@ -92,7 +87,19 @@ class PatientConsumableNurseModel extends Model {
     notifyListeners();
   }
 
+  void clearList() {
+    _isLoading = true;
+    if (patientConsumableNurseList != null) {
+      if (patientConsumableNurseList.length > 0) {
+        patientConsumableNurseList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   Future<List<PatientConsumableNurse>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -104,6 +111,7 @@ class PatientConsumableNurseModel extends Model {
         .map((e) => PatientConsumableNurse.fromJson(e))
         .toList();
 
+    _isLoading = false;
     notifyListeners();
 
     return patientConsumableNurseList;

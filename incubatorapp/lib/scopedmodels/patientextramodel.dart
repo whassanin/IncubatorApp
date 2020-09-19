@@ -8,6 +8,10 @@ class PatientExtraModel extends Model {
 
   bool isAdding = false;
 
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
   List<PatientExtra> patientExtraList;
 
   PatientExtra _currentPatientExtra;
@@ -24,15 +28,6 @@ class PatientExtraModel extends Model {
 
   void setList(List<PatientExtra> list){
     patientExtraList = list;
-  }
-
-  void clearList() {
-    if (patientExtraList != null) {
-      if (patientExtraList.length > 0) {
-        patientExtraList.clear();
-        notifyListeners();
-      }
-    }
   }
 
   void setPatientId(int patientId) {
@@ -73,7 +68,19 @@ class PatientExtraModel extends Model {
     notifyListeners();
   }
 
+  void clearList() {
+    _isLoading = true;
+    if (patientExtraList != null) {
+      if (patientExtraList.length > 0) {
+        patientExtraList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   Future<List<PatientExtra>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -84,6 +91,7 @@ class PatientExtraModel extends Model {
     patientExtraList =
         patientExtraMap.map((e) => PatientExtra.fromJson(e)).toList();
 
+    _isLoading = false;
     notifyListeners();
 
     return patientExtraList;

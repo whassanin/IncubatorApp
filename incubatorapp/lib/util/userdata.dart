@@ -3,8 +3,7 @@ import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
 
 class UserData {
-
-  void addUserDoctor() async{
+  void addUserDoctor() async {
     userModel.createUser();
     userModel.setProvider(UserProvider.other);
     userModel.setEmail('naima@gmail.com');
@@ -24,7 +23,7 @@ class UserData {
     doctorModel.create();
   }
 
-  void addUserNurse() async{
+  void addUserNurse() async {
     userModel.createUser();
     userModel.setProvider(UserProvider.other);
     userModel.setEmail('radwa@gmail.com');
@@ -42,6 +41,26 @@ class UserData {
     nurseModel.setDateOfBirth(DateTime.now());
     nurseModel.setGender(false);
     nurseModel.create();
+  }
+
+  void addUserAccountant() async {
+    userModel.createUser();
+    userModel.setProvider(UserProvider.other);
+    userModel.setEmail('ahmed@gmail.com');
+    userModel.setPassword('admin');
+    userModel.setPhone('0123456789');
+    userModel.setUserType(UserType.accountant);
+    userModel.create();
+
+    await Future.delayed(Duration(seconds: 2));
+
+    accountantModel.createAccountant();
+    accountantModel.setUserId(3);
+    accountantModel.setFirstName('Ahmed');
+    accountantModel.setLastName('Hassanin');
+    accountantModel.setDateOfBirth(DateTime.now());
+    accountantModel.setGender(false);
+    accountantModel.create();
   }
 
   void addUserPatient() {
@@ -119,7 +138,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(500);
     patientModel.setIsOnLightRay(true);
-    patientModel.setUserId(3);
+    patientModel.setUserId(4);
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(1);
     patientModel.setStateTypeId(1);
@@ -133,7 +152,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(600);
     patientModel.setIsOnLightRay(true);
-    patientModel.setUserId(4);
+    patientModel.setUserId(5);
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(2);
     patientModel.setStateTypeId(1);
@@ -147,7 +166,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(800);
     patientModel.setIsOnLightRay(true);
-    patientModel.setUserId(5);
+    patientModel.setUserId(6);
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(3);
     patientModel.setStateTypeId(1);
@@ -161,7 +180,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(900);
     patientModel.setIsOnLightRay(true);
-    patientModel.setUserId(6);
+    patientModel.setUserId(7);
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(4);
     patientModel.setStateTypeId(1);
@@ -175,7 +194,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(1);
     patientModel.setIsOnLightRay(false);
-    patientModel.setUserId(7);
+    patientModel.setUserId(8);
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(5);
     patientModel.setStateTypeId(1);
@@ -189,7 +208,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(1.5);
     patientModel.setIsOnLightRay(false);
-    patientModel.setUserId(8);
+    patientModel.setUserId(9);
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(6);
     patientModel.setStateTypeId(1);
@@ -203,7 +222,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(2);
     patientModel.setIsOnLightRay(false);
-    patientModel.setUserId(9);
+    patientModel.setUserId(10);
     patientModel.setConditionId(1);
     patientModel.setIncubatorId(7);
     patientModel.setStateTypeId(1);
@@ -217,7 +236,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(2.5);
     patientModel.setIsOnLightRay(false);
-    patientModel.setUserId(10);
+    patientModel.setUserId(11);
     patientModel.setConditionId(2);
     patientModel.setIncubatorId(8);
     patientModel.setStateTypeId(1);
@@ -231,7 +250,7 @@ class UserData {
     patientModel.setAddress('sheraton');
     patientModel.setWeight(3);
     patientModel.setIsOnLightRay(false);
-    patientModel.setUserId(11);
+    patientModel.setUserId(12);
     patientModel.setConditionId(3);
     patientModel.setIncubatorId(9);
     patientModel.setStateTypeId(1);
@@ -287,6 +306,65 @@ class UserData {
         bp++;
         element.weight += 50;
         d += 1;
+      }
+    });
+  }
+
+  void addPatientLaboratory() {
+    patientModel.patientList.forEach((element) {
+      for (int i = 1; i <= 3; i++) {
+        patientLaboratoryModel.createPatientLaboratory();
+        patientLaboratoryModel.setPatientId(element.userId);
+        patientLaboratoryModel.setLaboratoryId(i);
+        patientLaboratoryModel.setResult('Results is ok');
+        patientLaboratoryModel.create();
+      }
+    });
+  }
+
+  void addPatientXRay() {
+    patientModel.patientList.forEach((element) {
+      for (int i = 1; i <= 3; i++) {
+        patientXRayModel.createPatientXRay();
+        patientXRayModel.setPatientId(element.userId);
+        patientXRayModel.setXRayId(i);
+        patientXRayModel.setComment('Results is ok');
+        patientXRayModel.create();
+      }
+    });
+  }
+
+  void addPatientMedicine() {
+    patientModel.patientList.forEach((element) {
+      for (int i = 1; i <= 5; i++) {
+        patientMedicineDoctorModel.createPatientMedicineDoctor();
+        patientMedicineDoctorModel.setPatientId(element.userId);
+        patientMedicineDoctorModel.setMedicineId(i);
+        patientMedicineDoctorModel.setDoctorId(1);
+        patientMedicineDoctorModel.create();
+      }
+    });
+  }
+
+  void addPatientConsumable() {
+    patientModel.patientList.forEach((element) {
+      for (int i = 1; i <= 5; i++) {
+        patientConsumableNurseModel.createPatientConsumableNurse();
+        patientConsumableNurseModel.setPatientId(element.userId);
+        patientConsumableNurseModel.setConsumableId(i);
+        patientConsumableNurseModel.setNurseId(2);
+        patientConsumableNurseModel.create();
+      }
+    });
+  }
+
+  void addPatientExtra() {
+    patientModel.patientList.forEach((element) {
+      for (int i = 1; i <= 2; i++) {
+        patientExtraModel.createPatientExtra();
+        patientExtraModel.setPatientId(element.userId);
+        patientExtraModel.setExtraId(i);
+        patientExtraModel.create();
       }
     });
   }

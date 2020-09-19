@@ -17,18 +17,22 @@ import 'package:scoped_model/scoped_model.dart';
 class BillModel extends Model {
   Api _api = new Api('bill');
 
-  List<Bill> billList;
+  bool _isLoading = true;
+
+  bool get isLoading =>_isLoading;
+
+  List<Bill> billList = [];
 
   Bill _currentBill;
 
   Bill get currentBill => _currentBill;
 
   void createBill() {
-    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0,0, 0);
+    _currentBill = new Bill(0, DateTime.now(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   }
 
   Bill newBill(DateTime currentDateTime) {
-    Bill newBill = new Bill(0, currentDateTime, 0, 0, 0, 0, 0, 0, 0, 0,0, 0);
+    Bill newBill = new Bill(0, currentDateTime, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     return newBill;
   }
 
@@ -147,7 +151,8 @@ class BillModel extends Model {
         _currentBill.laboratory +
         _currentBill.xRay +
         _currentBill.lightRays +
-        _currentBill.medicine - _currentBill.discount;
+        _currentBill.medicine -
+        _currentBill.discount;
 
     return total;
   }
@@ -173,7 +178,7 @@ class BillModel extends Model {
     return total;
   }
 
-  double calculateTotalDiscount(){
+  double calculateTotalDiscount() {
     double total = 0;
     if (billList != null) {
       billList.forEach((b) {
@@ -485,10 +490,22 @@ class BillModel extends Model {
 
       readByPatientId(patientModel.currentPatient.userId);
     }
+  }
 
+  void clearList(){
+    _isLoading = true;
+    if (billList != null) {
+      if (billList.length > 0) {
+        billList.clear();
+        notifyListeners();
+      }
+    }
   }
 
   Future<List<Bill>> readByPatientId(int patientId) async {
+
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -503,6 +520,7 @@ class BillModel extends Model {
       billList = billListMap.map((e) => Bill.fromJson(e)).toList();
     }
 
+    _isLoading = false;
     notifyListeners();
 
     return billList;

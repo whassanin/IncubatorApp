@@ -6,15 +6,27 @@ import 'package:incubatorapp/screens/patientlaboratoryscreen/newpatientlaborator
 import 'package:incubatorapp/widgets/List/patientlaboratorylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientLaboratoryScreen extends StatelessWidget {
+class PatientLaboratoryScreen extends StatefulWidget {
   static const routeName = '/patientlaboratoryscreen';
 
   final Patient patient;
   PatientLaboratoryScreen({this.patient,});
 
   @override
-  Widget build(BuildContext context) {
+  _PatientLaboratoryScreenState createState() => _PatientLaboratoryScreenState();
+}
 
+class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    patientLaboratoryModel.clearList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
@@ -38,7 +50,7 @@ class PatientLaboratoryScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NewPatientLaboratoryScreen(
-                          patient: patient,
+                          patient: widget.patient,
                         ),
                       ),
                     );

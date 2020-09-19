@@ -10,6 +10,10 @@ class PatientXRayModel extends Model{
 
   bool isAdding = false;
 
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
   List<PatientXRay> patientXRayList;
 
   PatientXRay _currentPatientXRay;
@@ -27,16 +31,6 @@ class PatientXRayModel extends Model{
   void setList(List<PatientXRay> list){
     patientXRayList = list;
   }
-
-  void clearList(){
-    if(patientXRayList!=null){
-      if(patientXRayList.length > 0){
-        patientXRayList.clear();
-        notifyListeners();
-      }
-    }
-  }
-
 
   void setPatientId(int patientId){
     _currentPatientXRay.patientId = patientId;
@@ -84,7 +78,19 @@ class PatientXRayModel extends Model{
     notifyListeners();
   }
 
+  void clearList(){
+    _isLoading = true;
+    if(patientXRayList!=null){
+      if(patientXRayList.length > 0){
+        patientXRayList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   Future<List<PatientXRay>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -94,6 +100,8 @@ class PatientXRayModel extends Model{
 
     List<dynamic> patientXRayMap = await _api.filter(fields, values);
     patientXRayList = patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
+
+    _isLoading = false;
     notifyListeners();
 
     return patientXRayList;

@@ -8,6 +8,10 @@ class PatientLaboratoryModel extends Model {
 
   bool isAdding = false;
 
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
   List<PatientLaboratory> patientLaboratoryList;
 
   PatientLaboratory _currentPatientLaboratory;
@@ -25,15 +29,6 @@ class PatientLaboratoryModel extends Model {
 
   void setList(List<PatientLaboratory> list) {
     patientLaboratoryList = list;
-  }
-
-  void clearList() {
-    if (patientLaboratoryList != null) {
-      if (patientLaboratoryList.length > 0) {
-        patientLaboratoryList.clear();
-        notifyListeners();
-      }
-    }
   }
 
   void setPatientId(int patientId) {
@@ -82,7 +77,20 @@ class PatientLaboratoryModel extends Model {
     notifyListeners();
   }
 
+
+  void clearList() {
+    _isLoading = true;
+    if (patientLaboratoryList != null) {
+      if (patientLaboratoryList.length > 0) {
+        patientLaboratoryList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   Future<List<PatientLaboratory>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -94,6 +102,7 @@ class PatientLaboratoryModel extends Model {
     patientLaboratoryList =
         patientLaboratoryMap.map((e) => PatientLaboratory.fromJson(e)).toList();
 
+    _isLoading = false;
     notifyListeners();
 
     return patientLaboratoryList;

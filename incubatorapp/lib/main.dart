@@ -275,6 +275,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget userDataButton() {
+    return Column(
+      children: [
+        buttonWidget('Add Doctor', ud.addUserDoctor),
+        buttonWidget('Add Nurse', ud.addUserNurse),
+        buttonWidget('Add Accountant', ud.addUserAccountant),
+        buttonWidget('Add User of type Patient', ud.addUserPatient),
+        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
+      ],
+    );
+  }
+
   Widget basicDataButtons() {
     return Column(
       children: [
@@ -291,22 +303,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget userDataButton() {
-    return Column(
-      children: [
-        buttonWidget('Add Doctor', ud.addUserDoctor),
-        buttonWidget('Add Nurse', ud.addUserNurse),
-        buttonWidget('Add User of type Patient', ud.addUserPatient),
-        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
-      ],
-    );
-  }
-
   Widget patientDataDetail(){
     return Column(
       children: [
         buttonWidget('Get Patient List', ud.getPatientList),
         buttonWidget('Add Status', ud.addPatientStatus),
+        buttonWidget('Add Laboratory', ud.addPatientLaboratory),
+        buttonWidget('Add XRay', ud.addPatientXRay),
+        buttonWidget('Add Medicine', ud.addPatientMedicine),
+        buttonWidget('Add Consumable', ud.addPatientConsumable),
+        buttonWidget('Add Extra', ud.addPatientExtra),
       ],
     );
   }
@@ -327,6 +333,10 @@ class _MyHomePageState extends State<MyHomePage> {
     DateTime d = DateTime.parse('2020-04-01');
 
     print(d.toString());
+
+    //1.userDataButton()
+    //2.basicDataButtons()
+    //3.patientDataDetail()
 
     return Scaffold(
       appBar: AppBar(
