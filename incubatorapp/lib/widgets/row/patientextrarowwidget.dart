@@ -13,6 +13,24 @@ class PatientExtraRowWidget extends StatefulWidget {
 }
 
 class _PatientExtraRowWidgetState extends State<PatientExtraRowWidget> {
+
+  Widget displayRow(String title, String val) {
+    return Row(
+      children: [
+        Container(
+          child: Text(title),
+          width: 50
+        ),
+        Container(
+          child: Text(
+            val,
+            softWrap: true,
+          ),
+        ),
+      ],
+    );
+  }
+
   String dateFormat() {
     String v = widget.patientExtra.createdDate.day.toString();
     v = v + '/' + widget.patientExtra.createdDate.month.toString();
@@ -21,17 +39,11 @@ class _PatientExtraRowWidgetState extends State<PatientExtraRowWidget> {
   }
 
   Widget patientExtraRow(Extra extra) {
-    Widget extraNameWidget = Container(
-      child: Text('Name: ' + extra.name),
-    );
+    Widget extraNameWidget = displayRow('Name:', extra.name);
 
-    Widget priceWidget = Container(
-      child: Text('Price: ' + extra.price.toString()),
-    );
+    Widget priceWidget = displayRow('Price:', extra.price.toString());
 
-    Widget createdDateWidget = Container(
-      child: Text('Date: ' + dateFormat()),
-    );
+    Widget createdDateWidget = displayRow('Date:', dateFormat());
 
     Widget editButtonWidget = RaisedButton(
       shape: RoundedRectangleBorder(

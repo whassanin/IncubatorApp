@@ -6,8 +6,6 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientLaboratoryModel extends Model {
   Api _api = new Api('patientlaboratory');
 
-  bool isAdding = false;
-
   bool _isLoading = true;
 
   bool get isLoading => _isLoading;
@@ -69,14 +67,17 @@ class PatientLaboratoryModel extends Model {
     return _currentPatientLaboratory.createdDate;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+  void readAll() async {
+    List<dynamic> patientLaboratoryMap = await _api.get();
+    patientLaboratoryList =
+        patientLaboratoryMap.map((e) => PatientLaboratory.fromJson(e)).toList();
     notifyListeners();
   }
 
+  void setIsLoading(bool val){
+    _isLoading = val;
+    notifyListeners();
+  }
 
   void clearList() {
     _isLoading = true;

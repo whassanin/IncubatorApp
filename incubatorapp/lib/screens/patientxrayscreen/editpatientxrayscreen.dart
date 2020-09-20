@@ -15,6 +15,12 @@ class EditPatientXRayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    String title = 'Edit XRay to Patient';
+    if(userPermission.isPatient || userPermission.isNurse){
+      title = 'Results';
+    }
+
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
       child: ScopedModelDescendant(
@@ -25,7 +31,7 @@ class EditPatientXRayScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Edit XRay to Patient',style: TextStyle(color: Colors.white)),
+              title: Text(title,style: TextStyle(color: Colors.white)),
             ),
             body: PatientXRayFormWidget(
               patientXRay: patientXRay,

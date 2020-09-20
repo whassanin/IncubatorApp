@@ -52,9 +52,9 @@ class _PatientLaboratoryListWidgetState
       ),
     );
 
-    if (widget.patientLaboratoryList != null) {
-      if (widget.patientLaboratoryList.length > 0) {
-        if (patientLaboratoryModel.isAdding == false) {
+    if (patientLaboratoryModel.isLoading == false) {
+      if (widget.patientLaboratoryList != null) {
+        if (widget.patientLaboratoryList.length > 0) {
           currentWidget = ListView.builder(
             itemCount: widget.patientLaboratoryList.length,
             itemBuilder: (BuildContext context, int i) {
@@ -63,22 +63,20 @@ class _PatientLaboratoryListWidgetState
               );
             },
           );
-        }
-      }else {
-        if(patientLaboratoryModel.isAdding == false){
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No Laboratory(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('Loading...'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('Loading...'),
-        ),
-      );
     }
 
     if (userPermission.isPatient) {

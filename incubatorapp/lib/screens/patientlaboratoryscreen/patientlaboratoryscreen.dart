@@ -28,6 +28,8 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
   @override
   Widget build(BuildContext context) {
 
+    patientLaboratoryModel.readByPatientId(patientModel.currentPatient.userId);
+
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
       child: ScopedModelDescendant(
@@ -46,6 +48,7 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
                     color: Colors.white,
                   ),
                   onPressed: (){
+                    patientLaboratoryModel.setIsLoading(true);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

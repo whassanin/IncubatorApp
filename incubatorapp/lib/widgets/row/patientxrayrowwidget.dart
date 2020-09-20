@@ -14,6 +14,20 @@ class PatientXRayRowWidget extends StatefulWidget {
 }
 
 class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
+  Widget displayRow(String title, String val) {
+    return Row(
+      children: [
+        Container(child: Text(title), width: 80,),
+        Container(
+          child: Text(
+            val,
+            softWrap: true,
+          ),
+        ),
+      ],
+    );
+  }
+
   String dateFormat() {
     String v = widget.patientXRay.createdDate.day.toString();
     v = v + '/' + widget.patientXRay.createdDate.month.toString();
@@ -22,50 +36,13 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
   }
 
   Widget patientLaboratoryRow(XRay xRay) {
-    Widget xRayNameWidget = Container(
-      child: Text('Name: ' + xRay.name),
-    );
+    Widget xRayNameWidget = displayRow('Name:', xRay.name);
 
-    Widget priceWidget = Container(
-      child: Text('Price: ' + xRay.price.toString()),
-    );
+    Widget priceWidget = displayRow('Price:', xRay.price.toString());
 
-    Widget resultWidget = Container(
-      child: Text('Comment: ' + widget.patientXRay.comment),
-    );
+    Widget resultWidget = displayRow('Comment:', widget.patientXRay.comment);
 
-    Widget createdDateWidget = Container(
-      child: Text('Date: ' + dateFormat()),
-    );
-
-    Widget editButtonWidget = Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text('Edit'),
-            onPressed: () {
-              patientXRayModel.editPatientXRay(widget.patientXRay);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPatientXRayScreen(
-                    patientXRay: widget.patientXRay,
-                    xRay: xRay,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+    Widget createdDateWidget = displayRow('Date:', dateFormat());
 
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -74,10 +51,6 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: xRayNameWidget,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: resultWidget,
         ),
         (userPermission.isPatient
             ? Padding(
@@ -89,7 +62,6 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
           padding: const EdgeInsets.all(2.0),
           child: createdDateWidget,
         ),
-        (userPermission.isDoctor ? editButtonWidget : Container())
       ],
     );
 
@@ -107,9 +79,25 @@ class _PatientXRayRowWidgetState extends State<PatientXRayRowWidget> {
       elevation: 4,
     );
 
+    Widget cardGesture = GestureDetector(
+      child: displayCard,
+      onTap: (){
+        patientXRayModel.editPatientXRay(widget.patientXRay);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditPatientXRayScreen(
+              patientXRay: widget.patientXRay,
+              xRay: xRay,
+            ),
+          ),
+        );
+      },
+    );
+
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: displayCard,
+      child: cardGesture,
     );
   }
 

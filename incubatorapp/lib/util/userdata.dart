@@ -262,6 +262,14 @@ class UserData {
     patientModel.filterByStateType(1);
   }
 
+  void updatePatientList(){
+    patientModel.patientList.forEach((element) {
+      patientModel.editPatient(element);
+      patientModel.setStateTypeId(2);
+      patientModel.update();
+    });
+  }
+
   void addPatientStatus() {
     double hr = 85;
     double pr = 80;
@@ -310,6 +318,10 @@ class UserData {
     });
   }
 
+  void getPatientLaboratory() {
+    patientLaboratoryModel.readAll();
+  }
+
   void addPatientLaboratory() {
     patientModel.patientList.forEach((element) {
       for (int i = 1; i <= 3; i++) {
@@ -320,6 +332,18 @@ class UserData {
         patientLaboratoryModel.create();
       }
     });
+  }
+
+  void updatePatientLaboratory() {
+    patientLaboratoryModel.patientLaboratoryList.forEach((element) {
+      patientLaboratoryModel.editPatientLaboratory(element);
+      patientLaboratoryModel.setBillStatus('Pending');
+      patientLaboratoryModel.update();
+    });
+  }
+
+  void getPatientXRay() {
+    patientXRayModel.readAll();
   }
 
   void addPatientXRay() {
@@ -334,6 +358,18 @@ class UserData {
     });
   }
 
+  void updatePatientXRay() {
+    patientXRayModel.patientXRayList.forEach((element) {
+      patientXRayModel.editPatientXRay(element);
+      patientXRayModel.setBillStatus('Pending');
+      patientXRayModel.update();
+    });
+  }
+
+  void getPatientMedicineList() {
+    patientMedicineDoctorModel.readAll();
+  }
+
   void addPatientMedicine() {
     patientModel.patientList.forEach((element) {
       for (int i = 1; i <= 5; i++) {
@@ -344,6 +380,19 @@ class UserData {
         patientMedicineDoctorModel.create();
       }
     });
+  }
+
+  void updatePatientMedicine() {
+    patientMedicineDoctorModel.patientMedicineDoctorList.forEach((element) {
+      patientMedicineDoctorModel.editPatientMedicineDoctor(element);
+      patientMedicineDoctorModel.setQuantity(1);
+      patientMedicineDoctorModel.setBillStatus('Pending');
+      patientMedicineDoctorModel.update();
+    });
+  }
+
+  void getPatientConsumableList() {
+    patientConsumableNurseModel.readAll();
   }
 
   void addPatientConsumable() {
@@ -358,6 +407,19 @@ class UserData {
     });
   }
 
+  void updatePatientConsumable() {
+    patientConsumableNurseModel.patientConsumableNurseList.forEach((element) {
+      patientConsumableNurseModel.editPatientConsumableNurse(element);
+      patientConsumableNurseModel.setQuantity(1);
+      patientConsumableNurseModel.setBillStatus('Pending');
+      patientConsumableNurseModel.update();
+    });
+  }
+
+  void getPatientExtra() {
+    patientExtraModel.readAll();
+  }
+
   void addPatientExtra() {
     patientModel.patientList.forEach((element) {
       for (int i = 1; i <= 2; i++) {
@@ -366,6 +428,14 @@ class UserData {
         patientExtraModel.setExtraId(i);
         patientExtraModel.create();
       }
+    });
+  }
+
+  void updatePatientExtra() {
+    patientExtraModel.patientExtraList.forEach((element) {
+      patientExtraModel.editPatientExtra(element);
+      patientExtraModel.setBillStatus('Pending');
+      patientExtraModel.update();
     });
   }
 }

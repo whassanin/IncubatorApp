@@ -8,8 +8,6 @@ class PatientXRayModel extends Model{
 
   Api _apiReverse = new Api('xraypatient');
 
-  bool isAdding = false;
-
   bool _isLoading = true;
 
   bool get isLoading => _isLoading;
@@ -70,11 +68,15 @@ class PatientXRayModel extends Model{
     return _currentPatientXRay.createdDate;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+  void setIsLoading(bool val){
+    _isLoading = val;
+    notifyListeners();
+  }
+
+  void readAll() async {
+    List<dynamic> patientXRayMap = await _api.get();
+    patientXRayList =
+        patientXRayMap.map((e) => PatientXRay.fromJson(e)).toList();
     notifyListeners();
   }
 

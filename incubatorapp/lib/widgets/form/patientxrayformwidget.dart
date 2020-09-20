@@ -13,13 +13,22 @@ class PatientXRayFormWidget extends StatefulWidget {
 
 class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
+  TextEditingController dateTEC = new TextEditingController();
   TextEditingController commentTEC = new TextEditingController();
+
+  String dateFormat() {
+    String v = widget.patientXRay.createdDate.day.toString();
+    v = v + '/' + widget.patientXRay.createdDate.month.toString();
+    v = v + '/' + widget.patientXRay.createdDate.year.toString();
+    return v;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     nameTEC.text = widget.xRay.name;
+    dateTEC.text = dateFormat();
     commentTEC.text = widget.patientXRay.comment;
   }
 
@@ -54,6 +63,35 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       ],
     );
 
+    Widget dateTextField = Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextFormField(
+              readOnly: true,
+              controller: dateTEC,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      10,
+                    ),
+                  ),
+                ),
+                labelText: 'Date',
+              ),
+              validator: (v) {
+                return null;
+              },
+              onChanged: (v) {},
+              onFieldSubmitted: (v) {},
+            ),
+          ),
+        )
+      ],
+    );
+
     Widget commentTextField = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -61,6 +99,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
           minLines: null,
           maxLines: null,
           expands: true,
+          readOnly: (userPermission.isDoctor?false:true),
           controller: commentTEC,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -133,16 +172,21 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       ),
     );
 
-    Widget updateButtonsWidget = Row(
-      children: <Widget>[
-        deleteButton,
-        saveButton,
-      ],
-    );
+    Widget updateButtonsWidget = Container();
+
+    if(userPermission.isDoctor){
+      updateButtonsWidget = Row(
+        children: <Widget>[
+          deleteButton,
+          saveButton,
+        ],
+      );
+    }
 
     Widget rowWidget = Column(
       children: <Widget>[
         nameTextField,
+        dateTextField,
         commentTextField,
         updateButtonsWidget,
       ],

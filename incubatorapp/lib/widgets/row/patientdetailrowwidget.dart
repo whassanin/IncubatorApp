@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
+import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
@@ -728,13 +729,21 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   @override
   Widget build(BuildContext context) {
     Condition condition;
+    Incubator incubator;
 
     if (conditionModel.conditionList != null) {
-      List<Condition> list = conditionModel.conditionList
-          .where((c) => c.id == widget.patient.conditionId)
-          .toList();
-      if (list.length > 0) {
-        condition = list[0];
+      int index = conditionModel.conditionList
+          .indexWhere((c) => c.id == widget.patient.conditionId);
+      if (index > -1) {
+        condition = conditionModel.conditionList[index];
+      }
+    }
+
+    if(incubatorModel.incubatorList!=null){
+      int index = incubatorModel.incubatorList
+          .indexWhere((c) => c.id == widget.patient.incubatorId);
+      if (index > -1) {
+        incubator = incubatorModel.incubatorList[index];
       }
     }
 
@@ -748,7 +757,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
             'Condition: ' + (condition != null ? condition.name : ''),
           ),
           rowTitle(
-            'Incubator Number: ' + widget.patient.incubatorId.toString(),
+            'Incubator Number: ' + incubator.name,
           ),
           rowTitle('Status'),
           statusRow(),

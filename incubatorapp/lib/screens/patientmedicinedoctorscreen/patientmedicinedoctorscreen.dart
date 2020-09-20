@@ -27,6 +27,7 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
 
   @override
   Widget build(BuildContext context) {
+    patientMedicineDoctorModel.readByPatientId(patientModel.currentPatient.userId);
 
     return ScopedModel<PatientMedicineDoctorModel>(
       model: patientMedicineDoctorModel,
@@ -47,6 +48,7 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          patientMedicineDoctorModel.setIsLoading(true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

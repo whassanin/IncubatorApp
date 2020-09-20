@@ -27,6 +27,7 @@ class _PatientXRayScreenState extends State<PatientXRayScreen> {
 
   @override
   Widget build(BuildContext context) {
+patientXRayModel.readByPatientId(patientModel.currentPatient.userId);
 
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
@@ -47,6 +48,7 @@ class _PatientXRayScreenState extends State<PatientXRayScreen> {
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          patientXRayModel.setIsLoading(true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

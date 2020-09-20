@@ -6,8 +6,6 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientExtraModel extends Model {
   Api _api = new Api('patientextra');
 
-  bool isAdding = false;
-
   bool _isLoading = true;
 
   bool get isLoading => _isLoading;
@@ -60,11 +58,15 @@ class PatientExtraModel extends Model {
     return _currentPatientExtra.createdDate;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+  void readAll() async {
+    List<dynamic> patientExtraMap = await _api.get();
+    patientExtraList =
+        patientExtraMap.map((e) => PatientExtra.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  void setIsLoading(bool val){
+    _isLoading = val;
     notifyListeners();
   }
 

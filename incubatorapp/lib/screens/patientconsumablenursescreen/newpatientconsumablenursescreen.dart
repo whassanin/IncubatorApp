@@ -24,14 +24,13 @@ class _NewPatientConsumableNurseScreenState extends State<NewPatientConsumableNu
     super.dispose();
     consumableModel.setSearchName('');
     consumableModel.readAll();
-    patientConsumableNurseModel.setIsAdding(false);
+    patientConsumableNurseModel.setIsLoading(false);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    patientConsumableNurseModel.setIsAdding(true);
   }
 
   @override

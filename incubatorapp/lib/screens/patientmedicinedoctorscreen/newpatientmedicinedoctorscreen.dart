@@ -27,14 +27,13 @@ class _NewPatientMedicineDoctorScreenState
     super.dispose();
     medicineModel.setSearchName('');
     medicineModel.readAll();
-    patientMedicineDoctorModel.setIsAdding(false);
+    patientMedicineDoctorModel.setIsLoading(false);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    patientMedicineDoctorModel.setIsAdding(true);
   }
 
   @override

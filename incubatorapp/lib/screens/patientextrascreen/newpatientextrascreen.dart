@@ -21,14 +21,13 @@ class _NewPatientExtraScreenState extends State<NewPatientExtraScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientExtraModel.setIsAdding(false);
+    patientExtraModel.setIsLoading(false);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    patientExtraModel.setIsAdding(true);
   }
 
   @override

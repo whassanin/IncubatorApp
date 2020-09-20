@@ -2,39 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/models/medicine.dart';
-import 'package:incubatorapp/models/patientmedicinedoctor.dart';
+import 'package:incubatorapp/models/consumable.dart';
+import 'package:incubatorapp/models/patientconsumablenurse.dart';
 
-class PatientMedicineDoctorFormWidget extends StatefulWidget {
-  final PatientMedicineDoctor patientMedicineDoctor;
-  final Medicine medicine;
-  PatientMedicineDoctorFormWidget({this.patientMedicineDoctor, this.medicine});
+class PatientConsumableNurseFormWidget extends StatefulWidget {
+  final PatientConsumableNurse patientConsumableNurse;
+  final Consumable consumable;
+  PatientConsumableNurseFormWidget({this.patientConsumableNurse, this.consumable});
   @override
-  _PatientMedicineDoctorFormWidgetState createState() => _PatientMedicineDoctorFormWidgetState();
+  _PatientConsumableNurseFormWidgetState createState() => _PatientConsumableNurseFormWidgetState();
 }
 
-class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorFormWidget> {
+class _PatientConsumableNurseFormWidgetState extends State<PatientConsumableNurseFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController dateTEC = new TextEditingController();
-  TextEditingController descriptionTEC = new TextEditingController();
   TextEditingController quantityTEC = new TextEditingController();
 
   String dateFormat() {
-    String v = widget.patientMedicineDoctor.createdDate.day.toString();
-    v = v + '/' + widget.patientMedicineDoctor.createdDate.month.toString();
-    v = v + '/' + widget.patientMedicineDoctor.createdDate.year.toString();
+    String v = widget.patientConsumableNurse.createdDate.day.toString();
+    v = v + '/' + widget.patientConsumableNurse.createdDate.month.toString();
+    v = v + '/' + widget.patientConsumableNurse.createdDate.year.toString();
     return v;
   }
 
   void update(int v) {
-    patientMedicineDoctorModel
-        .editPatientMedicineDoctor(widget.patientMedicineDoctor);
-
+    patientConsumableNurseModel
+        .editPatientConsumableNurse(widget.patientConsumableNurse);
     if (v == 0) {
-      patientMedicineDoctorModel.delete();
+      patientConsumableNurseModel.delete();
     } else {
-      patientMedicineDoctorModel.setQuantity(v);
-      patientMedicineDoctorModel.update();
+      patientConsumableNurseModel.setQuantity(v);
+      patientConsumableNurseModel.update();
     }
   }
 
@@ -107,30 +105,33 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
       },
     );
 
-    Widget rowCounterWidget = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        subtractWidget,
-        numTextField,
-        addWidget
-      ],
+    Widget rowCounterWidget = Padding(
+      padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          subtractWidget,
+          numTextField,
+          addWidget
+        ],
+      ),
     );
 
-    return (userPermission.isDoctor ? rowCounterWidget : Container());
+    return (userPermission.isNurse ? rowCounterWidget : Container());
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    nameTEC.text = widget.medicine.name;
+    nameTEC.text = widget.consumable.name;
     dateTEC.text = dateFormat();
-    descriptionTEC.text = widget.patientMedicineDoctor.description;
   }
 
   @override
   Widget build(BuildContext context) {
-    quantityTEC.text = widget.patientMedicineDoctor.quantity.toString();
+
+    quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
 
     Widget nameTextField = Row(
       children: <Widget>[
@@ -190,41 +191,6 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
       ],
     );
 
-    Widget commentTextField = Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: TextFormField(
-          minLines: null,
-          maxLines: null,
-          expands: true,
-          readOnly: userPermission.isDoctor?false:true,
-          controller: descriptionTEC,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            labelText: 'Description',
-          ),
-          validator: (v) {
-            if(v.isEmpty){
-              return 'Required';
-            }
-            return null;
-          },
-          onChanged: (v) {
-            patientMedicineDoctorModel.setDescription(v);
-          },
-          onFieldSubmitted: (v) {
-            patientMedicineDoctorModel.setDescription(v);
-          },
-        ),
-      ),
-    );
-
     Widget deleteButton = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -241,7 +207,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
             ),
             child: Text('Delete',style: TextStyle(color: Colors.white)),
             onPressed: () {
-              patientMedicineDoctorModel.delete();
+              patientConsumableNurseModel.delete();
               Navigator.pop(context);
             },
           ),
@@ -265,7 +231,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
             ),
             child: Text('Save',style: TextStyle(color: Colors.white),),
             onPressed: () {
-              patientMedicineDoctorModel.update();
+              patientConsumableNurseModel.update();
               Navigator.pop(context);
             },
           ),
@@ -285,8 +251,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
         nameTextField,
         dateTextField,
         counterWidget(),
-        commentTextField,
-        (userPermission.isDoctor?updateButtonsWidget:Container()),
+        (userPermission.isNurse?updateButtonsWidget:Container()),
       ],
     );
 

@@ -198,20 +198,16 @@ class PatientModel extends Model {
 
     _isLoading = false;
 
-    await Future.delayed(Duration(seconds: 1));
-
     notifyListeners();
 
-    _currentPatient.patientLaboratoryList =
+/*    _currentPatient.patientLaboratoryList =
         await patientLaboratoryModel.readByPatientId(int.parse(id));
     _currentPatient.patientXRaysList =
         await patientXRayModel.readByPatientId(int.parse(id));
     _currentPatient.patientMedicineDoctorList =
         await patientMedicineDoctorModel.readByPatientId(int.parse(id));
-    _currentPatient.patientConsumableNurseList =
-        await patientConsumableNurseModel.readByPatientId(int.parse(id));
     _currentPatient.patientExtraList =
-        await patientExtraModel.readByPatientId(int.parse(id));
+        await patientExtraModel.readByPatientId(int.parse(id));*/
   }
 
   void _readForAccountant(String id) async {

@@ -110,7 +110,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cardNumberTEC.text = creditCardModel.getNumber();
+    cardNumberTEC.text = creditCardModel.getNumber(true);
     double v = billModel.calculateTotalChange();
     if (v < 0) {
       v *= -1;

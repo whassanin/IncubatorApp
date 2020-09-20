@@ -118,53 +118,31 @@ class _PatientMedicineDoctorRowWidgetState
     return (userPermission.isDoctor ? rowCounterWidget : Container());
   }
 
-  Widget patientMedicineDoctorRow(Medicine medicine) {
-    Widget medicineNameWidget = Container(
-      child: Text('Name: ' + medicine.name),
-    );
-
-    Widget priceWidget = Container(
-      child: Text('Price: ' + medicine.price.toString()),
-    );
-
-    Widget resultWidget = Container(
-      child:
-          Text('Quantity: ' + widget.patientMedicineDoctor.quantity.toString()),
-    );
-
-    Widget createdDateWidget = Container(
-      child: Text('Date: ' + dateFormat()),
-    );
-
-    Widget editButtonWidget = Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
-            child: Text(userPermission.isDoctor ? 'Edit' : 'View Description'),
-            onPressed: () {
-              patientMedicineDoctorModel
-                  .editPatientMedicineDoctor(widget.patientMedicineDoctor);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPatientMedicineDoctorScreen(
-                    patientMedicineDoctor: widget.patientMedicineDoctor,
-                    medicine: medicine,
-                  ),
-                ),
-              );
-            },
+  Widget displayRow(String title, String val) {
+    return Row(
+      children: [
+        Container(child: Text(title), width: 70),
+        Container(
+          child: Text(
+            val,
+            softWrap: true,
           ),
         ),
       ],
     );
+  }
+
+  Widget patientMedicineDoctorRow(Medicine medicine) {
+    String title = 'Name: ' + medicine.name;
+
+    Widget medicineNameWidget = displayRow('Name:', medicine.name);
+
+    Widget priceWidget = displayRow('Price:', medicine.price.toString());
+
+    Widget resultWidget = displayRow(
+        'Quantity:', widget.patientMedicineDoctor.quantity.toString());
+
+    Widget createdDateWidget = displayRow('Date:', dateFormat());
 
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -198,11 +176,10 @@ class _PatientMedicineDoctorRowWidgetState
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[displayCol, counterWidget()],
+              children: <Widget>[
+                displayCol, /*counterWidget()*/
+              ],
             ),
-            ((userPermission.isDoctor || userPermission.isNurse)
-                ? editButtonWidget
-                : Container())
           ],
         ),
       ),
@@ -216,9 +193,28 @@ class _PatientMedicineDoctorRowWidgetState
       elevation: 4,
     );
 
+    Widget cardGesture = GestureDetector(
+      child: displayCard,
+      onTap: () {
+        if (userPermission.isDoctor || userPermission.isNurse) {
+          patientMedicineDoctorModel
+              .editPatientMedicineDoctor(widget.patientMedicineDoctor);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditPatientMedicineDoctorScreen(
+                patientMedicineDoctor: widget.patientMedicineDoctor,
+                medicine: medicine,
+              ),
+            ),
+          );
+        }
+      },
+    );
+
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: displayCard,
+      child: cardGesture,
     );
   }
 

@@ -25,14 +25,13 @@ class _NewPatientLaboratoryScreenState extends State<NewPatientLaboratoryScreen>
     super.dispose();
     laboratoryModel.setSearchName('');
     laboratoryModel.readAll();
-    patientLaboratoryModel.setIsAdding(false);
+    patientLaboratoryModel.setIsLoading(false);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    patientLaboratoryModel.setIsAdding(true);
   }
 
   @override

@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.patient);
+    userPermission.setPermission(UserType.nurse);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -194,10 +194,12 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: WelcomeScreen(),
+      home: NurseProfileScreen(),
     );
   }
 }
+
+//MyHomePage(title: 'Generate Data',)
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -307,12 +309,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         buttonWidget('Get Patient List', ud.getPatientList),
-        buttonWidget('Add Status', ud.addPatientStatus),
+        buttonWidget('Update Patient List', ud.updatePatientList),
+/*        buttonWidget('Add Status', ud.addPatientStatus),
         buttonWidget('Add Laboratory', ud.addPatientLaboratory),
+        buttonWidget('Get Laboratory', ud.getPatientLaboratory),
+        buttonWidget('Update Laboratory', ud.updatePatientLaboratory),
         buttonWidget('Add XRay', ud.addPatientXRay),
-        buttonWidget('Add Medicine', ud.addPatientMedicine),
+        buttonWidget('get XRay', ud.getPatientXRay),
+        buttonWidget('Update XRay', ud.updatePatientXRay),
+        buttonWidget('Add Medicine', ud.addPatientMedicine),*/
+/*        buttonWidget('Get Medicine', ud.getPatientMedicineList),
+        buttonWidget('Update Medicine', ud.updatePatientMedicine),
         buttonWidget('Add Consumable', ud.addPatientConsumable),
+        buttonWidget('Get Consumable', ud.getPatientConsumableList),
+        buttonWidget('Update Consumable', ud.updatePatientConsumable),
         buttonWidget('Add Extra', ud.addPatientExtra),
+        buttonWidget('Get Extra', ud.getPatientExtra),
+        buttonWidget('Update Extra', ud.updatePatientExtra),*/
       ],
     );
   }

@@ -48,9 +48,9 @@ class _PatientMedicineDoctorListWidgetState
       ),
     );
 
-    if (widget.patientMedicineDoctorList != null) {
-      if (widget.patientMedicineDoctorList.length > 0) {
-        if (patientMedicineDoctorModel.isAdding == false) {
+    if (patientMedicineDoctorModel.isLoading == false) {
+      if (widget.patientMedicineDoctorList != null) {
+        if (widget.patientMedicineDoctorList.length > 0) {
           currentWidget = ListView.builder(
             itemCount: widget.patientMedicineDoctorList.length,
             itemBuilder: (BuildContext context, int i) {
@@ -59,22 +59,20 @@ class _PatientMedicineDoctorListWidgetState
               );
             },
           );
-        }
-      } else {
-        if (patientMedicineDoctorModel.isAdding == false) {
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No Medicine(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('Loading...'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('Loading...'),
-        ),
-      );
     }
 
     if (userPermission.isPatient) {

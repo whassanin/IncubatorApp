@@ -6,13 +6,11 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientConsumableNurseModel extends Model {
   Api _api = new Api('patientconsumablenurse');
 
-  bool isAdding = false;
-
   bool _isLoading = true;
 
   bool get isLoading => _isLoading;
 
-  List<PatientConsumableNurse> patientConsumableNurseList;
+  List<PatientConsumableNurse> patientConsumableNurseList = [];
 
   PatientConsumableNurse _currentPatientConsumableNurse;
 
@@ -21,7 +19,7 @@ class PatientConsumableNurseModel extends Model {
 
   void createPatientConsumableNurse() {
     _currentPatientConsumableNurse =
-        new PatientConsumableNurse(0, 0, 0, 0, 0,'Pending', DateTime.now());
+        new PatientConsumableNurse(0, 0, 0, 0, 0, 'Pending', DateTime.now());
   }
 
   void editPatientConsumableNurse(
@@ -29,7 +27,7 @@ class PatientConsumableNurseModel extends Model {
     _currentPatientConsumableNurse = editPatientConsumableNurse;
   }
 
-  void setList(List<PatientConsumableNurse> list){
+  void setList(List<PatientConsumableNurse> list) {
     patientConsumableNurseList = list;
   }
 
@@ -60,6 +58,7 @@ class PatientConsumableNurseModel extends Model {
 
   void setQuantity(int quantity) {
     _currentPatientConsumableNurse.quantity = quantity;
+    notifyListeners();
   }
 
   int getQuantity() {
@@ -79,11 +78,16 @@ class PatientConsumableNurseModel extends Model {
     return _currentPatientConsumableNurse.createdDate;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+  void readAll() async {
+    List<dynamic> patientConsumableNurseMap = await _api.get();
+    patientConsumableNurseList = patientConsumableNurseMap
+        .map((e) => PatientConsumableNurse.fromJson(e))
+        .toList();
+    notifyListeners();
+  }
+
+  void setIsLoading(bool val){
+    _isLoading = val;
     notifyListeners();
   }
 
@@ -112,12 +116,14 @@ class PatientConsumableNurseModel extends Model {
         .toList();
 
     _isLoading = false;
+
     notifyListeners();
 
     return patientConsumableNurseList;
   }
 
-  Future<List<PatientConsumableNurse>> readByPatientIdAndPendingConsumable(int patientId) async {
+  Future<List<PatientConsumableNurse>> readByPatientIdAndPendingConsumable(
+      int patientId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -127,8 +133,9 @@ class PatientConsumableNurseModel extends Model {
     values.add('Pending');
 
     List<dynamic> patientConsumableNurseMap = await _api.filter(fields, values);
-    patientConsumableNurseList =
-        patientConsumableNurseMap.map((e) => PatientConsumableNurse.fromJson(e)).toList();
+    patientConsumableNurseList = patientConsumableNurseMap
+        .map((e) => PatientConsumableNurse.fromJson(e))
+        .toList();
 
     notifyListeners();
 

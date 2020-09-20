@@ -47,9 +47,9 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
       ),
     );
 
-    if (widget.patientXRayList != null) {
-      if (widget.patientXRayList.length > 0) {
-        if (patientXRayModel.isAdding == false) {
+    if (patientXRayModel.isLoading == false) {
+      if (widget.patientXRayList != null) {
+        if (widget.patientXRayList.length > 0) {
           currentWidget = ListView.builder(
             itemCount: widget.patientXRayList.length,
             itemBuilder: (BuildContext context, int i) {
@@ -58,24 +58,21 @@ class _PatientXRayListWidgetState extends State<PatientXRayListWidget> {
               );
             },
           );
-        }
-      } else {
-        if (patientXRayModel.isAdding == false) {
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No XRay(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('Loading...'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('Loading...'),
-        ),
-      );
     }
-
     if (userPermission.isPatient) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(bottom: 75),

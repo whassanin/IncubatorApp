@@ -27,6 +27,8 @@ class _PatientExtraScreenState extends State<PatientExtraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
+
     return ScopedModel<PatientExtraModel>(
       model: patientExtraModel,
       child: ScopedModelDescendant(
@@ -45,6 +47,7 @@ class _PatientExtraScreenState extends State<PatientExtraScreen> {
                     color: Colors.white,
                   ),
                   onPressed: (){
+                    patientExtraModel.setIsLoading(true);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

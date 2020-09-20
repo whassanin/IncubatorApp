@@ -27,6 +27,7 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
 
   @override
   Widget build(BuildContext context) {
+    patientConsumableNurseModel.readByPatientId(patientModel.currentPatient.userId);
 
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,
@@ -47,6 +48,7 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          patientConsumableNurseModel.setIsLoading(true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -64,7 +66,6 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
             body: PatientConsumableNurseListWidget(
               patientConsumableNurseList:
                   patientConsumableNurseModel.patientConsumableNurseList,
-              userPermission: userPermission,
             ),
           );
         },

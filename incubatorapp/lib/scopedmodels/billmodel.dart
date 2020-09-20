@@ -474,22 +474,21 @@ class BillModel extends Model {
 
     _calculateExtra(cp);
 
-    if (count > 0) {
-      count += 3;
-      await Future.delayed(Duration(milliseconds: count.toInt()));
+    count += 5;
+    await Future.delayed(Duration(milliseconds: count.toInt()));
 
-      cp.billList.forEach((element) {
-        _currentBill = element;
-        _currentBill.patientId = patientModel.currentPatient.userId;
-        if (_currentBill.id == 0) {
-          create();
-        } else {
-          update();
-        }
-      });
+    cp.billList.forEach((element) {
+      _currentBill = element;
+      _currentBill.patientId = patientModel.currentPatient.userId;
+      if (_currentBill.id == 0) {
+        create();
+      } else {
+        update();
+      }
+    });
 
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+    readByPatientId(patientModel.currentPatient.userId);
+
   }
 
   void clearList(){
