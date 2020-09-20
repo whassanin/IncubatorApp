@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    userPermission.setPermission(UserType.nurse);
+    //userPermission.setPermission(UserType.nurse);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -194,7 +194,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: NurseProfileScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
