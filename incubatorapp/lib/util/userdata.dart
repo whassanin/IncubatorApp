@@ -265,7 +265,7 @@ class UserData {
   void updatePatientList(){
     patientModel.patientList.forEach((element) {
       patientModel.editPatient(element);
-      patientModel.setStateTypeId(2);
+      patientModel.setStateTypeId(1);
       patientModel.update();
     });
   }

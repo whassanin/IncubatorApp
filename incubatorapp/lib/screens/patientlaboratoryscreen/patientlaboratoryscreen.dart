@@ -10,14 +10,16 @@ class PatientLaboratoryScreen extends StatefulWidget {
   static const routeName = '/patientlaboratoryscreen';
 
   final Patient patient;
-  PatientLaboratoryScreen({this.patient,});
+  PatientLaboratoryScreen({
+    this.patient,
+  });
 
   @override
-  _PatientLaboratoryScreenState createState() => _PatientLaboratoryScreenState();
+  _PatientLaboratoryScreenState createState() =>
+      _PatientLaboratoryScreenState();
 }
 
 class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -28,7 +30,13 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
   @override
   Widget build(BuildContext context) {
 
-    patientLaboratoryModel.readByPatientId(patientModel.currentPatient.userId);
+    int l = patientModel.currentPatient.patientLaboratoryList.length;
+    if (l == 0) {
+      patientLaboratoryModel
+          .readByPatientId(patientModel.currentPatient.userId);
+    }else {
+      patientLaboratoryModel.setList(patientModel.currentPatient.patientLaboratoryList);
+    }
 
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
@@ -40,29 +48,35 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Laboratory',style: TextStyle(color: Colors.white),),
+              title: Text(
+                'Laboratory',
+                style: TextStyle(color: Colors.white),
+              ),
               actions: <Widget>[
-                (userPermission.isDoctor == true?IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: (){
-                    patientLaboratoryModel.setIsLoading(true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPatientLaboratoryScreen(
-                          patient: widget.patient,
+                (userPermission.isDoctor == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  },
-                ):Container())
+                        onPressed: () {
+                          patientLaboratoryModel.setIsLoading(true);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewPatientLaboratoryScreen(
+                                patient: widget.patient,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
               ],
             ),
             body: PatientLaboratoryListWidget(
-              patientLaboratoryList: patientLaboratoryModel.patientLaboratoryList,
+              patientLaboratoryList:
+                  patientLaboratoryModel.patientLaboratoryList,
             ),
           );
         },

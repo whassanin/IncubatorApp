@@ -28,6 +28,8 @@ class PatientXRayModel extends Model{
 
   void setList(List<PatientXRay> list){
     patientXRayList = list;
+    _isLoading = false;
+    notifyListeners();
   }
 
   void setPatientId(int patientId){

@@ -27,6 +27,8 @@ class PatientLaboratoryModel extends Model {
 
   void setList(List<PatientLaboratory> list) {
     patientLaboratoryList = list;
+    _isLoading = false;
+    notifyListeners();
   }
 
   void setPatientId(int patientId) {
@@ -78,6 +80,7 @@ class PatientLaboratoryModel extends Model {
     _isLoading = val;
     notifyListeners();
   }
+
 
   void clearList() {
     _isLoading = true;

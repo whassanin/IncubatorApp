@@ -17,7 +17,6 @@ class PatientXRayScreen extends StatefulWidget {
 }
 
 class _PatientXRayScreenState extends State<PatientXRayScreen> {
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -27,8 +26,12 @@ class _PatientXRayScreenState extends State<PatientXRayScreen> {
 
   @override
   Widget build(BuildContext context) {
-patientXRayModel.readByPatientId(patientModel.currentPatient.userId);
-
+    int l = patientModel.currentPatient.patientXRaysList.length;
+    if (l == 0) {
+      patientXRayModel.readByPatientId(patientModel.currentPatient.userId);
+    } else {
+      patientXRayModel.setList(patientModel.currentPatient.patientXRaysList);
+    }
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
       child: ScopedModelDescendant(

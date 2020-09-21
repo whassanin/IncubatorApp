@@ -29,6 +29,8 @@ class PatientMedicineDoctorModel extends Model {
 
   void setList(List<PatientMedicineDoctor> list){
     patientMedicineDoctorList = list;
+    _isLoading = false;
+    notifyListeners();
   }
 
   void setPatientId(int patientId) {

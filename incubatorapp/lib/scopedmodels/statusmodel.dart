@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class StatusModel extends Model {
   Api _api = new Api('status');
 
-  List<Status> statusList;
+  List<Status> statusList = [];
 
   Status _currentStatus;
 
@@ -18,6 +18,11 @@ class StatusModel extends Model {
 
   void editStatus(Status editStatus) {
     _currentStatus = editStatus;
+  }
+
+  void setList(List<Status> list){
+    statusList = list;
+    notifyListeners();
   }
 
   void setDate(DateTime dateTime){

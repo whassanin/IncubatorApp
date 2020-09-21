@@ -40,6 +40,11 @@ class BillModel extends Model {
     _currentBill = editBill;
   }
 
+  void setList(List<Bill> list){
+    billList = list;
+    notifyListeners();
+  }
+
   DateTime getCreatedDate() {
     return _currentBill.createdDate;
   }
@@ -520,6 +525,8 @@ class BillModel extends Model {
     }
 
     _isLoading = false;
+
+    print('loading here');
     notifyListeners();
 
     return billList;

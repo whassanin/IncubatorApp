@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.nurse);
+    //userPermission.setPermission(UserType.accountant);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -305,29 +305,88 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget patientDataDetail(){
-    return Column(
+  Widget patientDataDetail(int v){
+    //1
+    Widget statusWidget = Column(
       children: [
         buttonWidget('Get Patient List', ud.getPatientList),
         buttonWidget('Update Patient List', ud.updatePatientList),
-/*        buttonWidget('Add Status', ud.addPatientStatus),
-        buttonWidget('Add Laboratory', ud.addPatientLaboratory),
-        buttonWidget('Get Laboratory', ud.getPatientLaboratory),
-        buttonWidget('Update Laboratory', ud.updatePatientLaboratory),
-        buttonWidget('Add XRay', ud.addPatientXRay),
-        buttonWidget('get XRay', ud.getPatientXRay),
-        buttonWidget('Update XRay', ud.updatePatientXRay),
-        buttonWidget('Add Medicine', ud.addPatientMedicine),*/
-/*        buttonWidget('Get Medicine', ud.getPatientMedicineList),
-        buttonWidget('Update Medicine', ud.updatePatientMedicine),
-        buttonWidget('Add Consumable', ud.addPatientConsumable),
-        buttonWidget('Get Consumable', ud.getPatientConsumableList),
-        buttonWidget('Update Consumable', ud.updatePatientConsumable),
-        buttonWidget('Add Extra', ud.addPatientExtra),
-        buttonWidget('Get Extra', ud.getPatientExtra),
-        buttonWidget('Update Extra', ud.updatePatientExtra),*/
+        buttonWidget('Add Status', ud.addPatientStatus),
       ],
     );
+    //2
+    Widget laboratoryWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Laboratory', ud.addPatientLaboratory),
+        Divider(),
+        buttonWidget('Get Laboratory', ud.getPatientLaboratory),
+        buttonWidget('Update Laboratory', ud.updatePatientLaboratory),
+      ],
+    );
+    //3
+    Widget xRayWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add XRay', ud.addPatientXRay),
+        Divider(),
+        buttonWidget('get XRay', ud.getPatientXRay),
+        buttonWidget('Update XRay', ud.updatePatientXRay),
+      ],
+    );
+    //4
+    Widget medicineWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Medicine', ud.addPatientMedicine),
+        Divider(),
+        buttonWidget('Get Medicine', ud.getPatientMedicineList),
+        buttonWidget('Update Medicine', ud.updatePatientMedicine),
+      ],
+    );
+    //5
+    Widget consumableWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Consumable', ud.addPatientConsumable),
+        Divider(),
+        buttonWidget('Get Consumable', ud.getPatientConsumableList),
+        buttonWidget('Update Consumable', ud.updatePatientConsumable),
+      ],
+    );
+    //6
+    Widget extraWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Extra', ud.addPatientExtra),
+        Divider(),
+        buttonWidget('Get Extra', ud.getPatientExtra),
+        buttonWidget('Update Extra', ud.updatePatientExtra),
+      ],
+    );
+
+
+    Widget currentWidget = Container();
+
+    if(v == 1){
+      currentWidget = statusWidget;
+    }else if(v == 2){
+      currentWidget = laboratoryWidget;
+    }
+    else if(v == 3){
+      currentWidget = xRayWidget;
+    }
+    else if(v == 4){
+      currentWidget = medicineWidget;
+    }
+    else if(v == 5){
+      currentWidget = consumableWidget;
+    }
+    else if(v == 6){
+      currentWidget = extraWidget;
+    }
+
+    return currentWidget;
   }
 
   @override
@@ -359,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: patientDataDetail(),
+        child: patientDataDetail(1),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

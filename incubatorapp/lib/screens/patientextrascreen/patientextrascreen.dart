@@ -27,8 +27,13 @@ class _PatientExtraScreenState extends State<PatientExtraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
 
+    int l = patientModel.currentPatient.patientExtraList.length;
+    if(l == 0) {
+      patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
+    }else {
+      patientExtraModel.setList(patientModel.currentPatient.patientExtraList);
+    }
     return ScopedModel<PatientExtraModel>(
       model: patientExtraModel,
       child: ScopedModelDescendant(

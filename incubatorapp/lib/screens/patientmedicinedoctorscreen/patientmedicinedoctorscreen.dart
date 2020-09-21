@@ -27,8 +27,14 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
 
   @override
   Widget build(BuildContext context) {
-    patientMedicineDoctorModel.readByPatientId(patientModel.currentPatient.userId);
 
+    int l = patientModel.currentPatient.patientMedicineDoctorList.length;
+    if(l == 0) {
+      patientMedicineDoctorModel.readByPatientId(
+          patientModel.currentPatient.userId);
+    }else {
+      patientMedicineDoctorModel.setList(patientModel.currentPatient.patientMedicineDoctorList);
+    }
     return ScopedModel<PatientMedicineDoctorModel>(
       model: patientMedicineDoctorModel,
       child: ScopedModelDescendant(

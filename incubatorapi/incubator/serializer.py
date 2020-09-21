@@ -196,10 +196,13 @@ class BillSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
-    # patientanalysis = PatientAnalysisSerializer(many=True,read_only=True)
-    # patientxray = PatientXRaySerializer(many=True,read_only=True)
-    # patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
-    # patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
+    status = StatusSerializer(many=True,read_only=True)
+    bills = BillSerializer(many=True,read_only=True)
+    patientlaboratory = PatientLaboratorySerializer(many=True,read_only=True)
+    patientxray = PatientXRaySerializer(many=True,read_only=True)
+    patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
+    patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
+    patientextra = PatientExtraSerializer(many=True,read_only=True)
     class Meta:
         model = Patient
         fields = [
@@ -215,7 +218,14 @@ class PatientSerializer(serializers.ModelSerializer):
             'isOnLightRay',
             'createdDate',
             'conditionId',
-            'incubatorId'
+            'incubatorId',
+            'status',
+            'bills',
+            'patientlaboratory',
+            'patientxray',
+            'patientconsumablenurse',
+            'patientmedicinedoctor',
+            'patientextra'
         ]
 
 # main serializers

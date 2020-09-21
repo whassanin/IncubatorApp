@@ -41,6 +41,13 @@ class PatientModel extends Model {
       1,
       1,
       0,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
     );
   }
 
@@ -191,86 +198,16 @@ class PatientModel extends Model {
     notifyListeners();
   }
 
-  void _readForDoctorAndNurse(String id) async {
-
-    _currentPatient.statusList =
-        await statusModel.readByPatientId(int.parse(id));
-
-    _isLoading = false;
-
-    notifyListeners();
-
-/*    _currentPatient.patientLaboratoryList =
-        await patientLaboratoryModel.readByPatientId(int.parse(id));
-    _currentPatient.patientXRaysList =
-        await patientXRayModel.readByPatientId(int.parse(id));
-    _currentPatient.patientMedicineDoctorList =
-        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
-    _currentPatient.patientExtraList =
-        await patientExtraModel.readByPatientId(int.parse(id));*/
-  }
-
-  void _readForAccountant(String id) async {
-    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
-
-    _currentPatient.patientLaboratoryList = await patientLaboratoryModel
-        .readByPatientIdAndPendingLaboratory(int.parse(id));
-    _currentPatient.patientXRaysList =
-        await patientXRayModel.readByPatientIdAndPendingXRay(int.parse(id));
-    _currentPatient.patientMedicineDoctorList = await patientMedicineDoctorModel
-        .readByPatientIdAndPendingMedicine(int.parse(id));
-    _currentPatient.patientConsumableNurseList =
-        await patientConsumableNurseModel
-            .readByPatientIdAndPendingConsumable(int.parse(id));
-    _currentPatient.patientExtraList =
-        await patientExtraModel.readByPatientIdAndPendingExtra(int.parse(id));
-
-    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
-
-    _isLoading = false;
-
-    notifyListeners();
-  }
-
-  void _readForPatient(String id) async {
-    _currentPatient.statusList =
-        await statusModel.readByPatientId(int.parse(id));
-
-    _currentPatient.billList = await billModel.readByPatientId(int.parse(id));
-
-    _isLoading = false;
-
-    await Future.delayed(Duration(seconds: 1));
-
-    notifyListeners();
-
-    _currentPatient.patientLaboratoryList =
-        await patientLaboratoryModel.readByPatientId(int.parse(id));
-    _currentPatient.patientXRaysList =
-        await patientXRayModel.readByPatientId(int.parse(id));
-    _currentPatient.patientMedicineDoctorList =
-        await patientMedicineDoctorModel.readByPatientId(int.parse(id));
-    _currentPatient.patientConsumableNurseList =
-        await patientConsumableNurseModel.readByPatientId(int.parse(id));
-    _currentPatient.patientExtraList =
-        await patientExtraModel.readByPatientId(int.parse(id));
-    _currentPatient.creditCardList =
-        await creditCardModel.readByPatientId(int.parse(id));
-
-  }
-
   void readById(String id) async {
+    _isLoading = true;
+    notifyListeners();
+
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
 
-    if (userPermission.isDoctor || userPermission.isNurse) {
-      _readForDoctorAndNurse(id);
-    } else if (userPermission.isAccountant) {
-      _readForAccountant(id);
-    } else if (userPermission.isPatient) {
-      _readForPatient(id);
-    }
+    _isLoading = false;
+    notifyListeners();
 
   }
 

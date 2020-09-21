@@ -25,6 +25,37 @@ Patient _$PatientFromJson(Map<String, dynamic> json) {
     json['conditionId'] as int,
     json['incubatorId'] as int,
     json['stateTypeId'] as int,
+    (json['patientlaboratory'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientLaboratory.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientxray'] as List)
+        ?.map((e) =>
+            e == null ? null : PatientXRay.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientmedicinedoctor'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientMedicineDoctor.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientconsumablenurse'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PatientConsumableNurse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['patientextra'] as List)
+        ?.map((e) =>
+            e == null ? null : PatientExtra.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['status'] as List)
+        ?.map((e) =>
+            e == null ? null : Status.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    (json['bills'] as List)
+        ?.map(
+            (e) => e == null ? null : Bill.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -42,4 +73,11 @@ Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
       'conditionId': instance.conditionId,
       'incubatorId': instance.incubatorId,
       'stateTypeId': instance.stateTypeId,
+      'patientlaboratory': instance.patientLaboratoryList,
+      'patientxray': instance.patientXRaysList,
+      'patientmedicinedoctor': instance.patientMedicineDoctorList,
+      'patientconsumablenurse': instance.patientConsumableNurseList,
+      'patientextra': instance.patientExtraList,
+      'status': instance.statusList,
+      'bills': instance.billList,
     };
