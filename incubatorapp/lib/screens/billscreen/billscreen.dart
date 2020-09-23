@@ -23,6 +23,12 @@ class _BillScreenState extends State<BillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int l = patientModel.currentPatient.billList.length;
+    if (l == 0) {
+      billModel.readByPatientId(patientModel.currentPatient.userId);
+    } else {
+      billModel.setList(patientModel.currentPatient.billList);
+    }
 
     return ScopedModel<BillModel>(
       model: billModel,

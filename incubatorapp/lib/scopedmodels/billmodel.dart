@@ -1,6 +1,7 @@
 import 'package:incubatorapp/api/api.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
+import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/extra.dart';
 import 'package:incubatorapp/models/laboratory.dart';
@@ -19,7 +20,7 @@ class BillModel extends Model {
 
   bool _isLoading = true;
 
-  bool get isLoading =>_isLoading;
+  bool get isLoading => _isLoading;
 
   List<Bill> billList = [];
 
@@ -40,8 +41,9 @@ class BillModel extends Model {
     _currentBill = editBill;
   }
 
-  void setList(List<Bill> list){
+  void setList(List<Bill> list) {
     billList = list;
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -480,11 +482,24 @@ class BillModel extends Model {
     _calculateExtra(cp);
 
     count += 5;
+
     await Future.delayed(Duration(milliseconds: count.toInt()));
 
     cp.billList.forEach((element) {
       _currentBill = element;
       _currentBill.patientId = patientModel.currentPatient.userId;
+
+      int index = conditionModel.conditionList
+          .indexWhere((element) => element.id == cp.conditionId);
+
+      Condition condition = conditionModel.conditionList[index];
+
+      setDayCost(condition.price);
+
+      if (patientModel.currentPatient.isOnLightRay) {
+        setLightRays(condition.price);
+      }
+
       if (_currentBill.id == 0) {
         create();
       } else {
@@ -493,10 +508,9 @@ class BillModel extends Model {
     });
 
     readByPatientId(patientModel.currentPatient.userId);
-
   }
 
-  void clearList(){
+  void clearList() {
     _isLoading = true;
     if (billList != null) {
       if (billList.length > 0) {
@@ -507,7 +521,6 @@ class BillModel extends Model {
   }
 
   Future<List<Bill>> readByPatientId(int patientId) async {
-
     clearList();
 
     List<String> fields = <String>[];
@@ -523,6 +536,8 @@ class BillModel extends Model {
     if (billListMap != null) {
       billList = billListMap.map((e) => Bill.fromJson(e)).toList();
     }
+
+    patientModel.currentPatient.billList = billList;
 
     _isLoading = false;
 

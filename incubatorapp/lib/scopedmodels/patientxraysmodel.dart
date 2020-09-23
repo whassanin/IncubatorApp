@@ -12,7 +12,7 @@ class PatientXRayModel extends Model{
 
   bool get isLoading => _isLoading;
 
-  List<PatientXRay> patientXRayList;
+  List<PatientXRay> patientXRayList = [];
 
   PatientXRay _currentPatientXRay;
 

@@ -10,7 +10,7 @@ class PatientExtraModel extends Model {
 
   bool get isLoading => _isLoading;
 
-  List<PatientExtra> patientExtraList;
+  List<PatientExtra> patientExtraList = [];
 
   PatientExtra _currentPatientExtra;
 

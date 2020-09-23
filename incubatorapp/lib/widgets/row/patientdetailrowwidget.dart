@@ -19,8 +19,7 @@ import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
-  final UserPermission userPermission;
-  PatientDetailRowWidget({this.patient, this.userPermission});
+  PatientDetailRowWidget({this.patient,});
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
@@ -32,7 +31,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => StatusScreen(
-          patient: widget.patient,
         ),
       ),
     );
@@ -65,7 +63,6 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => PatientMedicineDoctorScreen(
-          patient: widget.patient,
         ),
       ),
     );
@@ -647,7 +644,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   Widget addStatusButton() {
     Widget currentWidget = Container();
 
-    if (widget.userPermission.isNurse || widget.userPermission.isDoctor) {
+    if (userPermission.isNurse ||userPermission.isDoctor) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: Row(

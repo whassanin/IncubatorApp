@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 class DoctorShiftModel extends Model {
   Api _api = new Api('doctorshift');
 
-  List<DoctorShift> doctorShiftList;
+  List<DoctorShift> doctorShiftList = [];
 
   DoctorShift _currentDoctorShift;
 

@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class XRayModel extends Model {
   Api _api = new Api('xray');
 
-  List<XRay> xRayList;
+  List<XRay> xRayList = [];
 
   String _searchName;
 

@@ -303,7 +303,7 @@ class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientMedicineDoctorSerializer
 
 class PatientExtraList(generics.ListCreateAPIView):
-    queryset = PatientExtra.objects.all()
+    queryset = PatientExtra.objects.all().order_by('-createdDate')
     serializer_class = PatientExtraSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_fields = ['patientId','extraId','billStatus'] 

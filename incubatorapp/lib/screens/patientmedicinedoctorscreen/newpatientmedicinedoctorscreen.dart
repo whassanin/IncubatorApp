@@ -9,11 +9,6 @@ import 'package:scoped_model/scoped_model.dart';
 class NewPatientMedicineDoctorScreen extends StatefulWidget {
   static const routeName = '/newpatientmedicinedoctorscreen';
 
-  final Patient patient;
-  NewPatientMedicineDoctorScreen({
-    this.patient,
-  });
-
   @override
   _NewPatientMedicineDoctorScreenState createState() =>
       _NewPatientMedicineDoctorScreenState();
@@ -27,7 +22,7 @@ class _NewPatientMedicineDoctorScreenState
     super.dispose();
     medicineModel.setSearchName('');
     medicineModel.readAll();
-    patientMedicineDoctorModel.setIsLoading(false);
+    patientMedicineDoctorModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   @override
@@ -57,7 +52,6 @@ class _NewPatientMedicineDoctorScreenState
                         style: TextStyle(color: Colors.white)),
                   ),
                   body: MedicineListWidget(
-                    patient: widget.patient,
                     medicineList: medicineModel.medicineList,
                   ),
                 );

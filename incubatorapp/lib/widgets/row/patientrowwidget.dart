@@ -23,14 +23,16 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
     return v;
   }
 
-  Widget patientContent(String title, String val,bool isFirst,bool isLast) {
+  Widget patientContent(String title, String val, bool isFirst, bool isLast) {
     BorderRadius br;
 
-    if(isFirst){
-      br = BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0));
-    }
-    else if(isLast){
-      br = BorderRadius.only(bottomLeft: Radius.circular(10.0),bottomRight: Radius.circular(10.0));
+    if (isFirst) {
+      br = BorderRadius.only(
+          topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0));
+    } else if (isLast) {
+      br = BorderRadius.only(
+          bottomLeft: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0));
     }
 
     return Container(
@@ -80,7 +82,7 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
       }
     }
 
-    if(incubatorModel.incubatorList!=null){
+    if (incubatorModel.incubatorList != null) {
       int index = incubatorModel.incubatorList
           .indexWhere((c) => c.id == widget.patient.incubatorId);
       if (index > -1) {
@@ -96,14 +98,15 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
 
     Widget contentCol = Column(
       children: <Widget>[
-        patientContent('Mother Name:', widget.patient.motherName,true,false),
-        patientContent('Father Name:', widget.patient.fatherName,false,false),
-        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female'),false,false),
-        patientContent('Entered Date:', dateFormat(widget.patient.createdDate),false,false),
-        patientContent(
-            'Incubator number:', incubator.name,false,false),
+        patientContent('Mother Name:', widget.patient.motherName, true, false),
+        patientContent('Father Name:', widget.patient.fatherName, false, false),
+        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female'),
+            false, false),
+        patientContent('Entered Date:', dateFormat(widget.patient.createdDate),
+            false, false),
+        patientContent('Incubator number:', incubator.name, false, false),
         (condition != null
-            ? patientContent('Condition:', condition.name,false,true)
+            ? patientContent('Condition:', condition.name, false, true)
             : Container()),
       ],
     );
@@ -138,7 +141,6 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
               builder: (context) => PatientDetailScreen(),
             ),
           );
-
         } else if (userPermission.isAccountant) {
           patientModel.readById(widget.patient.userId.toString());
 
@@ -148,7 +150,6 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
               builder: (context) => BillScreen(),
             ),
           );
-
         }
       },
     );

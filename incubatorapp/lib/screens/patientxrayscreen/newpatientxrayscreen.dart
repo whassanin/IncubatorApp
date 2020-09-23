@@ -8,12 +8,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 class NewPatientXRayScreen extends StatefulWidget {
   static const routeName = '/newpatientxrayscreen';
-
-  final Patient patient;
-  NewPatientXRayScreen({
-    this.patient,
-  });
-
   @override
   _NewPatientXRayScreenState createState() => _NewPatientXRayScreenState();
 }
@@ -26,7 +20,7 @@ class _NewPatientXRayScreenState extends State<NewPatientXRayScreen> {
     super.dispose();
     xRayModel.setSearchName('');
     xRayModel.readAll();
-    patientXRayModel.setIsLoading(false);
+    patientXRayModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   @override
@@ -56,7 +50,6 @@ class _NewPatientXRayScreenState extends State<NewPatientXRayScreen> {
                         style: TextStyle(color: Colors.white)),
                   ),
                   body: XRayListWidget(
-                    patient: widget.patient,
                     xRayList: xRayModel.xRayList,
                   ),
                 );

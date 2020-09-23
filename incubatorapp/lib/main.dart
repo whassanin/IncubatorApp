@@ -277,18 +277,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget userDataButton() {
-    return Column(
-      children: [
-        buttonWidget('Add Doctor', ud.addUserDoctor),
-        buttonWidget('Add Nurse', ud.addUserNurse),
-        buttonWidget('Add Accountant', ud.addUserAccountant),
-        buttonWidget('Add User of type Patient', ud.addUserPatient),
-        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
-      ],
-    );
-  }
-
   Widget basicDataButtons() {
     return Column(
       children: [
@@ -301,6 +289,18 @@ class _MyHomePageState extends State<MyHomePage> {
         buttonWidget('Add Consumable List', bd.addConsumableData),
         buttonWidget('Add Extra List', bd.addExtraData),
         buttonWidget('Add State Type List', bd.addStateTypeData),
+      ],
+    );
+  }
+
+  Widget userDataButton() {
+    return Column(
+      children: [
+        buttonWidget('Add Doctor', ud.addUserDoctor),
+        buttonWidget('Add Nurse', ud.addUserNurse),
+        buttonWidget('Add Accountant', ud.addUserAccountant),
+        buttonWidget('Add User of type Patient', ud.addUserPatient),
+        buttonWidget('Add Patient Detail', ud.addPatientDetailData),
       ],
     );
   }
@@ -418,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: patientDataDetail(1),
+        child: patientDataDetail(7),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

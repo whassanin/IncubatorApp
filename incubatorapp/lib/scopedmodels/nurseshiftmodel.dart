@@ -7,7 +7,7 @@ class NurseShiftModel extends Model{
 
   Api _api = new Api('nurseshift');
 
-  List<NurseShift> nurseShiftList;
+  List<NurseShift> nurseShiftList = [];
 
   NurseShift _currentNurseShift;
 

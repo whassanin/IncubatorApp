@@ -6,7 +6,7 @@ class NurseModel extends Model{
 
   Api _api = new Api('nurse');
 
-  List<Nurse> doctorList;
+  List<Nurse> nurseList = [];
 
   Nurse _currentNurse;
 
@@ -88,9 +88,9 @@ class NurseModel extends Model{
   }
 
   void readById(String id) async {
-    Map<String, dynamic> doctorMap = await _api.getById(id);
+    Map<String, dynamic> nurseMap = await _api.getById(id);
 
-    _currentNurse = Nurse.fromJson(doctorMap);
+    _currentNurse = Nurse.fromJson(nurseMap);
 
     notifyListeners();
   }

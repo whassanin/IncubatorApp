@@ -8,9 +8,6 @@ import 'package:scoped_model/scoped_model.dart';
 class NewPatientExtraScreen extends StatefulWidget {
   static const routeName = '/newpatientextrascreen';
 
-  final Patient patient;
-  NewPatientExtraScreen({this.patient,});
-
   @override
   _NewPatientExtraScreenState createState() => _NewPatientExtraScreenState();
 }
@@ -21,7 +18,7 @@ class _NewPatientExtraScreenState extends State<NewPatientExtraScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientExtraModel.setIsLoading(false);
+    patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   @override
@@ -45,7 +42,6 @@ class _NewPatientExtraScreenState extends State<NewPatientExtraScreen> {
               title: Text('Add Extra to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: ExtraListWidget(
-              patient: widget.patient,
               extraList: extraModel.extraList,
             ),
           );

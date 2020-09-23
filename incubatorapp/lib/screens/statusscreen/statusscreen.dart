@@ -9,12 +9,14 @@ import 'package:scoped_model/scoped_model.dart';
 class StatusScreen extends StatelessWidget {
   static const routeName = '/statusscreen';
 
-  final Patient patient;
-  StatusScreen({this.patient,});
-
   @override
   Widget build(BuildContext context) {
-    statusModel.readByPatientId(this.patient.userId);
+    int l = patientModel.currentPatient.statusList.length;
+    if( l == 0){
+      statusModel.readByPatientId(patientModel.currentPatient.userId);
+    }else {
+      statusModel.setList(patientModel.currentPatient.statusList);
+    }
 
     return ScopedModel<StatusModel>(
       model: statusModel,
@@ -37,7 +39,7 @@ class StatusScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewStatusScreen(patient: patient,),
+                              builder: (context) => NewStatusScreen(),
                             ),
                           );
                         },
@@ -46,7 +48,6 @@ class StatusScreen extends StatelessWidget {
               ],
             ),
             body: StatusListWidget(
-              patient: patient,
               statusList: statusModel.statusList,
             ),
           );

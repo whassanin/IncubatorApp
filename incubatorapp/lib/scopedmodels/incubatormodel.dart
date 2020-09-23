@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class IncubatorModel extends Model {
   Api _api = new Api('incubator');
 
-  List<Incubator> incubatorList;
+  List<Incubator> incubatorList = [];
 
   Incubator _currentIncubator;
 

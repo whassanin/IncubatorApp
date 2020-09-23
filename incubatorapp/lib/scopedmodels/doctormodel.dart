@@ -6,7 +6,7 @@ class DoctorModel extends Model{
 
   Api _api = new Api('doctor');
 
-  List<Doctor> doctorList;
+  List<Doctor> doctorList = [];
 
   Doctor _currentDoctor;
 

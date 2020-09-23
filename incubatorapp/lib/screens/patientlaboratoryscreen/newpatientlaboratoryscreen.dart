@@ -9,11 +9,6 @@ import 'package:scoped_model/scoped_model.dart';
 class NewPatientLaboratoryScreen extends StatefulWidget {
   static const routeName = '/newpatientlaboratoryscreen';
 
-  final Patient patient;
-  NewPatientLaboratoryScreen({
-    this.patient,
-  });
-
   @override
   _NewPatientLaboratoryScreenState createState() => _NewPatientLaboratoryScreenState();
 }
@@ -25,7 +20,7 @@ class _NewPatientLaboratoryScreenState extends State<NewPatientLaboratoryScreen>
     super.dispose();
     laboratoryModel.setSearchName('');
     laboratoryModel.readAll();
-    patientLaboratoryModel.setIsLoading(false);
+    patientLaboratoryModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   @override
@@ -58,7 +53,6 @@ class _NewPatientLaboratoryScreenState extends State<NewPatientLaboratoryScreen>
                   ),
                 ),
                 body: LaboratoryListWidget(
-                  patient: widget.patient,
                   laboratoryList: laboratoryModel.laboratoryList,
                 ),
               );

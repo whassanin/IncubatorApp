@@ -7,11 +7,11 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientModel extends Model {
   Api _api = new Api('patient');
 
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   bool get isLoading => _isLoading;
 
-  List<Patient> patientList;
+  List<Patient> patientList = [];
 
   Patient _currentPatient;
 
@@ -195,6 +195,8 @@ class PatientModel extends Model {
 
     await Future.delayed(Duration(seconds: 1));
 
+    _isLoading = false;
+
     notifyListeners();
   }
 
@@ -205,6 +207,8 @@ class PatientModel extends Model {
     Map<String, dynamic> patientMap = await _api.getById(id);
 
     _currentPatient = Patient.fromJson(patientMap);
+
+    await Future.delayed(Duration(seconds: 2));
 
     _isLoading = false;
     notifyListeners();

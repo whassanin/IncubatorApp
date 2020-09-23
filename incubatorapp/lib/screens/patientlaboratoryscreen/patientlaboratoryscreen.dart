@@ -65,7 +65,6 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => NewPatientLaboratoryScreen(
-                                patient: widget.patient,
                               ),
                             ),
                           );

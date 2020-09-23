@@ -38,7 +38,7 @@ class _PatientConsumableNurseRowWidgetState
             val,
             softWrap: true,
           ),
-          width: 300,
+          width: 250,
         ),
       ],
     );

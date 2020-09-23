@@ -10,14 +10,17 @@ class PatientConsumableNurseScreen extends StatefulWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final Patient patient;
-  PatientConsumableNurseScreen({this.patient,});
+  PatientConsumableNurseScreen({
+    this.patient,
+  });
 
   @override
-  _PatientConsumableNurseScreenState createState() => _PatientConsumableNurseScreenState();
+  _PatientConsumableNurseScreenState createState() =>
+      _PatientConsumableNurseScreenState();
 }
 
-class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScreen> {
-
+class _PatientConsumableNurseScreenState
+    extends State<PatientConsumableNurseScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
@@ -27,14 +30,13 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
 
   @override
   Widget build(BuildContext context) {
-
     int l = patientModel.currentPatient.patientConsumableNurseList.length;
-    if(l == 0) {
-      patientConsumableNurseModel.readByPatientId(
-          patientModel.currentPatient.userId);
-    }
-    else {
-      patientConsumableNurseModel.setList(patientModel.currentPatient.patientConsumableNurseList);
+    if (l == 0) {
+      patientConsumableNurseModel
+          .readByPatientId(patientModel.currentPatient.userId);
+    } else {
+      patientConsumableNurseModel
+          .setList(patientModel.currentPatient.patientConsumableNurseList);
     }
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,
@@ -46,7 +48,7 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Consumable',style: TextStyle(color: Colors.white)),
+              title: Text('Consumable', style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse
                     ? IconButton(
@@ -60,9 +62,7 @@ class _PatientConsumableNurseScreenState extends State<PatientConsumableNurseScr
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  NewPatientConsumableNurseScreen(
-                                    patient: widget.patient,
-                              ),
+                                  NewPatientConsumableNurseScreen(),
                             ),
                           );
                         },

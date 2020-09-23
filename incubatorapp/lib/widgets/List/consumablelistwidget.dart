@@ -6,10 +6,8 @@ import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dar
 import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 
 class ConsumableListWidget extends StatefulWidget {
-  final Patient patient;
   final List<Consumable> consumableList;
   ConsumableListWidget({
-    this.patient,
     this.consumableList,
   });
 
@@ -110,7 +108,7 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           itemCount: widget.consumableList.length,
           itemBuilder: (BuildContext context, int index) {
             return ConsumableRowWidget(
-              patient: widget.patient,
+              patient: patientModel.currentPatient,
               consumable: widget.consumableList[index],
             );
           },
@@ -124,7 +122,7 @@ class _ConsumableListWidgetState extends State<ConsumableListWidget> {
           itemCount: widget.consumableList.length,
           itemBuilder: (BuildContext context, int index) {
             return ConsumableRowWidget(
-              patient: widget.patient,
+              patient: patientModel.currentPatient,
               consumable: widget.consumableList[index],
             );
           },

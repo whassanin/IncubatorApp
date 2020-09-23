@@ -28,7 +28,7 @@ class _PatientLaboratoryRowWidgetState extends State<PatientLaboratoryRowWidget>
             val,
             softWrap: true,
           ),
-          width: 300,
+          width: 250,
         ),
       ],
     );

@@ -9,9 +9,6 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientMedicineDoctorScreen extends StatefulWidget {
   static const routeName = '/patientmedicinedoctorscreen';
 
-  final Patient patient;
-  PatientMedicineDoctorScreen({this.patient,});
-
   @override
   _PatientMedicineDoctorScreenState createState() => _PatientMedicineDoctorScreenState();
 }
@@ -60,7 +57,6 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
                             MaterialPageRoute(
                               builder: (context) =>
                                   NewPatientMedicineDoctorScreen(
-                                patient: widget.patient,
                               ),
                             ),
                           );

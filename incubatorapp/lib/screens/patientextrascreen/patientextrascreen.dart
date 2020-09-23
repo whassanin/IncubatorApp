@@ -57,7 +57,6 @@ class _PatientExtraScreenState extends State<PatientExtraScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NewPatientExtraScreen(
-                          patient: widget.patient,
                         ),
                       ),
                     );

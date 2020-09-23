@@ -38,37 +38,31 @@ class _BillListWidgetState extends State<BillListWidget> {
       ),
     );
 
-    if (widget.billList != null) {
-      if (widget.billList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.billList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return BillRowWidget(
-              bill: widget.billList[i],
-            );
-          },
-        );
-      } else {
-        if (billModel.isLoading == true) {
-          currentWidget = Center(
-            child: Container(
-              child: CircularProgressIndicator(),
-            ),
+    if (billModel.isLoading == false) {
+      if (widget.billList != null) {
+        if (widget.billList.length > 0) {
+          currentWidget = ListView.builder(
+            itemCount: widget.billList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return BillRowWidget(
+                bill: widget.billList[i],
+              );
+            },
           );
-        }else {
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No Bills(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Bills(s) Available'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('No Bills(s) Available'),
-        ),
-      );
     }
 
     return Padding(

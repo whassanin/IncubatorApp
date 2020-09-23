@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class StateTypeModel extends Model {
   Api _api = new Api('statetype');
 
-  List<StateType> stateTypeList;
+  List<StateType> stateTypeList = [];
 
   StateType _currentStateType;
 

@@ -6,10 +6,9 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/widgets/row/patientconsumablenurserowwidget.dart';
 
 class PatientConsumableNurseListWidget extends StatefulWidget {
-  final Patient patient;
+
   final List<PatientConsumableNurse> patientConsumableNurseList;
   PatientConsumableNurseListWidget({
-    this.patient,
     this.patientConsumableNurseList,
   });
 

@@ -14,7 +14,7 @@ class CreditCardModel extends Model {
 
   CreditCard _currentCreditCard;
 
-  List<CreditCard> creditCardList;
+  List<CreditCard> creditCardList = [];
 
   CreditCard get currentCreditCard => _currentCreditCard;
 

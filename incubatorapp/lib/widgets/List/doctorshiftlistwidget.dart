@@ -5,7 +5,6 @@ import 'package:incubatorapp/widgets/row/doctorshiftrowwidget.dart';
 
 class DoctorShiftListWidget extends StatefulWidget {
   final List<DoctorShift> doctorShiftList;
-
   DoctorShiftListWidget({this.doctorShiftList});
 
   @override
