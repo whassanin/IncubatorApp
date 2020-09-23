@@ -208,6 +208,14 @@ class PatientModel extends Model {
 
     _currentPatient = Patient.fromJson(patientMap);
 
+    billModel.setList(_currentPatient.billList);
+    statusModel.setList(_currentPatient.statusList);
+    patientLaboratoryModel.setList(_currentPatient.patientLaboratoryList);
+    patientXRayModel.setList(_currentPatient.patientXRaysList);
+    patientMedicineDoctorModel.setList(_currentPatient.patientMedicineDoctorList);
+    patientConsumableNurseModel.setList(_currentPatient.patientConsumableNurseList);
+    patientExtraModel.setList(_currentPatient.patientExtraList);
+
     await Future.delayed(Duration(seconds: 2));
 
     _isLoading = false;

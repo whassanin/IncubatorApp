@@ -26,12 +26,7 @@ class _PatientXRayScreenState extends State<PatientXRayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int l = patientModel.currentPatient.patientXRaysList.length;
-    if (l == 0) {
-      patientXRayModel.readByPatientId(patientModel.currentPatient.userId);
-    } else {
-      patientXRayModel.setList(patientModel.currentPatient.patientXRaysList);
-    }
+
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
       child: ScopedModelDescendant(

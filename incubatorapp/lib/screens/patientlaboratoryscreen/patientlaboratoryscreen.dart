@@ -30,14 +30,6 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
   @override
   Widget build(BuildContext context) {
 
-    int l = patientModel.currentPatient.patientLaboratoryList.length;
-    if (l == 0) {
-      patientLaboratoryModel
-          .readByPatientId(patientModel.currentPatient.userId);
-    }else {
-      patientLaboratoryModel.setList(patientModel.currentPatient.patientLaboratoryList);
-    }
-
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
       child: ScopedModelDescendant(

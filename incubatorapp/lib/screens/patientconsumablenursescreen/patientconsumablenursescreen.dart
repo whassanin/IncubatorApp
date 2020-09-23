@@ -30,14 +30,7 @@ class _PatientConsumableNurseScreenState
 
   @override
   Widget build(BuildContext context) {
-    int l = patientModel.currentPatient.patientConsumableNurseList.length;
-    if (l == 0) {
-      patientConsumableNurseModel
-          .readByPatientId(patientModel.currentPatient.userId);
-    } else {
-      patientConsumableNurseModel
-          .setList(patientModel.currentPatient.patientConsumableNurseList);
-    }
+
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,
       child: ScopedModelDescendant(

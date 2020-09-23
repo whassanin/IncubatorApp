@@ -205,292 +205,194 @@ class BillModel extends Model {
     return total;
   }
 
-  double countBillDataRows(Patient cp) {
+  double countBillDataRows() {
     double count = 0;
 
-    List<PatientLaboratory> cpal = cp.patientLaboratoryList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
+    List<PatientLaboratory> cpal =
+        patientModel.currentPatient.patientLaboratoryList;
 
     count += cpal.length;
 
-    List<PatientXRay> cpxl = cp.patientXRaysList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
+    List<PatientXRay> cpxl = patientModel.currentPatient.patientXRaysList;
 
     count += cpxl.length;
 
-    List<PatientMedicineDoctor> cpmdl = cp.patientMedicineDoctorList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
+    List<PatientMedicineDoctor> cpmdl =
+        patientModel.currentPatient.patientMedicineDoctorList;
 
     count += cpmdl.length;
 
-    List<PatientConsumableNurse> cpcnl = cp.patientConsumableNurseList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
+    List<PatientConsumableNurse> cpcnl =
+        patientModel.currentPatient.patientConsumableNurseList;
 
     count += cpcnl.length;
 
-    List<PatientExtra> cpel = cp.patientExtraList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
-
+    List<PatientExtra> cpel = patientModel.currentPatient.patientExtraList;
     count += cpel.length;
 
     return count;
   }
 
-  void _calculateLaboratory(Patient cp) {
-    List<PatientLaboratory> cpal = cp.patientLaboratoryList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
+  void _calculateLaboratory() {
+    double total = 0;
 
-    cpal.forEach((cpa) {
-      int index = billList.indexWhere(
-          (cb) => formatDate(cb.createdDate) == formatDate(cpa.createdDate));
-
-      Bill bill;
-
-      if (index < 0) {
-        bill = newBill(cpa.createdDate);
-      } else {
-        bill = billList[index];
-      }
-
-      Laboratory laboratory;
-
-      List<Laboratory> cal = laboratoryModel.laboratoryList
-          .where((element) => element.id == cpa.laboratoryId)
+    billList.forEach((bill) {
+      List<PatientLaboratory> cpal = patientModel
+          .currentPatient.patientLaboratoryList
+          .where((element) =>
+              formatDate(element.createdDate) == formatDate(bill.createdDate))
           .toList();
 
-      if (cal.length > 0) {
-        laboratory = cal[0];
-      }
+      cpal.forEach((cpa) {
+        Laboratory laboratory;
 
-      if (laboratory != null) {
-        bill.laboratory += laboratory.price;
-      }
+        List<Laboratory> cal = laboratoryModel.laboratoryList
+            .where((element) => element.id == cpa.laboratoryId)
+            .toList();
 
-      if (index < 0) {
-        billList.add(bill);
-      } else {
-        billList[index] = bill;
-      }
+        if (cal.length > 0) {
+          laboratory = cal[0];
+        }
 
-      cp.billList = billList;
-
-      patientLaboratoryModel.editPatientLaboratory(cpa);
-      patientLaboratoryModel.setBillStatus('Added');
-      patientLaboratoryModel.update();
+        if (laboratory != null) {
+          total += laboratory.price;
+        }
+      });
+      bill.laboratory = total;
     });
   }
 
-  void _calculateXRay(Patient cp) {
-    List<PatientXRay> cpxl = cp.patientXRaysList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
-
-    cpxl.forEach((cpx) {
-      int index = billList.indexWhere(
-          (cb) => formatDate(cb.createdDate) == formatDate(cpx.createdDate));
-
-      Bill bill;
-
-      if (index < 0) {
-        bill = newBill(cpx.createdDate);
-      } else {
-        bill = billList[index];
-      }
-
-      XRay xRay;
-
-      List<XRay> cxl = xRayModel.xRayList
-          .where((element) => element.id == cpx.xRayId)
+  void _calculateXRay() {
+    double total = 0;
+    billList.forEach((bill) {
+      List<PatientXRay> cpxl = patientModel.currentPatient.patientXRaysList
+          .where((element) =>
+              formatDate(element.createdDate) == formatDate(bill.createdDate))
           .toList();
 
-      if (cxl.length > 0) {
-        xRay = cxl[0];
-      }
+      cpxl.forEach((cpx) {
+        XRay xRay;
 
-      if (xRay != null) {
-        bill.xRay += xRay.price;
-      }
+        List<XRay> cxl = xRayModel.xRayList
+            .where((element) => element.id == cpx.xRayId)
+            .toList();
 
-      if (index < 0) {
-        billList.add(bill);
-      } else {
-        billList[index] = bill;
-      }
+        if (cxl.length > 0) {
+          xRay = cxl[0];
+        }
 
-      cp.billList = billList;
-
-      patientXRayModel.editPatientXRay(cpx);
-      patientXRayModel.setBillStatus('Added');
-      patientXRayModel.update();
+        if (xRay != null) {
+          total += xRay.price;
+        }
+      });
+      bill.xRay = total;
     });
   }
 
-  void _calculateMedicine(Patient cp) {
-    List<PatientMedicineDoctor> cpmdl = cp.patientMedicineDoctorList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
-
-    cpmdl.forEach((cpmd) {
-      int index = billList.indexWhere(
-          (cb) => formatDate(cb.createdDate) == formatDate(cpmd.createdDate));
-
-      Bill bill;
-
-      if (index < 0) {
-        bill = newBill(cpmd.createdDate);
-      } else {
-        bill = billList[index];
-      }
-
-      Medicine medicine;
-
-      List<Medicine> cml = medicineModel.medicineList
-          .where((element) => element.id == cpmd.medicineId)
+  void _calculateMedicine() {
+    double total = 0;
+    billList.forEach((bill) {
+      List<PatientMedicineDoctor> cpmdl = patientModel
+          .currentPatient.patientMedicineDoctorList
+          .where((element) =>
+              formatDate(element.createdDate) == formatDate(bill.createdDate))
           .toList();
 
-      if (cml.length > 0) {
-        medicine = cml[0];
-      }
+      cpmdl.forEach((cpmd) {
+        Medicine medicine;
 
-      if (medicine != null) {
-        bill.medicine += (medicine.price * cpmd.quantity);
-      }
+        List<Medicine> cml = medicineModel.medicineList
+            .where((element) => element.id == cpmd.medicineId)
+            .toList();
 
-      if (index < 0) {
-        billList.add(bill);
-      } else {
-        billList[index] = bill;
-      }
-
-      cp.billList = billList;
-
-      patientMedicineDoctorModel.editPatientMedicineDoctor(cpmd);
-      patientMedicineDoctorModel.setBillStatus('Added');
-      patientMedicineDoctorModel.update();
+        if (cml.length > 0) {
+          medicine = cml[0];
+        }
+        total += (medicine.price * cpmd.quantity);
+      });
+      bill.medicine = total;
     });
   }
 
-  void _calculateConsumable(Patient cp) {
-    List<PatientConsumableNurse> cpcnl = cp.patientConsumableNurseList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
-
-    cpcnl.forEach((cpcn) {
-      int index = billList.indexWhere(
-          (cb) => formatDate(cb.createdDate) == formatDate(cpcn.createdDate));
-
-      Bill bill;
-
-      if (index < 0) {
-        bill = newBill(cpcn.createdDate);
-      } else {
-        bill = billList[index];
-      }
-
-      Consumable consumable;
-
-      List<Consumable> ccl = consumableModel.consumableList
-          .where((element) => element.id == cpcn.consumableId)
+  void _calculateConsumable() {
+    double total = 0;
+    billList.forEach((bill) {
+      List<PatientConsumableNurse> cpcnl = patientModel
+          .currentPatient.patientConsumableNurseList
+          .where((element) =>
+              formatDate(element.createdDate) == formatDate(bill.createdDate))
           .toList();
 
-      if (ccl.length > 0) {
-        consumable = ccl[0];
-      }
+      cpcnl.forEach((cpcn) {
+        Consumable consumable;
 
-      if (consumable != null) {
-        bill.consumable += (consumable.price * cpcn.quantity);
-      }
+        List<Consumable> ccl = consumableModel.consumableList
+            .where((element) => element.id == cpcn.consumableId)
+            .toList();
 
-      if (index < 0) {
-        billList.add(bill);
-      } else {
-        billList[index] = bill;
-      }
+        if (ccl.length > 0) {
+          consumable = ccl[0];
+        }
 
-      cp.billList = billList;
-
-      patientConsumableNurseModel.editPatientConsumableNurse(cpcn);
-      patientConsumableNurseModel.setBillStatus('Added');
-      patientConsumableNurseModel.update();
+        total += (consumable.price * cpcn.quantity);
+      });
+      bill.consumable = total;
     });
   }
 
-  void _calculateExtra(Patient cp) {
-    List<PatientExtra> cpel = cp.patientExtraList
-        .where((element) => element.billStatus == 'Pending')
-        .toList();
-
-    cpel.forEach((cpe) {
-      int index = billList.indexWhere(
-          (cb) => formatDate(cb.createdDate) == formatDate(cpe.createdDate));
-
-      Bill bill;
-
-      if (index < 0) {
-        bill = newBill(cpe.createdDate);
-      } else {
-        bill = billList[index];
-      }
-
-      Extra extra;
-
-      List<Extra> cel = extraModel.extraList
-          .where((element) => element.id == cpe.extraId)
+  void _calculateExtra() {
+    double total = 0;
+    billList.forEach((bill) {
+      List<PatientExtra> cpel = patientModel.currentPatient.patientExtraList
+          .where((element) =>
+              formatDate(element.createdDate) == formatDate(bill.createdDate))
           .toList();
 
-      if (cel.length > 0) {
-        extra = cel[0];
-      }
+      cpel.forEach((cpe) {
+        int index = billList.indexWhere(
+            (cb) => formatDate(cb.createdDate) == formatDate(cpe.createdDate));
 
-      if (extra != null) {
-        bill.extra += extra.price;
-      }
+        Extra extra;
 
-      if (index < 0) {
-        billList.add(bill);
-      } else {
-        billList[index] = bill;
-      }
+        List<Extra> cel = extraModel.extraList
+            .where((element) => element.id == cpe.extraId)
+            .toList();
 
-      cp.billList = billList;
+        if (cel.length > 0) {
+          extra = cel[0];
+        }
 
-      patientExtraModel.editPatientExtra(cpe);
-      patientExtraModel.setBillStatus('Added');
-      patientExtraModel.update();
+        if (extra != null) {
+          total += extra.price;
+        }
+      });
+      bill.extra = total;
     });
   }
 
   void calculateBillsForAccountant() async {
-    Patient cp = patientModel.currentPatient;
 
-    double count = countBillDataRows(cp);
+    _isLoading = true;
+    notifyListeners();
 
-    _calculateLaboratory(cp);
+    double count = countBillDataRows();
 
-    _calculateXRay(cp);
+    _calculateLaboratory();
 
-    _calculateMedicine(cp);
+    _calculateXRay();
 
-    _calculateConsumable(cp);
+    _calculateMedicine();
 
-    _calculateExtra(cp);
+    _calculateConsumable();
 
-    count += 5;
+    _calculateExtra();
 
-    await Future.delayed(Duration(milliseconds: count.toInt()));
-
-    cp.billList.forEach((element) {
-      _currentBill = element;
+    billList.forEach((bill) {
+      _currentBill = bill;
       _currentBill.patientId = patientModel.currentPatient.userId;
 
       int index = conditionModel.conditionList
-          .indexWhere((element) => element.id == cp.conditionId);
+          .indexWhere((element) => element.id == patientModel.currentPatient.conditionId);
 
       Condition condition = conditionModel.conditionList[index];
 
@@ -506,6 +408,10 @@ class BillModel extends Model {
         update();
       }
     });
+
+    count +=5;
+
+    await Future.delayed(Duration(seconds: 5));
 
     readByPatientId(patientModel.currentPatient.userId);
   }
@@ -536,8 +442,6 @@ class BillModel extends Model {
     if (billListMap != null) {
       billList = billListMap.map((e) => Bill.fromJson(e)).toList();
     }
-
-    patientModel.currentPatient.billList = billList;
 
     _isLoading = false;
 
