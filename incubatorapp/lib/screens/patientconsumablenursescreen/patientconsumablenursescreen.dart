@@ -25,12 +25,10 @@ class _PatientConsumableNurseScreenState
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientConsumableNurseModel.clearList();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,
       child: ScopedModelDescendant(

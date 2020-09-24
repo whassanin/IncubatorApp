@@ -27,6 +27,7 @@ class PatientXRayModel extends Model{
   }
 
   void setList(List<PatientXRay> list){
+    clearList();
     patientXRayList = list;
     _isLoading = false;
     notifyListeners();

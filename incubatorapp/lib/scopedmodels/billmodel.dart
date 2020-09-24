@@ -53,6 +53,7 @@ class BillModel extends Model {
 
   void setPaid(double paid) {
     _currentBill.paid = paid;
+    notifyListeners();
   }
 
   double getPaid() {

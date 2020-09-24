@@ -18,33 +18,32 @@ class _CreditCardListWidgetState extends State<CreditCardListWidget> {
       ),
     );
 
-    if (widget.creditCardList != null) {
-      if (widget.creditCardList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.creditCardList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return CreditCardRowWidget(
-              creditCard: widget.creditCardList[i],
-            );
-          },
-        );
-      } else {
-        if (creditCardModel.isAdding == false) {
+    if (creditCardModel.isLoading == false) {
+      if (widget.creditCardList != null) {
+        if (widget.creditCardList.length > 0) {
+          currentWidget = ListView.builder(
+            itemCount: widget.creditCardList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return CreditCardRowWidget(
+                creditCard: widget.creditCardList[i],
+              );
+            },
+          );
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No Credit Card(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Credit Card(s) Available'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('No Credit Card(s) Available'),
-        ),
-      );
     }
-
     return currentWidget;
   }
 

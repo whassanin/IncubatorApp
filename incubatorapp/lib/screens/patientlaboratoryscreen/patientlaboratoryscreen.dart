@@ -24,12 +24,10 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientLaboratoryModel.clearList();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
       child: ScopedModelDescendant(
@@ -56,8 +54,8 @@ class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewPatientLaboratoryScreen(
-                              ),
+                              builder: (context) =>
+                                  NewPatientLaboratoryScreen(),
                             ),
                           );
                         },

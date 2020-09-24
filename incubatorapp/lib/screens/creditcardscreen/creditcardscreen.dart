@@ -27,6 +27,8 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    creditCardModel.readByPatientId(patientModel.currentPatient.userId);
+
     return ScopedModel<CreditCardModel>(
       model: creditCardModel,
       child: ScopedModelDescendant(

@@ -28,6 +28,7 @@ class PatientMedicineDoctorModel extends Model {
   }
 
   void setList(List<PatientMedicineDoctor> list){
+    clearList();
     patientMedicineDoctorList = list;
     _isLoading = false;
     notifyListeners();

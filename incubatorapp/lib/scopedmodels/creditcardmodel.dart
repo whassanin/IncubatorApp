@@ -6,7 +6,9 @@ import 'package:scoped_model/scoped_model.dart';
 class CreditCardModel extends Model {
   Api _api = new Api('creditcard');
 
-  bool isAdding = false;
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
 
   bool _isPayment = false;
 
@@ -122,15 +124,11 @@ class CreditCardModel extends Model {
     return isCheck;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
-    notifyListeners();
-  }
-
   Future<List<CreditCard>> readByPatientId(int patientId) async {
+
+    _isLoading = true;
+    notifyListeners();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -141,6 +139,7 @@ class CreditCardModel extends Model {
     creditCardList =
         creditCardListMap.map((e) => CreditCard.fromJson(e)).toList();
 
+    _isLoading = false;
     notifyListeners();
 
     return creditCardList;

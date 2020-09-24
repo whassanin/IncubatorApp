@@ -10,24 +10,23 @@ class PatientExtraScreen extends StatefulWidget {
   static const routeName = '/patientextrascreen';
 
   final Patient patient;
-  PatientExtraScreen({this.patient,});
+  PatientExtraScreen({
+    this.patient,
+  });
 
   @override
   _PatientExtraScreenState createState() => _PatientExtraScreenState();
 }
 
 class _PatientExtraScreenState extends State<PatientExtraScreen> {
-
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientExtraModel.clearList();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<PatientExtraModel>(
       model: patientExtraModel,
       child: ScopedModelDescendant(
@@ -38,24 +37,29 @@ class _PatientExtraScreenState extends State<PatientExtraScreen> {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Extra',style: TextStyle(color: Colors.white),),
+              title: Text(
+                'Extra',
+                style: TextStyle(color: Colors.white),
+              ),
               actions: <Widget>[
-                (userPermission.isDoctor == true || userPermission.isNurse == true?IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: (){
-                    patientExtraModel.setIsLoading(true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPatientExtraScreen(
+                (userPermission.isDoctor == true ||
+                        userPermission.isNurse == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  },
-                ):Container())
+                        onPressed: () {
+                          patientExtraModel.setIsLoading(true);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewPatientExtraScreen(),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
               ],
             ),
             body: PatientExtraListWidget(

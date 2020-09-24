@@ -28,6 +28,7 @@ class PatientConsumableNurseModel extends Model {
   }
 
   void setList(List<PatientConsumableNurse> list) {
+    clearList();
     patientConsumableNurseList = list;
     _isLoading = false;
     notifyListeners();

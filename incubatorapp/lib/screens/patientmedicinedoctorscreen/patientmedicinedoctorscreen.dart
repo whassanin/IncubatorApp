@@ -10,21 +10,20 @@ class PatientMedicineDoctorScreen extends StatefulWidget {
   static const routeName = '/patientmedicinedoctorscreen';
 
   @override
-  _PatientMedicineDoctorScreenState createState() => _PatientMedicineDoctorScreenState();
+  _PatientMedicineDoctorScreenState createState() =>
+      _PatientMedicineDoctorScreenState();
 }
 
-class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScreen> {
-
+class _PatientMedicineDoctorScreenState
+    extends State<PatientMedicineDoctorScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    patientMedicineDoctorModel.clearList();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<PatientMedicineDoctorModel>(
       model: patientMedicineDoctorModel,
       child: ScopedModelDescendant(
@@ -35,7 +34,7 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Medicine',style: TextStyle(color: Colors.white)),
+              title: Text('Medicine', style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isDoctor == true
                     ? IconButton(
@@ -49,8 +48,7 @@ class _PatientMedicineDoctorScreenState extends State<PatientMedicineDoctorScree
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  NewPatientMedicineDoctorScreen(
-                              ),
+                                  NewPatientMedicineDoctorScreen(),
                             ),
                           );
                         },

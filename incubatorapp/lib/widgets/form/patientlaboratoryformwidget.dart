@@ -41,7 +41,7 @@ class _PatientLaboratoryFormWidgetState
     }
   }
 
-  void delete() async{
+  void delete() async {
     bool isCheck = await patientLaboratoryModel.delete();
     if (isCheck) {
       Navigator.pop(context);
@@ -116,7 +116,7 @@ class _PatientLaboratoryFormWidgetState
           maxLines: null,
           expands: true,
           controller: resultTEC,
-          readOnly: (userPermission.isDoctor?false:true),
+          readOnly: (userPermission.isDoctor ? false : true),
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -191,7 +191,7 @@ class _PatientLaboratoryFormWidgetState
 
     Widget updateButtonsWidget = Container();
 
-    if(userPermission.isDoctor){
+    if (userPermission.isDoctor) {
       updateButtonsWidget = Row(
         children: <Widget>[
           deleteButton,
@@ -201,9 +201,21 @@ class _PatientLaboratoryFormWidgetState
     }
 
     Widget rowWidget = Column(
-      children: <Widget>[nameTextField,dateTextField, resultTextField, updateButtonsWidget],
+      children: <Widget>[
+        nameTextField,
+        dateTextField,
+        resultTextField,
+        updateButtonsWidget,
+      ],
     );
 
-    return rowWidget;
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height - 80,
+        ),
+        child: rowWidget,
+      ),
+    );
   }
 }

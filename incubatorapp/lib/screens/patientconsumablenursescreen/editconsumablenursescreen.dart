@@ -25,7 +25,7 @@ class EditPatientConsumableNurseScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Add Consumable to Patient',style: TextStyle(color: Colors.white)),
+              title: Text('Edit Consumable to Patient',style: TextStyle(color: Colors.white)),
             ),
             body: PatientConsumableNurseFormWidget(
               patientConsumableNurse: patientConsumableNurse,

@@ -10,10 +10,12 @@ class PatientMedicineDoctorFormWidget extends StatefulWidget {
   final Medicine medicine;
   PatientMedicineDoctorFormWidget({this.patientMedicineDoctor, this.medicine});
   @override
-  _PatientMedicineDoctorFormWidgetState createState() => _PatientMedicineDoctorFormWidgetState();
+  _PatientMedicineDoctorFormWidgetState createState() =>
+      _PatientMedicineDoctorFormWidgetState();
 }
 
-class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorFormWidget> {
+class _PatientMedicineDoctorFormWidgetState
+    extends State<PatientMedicineDoctorFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
   TextEditingController dateTEC = new TextEditingController();
   TextEditingController descriptionTEC = new TextEditingController();
@@ -109,11 +111,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
 
     Widget rowCounterWidget = Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        subtractWidget,
-        numTextField,
-        addWidget
-      ],
+      children: <Widget>[subtractWidget, numTextField, addWidget],
     );
 
     return (userPermission.isDoctor ? rowCounterWidget : Container());
@@ -197,7 +195,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
           minLines: null,
           maxLines: null,
           expands: true,
-          readOnly: userPermission.isDoctor?false:true,
+          readOnly: userPermission.isDoctor ? false : true,
           controller: descriptionTEC,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -210,7 +208,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
             labelText: 'Description',
           ),
           validator: (v) {
-            if(v.isEmpty){
+            if (v.isEmpty) {
               return 'Required';
             }
             return null;
@@ -239,7 +237,7 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
                 ),
               ),
             ),
-            child: Text('Delete',style: TextStyle(color: Colors.white)),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
             onPressed: () {
               patientMedicineDoctorModel.delete();
               Navigator.pop(context);
@@ -263,7 +261,10 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
                 ),
               ),
             ),
-            child: Text('Save',style: TextStyle(color: Colors.white),),
+            child: Text(
+              'Save',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               patientMedicineDoctorModel.update();
               Navigator.pop(context);
@@ -286,10 +287,17 @@ class _PatientMedicineDoctorFormWidgetState extends State<PatientMedicineDoctorF
         dateTextField,
         counterWidget(),
         commentTextField,
-        (userPermission.isDoctor?updateButtonsWidget:Container()),
+        (userPermission.isDoctor ? updateButtonsWidget : Container()),
       ],
     );
 
-    return rowWidget;
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height - 80,
+        ),
+        child: rowWidget,
+      ),
+    );
   }
 }

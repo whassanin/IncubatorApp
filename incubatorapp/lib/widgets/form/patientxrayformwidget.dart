@@ -99,7 +99,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
           minLines: null,
           maxLines: null,
           expands: true,
-          readOnly: (userPermission.isDoctor?false:true),
+          readOnly: (userPermission.isDoctor ? false : true),
           controller: commentTEC,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -138,7 +138,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
                 ),
               ),
             ),
-            child: Text('Delete',style: TextStyle(color: Colors.white)),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
             onPressed: () {
               patientXRayModel.delete();
               Navigator.pop(context);
@@ -162,7 +162,10 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
                 ),
               ),
             ),
-            child: Text('Save',style: TextStyle(color: Colors.white),),
+            child: Text(
+              'Save',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               patientXRayModel.update();
               Navigator.pop(context);
@@ -174,7 +177,7 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
 
     Widget updateButtonsWidget = Container();
 
-    if(userPermission.isDoctor){
+    if (userPermission.isDoctor) {
       updateButtonsWidget = Row(
         children: <Widget>[
           deleteButton,
@@ -192,6 +195,13 @@ class _PatientXRayFormWidgetState extends State<PatientXRayFormWidget> {
       ],
     );
 
-    return rowWidget;
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height - 80,
+        ),
+        child: rowWidget,
+      ),
+    );
   }
 }

@@ -26,6 +26,7 @@ class PatientLaboratoryModel extends Model {
   }
 
   void setList(List<PatientLaboratory> list) {
+    clearList();
     patientLaboratoryList = list;
     _isLoading = false;
     notifyListeners();

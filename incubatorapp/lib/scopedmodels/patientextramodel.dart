@@ -25,6 +25,7 @@ class PatientExtraModel extends Model {
   }
 
   void setList(List<PatientExtra> list){
+    clearList();
     patientExtraList = list;
     _isLoading = false;
     notifyListeners();
