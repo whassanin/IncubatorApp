@@ -5,7 +5,6 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
 import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
