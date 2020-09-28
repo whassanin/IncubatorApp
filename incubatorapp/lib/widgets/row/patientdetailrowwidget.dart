@@ -18,7 +18,9 @@ import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
-  PatientDetailRowWidget({this.patient,});
+  PatientDetailRowWidget({
+    this.patient,
+  });
 
   @override
   _PatientDetailRowWidgetState createState() => _PatientDetailRowWidgetState();
@@ -29,8 +31,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => StatusScreen(
-        ),
+        builder: (context) => StatusScreen(),
       ),
     );
   }
@@ -61,8 +62,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PatientMedicineDoctorScreen(
-        ),
+        builder: (context) => PatientMedicineDoctorScreen(),
       ),
     );
   }
@@ -140,16 +140,20 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     return v;
   }
 
-  Widget patientColumn(String title, String val) {
+  Widget patientColumn(String title, String val, bool left, bool right) {
     return Center(
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           border: Border(
             top: BorderSide.none,
-            left: BorderSide.none,
+            left: (left
+                ? BorderSide(width: 1, color: Colors.black)
+                : BorderSide.none),
             bottom: BorderSide(width: 1, color: Colors.black),
-            right: BorderSide(width: 1, color: Colors.black),
+            right: (right
+                ? BorderSide(width: 1, color: Colors.black)
+                : BorderSide.none),
           ),
         ),
         child: Column(
@@ -182,10 +186,12 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       crossAxisCount: 2,
       childAspectRatio: 2,
       children: <Widget>[
-        patientColumn('Mother Name:', widget.patient.motherName),
-        patientColumn('Father Name:', widget.patient.fatherName),
-        patientColumn('Gender:', (widget.patient.gender ? 'Male' : 'Female')),
-        patientColumn('Date of Birth:', dateFormat(widget.patient.dateOfBirth)),
+        patientColumn('Mother Name:', widget.patient.motherName, true, true),
+        patientColumn('Father Name:', widget.patient.fatherName, false, true),
+        patientColumn(
+            'Gender:', (widget.patient.gender ? 'Male' : 'Female'), true, true),
+        patientColumn('Date of Birth:', dateFormat(widget.patient.dateOfBirth),
+            false, true),
       ],
     );
   }
@@ -195,6 +201,8 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     double iconSize,
     String title,
     String val,
+    bool left,
+    bool right,
   ) {
     Widget rowIcon = Padding(
       padding:
@@ -243,9 +251,9 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
           shape: BoxShape.rectangle,
           border: Border(
             top: BorderSide.none,
-            left: BorderSide.none,
+            left: (left?BorderSide(width: 1, color: Colors.black):BorderSide.none),
             bottom: BorderSide(width: 1, color: Colors.black),
-            right: BorderSide(width: 1, color: Colors.black),
+            right: (right?BorderSide(width: 1, color: Colors.black):BorderSide.none),
           ),
         ),
         child: rowData,
@@ -365,7 +373,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Heart Rate',
-                    widget.patient.statusList[0].heartRate.toString()),
+                    widget.patient.statusList[0].heartRate.toString(),true,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.heartbeat,
@@ -373,7 +381,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Pulse Rate',
-                    widget.patient.statusList[0].pulseRate.toString()),
+                    widget.patient.statusList[0].pulseRate.toString(),false,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.lungs,
@@ -381,7 +389,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Oxygen',
-                    widget.patient.statusList[0].oxygen.toString()),
+                    widget.patient.statusList[0].oxygen.toString(),true,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.weight,
@@ -389,7 +397,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Weight',
-                    widget.patient.statusList[0].weight.toString()),
+                    widget.patient.statusList[0].weight.toString(),false,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.burn,
@@ -397,7 +405,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Sugar',
-                    widget.patient.statusList[0].sugar.toString()),
+                    widget.patient.statusList[0].sugar.toString(),true,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.filePrescription,
@@ -405,7 +413,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Blood Pressure',
-                    widget.patient.statusList[0].bloodPressure.toString()),
+                    widget.patient.statusList[0].bloodPressure.toString(),false,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.poop,
@@ -413,7 +421,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Urine',
-                    widget.patient.statusList[0].urine.toString()),
+                    widget.patient.statusList[0].urine.toString(),true,true),
                 statusColumn(
                     Icon(
                       FontAwesomeIcons.poop,
@@ -421,7 +429,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Stool',
-                    widget.patient.statusList[0].stool.toString()),
+                    widget.patient.statusList[0].stool.toString(),false,true),
               ],
             ),
             GridView.count(
@@ -437,7 +445,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Temperature',
-                    widget.patient.statusList[0].temperature.toString()),
+                    widget.patient.statusList[0].temperature.toString(),true,true),
                 statusColumnWithImage(
                     'assets/IncubatorIcon.png',
                     50,
@@ -451,7 +459,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
                     ),
                     50,
                     'Latest Date',
-                    dateFormat(widget.patient.statusList[0].createdDate))
+                    dateFormat(widget.patient.statusList[0].createdDate),true,true)
               ],
             )
           ],
@@ -643,7 +651,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
   Widget addStatusButton() {
     Widget currentWidget = Container();
 
-    if (userPermission.isNurse ||userPermission.isDoctor) {
+    if (userPermission.isNurse || userPermission.isDoctor) {
       currentWidget = Padding(
         padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
         child: Row(
@@ -735,7 +743,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
       }
     }
 
-    if(incubatorModel.incubatorList!=null){
+    if (incubatorModel.incubatorList != null) {
       int index = incubatorModel.incubatorList
           .indexWhere((c) => c.id == widget.patient.incubatorId);
       if (index > -1) {
