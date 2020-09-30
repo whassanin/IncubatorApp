@@ -283,14 +283,14 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
     );
   }
 
-  Widget editButtons(String title, VoidCallback fun) {
+  Widget editButtons(String title,Color color, VoidCallback fun) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: 60,
           child: RaisedButton(
-            color: Colors.cyan,
+            color: color,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
@@ -325,28 +325,48 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
     Widget checkOutButton = Container();
     Widget deleteButton = Container();
 
+    Widget scheduleDateTimeTFF = Container();
+    Widget startDateTimeTFF = Container();
+    Widget endDateTimeTFF = Container();
+
     if (widget.isEdit) {
       String currentDate = formatDate(DateTime.now(), false);
       String pendingDate =
-          formatDate(nurseShiftModel.currentNurseShift.startDateTime, false);
+      formatDate(nurseShiftModel.currentNurseShift.startDateTime, false);
 
-      if (currentDate == pendingDate) {
-        if (nurseShiftModel.currentNurseShift.isSignedIn) {
-          if (nurseShiftModel.currentNurseShift.isSignedOut) {
-            deleteButton = Container();
-          } else {
-            checkOutButton = editButtons('Check Out', checkOut);
-          }
+      if (nurseShiftModel.currentNurseShift.isSignedIn) {
+        startDateTimeTFF = columnTextField('Start Date', false,
+            NurseShiftColumns.startDateTime, startDateTimeTEC,
+            fun: showDialogStartDatePicker);
+
+        if (nurseShiftModel.currentNurseShift.isSignedOut) {
+          checkInButton = Container();
+          checkOutButton = Container();
+          deleteButton = Container();
+
+          endDateTimeTFF = columnTextField(
+              'End Date', false, NurseShiftColumns.endDateTime, endDateTimeTEC,
+              fun: showDialogEndDatePicker);
         } else {
-          deleteButton = editButtons('Delete', delete);
-          checkInButton = editButtons('Check In', checkIn);
+          checkOutButton = editButtons('Check Out', Colors.cyan, checkOut);
         }
       } else {
-        deleteButton = editButtons('Delete', delete);
-        scheduleButton = editButtons('Reschedule', reSchedule);
+        scheduleDateTimeTFF = columnTextField('Schedule Date', false,
+            NurseShiftColumns.schedule, scheduleDateTimeTEC,
+            fun: showDialogScheduleDatePicker);
+
+        if (currentDate == pendingDate) {
+          checkInButton = editButtons('Check In', Colors.cyan, checkIn);
+        } else {
+          deleteButton = editButtons('Delete', Colors.red, delete);
+          scheduleButton = editButtons('Reschedule', Colors.cyan, reSchedule);
+        }
       }
     } else {
-      scheduleButton = editButtons('Schedule', schedule);
+      scheduleDateTimeTFF = columnTextField('Schedule Date', false,
+          NurseShiftColumns.schedule, scheduleDateTimeTEC,
+          fun: showDialogScheduleDatePicker);
+      scheduleButton = editButtons('Schedule', Colors.cyan, schedule);
     }
 
     Widget editButtonRow = Row(
@@ -357,31 +377,6 @@ class _NurseShiftFormWidgetState extends State<NurseShiftFormWidget> {
         checkOutButton,
       ],
     );
-
-    Widget scheduleDateTimeTFF = Container();
-    Widget startDateTimeTFF = Container();
-    Widget endDateTimeTFF = Container();
-
-    if (widget.isEdit) {
-      if (nurseShiftModel.currentNurseShift.isSignedIn) {
-        startDateTimeTFF = columnTextField('Start Date', false,
-            NurseShiftColumns.startDateTime, startDateTimeTEC,
-            fun: showDialogStartDatePicker);
-        if (nurseShiftModel.currentNurseShift.isSignedOut) {
-          endDateTimeTFF = columnTextField(
-              'End Date', false, NurseShiftColumns.endDateTime, endDateTimeTEC,
-              fun: showDialogEndDatePicker);
-        }
-      } else {
-        scheduleDateTimeTFF = columnTextField('Schedule Date', false,
-            NurseShiftColumns.schedule, scheduleDateTimeTEC,
-            fun: showDialogScheduleDatePicker);
-      }
-    } else {
-      scheduleDateTimeTFF = columnTextField('Schedule Date', false,
-          NurseShiftColumns.schedule, scheduleDateTimeTEC,
-          fun: showDialogScheduleDatePicker);
-    }
 
     return Form(
       key: _formKey,

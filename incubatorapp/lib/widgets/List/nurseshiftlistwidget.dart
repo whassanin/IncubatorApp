@@ -14,17 +14,7 @@ class NurseShiftListWidget extends StatefulWidget {
 
 class _NurseShiftListWidgetState extends State<NurseShiftListWidget> {
   double calculate() {
-    double total = 0;
-    if (widget.nurseShiftList != null) {
-      if (widget.nurseShiftList.length > 0) {
-        widget.nurseShiftList.forEach((element) {
-          if (element.isSignedIn == true && element.isSignedOut == true) {
-            total += nurseShiftModel.totalHours(
-                element.startDateTime, element.endDateTime);
-          }
-        });
-      }
-    }
+    double total = nurseShiftModel.calculate();
 
     return total;
   }

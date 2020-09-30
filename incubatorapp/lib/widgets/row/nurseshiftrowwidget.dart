@@ -132,14 +132,21 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
       decoration: decoration,
     );
 
+    String val = 'Total Hours: 0.0';
+
+    if (widget.nurseShift.isSignedIn == true &&
+        widget.nurseShift.isSignedOut == true) {
+      val = 'Total Hours: ' +
+          nurseShiftModel
+              .totalHours(widget.nurseShift.startDateTime,
+                  widget.nurseShift.endDateTime)
+              .toString();
+    }
+
     Widget totalHoursRow = Container(
       decoration: decoration,
       child: Center(
-        child: Text('Total Hours: ' +
-            nurseShiftModel
-                .totalHours(widget.nurseShift.startDateTime,
-                    widget.nurseShift.endDateTime)
-                .toString()),
+        child: Text(val),
       ),
     );
 
@@ -163,6 +170,16 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
       ),
     );
 
+    Widget rescheduleMessageContainer = Container(
+      decoration: decoration,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text('Reschedule Date: ' + sd),
+        ),
+      ),
+    );
+
     Widget notSignedMessageContainer = Container(
       decoration: decoration,
       child: Center(
@@ -173,7 +190,16 @@ class _NurseShiftRowWidgetState extends State<NurseShiftRowWidget> {
     Widget currentMessageContainer = pendingMessageContainer;
 
     if (sd == cd) {
-      currentMessageContainer = notSignedMessageContainer;
+      if (widget.nurseShift.isSignedIn == false) {
+        currentMessageContainer = notSignedMessageContainer;
+      }
+    } else {
+      DateTime currentDate = DateTime.now();
+      final diff =
+          currentDate.difference(widget.nurseShift.startDateTime).inDays;
+      if (diff > 0) {
+        currentMessageContainer = rescheduleMessageContainer;
+      }
     }
 
     Widget notSignedInWidget = GridView.count(

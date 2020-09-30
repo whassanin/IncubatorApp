@@ -113,6 +113,27 @@ class DoctorShiftModel extends Model {
     return totalTime.roundToDouble();
   }
 
+  double calculate(){
+    double total = 0;
+    print('shift:'+doctorShiftList.length.toString());
+    doctorShiftList.forEach((element) {
+      if (element.isSignedIn == true && element.isSignedOut == true) {
+        print('id:'+element.id.toString());
+        print('Shift Id:'+element.shiftId.toString());
+        print('Is Signed In:'+element.isSignedIn.toString());
+        print('Is Signed Out:'+element.isSignedOut.toString());
+        print('Start Date:'+element.startDateTime.toString());
+        print('End Date:'+element.endDateTime.toString());
+
+        total += totalHours(
+            element.startDateTime, element.endDateTime);
+        print('total hours:'+total.toString());
+
+      }
+    });
+    return total;
+  }
+
   void readByDoctorId(int doctorId) async {
     List<String> fields = <String>[];
     List<String> values = <String>[];
