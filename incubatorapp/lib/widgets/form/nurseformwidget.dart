@@ -144,7 +144,6 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
               child: CalendarDatePicker(
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
-                currentDate: nurseModel.currentNurse.dateOfBirth,
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
                   String v = d.day.toString();

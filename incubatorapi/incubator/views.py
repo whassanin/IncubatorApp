@@ -65,27 +65,23 @@ from rest_framework import filters
 class IncubatorList(generics.ListCreateAPIView):
     queryset = Incubator.objects.all()
     serializer_class = IncubatorSerializer
-    ordering_fields = ['id']
-    ordering = ['id']
 
 class IncubatorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incubator.objects.all()
     serializer_class = IncubatorSerializer
 
+# State Type Views Class
 class StateTypeList(generics.ListCreateAPIView):
-    queryset = StateType.objects.all()
+    queryset = StateType.objects.all().order_by('name')
     serializer_class = StateTypeSerializer
-    ordering_fields = ['id']
-    ordering = ['id']
 
 class StateTypeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = StateType.objects.all()
     serializer_class = StateTypeSerializer
 
-
 # Condition Views CLass
 class ConditionList(generics.ListCreateAPIView):
-    queryset = Condition.objects.all()
+    queryset = Condition.objects.all().order_by('name')
     serializer_class = ConditionSerializer
 
 class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -94,7 +90,7 @@ class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Laboratory Views Class
 class LaboratoryList(generics.ListCreateAPIView):
-    queryset = Laboratory.objects.all()
+    queryset = Laboratory.objects.all().order_by('name')
     serializer_class = LaboratorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
@@ -105,7 +101,7 @@ class LaboratoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Consumable Views Class
 class ConsumableList(generics.ListCreateAPIView):
-    queryset = Consumable.objects.all()
+    queryset = Consumable.objects.all().order_by('name')
     serializer_class = ConsumableSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name'] 
@@ -116,7 +112,7 @@ class ConsumableDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Medicine Views Class
 class MedicineList(generics.ListCreateAPIView):
-    queryset = Medicine.objects.all()
+    queryset = Medicine.objects.all().order_by('name')
     serializer_class = MedicineSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name'] 
@@ -127,7 +123,7 @@ class MedicineDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # XRay Views Class
 class XRayList(generics.ListCreateAPIView):
-    queryset = XRay.objects.all()
+    queryset = XRay.objects.all().order_by('name')
     serializer_class = XRaySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
@@ -138,15 +134,16 @@ class XRayDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # Shift Views Class
 class ShiftList(generics.ListCreateAPIView):
-    queryset = Shift.objects.all()
+    queryset = Shift.objects.all().order_by('name')
     serializer_class = ShiftSerializer
 
 class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
 
+# Extra Views Class
 class ExtraList(generics.ListCreateAPIView):
-    queryset = Extra.objects.all()
+    queryset = Extra.objects.all().order_by('name')
     serializer_class = ExtraSerializer
 
 class ExtraDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -306,7 +303,7 @@ class PatientMedicineDoctortDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientMedicineDoctorSerializer
 
 class PatientExtraList(generics.ListCreateAPIView):
-    queryset = PatientExtra.objects.all()
+    queryset = PatientExtra.objects.all().order_by('-createdDate')
     serializer_class = PatientExtraSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_fields = ['patientId','extraId','billStatus'] 

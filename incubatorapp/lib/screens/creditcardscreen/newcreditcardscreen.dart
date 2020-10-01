@@ -18,7 +18,12 @@ class _NewCreditCardScreenState extends State<NewCreditCardScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    creditCardModel.readByPatientId(patientModel.currentPatient.userId);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

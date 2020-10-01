@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/creditcard.dart';
 import 'package:incubatorapp/widgets/row/creditcardrowwidget.dart';
+
 class CreditCardListWidget extends StatefulWidget {
   final List<CreditCard> creditCardList;
   CreditCardListWidget({this.creditCardList});
@@ -9,25 +11,32 @@ class CreditCardListWidget extends StatefulWidget {
 }
 
 class _CreditCardListWidgetState extends State<CreditCardListWidget> {
-
-  Widget getList(){
+  Widget getList() {
     Widget currentWidget = Center(
       child: Container(
         child: CircularProgressIndicator(),
       ),
     );
 
-    if(widget.creditCardList!=null){
-      if(widget.creditCardList.length > 0){
-        currentWidget = ListView.builder(
-          itemCount: widget.creditCardList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return CreditCardRowWidget(
-              creditCard: widget.creditCardList[i],
-            );
-          },
-        );
-      }else {
+    if (creditCardModel.isLoading == false) {
+      if (widget.creditCardList != null) {
+        if (widget.creditCardList.length > 0) {
+          currentWidget = ListView.builder(
+            itemCount: widget.creditCardList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return CreditCardRowWidget(
+                creditCard: widget.creditCardList[i],
+              );
+            },
+          );
+        } else {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Credit Card(s) Available'),
+            ),
+          );
+        }
+      } else {
         currentWidget = Center(
           child: Container(
             child: Text('No Credit Card(s) Available'),
@@ -35,9 +44,7 @@ class _CreditCardListWidgetState extends State<CreditCardListWidget> {
         );
       }
     }
-
     return currentWidget;
-
   }
 
   @override

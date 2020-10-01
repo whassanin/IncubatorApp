@@ -26,25 +26,25 @@ class Patient {
   int incubatorId;
   int stateTypeId;
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'patientlaboratory')
   List<PatientLaboratory> patientLaboratoryList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'patientxray')
   List<PatientXRay> patientXRaysList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'patientmedicinedoctor')
   List<PatientMedicineDoctor> patientMedicineDoctorList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'patientconsumablenurse')
   List<PatientConsumableNurse> patientConsumableNurseList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'patientextra')
   List<PatientExtra> patientExtraList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'status')
   List<Status> statusList = [];
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'bills')
   List<Bill> billList = [];
 
   @JsonKey(ignore: true)
@@ -64,6 +64,13 @@ class Patient {
     this.conditionId,
     this.incubatorId,
     this.stateTypeId,
+    this.patientLaboratoryList,
+    this.patientXRaysList,
+    this.patientMedicineDoctorList,
+    this.patientConsumableNurseList,
+    this.patientExtraList,
+    this.statusList,
+    this.billList,
   );
 
   factory Patient.fromJson(Map<String, dynamic> json) =>

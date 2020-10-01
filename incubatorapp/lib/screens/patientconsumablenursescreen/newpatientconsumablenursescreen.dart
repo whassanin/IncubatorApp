@@ -9,9 +9,6 @@ import 'package:scoped_model/scoped_model.dart';
 class NewPatientConsumableNurseScreen extends StatefulWidget {
   static const routeName = '/newpatientconsumablenursescreen';
 
-  final Patient patient;
-  NewPatientConsumableNurseScreen({this.patient,});
-
   @override
   _NewPatientConsumableNurseScreenState createState() => _NewPatientConsumableNurseScreenState();
 }
@@ -24,14 +21,13 @@ class _NewPatientConsumableNurseScreenState extends State<NewPatientConsumableNu
     super.dispose();
     consumableModel.setSearchName('');
     consumableModel.readAll();
-    patientConsumableNurseModel.setIsAdding(false);
+    patientConsumableNurseModel.readByPatientId(patientModel.currentPatient.userId);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    patientConsumableNurseModel.setIsAdding(true);
   }
 
   @override
@@ -55,7 +51,6 @@ class _NewPatientConsumableNurseScreenState extends State<NewPatientConsumableNu
                     title: Text('Add Consumable to Patient',style: TextStyle(color: Colors.white)),
                   ),
                   body: ConsumableListWidget(
-                    patient: widget.patient,
                     consumableList: consumableModel.consumableList,
                   ),
                 );

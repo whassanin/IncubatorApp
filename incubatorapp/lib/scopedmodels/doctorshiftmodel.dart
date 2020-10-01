@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 class DoctorShiftModel extends Model {
   Api _api = new Api('doctorshift');
 
-  List<DoctorShift> doctorShiftList;
+  List<DoctorShift> doctorShiftList = [];
 
   DoctorShift _currentDoctorShift;
 
@@ -95,22 +95,33 @@ class DoctorShiftModel extends Model {
     return _currentDoctorShift.changedDate;
   }
 
-  double totalHours(DateTime startDateTime,DateTime endDateTime){
+  double totalHours(DateTime startDateTime, DateTime endDateTime) {
     int sh = startDateTime.hour;
     double sm = startDateTime.minute / 60;
     double ss = startDateTime.second / 3600;
 
-    double startSum = sh+sm+ss;
+    double startSum = sh + sm + ss;
 
     int eh = endDateTime.hour;
     double em = endDateTime.minute / 60;
     double es = endDateTime.second / 3600;
 
-    double endSum = eh+em+es;
+    double endSum = eh + em + es;
 
     double totalTime = endSum - startSum;
 
     return totalTime.roundToDouble();
+  }
+
+  double calculate() {
+    double total = 0;
+    print('shift:' + doctorShiftList.length.toString());
+    doctorShiftList.forEach((element) {
+      if (element.isSignedIn == true && element.isSignedOut == true) {
+        total += totalHours(element.startDateTime, element.endDateTime);
+      }
+    });
+    return total;
   }
 
   void readByDoctorId(int doctorId) async {
@@ -132,9 +143,8 @@ class DoctorShiftModel extends Model {
 
     if (doctorShiftList == null) {
       doctorShiftList = <DoctorShift>[];
-    }
-    else {
-      if(doctorShiftList.length > 0){
+    } else {
+      if (doctorShiftList.length > 0) {
         doctorShiftList.clear();
       }
     }

@@ -6,14 +6,29 @@ import 'package:incubatorapp/screens/patientconsumablenursescreen/newpatientcons
 import 'package:incubatorapp/widgets/List/patientconsumablenurselistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientConsumableNurseScreen extends StatelessWidget {
+class PatientConsumableNurseScreen extends StatefulWidget {
   static const routeName = '/patientconsumablenursescreen';
 
   final Patient patient;
-  PatientConsumableNurseScreen({this.patient,});
+  PatientConsumableNurseScreen({
+    this.patient,
+  });
+
+  @override
+  _PatientConsumableNurseScreenState createState() =>
+      _PatientConsumableNurseScreenState();
+}
+
+class _PatientConsumableNurseScreenState
+    extends State<PatientConsumableNurseScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<PatientConsumableNurseModel>(
       model: patientConsumableNurseModel,
       child: ScopedModelDescendant(
@@ -24,7 +39,7 @@ class PatientConsumableNurseScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Consumable',style: TextStyle(color: Colors.white)),
+              title: Text('Consumable', style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 (userPermission.isNurse
                     ? IconButton(
@@ -33,13 +48,12 @@ class PatientConsumableNurseScreen extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          patientConsumableNurseModel.setIsLoading(true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  NewPatientConsumableNurseScreen(
-                                    patient: patient,
-                              ),
+                                  NewPatientConsumableNurseScreen(),
                             ),
                           );
                         },
@@ -50,7 +64,6 @@ class PatientConsumableNurseScreen extends StatelessWidget {
             body: PatientConsumableNurseListWidget(
               patientConsumableNurseList:
                   patientConsumableNurseModel.patientConsumableNurseList,
-              userPermission: userPermission,
             ),
           );
         },

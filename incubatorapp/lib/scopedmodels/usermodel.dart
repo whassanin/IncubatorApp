@@ -17,7 +17,7 @@ class UserModel extends Model {
 
   User get currentUser => _currentUser;
 
-  List<User> userList;
+  List<User> userList = [];
 
   String confirmPassword;
 

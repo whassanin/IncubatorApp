@@ -14,6 +14,12 @@ class EditPatientLaboratoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    String title = 'Edit Laboratory to Patient';
+    if(userPermission.isPatient || userPermission.isNurse){
+      title = 'Results';
+    }
+
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
       child: ScopedModelDescendant(
@@ -23,7 +29,7 @@ class EditPatientLaboratoryScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Edit Laboratory to Patient',style: TextStyle(color: Colors.white)),
+              title: Text(title,style: TextStyle(color: Colors.white)),
             ),
             body: PatientLaboratoryFormWidget(patientLaboratory: patientLaboratory,laboratory: laboratory,)
           );

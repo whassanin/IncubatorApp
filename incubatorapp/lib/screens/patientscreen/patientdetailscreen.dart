@@ -28,7 +28,6 @@ class PatientDetailScreen extends StatelessWidget {
                 if (patientModel.isLoading == false) {
                   currentWidget = PatientDetailRowWidget(
                     patient: patientModel.currentPatient,
-                    userPermission: userPermission,
                   );
                 }
               }

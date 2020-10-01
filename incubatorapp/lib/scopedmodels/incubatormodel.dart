@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class IncubatorModel extends Model {
   Api _api = new Api('incubator');
 
-  List<Incubator> incubatorList;
+  List<Incubator> incubatorList = [];
 
   Incubator _currentIncubator;
 
@@ -31,6 +31,9 @@ class IncubatorModel extends Model {
   void readAll() async {
     List<dynamic> incubatorListMap = await _api.get();
     incubatorList = incubatorListMap.map((e) => Incubator.fromJson(e)).toList();
+
+    incubatorList.sort((a,b)=>int.parse(a.name).compareTo(int.parse(b.name)));
+
     notifyListeners();
   }
 

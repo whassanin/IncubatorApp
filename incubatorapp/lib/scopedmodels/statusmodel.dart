@@ -5,7 +5,11 @@ import 'package:scoped_model/scoped_model.dart';
 class StatusModel extends Model {
   Api _api = new Api('status');
 
-  List<Status> statusList;
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
+  List<Status> statusList = [];
 
   Status _currentStatus;
 
@@ -18,6 +22,12 @@ class StatusModel extends Model {
 
   void editStatus(Status editStatus) {
     _currentStatus = editStatus;
+  }
+
+  void setList(List<Status> list){
+    statusList = list;
+    _isLoading = false;
+    notifyListeners();
   }
 
   void setDate(DateTime dateTime){
@@ -135,6 +145,7 @@ class StatusModel extends Model {
   }
 
   void clearList() {
+    _isLoading = true;
     if (statusList != null) {
       if (statusList.length > 0) {
         statusList.clear();
@@ -144,6 +155,8 @@ class StatusModel extends Model {
   }
 
   Future<List<Status>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -157,6 +170,8 @@ class StatusModel extends Model {
     if(statusListMap!=null){
       statusList = statusListMap.map((e) => Status.fromJson(e)).toList();
     }
+
+    _isLoading = false;
 
     notifyListeners();
 

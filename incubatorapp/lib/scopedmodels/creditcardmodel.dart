@@ -1,9 +1,14 @@
 import 'package:incubatorapp/api/api.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/creditcard.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class CreditCardModel extends Model{
+class CreditCardModel extends Model {
   Api _api = new Api('creditcard');
+
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
 
   bool _isPayment = false;
 
@@ -11,30 +16,29 @@ class CreditCardModel extends Model{
 
   CreditCard _currentCreditCard;
 
-  List<CreditCard> creditCardList;
+  List<CreditCard> creditCardList = [];
 
   CreditCard get currentCreditCard => _currentCreditCard;
 
-  void setIsPayment(bool val){
+  void setIsPayment(bool val) {
     _isPayment = val;
     notifyListeners();
   }
 
-  void createCreditCard(){
-    _currentCreditCard = new CreditCard(0,'','',0,0,0,DateTime.now());
+  void createCreditCard() {
+    _currentCreditCard = new CreditCard(0, '', '', 0, 0, 0, DateTime.now());
   }
 
-  void editCreditCard(CreditCard editCreditCard){
+  void editCreditCard(CreditCard editCreditCard) {
     _currentCreditCard = editCreditCard;
   }
 
-  void setNumber(String val){
+  void setNumber(String val) {
     _currentCreditCard.number = val;
     notifyListeners();
   }
 
-  String getNumber(){
-
+  String _displayNumber(){
     String number = '';
 
     for (int i = 0; i < _currentCreditCard.number.length - 4; i++) {
@@ -51,43 +55,49 @@ class CreditCardModel extends Model{
     i++) {
       number += _currentCreditCard.number[i];
     }
-
     return number;
   }
 
-  void setHolder(String val){
+  String getNumber(bool isDisplay) {
+    if(isDisplay){
+      return _displayNumber();
+    }
+    return _currentCreditCard.number;
+  }
+
+  void setHolder(String val) {
     _currentCreditCard.holder = val;
     notifyListeners();
   }
 
-  String getHolder(){
+  String getHolder() {
     return _currentCreditCard.holder;
   }
 
-  void setExpireMonth(int val){
+  void setExpireMonth(int val) {
     _currentCreditCard.expireMonth = val;
     notifyListeners();
   }
 
-  int getExpireMonth(){
+  int getExpireMonth() {
     return _currentCreditCard.expireMonth;
   }
 
-  void setExpireYear(int val){
+  void setExpireYear(int val) {
     _currentCreditCard.expireYear = val;
     notifyListeners();
   }
 
-  int getExpireYear(){
+  int getExpireYear() {
     return _currentCreditCard.expireYear;
   }
 
-  void setPatientId(int val){
+  void setPatientId(int val) {
     _currentCreditCard.patientId = val;
     notifyListeners();
   }
 
-  int getPatientId(){
+  int getPatientId() {
     return _currentCreditCard.patientId;
   }
 
@@ -114,7 +124,11 @@ class CreditCardModel extends Model{
     return isCheck;
   }
 
-  Future<List<CreditCard>> readByPatientId(int patientId) async{
+  Future<List<CreditCard>> readByPatientId(int patientId) async {
+
+    _isLoading = true;
+    notifyListeners();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -122,10 +136,10 @@ class CreditCardModel extends Model{
     values.add(patientId.toString());
 
     List<dynamic> creditCardListMap = await _api.filter(fields, values);
-    creditCardList = creditCardListMap.map((e) => CreditCard.fromJson(e)).toList();
+    creditCardList =
+        creditCardListMap.map((e) => CreditCard.fromJson(e)).toList();
 
-    await Future.delayed(Duration(seconds: 1));
-
+    _isLoading = false;
     notifyListeners();
 
     return creditCardList;
@@ -149,7 +163,6 @@ class CreditCardModel extends Model{
     }
     return false;
   }
-
 
   Future<bool> delete() async {
     int code = await _api.delete(_currentCreditCard.id.toString());

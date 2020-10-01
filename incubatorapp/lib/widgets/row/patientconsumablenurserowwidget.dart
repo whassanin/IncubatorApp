@@ -5,12 +5,13 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/screens/patientconsumablenursescreen/editconsumablenursescreen.dart';
 
 class PatientConsumableNurseRowWidget extends StatefulWidget {
   final PatientConsumableNurse patientConsumableNurse;
-  final UserPermission userPermission;
-  PatientConsumableNurseRowWidget(
-      {this.patientConsumableNurse, this.userPermission});
+  PatientConsumableNurseRowWidget({
+    this.patientConsumableNurse,
+  });
   @override
   _PatientConsumableNurseRowWidgetState createState() =>
       _PatientConsumableNurseRowWidgetState();
@@ -18,8 +19,6 @@ class PatientConsumableNurseRowWidget extends StatefulWidget {
 
 class _PatientConsumableNurseRowWidgetState
     extends State<PatientConsumableNurseRowWidget> {
-  TextEditingController quantityTEC = new TextEditingController();
-
   String dateFormat() {
     String v = widget.patientConsumableNurse.createdDate.day.toString();
     v = v + '/' + widget.patientConsumableNurse.createdDate.month.toString();
@@ -27,113 +26,35 @@ class _PatientConsumableNurseRowWidgetState
     return v;
   }
 
-  void update(int v) {
-    patientConsumableNurseModel
-        .editPatientConsumableNurse(widget.patientConsumableNurse);
-    if (v == 0) {
-      patientConsumableNurseModel.delete();
-    } else {
-      patientConsumableNurseModel.setQuantity(v);
-      patientConsumableNurseModel.update();
-    }
-  }
-
-  Widget counterWidget() {
-    Widget subtractWidget = IconButton(
-      icon: Icon(
-        FontAwesomeIcons.minus,
-        color: Colors.red,
-      ),
-      onPressed: () {
-        int v = int.parse(quantityTEC.text);
-        if (v > 0) {
-          v = v - 1;
-          update(v);
-        }
-      },
-    );
-
-    int n = 0;
-    if (quantityTEC.text.isNotEmpty) {
-      n = int.parse(quantityTEC.text);
-    }
-
-    Widget numTextField = Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: (n >= 1 ? Colors.green : Colors.grey)),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              10,
-            ),
-          ),
+  Widget displayRow(String title, String val) {
+    return Row(
+      children: [
+        Container(
+          child: Text(title),
+          width: 70,
         ),
-        child: TextFormField(
-          textAlign: TextAlign.center,
-          textAlignVertical: TextAlignVertical.center,
-          controller: quantityTEC,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly
-          ],
-          readOnly: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  10,
-                ),
-              ),
-            ),
+        Container(
+          child: Text(
+            val,
+            softWrap: true,
           ),
-          onChanged: (v) {},
-          onFieldSubmitted: (v) {},
+          width: 250,
         ),
-      ),
-    );
-
-    Widget addWidget = IconButton(
-      icon: Icon(
-        FontAwesomeIcons.plus,
-        color: Colors.green,
-      ),
-      onPressed: () {
-        int v = int.parse(quantityTEC.text);
-        v = v + 1;
-        update(v);
-      },
-    );
-
-    Widget rowCounterWidget = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        subtractWidget,
-        Container(height: 70, width: 100, child: numTextField),
-        addWidget
       ],
     );
-
-    return (widget.userPermission.isNurse ? rowCounterWidget : Container());
   }
 
   Widget patientConsumableNurseRow(Consumable consumable) {
-    Widget consumableNameWidget = Container(
-      child: Text('Name: ' + consumable.name),
-    );
+    String title = 'Name: ' + consumable.name;
 
-    Widget priceWidget = Container(
-      child: Text('Price: ' + consumable.price.toString()),
-    );
+    Widget consumableNameWidget = displayRow('Name:', consumable.name);
 
-    Widget resultWidget = Container(
-      child: Text(
-          'Quantity: ' + widget.patientConsumableNurse.quantity.toString()),
-    );
+    Widget priceWidget = displayRow('Price:', consumable.price.toString());
 
-    Widget createdDateWidget = Container(
-      child: Text('Date: ' + dateFormat()),
-    );
+    Widget resultWidget = displayRow(
+        'Quantity:', widget.patientConsumableNurse.quantity.toString());
+
+    Widget createdDateWidget = displayRow('Date:', dateFormat());
 
     Widget displayCol = Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -143,7 +64,7 @@ class _PatientConsumableNurseRowWidgetState
           padding: const EdgeInsets.all(2.0),
           child: consumableNameWidget,
         ),
-        (widget.userPermission.isPatient
+        (userPermission.isPatient
             ? Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: priceWidget,
@@ -165,7 +86,9 @@ class _PatientConsumableNurseRowWidgetState
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[displayCol, counterWidget()],
+          children: <Widget>[
+            displayCol, /*counterWidget()*/
+          ],
         ),
       ),
       shape: RoundedRectangleBorder(
@@ -177,9 +100,26 @@ class _PatientConsumableNurseRowWidgetState
       elevation: 4,
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: displayCard,
+    return GestureDetector(
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: displayCard,
+      ),
+      onTap: () {
+        if (userPermission.isNurse) {
+          patientConsumableNurseModel
+              .editPatientConsumableNurse(widget.patientConsumableNurse);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditPatientConsumableNurseScreen(
+                consumable: consumable,
+                patientConsumableNurse: widget.patientConsumableNurse,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -193,7 +133,6 @@ class _PatientConsumableNurseRowWidgetState
             element.id == widget.patientConsumableNurse.consumableId);
         if (index >= 0) {
           Consumable consumable = consumableModel.consumableList[index];
-          quantityTEC.text = widget.patientConsumableNurse.quantity.toString();
           currentWidget = patientConsumableNurseRow(consumable);
         }
       }

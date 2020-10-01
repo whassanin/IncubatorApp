@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class MedicineModel extends Model {
   Api _api = new Api('medicine');
 
-  List<Medicine> medicineList;
+  List<Medicine> medicineList = [];
   String _searchName;
 
   String get searchName => _searchName;

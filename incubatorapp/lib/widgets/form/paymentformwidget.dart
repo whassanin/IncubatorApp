@@ -21,7 +21,8 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
       if (billModel.billList.length > 0) {
         int index = billModel.billList.length - 1;
         billModel.editBill(billModel.billList[index]);
-        billModel.setPaid(double.parse(totalTEC.text));
+        double t = double.parse(totalTEC.text) + billModel.getPaid();
+        billModel.setPaid(t);
 
         bool isCheck = await billModel.update();
         if (isCheck) {
@@ -110,7 +111,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cardNumberTEC.text = creditCardModel.getNumber();
+    cardNumberTEC.text = creditCardModel.getNumber(true);
     double v = billModel.calculateTotalChange();
     if (v < 0) {
       v *= -1;

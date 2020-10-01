@@ -5,9 +5,8 @@ import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/widgets/row/extrarowwidget.dart';
 
 class ExtraListWidget extends StatefulWidget {
-  final Patient patient;
   final List<Extra> extraList;
-  ExtraListWidget({this.patient,this.extraList,});
+  ExtraListWidget({this.extraList,});
 
   @override
   _ExtraListWidgetState createState() => _ExtraListWidgetState();
@@ -27,7 +26,7 @@ class _ExtraListWidgetState extends State<ExtraListWidget> {
           itemCount: widget.extraList.length,
           itemBuilder: (BuildContext context, int index) {
             return ExtraRowWidget(
-              patient: widget.patient,
+              patient: patientModel.currentPatient,
               extra: widget.extraList[index],
             );
           },

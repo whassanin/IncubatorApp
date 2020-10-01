@@ -6,16 +6,28 @@ import 'package:incubatorapp/screens/patientlaboratoryscreen/newpatientlaborator
 import 'package:incubatorapp/widgets/List/patientlaboratorylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientLaboratoryScreen extends StatelessWidget {
+class PatientLaboratoryScreen extends StatefulWidget {
   static const routeName = '/patientlaboratoryscreen';
 
   final Patient patient;
-  PatientLaboratoryScreen({this.patient,});
+  PatientLaboratoryScreen({
+    this.patient,
+  });
+
+  @override
+  _PatientLaboratoryScreenState createState() =>
+      _PatientLaboratoryScreenState();
+}
+
+class _PatientLaboratoryScreenState extends State<PatientLaboratoryScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
     return ScopedModel<PatientLaboratoryModel>(
       model: patientLaboratoryModel,
       child: ScopedModelDescendant(
@@ -26,28 +38,34 @@ class PatientLaboratoryScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Laboratory',style: TextStyle(color: Colors.white),),
+              title: Text(
+                'Laboratory',
+                style: TextStyle(color: Colors.white),
+              ),
               actions: <Widget>[
-                (userPermission.isDoctor == true?IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPatientLaboratoryScreen(
-                          patient: patient,
+                (userPermission.isDoctor == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  },
-                ):Container())
+                        onPressed: () {
+                          patientLaboratoryModel.setIsLoading(true);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NewPatientLaboratoryScreen(),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
               ],
             ),
             body: PatientLaboratoryListWidget(
-              patientLaboratoryList: patientLaboratoryModel.patientLaboratoryList,
+              patientLaboratoryList:
+                  patientLaboratoryModel.patientLaboratoryList,
             ),
           );
         },

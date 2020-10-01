@@ -5,7 +5,6 @@ import 'package:incubatorapp/widgets/row/doctorshiftrowwidget.dart';
 
 class DoctorShiftListWidget extends StatefulWidget {
   final List<DoctorShift> doctorShiftList;
-
   DoctorShiftListWidget({this.doctorShiftList});
 
   @override
@@ -14,18 +13,7 @@ class DoctorShiftListWidget extends StatefulWidget {
 
 class _DoctorShiftListWidgetState extends State<DoctorShiftListWidget> {
   double calculate() {
-    double total = 0;
-    if (widget.doctorShiftList != null) {
-      if (widget.doctorShiftList.length > 0) {
-        widget.doctorShiftList.forEach((element) {
-          if (element.isSignedIn == true && element.isSignedOut == true) {
-            total += doctorShiftModel.totalHours(
-                element.startDateTime, element.endDateTime);
-          }
-        });
-      }
-    }
-
+    double total = doctorShiftModel.calculate();
     return total;
   }
 

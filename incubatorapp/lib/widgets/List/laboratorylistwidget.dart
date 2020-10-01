@@ -6,10 +6,8 @@ import 'package:incubatorapp/screens/laboratoryscreen/searchlaboratoryscreen.dar
 import 'package:incubatorapp/widgets/row/laboratoryrowwidget.dart';
 
 class LaboratoryListWidget extends StatefulWidget {
-  final Patient patient;
   final List<Laboratory> laboratoryList;
   LaboratoryListWidget({
-    this.patient,
     this.laboratoryList,
   });
 
@@ -115,7 +113,7 @@ class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
                 itemCount: widget.laboratoryList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return LaboratoryRowWidget(
-                    patient: widget.patient,
+                    patient: patientModel.currentPatient,
                     laboratory: widget.laboratoryList[index],
                   );
                 },

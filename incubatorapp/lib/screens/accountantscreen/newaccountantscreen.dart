@@ -19,7 +19,7 @@ class NewAccountantScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Register FrontDesk',style: TextStyle(color: Colors.white)),
+              title: Text('Register Accountant',style: TextStyle(color: Colors.white)),
             ),
             body: AccountantFormWidget(
               isEdit: false,

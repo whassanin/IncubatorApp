@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
     extraModel.readAll();
     stateTypeModel.readAll();
 
-    //userPermission.setPermission(UserType.patient);
+    //userPermission.setPermission(UserType.accountant);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -198,6 +198,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+//MyHomePage(title: 'Generate Data',)
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -296,19 +298,95 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         buttonWidget('Add Doctor', ud.addUserDoctor),
         buttonWidget('Add Nurse', ud.addUserNurse),
+        buttonWidget('Add Accountant', ud.addUserAccountant),
         buttonWidget('Add User of type Patient', ud.addUserPatient),
         buttonWidget('Add Patient Detail', ud.addPatientDetailData),
       ],
     );
   }
 
-  Widget patientDataDetail(){
-    return Column(
+  Widget patientDataDetail(int v){
+    //1
+    Widget statusWidget = Column(
       children: [
         buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Update Patient List', ud.updatePatientList),
         buttonWidget('Add Status', ud.addPatientStatus),
       ],
     );
+    //2
+    Widget laboratoryWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Laboratory', ud.addPatientLaboratory),
+        Divider(),
+        buttonWidget('Get Laboratory', ud.getPatientLaboratory),
+        buttonWidget('Update Laboratory', ud.updatePatientLaboratory),
+      ],
+    );
+    //3
+    Widget xRayWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add XRay', ud.addPatientXRay),
+        Divider(),
+        buttonWidget('get XRay', ud.getPatientXRay),
+        buttonWidget('Update XRay', ud.updatePatientXRay),
+      ],
+    );
+    //4
+    Widget medicineWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Medicine', ud.addPatientMedicine),
+        Divider(),
+        buttonWidget('Get Medicine', ud.getPatientMedicineList),
+        buttonWidget('Update Medicine', ud.updatePatientMedicine),
+      ],
+    );
+    //5
+    Widget consumableWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Consumable', ud.addPatientConsumable),
+        Divider(),
+        buttonWidget('Get Consumable', ud.getPatientConsumableList),
+        buttonWidget('Update Consumable', ud.updatePatientConsumable),
+      ],
+    );
+    //6
+    Widget extraWidget = Column(
+      children: [
+        buttonWidget('Get Patient List', ud.getPatientList),
+        buttonWidget('Add Extra', ud.addPatientExtra),
+        Divider(),
+        buttonWidget('Get Extra', ud.getPatientExtra),
+        buttonWidget('Update Extra', ud.updatePatientExtra),
+      ],
+    );
+
+
+    Widget currentWidget = Container();
+
+    if(v == 1){
+      currentWidget = statusWidget;
+    }else if(v == 2){
+      currentWidget = laboratoryWidget;
+    }
+    else if(v == 3){
+      currentWidget = xRayWidget;
+    }
+    else if(v == 4){
+      currentWidget = medicineWidget;
+    }
+    else if(v == 5){
+      currentWidget = consumableWidget;
+    }
+    else if(v == 6){
+      currentWidget = extraWidget;
+    }
+
+    return currentWidget;
   }
 
   @override
@@ -328,6 +406,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print(d.toString());
 
+    //1.userDataButton()
+    //2.basicDataButtons()
+    //3.patientDataDetail()
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -336,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: patientDataDetail(),
+        child: patientDataDetail(7),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

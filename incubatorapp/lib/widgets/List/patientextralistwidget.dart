@@ -47,9 +47,9 @@ class _PatientExtraListWidgetState extends State<PatientExtraListWidget> {
       ),
     );
 
-    if (widget.patientExtraList != null) {
-      if (widget.patientExtraList.length > 0) {
-        if (patientExtraModel.isAdding == false) {
+    if(patientExtraModel.isLoading == false){
+      if (widget.patientExtraList != null) {
+        if (widget.patientExtraList.length > 0) {
           currentWidget = ListView.builder(
             itemCount: widget.patientExtraList.length,
             itemBuilder: (BuildContext context, int i) {
@@ -58,22 +58,20 @@ class _PatientExtraListWidgetState extends State<PatientExtraListWidget> {
               );
             },
           );
-        }
-      } else {
-        if (patientExtraModel.isAdding == false) {
+        }else {
           currentWidget = Center(
             child: Container(
               child: Text('No Extra(s) Available'),
             ),
           );
         }
+      }else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('Loading...'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('Loading...'),
-        ),
-      );
     }
 
     if (userPermission.isPatient) {

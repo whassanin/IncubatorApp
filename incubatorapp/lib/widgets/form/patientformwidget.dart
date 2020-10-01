@@ -284,7 +284,6 @@ class _PatientFormWidgetState extends State<PatientFormWidget> {
               child: CalendarDatePicker(
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
-                currentDate: patientModel.currentPatient.dateOfBirth,
                 lastDate: DateTime.now().add(Duration(days: 356)),
                 onDateChanged: (d) {
                   String v = d.day.toString();

@@ -3,11 +3,10 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/nurseshift.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class NurseShiftModel extends Model{
-
+class NurseShiftModel extends Model {
   Api _api = new Api('nurseshift');
 
-  List<NurseShift> nurseShiftList;
+  List<NurseShift> nurseShiftList = [];
 
   NurseShift _currentNurseShift;
 
@@ -96,22 +95,33 @@ class NurseShiftModel extends Model{
     return _currentNurseShift.changedDate;
   }
 
-  double totalHours(DateTime startDateTime,DateTime endDateTime){
+  double totalHours(DateTime startDateTime, DateTime endDateTime) {
     int sh = startDateTime.hour;
     double sm = startDateTime.minute / 60;
     double ss = startDateTime.second / 3600;
 
-    double startSum = sh+sm+ss;
+    double startSum = sh + sm + ss;
 
     int eh = endDateTime.hour;
     double em = endDateTime.minute / 60;
     double es = endDateTime.second / 3600;
 
-    double endSum = eh+em+es;
+    double endSum = eh + em + es;
 
     double totalTime = endSum - startSum;
 
     return totalTime.roundToDouble();
+  }
+
+  double calculate() {
+    double total = 0;
+    print('shift:' + nurseShiftList.length.toString());
+    nurseShiftList.forEach((element) {
+      if (element.isSignedIn == true && element.isSignedOut == true) {
+        total += totalHours(element.startDateTime, element.endDateTime);
+      }
+    });
+    return total;
   }
 
   void readByNurseId(int nurseId) async {
@@ -123,19 +133,18 @@ class NurseShiftModel extends Model{
 
     List<dynamic> nurseShiftMap = await _api.filter(fields, values);
     List<NurseShift> list =
-    nurseShiftMap.map((e) => NurseShift.fromJson(e)).toList();
+        nurseShiftMap.map((e) => NurseShift.fromJson(e)).toList();
 
     List<NurseShift> notSignedList =
-    list.where((element) => element.isSignedIn == false).toList();
+        list.where((element) => element.isSignedIn == false).toList();
 
     List<NurseShift> signedList =
-    list.where((element) => element.isSignedIn == true).toList();
+        list.where((element) => element.isSignedIn == true).toList();
 
     if (nurseShiftList == null) {
       nurseShiftList = <NurseShift>[];
-    }
-    else {
-      if(nurseShiftList.length > 0){
+    } else {
+      if (nurseShiftList.length > 0) {
         nurseShiftList.clear();
       }
     }
@@ -165,8 +174,7 @@ class NurseShiftModel extends Model{
     values.add(shiftId.toString());
 
     List<dynamic> nurseShiftMap = await _api.filter(fields, values);
-    nurseShiftList =
-        nurseShiftMap.map((e) => NurseShift.fromJson(e)).toList();
+    nurseShiftList = nurseShiftMap.map((e) => NurseShift.fromJson(e)).toList();
 
     notifyListeners();
   }
@@ -203,5 +211,4 @@ class NurseShiftModel extends Model{
     }
     return false;
   }
-
 }

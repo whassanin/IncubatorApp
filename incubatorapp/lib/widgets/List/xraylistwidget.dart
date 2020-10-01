@@ -6,9 +6,8 @@ import 'package:incubatorapp/widgets/row/xrayrowwidget.dart';
 import 'package:incubatorapp/models/patient.dart';
 
 class XRayListWidget extends StatefulWidget {
-  final Patient patient;
   final List<XRay> xRayList;
-  XRayListWidget({this.patient, this.xRayList,});
+  XRayListWidget({this.xRayList,});
 
   @override
   _XRayListWidgetState createState() => _XRayListWidgetState();
@@ -110,7 +109,7 @@ class _XRayListWidgetState extends State<XRayListWidget> {
                 itemCount: widget.xRayList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return XRayRowWidget(
-                    patient: widget.patient,
+                    patient: patientModel.currentPatient,
                     xRay: widget.xRayList[index],
                   );
                 },

@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class ConsumableModel extends Model {
   Api _api = new Api('consumable');
 
-  List<Consumable> consumableList;
+  List<Consumable> consumableList = [];
   String _searchName;
 
   String get searchName => _searchName;

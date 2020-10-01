@@ -6,11 +6,24 @@ import 'package:incubatorapp/screens/patientextrascreen/newpatientextrascreen.da
 import 'package:incubatorapp/widgets/List/patientextralistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientExtraScreen extends StatelessWidget {
+class PatientExtraScreen extends StatefulWidget {
   static const routeName = '/patientextrascreen';
 
   final Patient patient;
-  PatientExtraScreen({this.patient,});
+  PatientExtraScreen({
+    this.patient,
+  });
+
+  @override
+  _PatientExtraScreenState createState() => _PatientExtraScreenState();
+}
+
+class _PatientExtraScreenState extends State<PatientExtraScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +37,29 @@ class PatientExtraScreen extends StatelessWidget {
               leading: BackButton(
                 color: Colors.white,
               ),
-              title: Text('Extra',style: TextStyle(color: Colors.white),),
+              title: Text(
+                'Extra',
+                style: TextStyle(color: Colors.white),
+              ),
               actions: <Widget>[
-                (userPermission.isDoctor == true || userPermission.isNurse == true?IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPatientExtraScreen(
-                          patient: patient,
+                (userPermission.isDoctor == true ||
+                        userPermission.isNurse == true
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
                         ),
-                      ),
-                    );
-                  },
-                ):Container())
+                        onPressed: () {
+                          patientExtraModel.setIsLoading(true);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewPatientExtraScreen(),
+                            ),
+                          );
+                        },
+                      )
+                    : Container())
               ],
             ),
             body: PatientExtraListWidget(

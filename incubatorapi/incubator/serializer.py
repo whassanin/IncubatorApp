@@ -196,10 +196,13 @@ class BillSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
-    # patientanalysis = PatientAnalysisSerializer(many=True,read_only=True)
-    # patientxray = PatientXRaySerializer(many=True,read_only=True)
-    # patientconsumablenurse = PatientConsumableNurseSerializer(many=True,read_only=True)
-    # patientmedicinedoctor = PatientMedicineDoctorSerializer(many=True,read_only=True)
+    status = serializers.SerializerMethodField()
+    bills = serializers.SerializerMethodField()
+    patientlaboratory = serializers.SerializerMethodField()
+    patientxray = serializers.SerializerMethodField()
+    patientconsumablenurse = serializers.SerializerMethodField()
+    patientmedicinedoctor = serializers.SerializerMethodField()
+    patientextra = serializers.SerializerMethodField()
     class Meta:
         model = Patient
         fields = [
@@ -215,8 +218,44 @@ class PatientSerializer(serializers.ModelSerializer):
             'isOnLightRay',
             'createdDate',
             'conditionId',
-            'incubatorId'
+            'incubatorId',
+            'status',
+            'bills',
+            'patientlaboratory',
+            'patientxray',
+            'patientconsumablenurse',
+            'patientmedicinedoctor',
+            'patientextra'
         ]
+
+    def get_status(self, instance):
+        status = instance.status.all().order_by('-createdDate')
+        return StatusSerializer(status, many=True).data
+    
+    def get_bills(self, instance):
+        bill = instance.bills.all().order_by('-date')
+        return BillSerializer(bill, many=True).data
+
+    def get_patientlaboratory(self, instance):
+        laboratory = instance.patientlaboratory.all().order_by('-createdDate')
+        return PatientLaboratorySerializer(laboratory, many=True).data
+
+    def get_patientxray(self, instance):
+        xray = instance.patientxray.all().order_by('-createdDate')
+        return PatientXRaySerializer(xray, many=True).data
+
+    def get_patientconsumablenurse(self, instance):
+        consumable = instance.patientconsumablenurse.all().order_by('-createdDate')
+        return PatientConsumableNurseSerializer(consumable, many=True).data        
+
+    def get_patientmedicinedoctor(self, instance):
+        medicine = instance.patientmedicinedoctor.all().order_by('-createdDate')
+        return PatientMedicineDoctorSerializer(medicine, many=True).data        
+
+    def get_patientextra(self, instance):
+        extra = instance.patientextra.all().order_by('-createdDate')
+        return PatientExtraSerializer(extra, many=True).data
+    
 
 # main serializers
 

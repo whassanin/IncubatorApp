@@ -6,9 +6,11 @@ import 'package:scoped_model/scoped_model.dart';
 class PatientMedicineDoctorModel extends Model {
   Api _api = new Api('patientmedicinedoctor');
 
-  bool isAdding = false;
+  bool _isLoading = true;
 
-  List<PatientMedicineDoctor> patientMedicineDoctorList;
+  bool get isLoading => _isLoading;
+
+  List<PatientMedicineDoctor> patientMedicineDoctorList = [];
 
   PatientMedicineDoctor _currentPatientMedicineDoctor;
 
@@ -26,16 +28,10 @@ class PatientMedicineDoctorModel extends Model {
   }
 
   void setList(List<PatientMedicineDoctor> list){
+    clearList();
     patientMedicineDoctorList = list;
-  }
-
-  void clearList() {
-    if (patientMedicineDoctorList != null) {
-      if (patientMedicineDoctorList.length > 0) {
-        patientMedicineDoctorList.clear();
-        notifyListeners();
-      }
-    }
+    _isLoading = false;
+    notifyListeners();
   }
 
   void setPatientId(int patientId) {
@@ -65,6 +61,7 @@ class PatientMedicineDoctorModel extends Model {
 
   void setQuantity(int quantity) {
     _currentPatientMedicineDoctor.quantity = quantity;
+    notifyListeners();
   }
 
   int getQuantity() {
@@ -94,15 +91,31 @@ class PatientMedicineDoctorModel extends Model {
     return _currentPatientMedicineDoctor.createdDate;
   }
 
-  void setIsAdding(bool val){
-    isAdding = val;
-    if(isAdding==false){
-      readByPatientId(patientModel.currentPatient.userId);
-    }
+  void setIsLoading(bool val){
+    _isLoading = val;
     notifyListeners();
   }
 
+  void readAll() async {
+    List<dynamic> patientMedicineDoctorMap = await _api.get();
+    patientMedicineDoctorList =
+        patientMedicineDoctorMap.map((e) => PatientMedicineDoctor.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  void clearList() {
+    _isLoading = true;
+    if (patientMedicineDoctorList != null) {
+      if (patientMedicineDoctorList.length > 0) {
+        patientMedicineDoctorList.clear();
+        notifyListeners();
+      }
+    }
+  }
+
   Future<List<PatientMedicineDoctor>> readByPatientId(int patientId) async {
+    clearList();
+
     List<String> fields = <String>[];
     List<String> values = <String>[];
 
@@ -114,6 +127,7 @@ class PatientMedicineDoctorModel extends Model {
         .map((e) => PatientMedicineDoctor.fromJson(e))
         .toList();
 
+    _isLoading = false;
     notifyListeners();
 
     return patientMedicineDoctorList;

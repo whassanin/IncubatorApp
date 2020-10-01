@@ -15,6 +15,9 @@ class BillListWidget extends StatefulWidget {
 class _BillListWidgetState extends State<BillListWidget> {
   void pay() {
     double t = billModel.calculateTotalChange();
+    if(t < 0){
+      t *= -1;
+    }
     if (t > 0) {
       creditCardModel.setIsPayment(true);
       Navigator.push(
@@ -38,16 +41,24 @@ class _BillListWidgetState extends State<BillListWidget> {
       ),
     );
 
-    if (widget.billList != null) {
-      if (widget.billList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.billList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return BillRowWidget(
-              bill: widget.billList[i],
-            );
-          },
-        );
+    if (billModel.isLoading == false) {
+      if (widget.billList != null) {
+        if (widget.billList.length > 0) {
+          currentWidget = ListView.builder(
+            itemCount: widget.billList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return BillRowWidget(
+                bill: widget.billList[i],
+              );
+            },
+          );
+        } else {
+          currentWidget = Center(
+            child: Container(
+              child: Text('No Bills(s) Available'),
+            ),
+          );
+        }
       } else {
         currentWidget = Center(
           child: Container(
@@ -55,12 +66,6 @@ class _BillListWidgetState extends State<BillListWidget> {
           ),
         );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('No Bills(s) Available'),
-        ),
-      );
     }
 
     return Padding(
@@ -73,20 +78,21 @@ class _BillListWidgetState extends State<BillListWidget> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                val,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              title,
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              val,
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
     );
@@ -141,7 +147,8 @@ class _BillListWidgetState extends State<BillListWidget> {
     Widget positionList = Positioned(
         child: Align(alignment: Alignment.topCenter, child: getList()));
 
-    Widget totalContainer = Container(
+
+    Widget rowContainer1 = Container(
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -154,6 +161,23 @@ class _BillListWidgetState extends State<BillListWidget> {
         children: <Widget>[
           containerTotalWidget(
               'Total:', billModel.calculateTotalCost().toString()),
+          containerTotalWidget(
+              'Discount:', billModel.calculateTotalDiscount().toString()),
+        ],
+      ),
+    );
+
+    Widget rowContainer2 = Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
           containerTotalWidget(
               'Paid:', billModel.calculateTotalPaid().toString()),
           containerTotalWidget(
@@ -173,10 +197,11 @@ class _BillListWidgetState extends State<BillListWidget> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: 120,
+          height: 180,
           child: Column(
             children: <Widget>[
-              totalContainer,
+              rowContainer1,
+              rowContainer2,
               currentButtonContainer,
             ],
           ),

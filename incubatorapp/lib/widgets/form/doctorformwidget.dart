@@ -144,7 +144,6 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
                 firstDate: DateTime.now().subtract(Duration(days: 356)),
                 initialDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 356)),
-                currentDate: doctorModel.currentDoctor.dateOfBirth,
                 onDateChanged: (d) {
                   String v = d.day.toString();
                   v = v + '/' + d.month.toString();

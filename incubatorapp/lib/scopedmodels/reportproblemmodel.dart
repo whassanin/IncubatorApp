@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class ReportProblemModel extends Model{
   Api _api = new Api('reportproblem');
 
-  List<ReportProblem> reportProblemList;
+  List<ReportProblem> reportProblemList = [];
 
   ReportProblem _currentReportProblem;
 

@@ -3,15 +3,14 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/widgets/row/patientconsumablenurserowwidget.dart';
 
 class PatientConsumableNurseListWidget extends StatefulWidget {
-  final Patient patient;
+
   final List<PatientConsumableNurse> patientConsumableNurseList;
-  final UserPermission userPermission;
-  PatientConsumableNurseListWidget(
-      {this.patient, this.patientConsumableNurseList, this.userPermission});
+  PatientConsumableNurseListWidget({
+    this.patientConsumableNurseList,
+  });
 
   @override
   _PatientConsumableNurseListWidgetState createState() =>
@@ -52,34 +51,31 @@ class _PatientConsumableNurseListWidgetState
       ),
     );
 
-    if (widget.patientConsumableNurseList != null) {
-      if (widget.patientConsumableNurseList.length > 0) {
-        if (patientConsumableNurseModel.isAdding == false) {
+    if (patientConsumableNurseModel.isLoading == false) {
+      if (widget.patientConsumableNurseList != null) {
+        if (widget.patientConsumableNurseList.length > 0) {
           currentWidget = ListView.builder(
             itemCount: widget.patientConsumableNurseList.length,
             itemBuilder: (BuildContext context, int i) {
               return PatientConsumableNurseRowWidget(
                 patientConsumableNurse: widget.patientConsumableNurseList[i],
-                userPermission: widget.userPermission,
               );
             },
           );
-        }
-      } else {
-        if (patientConsumableNurseModel.isAdding == false) {
+        } else {
           currentWidget = Center(
             child: Container(
               child: Text('No Consumable(s) Available'),
             ),
           );
         }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('Loading...'),
+          ),
+        );
       }
-    } else {
-      currentWidget = Center(
-        child: Container(
-          child: Text('Loading...'),
-        ),
-      );
     }
 
     if (userPermission.isPatient) {
@@ -129,7 +125,7 @@ class _PatientConsumableNurseListWidgetState
     return Stack(
       children: <Widget>[
         positionList,
-        (widget.userPermission.isPatient ? positionTotal : Container()),
+        (userPermission.isPatient ? positionTotal : Container()),
       ],
     );
   }

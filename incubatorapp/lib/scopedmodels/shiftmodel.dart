@@ -6,7 +6,7 @@ class ShiftModel extends Model{
 
   Api _api = new Api('shift');
 
-  List<Shift> shiftList;
+  List<Shift> shiftList = [];
 
   Shift _currentShift;
 

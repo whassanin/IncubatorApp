@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class ConditionModel extends Model{
   Api _api = new Api('condition');
 
-  List<conditionName.Condition> conditionList;
+  List<conditionName.Condition> conditionList = [];
 
   conditionName.Condition _currentCondition;
 

@@ -6,7 +6,7 @@ class AccountantModel extends Model{
 
   Api _api = new Api('accountant');
 
-  List<Accountant> accountantList;
+  List<Accountant> accountantList = [];
 
   Accountant _currentAccountant;
 

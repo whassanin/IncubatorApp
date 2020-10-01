@@ -15,13 +15,22 @@ class PatientLaboratoryFormWidget extends StatefulWidget {
 class _PatientLaboratoryFormWidgetState
     extends State<PatientLaboratoryFormWidget> {
   TextEditingController nameTEC = new TextEditingController();
+  TextEditingController dateTEC = new TextEditingController();
   TextEditingController resultTEC = new TextEditingController();
+
+  String dateFormat() {
+    String v = widget.patientLaboratory.createdDate.day.toString();
+    v = v + '/' + widget.patientLaboratory.createdDate.month.toString();
+    v = v + '/' + widget.patientLaboratory.createdDate.year.toString();
+    return v;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     nameTEC.text = widget.laboratory.name;
+    dateTEC.text = dateFormat();
     resultTEC.text = widget.patientLaboratory.result;
   }
 
@@ -32,7 +41,7 @@ class _PatientLaboratoryFormWidgetState
     }
   }
 
-  void delete() async{
+  void delete() async {
     bool isCheck = await patientLaboratoryModel.delete();
     if (isCheck) {
       Navigator.pop(context);
@@ -70,6 +79,35 @@ class _PatientLaboratoryFormWidgetState
       ],
     );
 
+    Widget dateTextField = Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextFormField(
+              readOnly: true,
+              controller: dateTEC,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      10,
+                    ),
+                  ),
+                ),
+                labelText: 'Date',
+              ),
+              validator: (v) {
+                return null;
+              },
+              onChanged: (v) {},
+              onFieldSubmitted: (v) {},
+            ),
+          ),
+        )
+      ],
+    );
+
     Widget resultTextField = Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -78,6 +116,7 @@ class _PatientLaboratoryFormWidgetState
           maxLines: null,
           expands: true,
           controller: resultTEC,
+          readOnly: (userPermission.isDoctor ? false : true),
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -150,17 +189,33 @@ class _PatientLaboratoryFormWidgetState
       ),
     );
 
-    Widget updateButtonsWidget = Row(
+    Widget updateButtonsWidget = Container();
+
+    if (userPermission.isDoctor) {
+      updateButtonsWidget = Row(
+        children: <Widget>[
+          deleteButton,
+          saveButton,
+        ],
+      );
+    }
+
+    Widget rowWidget = Column(
       children: <Widget>[
-        deleteButton,
-        saveButton,
+        nameTextField,
+        dateTextField,
+        resultTextField,
+        updateButtonsWidget,
       ],
     );
 
-    Widget rowWidget = Column(
-      children: <Widget>[nameTextField, resultTextField, updateButtonsWidget],
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height - 80,
+        ),
+        child: rowWidget,
+      ),
     );
-
-    return rowWidget;
   }
 }

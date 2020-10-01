@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
+import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/models/patient.dart';
 import 'package:incubatorapp/screens/billscreen/billscreen.dart';
 import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
@@ -22,14 +23,16 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
     return v;
   }
 
-  Widget patientContent(String title, String val,bool isFirst,bool isLast) {
+  Widget patientContent(String title, String val, bool isFirst, bool isLast) {
     BorderRadius br;
 
-    if(isFirst){
-      br = BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0));
-    }
-    else if(isLast){
-      br = BorderRadius.only(bottomLeft: Radius.circular(10.0),bottomRight: Radius.circular(10.0));
+    if (isFirst) {
+      br = BorderRadius.only(
+          topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0));
+    } else if (isLast) {
+      br = BorderRadius.only(
+          bottomLeft: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0));
     }
 
     return Container(
@@ -69,13 +72,21 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
 
   Widget getRow() {
     Condition condition;
+    Incubator incubator;
 
     if (conditionModel.conditionList != null) {
-      List<Condition> list = conditionModel.conditionList
-          .where((c) => c.id == widget.patient.conditionId)
-          .toList();
-      if (list.length > 0) {
-        condition = list[0];
+      int index = conditionModel.conditionList
+          .indexWhere((c) => c.id == widget.patient.conditionId);
+      if (index > -1) {
+        condition = conditionModel.conditionList[index];
+      }
+    }
+
+    if (incubatorModel.incubatorList != null) {
+      int index = incubatorModel.incubatorList
+          .indexWhere((c) => c.id == widget.patient.incubatorId);
+      if (index > -1) {
+        incubator = incubatorModel.incubatorList[index];
       }
     }
 
@@ -87,14 +98,15 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
 
     Widget contentCol = Column(
       children: <Widget>[
-        patientContent('Mother Name:', widget.patient.motherName,true,false),
-        patientContent('Father Name:', widget.patient.fatherName,false,false),
-        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female'),false,false),
-        patientContent('Entered Date:', dateFormat(widget.patient.createdDate),false,false),
-        patientContent(
-            'Incubator number:', widget.patient.incubatorId.toString(),false,false),
+        patientContent('Mother Name:', widget.patient.motherName, true, false),
+        patientContent('Father Name:', widget.patient.fatherName, false, false),
+        patientContent('Gender :', (widget.patient.gender ? 'Male' : 'Female'),
+            false, false),
+        patientContent('Entered Date:', dateFormat(widget.patient.createdDate),
+            false, false),
+        patientContent('Incubator number:', incubator.name, false, false),
         (condition != null
-            ? patientContent('Condition:', condition.name,false,true)
+            ? patientContent('Condition:', condition.name, false, true)
             : Container()),
       ],
     );
@@ -129,7 +141,6 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
               builder: (context) => PatientDetailScreen(),
             ),
           );
-
         } else if (userPermission.isAccountant) {
           patientModel.readById(widget.patient.userId.toString());
 
@@ -139,7 +150,6 @@ class _PatientRowWidgetState extends State<PatientRowWidget> {
               builder: (context) => BillScreen(),
             ),
           );
-
         }
       },
     );

@@ -6,16 +6,25 @@ import 'package:incubatorapp/screens/patientxrayscreen/newpatientxrayscreen.dart
 import 'package:incubatorapp/widgets/List/patientxraylistwidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class PatientXRayScreen extends StatelessWidget {
+class PatientXRayScreen extends StatefulWidget {
   static const routeName = '/patientxrayscreen';
 
   final Patient patient;
   PatientXRayScreen({this.patient});
 
   @override
-  Widget build(BuildContext context) {
-    //patientXRayModel.readByPatientId(this.patient.userId);
+  _PatientXRayScreenState createState() => _PatientXRayScreenState();
+}
 
+class _PatientXRayScreenState extends State<PatientXRayScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ScopedModel<PatientXRayModel>(
       model: patientXRayModel,
       child: ScopedModelDescendant(
@@ -35,12 +44,11 @@ class PatientXRayScreen extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          patientXRayModel.setIsLoading(true);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewPatientXRayScreen(
-                                patient: patient,
-                              ),
+                              builder: (context) => NewPatientXRayScreen(),
                             ),
                           );
                         },

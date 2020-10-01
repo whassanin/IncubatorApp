@@ -6,10 +6,8 @@ import 'package:incubatorapp/screens/medicinescreen/searchmedicinescreen.dart';
 import 'package:incubatorapp/widgets/row/medicinerowwidget.dart';
 
 class MedicineListWidget extends StatefulWidget {
-  final Patient patient;
   final List<Medicine> medicineList;
   MedicineListWidget({
-    this.patient,
     this.medicineList,
   });
 
@@ -110,7 +108,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           itemCount: widget.medicineList.length,
           itemBuilder: (BuildContext context, int index) {
             return MedicineRowWidget(
-              patient: widget.patient,
+              patient: patientModel.currentPatient,
               medicine: widget.medicineList[index],
             );
           },
@@ -124,7 +122,7 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           itemCount: widget.medicineList.length,
           itemBuilder: (BuildContext context, int index) {
             return MedicineRowWidget(
-              patient: widget.patient,
+              patient: patientModel.currentPatient,
               medicine: widget.medicineList[index],
             );
           },

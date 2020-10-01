@@ -40,12 +40,21 @@ class CreditCardFormWidget extends StatefulWidget {
 
 class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   final _formKey = new GlobalKey<FormState>();
+  List<int> yearDataList = [];
 
   TextEditingController numberTEC = new TextEditingController();
   TextEditingController holderTEC = new TextEditingController();
   TextEditingController expireMonthTEC = new TextEditingController();
   TextEditingController expireYearTEC = new TextEditingController();
   TextEditingController cvvTEC = new TextEditingController();
+
+  void getYear(){
+    DateTime dt = DateTime.now();
+    int currentYear = dt.year;
+    for(int i = currentYear;i<=currentYear+50;i++){
+      yearDataList.add(i);
+    }
+  }
 
   void setData(CreditCardColumn creditCardColumn, String val) {
     if (creditCardColumn == CreditCardColumn.number) {
@@ -60,7 +69,7 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   }
 
   void getData() {
-    numberTEC.text = creditCardModel.getNumber();
+    numberTEC.text = creditCardModel.getNumber(true);
     holderTEC.text = creditCardModel.getHolder();
     expireMonthTEC.text = creditCardModel.getExpireMonth().toString();
     expireYearTEC.text = creditCardModel.getExpireYear().toString();
@@ -183,10 +192,10 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
                 return 'invalid Year';
               }
             } else if (creditCardColumn == CreditCardColumn.number) {
-              if (creditCardModel.getNumber().length > 22) {
-                return 'invalid Number';
-              } else if (creditCardModel.getNumber().length < 22) {
-                return 'invalid Number';
+              if (creditCardModel.getNumber(false).length > 22) {
+                return 'invalid Number greater thant 16';
+              } else if (creditCardModel.getNumber(false).length < 22) {
+                return 'invalid Number less than 16';
               }
             }
           }
@@ -244,22 +253,19 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   }
 
   void showYearPicker() {
-    DateTime dt = DateTime.now();
-    int currentYear = dt.year - 1;
-    int lastYear = 50;
+
     Widget yearList = ListView.separated(
       shrinkWrap: true,
-      itemCount: lastYear,
+      itemCount: yearDataList.length,
       itemBuilder: (BuildContext context, int index) {
-        currentYear = currentYear + 1;
         return ListTile(
           title: Text(
-            (currentYear).toString(),
+            yearDataList[index].toString(),
             textAlign: TextAlign.center,
           ),
           onTap: () {
-            expireYearTEC.text = currentYear.toString();
-            setData(CreditCardColumn.expireYear, currentYear.toString());
+            expireYearTEC.text = yearDataList[index].toString();
+            setData(CreditCardColumn.expireYear, yearDataList[index].toString());
             Navigator.pop(context);
           },
         );
@@ -287,6 +293,9 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    getYear();
+
     if (widget.isEdit) {
       getData();
     }

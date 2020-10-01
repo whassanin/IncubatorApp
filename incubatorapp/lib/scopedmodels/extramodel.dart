@@ -5,7 +5,7 @@ import 'package:scoped_model/scoped_model.dart';
 class ExtraModel extends Model{
   Api _api = new Api('extra');
 
-  List<extraName.Extra> extraList;
+  List<extraName.Extra> extraList = [];
 
   extraName.Extra _currentExtra;
 
