@@ -74,7 +74,7 @@ class UserData {
     userModel.createUser();
     userModel.setUserType(UserType.patient);
     userModel.setEmail('ibrahim@gmail.com');
-    userModel.setPassword('ibrahim@2000');
+    userModel.setPassword('admin');
     userModel.setProvider(UserProvider.other);
     userModel.setPhone('+0201019340608');
     userModel.create();

@@ -95,40 +95,30 @@ class DoctorShiftModel extends Model {
     return _currentDoctorShift.changedDate;
   }
 
-  double totalHours(DateTime startDateTime,DateTime endDateTime){
+  double totalHours(DateTime startDateTime, DateTime endDateTime) {
     int sh = startDateTime.hour;
     double sm = startDateTime.minute / 60;
     double ss = startDateTime.second / 3600;
 
-    double startSum = sh+sm+ss;
+    double startSum = sh + sm + ss;
 
     int eh = endDateTime.hour;
     double em = endDateTime.minute / 60;
     double es = endDateTime.second / 3600;
 
-    double endSum = eh+em+es;
+    double endSum = eh + em + es;
 
     double totalTime = endSum - startSum;
 
     return totalTime.roundToDouble();
   }
 
-  double calculate(){
+  double calculate() {
     double total = 0;
-    print('shift:'+doctorShiftList.length.toString());
+    print('shift:' + doctorShiftList.length.toString());
     doctorShiftList.forEach((element) {
       if (element.isSignedIn == true && element.isSignedOut == true) {
-        print('id:'+element.id.toString());
-        print('Shift Id:'+element.shiftId.toString());
-        print('Is Signed In:'+element.isSignedIn.toString());
-        print('Is Signed Out:'+element.isSignedOut.toString());
-        print('Start Date:'+element.startDateTime.toString());
-        print('End Date:'+element.endDateTime.toString());
-
-        total += totalHours(
-            element.startDateTime, element.endDateTime);
-        print('total hours:'+total.toString());
-
+        total += totalHours(element.startDateTime, element.endDateTime);
       }
     });
     return total;
@@ -153,9 +143,8 @@ class DoctorShiftModel extends Model {
 
     if (doctorShiftList == null) {
       doctorShiftList = <DoctorShift>[];
-    }
-    else {
-      if(doctorShiftList.length > 0){
+    } else {
+      if (doctorShiftList.length > 0) {
         doctorShiftList.clear();
       }
     }

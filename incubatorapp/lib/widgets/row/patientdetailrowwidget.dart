@@ -111,6 +111,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     } else {
       patientModel.setIsOnLightRay(true);
     }
+    patientModel.update();
   }
 
   void goToExtraScreen() {
