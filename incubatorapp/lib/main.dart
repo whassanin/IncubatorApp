@@ -194,7 +194,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: WelcomeScreen(),
+      home: MyHomePage(title: 'Generate Data',)
     );
   }
 }
@@ -418,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: patientDataDetail(7),
+        child: userDataButton(),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
