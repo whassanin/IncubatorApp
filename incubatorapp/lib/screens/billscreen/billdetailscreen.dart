@@ -12,13 +12,6 @@ class BillDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    int l = patientModel.currentPatient.patientExtraList.length;
-    if(l == 0) {
-      patientExtraModel.readByPatientId(patientModel.currentPatient.userId);
-    }else {
-      patientExtraModel.setList(patientModel.currentPatient.patientExtraList);
-    }
-
     return ScopedModel<BillModel>(
       model: billModel,
       child: ScopedModelDescendant(
@@ -32,7 +25,6 @@ class BillDetailScreen extends StatelessWidget {
             ),
             body: BillDetailRowWidget(
               billModel.currentBill,
-              patientExtraModel.patientExtraList,
             ),
           );
         },

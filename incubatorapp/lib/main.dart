@@ -194,7 +194,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: MyHomePage(title: 'Generate Data',)
+      home: WelcomeScreen(),
     );
   }
 }
@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget patientDataDetail(int v){
+  Widget patientDataDetail(int v) {
     //1
     Widget statusWidget = Column(
       children: [
@@ -365,24 +365,19 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-
     Widget currentWidget = Container();
 
-    if(v == 1){
+    if (v == 1) {
       currentWidget = statusWidget;
-    }else if(v == 2){
+    } else if (v == 2) {
       currentWidget = laboratoryWidget;
-    }
-    else if(v == 3){
+    } else if (v == 3) {
       currentWidget = xRayWidget;
-    }
-    else if(v == 4){
+    } else if (v == 4) {
       currentWidget = medicineWidget;
-    }
-    else if(v == 5){
+    } else if (v == 5) {
       currentWidget = consumableWidget;
-    }
-    else if(v == 6){
+    } else if (v == 6) {
       currentWidget = extraWidget;
     }
 
@@ -418,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: userDataButton(),
+        child: patientDataDetail(6),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

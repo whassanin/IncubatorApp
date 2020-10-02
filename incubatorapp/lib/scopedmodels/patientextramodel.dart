@@ -27,6 +27,7 @@ class PatientExtraModel extends Model {
   void setList(List<PatientExtra> list){
     clearList();
     patientExtraList = list;
+    print('extra:'+patientExtraList.length.toString());
     _isLoading = false;
     notifyListeners();
   }

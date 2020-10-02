@@ -154,7 +154,7 @@ class UserData {
     patientModel.setIsOnLightRay(true);
     patientModel.setUserId(5);
     patientModel.setConditionId(2);
-    patientModel.setIncubatorId(2);
+    patientModel.setIncubatorId(8);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -168,7 +168,7 @@ class UserData {
     patientModel.setIsOnLightRay(true);
     patientModel.setUserId(6);
     patientModel.setConditionId(3);
-    patientModel.setIncubatorId(3);
+    patientModel.setIncubatorId(2);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -182,7 +182,7 @@ class UserData {
     patientModel.setIsOnLightRay(true);
     patientModel.setUserId(7);
     patientModel.setConditionId(1);
-    patientModel.setIncubatorId(4);
+    patientModel.setIncubatorId(10);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -196,7 +196,7 @@ class UserData {
     patientModel.setIsOnLightRay(false);
     patientModel.setUserId(8);
     patientModel.setConditionId(2);
-    patientModel.setIncubatorId(5);
+    patientModel.setIncubatorId(7);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -210,7 +210,7 @@ class UserData {
     patientModel.setIsOnLightRay(false);
     patientModel.setUserId(9);
     patientModel.setConditionId(3);
-    patientModel.setIncubatorId(6);
+    patientModel.setIncubatorId(3);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -224,7 +224,7 @@ class UserData {
     patientModel.setIsOnLightRay(false);
     patientModel.setUserId(10);
     patientModel.setConditionId(1);
-    patientModel.setIncubatorId(7);
+    patientModel.setIncubatorId(5);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -238,7 +238,7 @@ class UserData {
     patientModel.setIsOnLightRay(false);
     patientModel.setUserId(11);
     patientModel.setConditionId(2);
-    patientModel.setIncubatorId(8);
+    patientModel.setIncubatorId(9);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
@@ -252,20 +252,20 @@ class UserData {
     patientModel.setIsOnLightRay(false);
     patientModel.setUserId(12);
     patientModel.setConditionId(3);
-    patientModel.setIncubatorId(9);
+    patientModel.setIncubatorId(6);
     patientModel.setStateTypeId(1);
     patientModel.setSSN('1234567891011');
     patientModel.create();
   }
 
   void getPatientList() {
-    patientModel.filterByStateType(1);
+    patientModel.filterByStateType(2);
   }
 
   void updatePatientList() {
     patientModel.patientList.forEach((element) {
       patientModel.editPatient(element);
-      patientModel.setStateTypeId(1);
+      patientModel.setStateTypeId(2);
       patientModel.update();
     });
   }
@@ -333,14 +333,12 @@ class UserData {
 
   void addPatientLaboratory() {
     patientModel.patientList.forEach((element) {
-      for (int i = 1; i <= 3; i++) {
-        patientLaboratoryModel.createPatientLaboratory();
-        patientLaboratoryModel.setPatientId(element.userId);
-        patientLaboratoryModel.setLaboratoryId(i);
-        patientLaboratoryModel.setResult('Results is ok');
-        patientLaboratoryModel.setBillStatus('Pending');
-        patientLaboratoryModel.create();
-      }
+      patientLaboratoryModel.createPatientLaboratory();
+      patientLaboratoryModel.setPatientId(element.userId);
+      patientLaboratoryModel.setLaboratoryId(8);
+      patientLaboratoryModel.setResult('Results is ok');
+      patientLaboratoryModel.setBillStatus('Pending');
+      patientLaboratoryModel.create();
     });
   }
 
@@ -358,14 +356,12 @@ class UserData {
 
   void addPatientXRay() {
     patientModel.patientList.forEach((element) {
-      for (int i = 1; i <= 3; i++) {
-        patientXRayModel.createPatientXRay();
-        patientXRayModel.setPatientId(element.userId);
-        patientXRayModel.setXRayId(i);
-        patientXRayModel.setComment('Results is ok');
-        patientXRayModel.setBillStatus('Pending');
-        patientXRayModel.create();
-      }
+      patientXRayModel.createPatientXRay();
+      patientXRayModel.setPatientId(element.userId);
+      patientXRayModel.setXRayId(7);
+      patientXRayModel.setComment('Results is ok');
+      patientXRayModel.setBillStatus('Pending');
+      patientXRayModel.create();
     });
   }
 
@@ -383,15 +379,13 @@ class UserData {
 
   void addPatientMedicine() {
     patientModel.patientList.forEach((element) {
-      for (int i = 1; i <= 5; i++) {
-        patientMedicineDoctorModel.createPatientMedicineDoctor();
-        patientMedicineDoctorModel.setPatientId(element.userId);
-        patientMedicineDoctorModel.setMedicineId(i);
-        patientMedicineDoctorModel.setDoctorId(1);
-        patientMedicineDoctorModel.setQuantity(1);
-        patientMedicineDoctorModel.setBillStatus('Pending');
-        patientMedicineDoctorModel.create();
-      }
+      patientMedicineDoctorModel.createPatientMedicineDoctor();
+      patientMedicineDoctorModel.setPatientId(element.userId);
+      patientMedicineDoctorModel.setMedicineId(4);
+      patientMedicineDoctorModel.setDoctorId(1);
+      patientMedicineDoctorModel.setQuantity(1);
+      patientMedicineDoctorModel.setBillStatus('Pending');
+      patientMedicineDoctorModel.create();
     });
   }
 
@@ -410,15 +404,13 @@ class UserData {
 
   void addPatientConsumable() {
     patientModel.patientList.forEach((element) {
-      for (int i = 1; i <= 5; i++) {
-        patientConsumableNurseModel.createPatientConsumableNurse();
-        patientConsumableNurseModel.setPatientId(element.userId);
-        patientConsumableNurseModel.setConsumableId(i);
-        patientConsumableNurseModel.setNurseId(2);
-        patientConsumableNurseModel.setQuantity(1);
-        patientConsumableNurseModel.setBillStatus('Pending');
-        patientConsumableNurseModel.create();
-      }
+      patientConsumableNurseModel.createPatientConsumableNurse();
+      patientConsumableNurseModel.setPatientId(element.userId);
+      patientConsumableNurseModel.setConsumableId(7);
+      patientConsumableNurseModel.setNurseId(2);
+      patientConsumableNurseModel.setQuantity(1);
+      patientConsumableNurseModel.setBillStatus('Pending');
+      patientConsumableNurseModel.create();
     });
   }
 
@@ -437,13 +429,11 @@ class UserData {
 
   void addPatientExtra() {
     patientModel.patientList.forEach((element) {
-      for (int i = 1; i <= 2; i++) {
-        patientExtraModel.createPatientExtra();
-        patientExtraModel.setPatientId(element.userId);
-        patientExtraModel.setExtraId(i);
-        patientExtraModel.setBillStatus('Pending');
-        patientExtraModel.create();
-      }
+      patientExtraModel.createPatientExtra();
+      patientExtraModel.setPatientId(element.userId);
+      patientExtraModel.setExtraId(2);
+      patientExtraModel.setBillStatus('Pending');
+      patientExtraModel.create();
     });
   }
 

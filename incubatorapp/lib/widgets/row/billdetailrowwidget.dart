@@ -7,8 +7,7 @@ import 'package:incubatorapp/screens/billscreen/editbillscreen.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;
-  final List<PatientExtra> patientExtraList;
-  BillDetailRowWidget(this.bill, this.patientExtraList);
+  BillDetailRowWidget(this.bill,);
 
   @override
   _BillDetailRowWidgetState createState() => _BillDetailRowWidgetState();
@@ -91,19 +90,19 @@ class _BillDetailRowWidgetState extends State<BillDetailRowWidget> {
       ),
     );
 
-    if (widget.patientExtraList != null) {
-      if (widget.patientExtraList.length > 0) {
+    if (patientExtraModel.patientExtraList != null) {
+      if (patientExtraModel.patientExtraList.length > 0) {
         currentWidget = ListView.builder(
           shrinkWrap: true,
           physics: ScrollPhysics(),
-          itemCount: widget.patientExtraList.length,
+          itemCount: patientExtraModel.patientExtraList.length,
           itemBuilder: (BuildContext context, int i) {
             String d1 = billModel.formatDate(widget.bill.createdDate);
             String d2 =
-                billModel.formatDate(widget.patientExtraList[i].createdDate);
+                billModel.formatDate(patientExtraModel.patientExtraList[i].createdDate);
             if (d1 == d2) {
               int index = extraModel.extraList.indexWhere((element) =>
-                  element.id == widget.patientExtraList[i].extraId);
+                  element.id == patientExtraModel.patientExtraList[i].extraId);
               String name = extraModel.extraList[index].name;
               String val = extraModel.extraList[index].price.toString();
               return rowDetailData(name, val);
