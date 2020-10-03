@@ -207,69 +207,79 @@ class BillModel extends Model {
   }
 
   double countBillDataRows() {
+    List<String> dateString = [];
+
     double count = 0;
+
+    print('Bills:'+billList.length.toString());
 
     List<PatientLaboratory> cpal =
         patientModel.currentPatient.patientLaboratoryList;
-
     count += cpal.length;
-
     cpal.forEach((pl) {
-      int index = billList.indexWhere((b) => formatDate(b.createdDate) == formatDate(pl.createdDate));
-      if(index < 0){
-        createBill();
+      print('Lab:'+formatDate(pl.createdDate));
+      List<Bill> tempList = billList.where((b) => formatDate(b.createdDate) == formatDate(pl.createdDate)).toList();
+      if(tempList.length == 0){
+        _currentBill = newBill(pl.createdDate);
         billList.add(_currentBill);
       }
     });
+
+    print('Bills:'+billList.length.toString());
 
     List<PatientXRay> cpxl = patientModel.currentPatient.patientXRaysList;
-
     count += cpxl.length;
-
     cpxl.forEach((px) {
-      int index = billList.indexWhere((b) => formatDate(b.createdDate) == formatDate(px.createdDate));
-      if(index < 0){
-        createBill();
+      print('xr:'+formatDate(px.createdDate));
+      List<Bill> tempList = billList.where((b) => formatDate(b.createdDate) == formatDate(px.createdDate)).toList();
+      if(tempList.length == 0){
+        _currentBill = newBill(px.createdDate);
         billList.add(_currentBill);
       }
     });
+
+    print('Bills:'+billList.length.toString());
 
     List<PatientMedicineDoctor> cpmdl =
         patientModel.currentPatient.patientMedicineDoctorList;
-
     count += cpmdl.length;
-
     cpmdl.forEach((pm) {
-      int index = billList.indexWhere((b) => formatDate(b.createdDate) == formatDate(pm.createdDate));
-      if(index < 0){
-        createBill();
+      print('med:'+formatDate(pm.createdDate));
+      List<Bill> tempList = billList.where((b) => formatDate(b.createdDate) == formatDate(pm.createdDate)).toList();
+      if(tempList.length == 0){
+        _currentBill = newBill(pm.createdDate);
         billList.add(_currentBill);
       }
     });
+
+    print('Bills:'+billList.length.toString());
 
     List<PatientConsumableNurse> cpcnl =
         patientModel.currentPatient.patientConsumableNurseList;
-
     count += cpcnl.length;
-
     cpcnl.forEach((pc) {
-      int index = billList.indexWhere((b) => formatDate(b.createdDate) == formatDate(pc.createdDate));
-      if(index < 0){
-        createBill();
+      print('con:'+formatDate(pc.createdDate));
+      List<Bill> tempList = billList.where((b) => formatDate(b.createdDate) == formatDate(pc.createdDate)).toList();
+      if(tempList.length == 0){
+        _currentBill = newBill(pc.createdDate);
         billList.add(_currentBill);
       }
     });
+
+    print('Bills:'+billList.length.toString());
 
     List<PatientExtra> cpel = patientModel.currentPatient.patientExtraList;
     count += cpel.length;
-
     cpel.forEach((pe) {
-      int index = billList.indexWhere((b) => formatDate(b.createdDate) == formatDate(pe.createdDate));
-      if(index < 0){
-        createBill();
+      print('ex:'+formatDate(pe.createdDate));
+      List<Bill> tempList = billList.where((b) => formatDate(b.createdDate) == formatDate(pe.createdDate)).toList();
+      if(tempList.length == 0){
+        _currentBill = newBill(pe.createdDate);
         billList.add(_currentBill);
       }
     });
+
+    print('Bills:'+billList.length.toString());
 
     return count;
   }
@@ -451,6 +461,8 @@ class BillModel extends Model {
     });
 
     await Future.delayed(Duration(seconds: 3));
+
+    //notifyListeners();
 
     readByPatientId(patientModel.currentPatient.userId);
   }

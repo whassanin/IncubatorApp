@@ -34,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void navigateToSignInScreen() {
     Timer.periodic(
-      Duration(seconds: 2),
+      Duration(seconds: 3),
       (timer) {
         timer.cancel();
         if (incubatorModel.incubatorList.length > 0 &&
