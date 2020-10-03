@@ -8,7 +8,7 @@ import 'package:incubatorapp/models/user.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-enum UserProvider {huawei,other}
+enum UserProvider { huawei, other }
 
 class UserModel extends Model {
   Api _api = new Api('user');
@@ -22,7 +22,7 @@ class UserModel extends Model {
   String confirmPassword;
 
   void createUser() {
-    _currentUser = new User(0, '', '', '','','', DateTime.now());
+    _currentUser = new User(0, '', '', '', '', '', DateTime.now());
   }
 
   void editUser(User editUser) {
@@ -34,7 +34,7 @@ class UserModel extends Model {
   }
 
   String getEmail() {
-    if(_currentUser!=null){
+    if (_currentUser != null) {
       return _currentUser.email;
     }
     return '';
@@ -53,7 +53,7 @@ class UserModel extends Model {
   }
 
   String getPhone() {
-    if(_currentUser!=null){
+    if (_currentUser != null) {
       return _currentUser.phone;
     }
     return '';
@@ -79,7 +79,19 @@ class UserModel extends Model {
     return _currentUser.userType;
   }
 
-  String validatePassword(String v){
+  String validateEmail(String v) {
+    RegExp re = new RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    String message = '';
+    if (re.hasMatch(v)) {
+      _currentUser.email = v;
+    } else {
+      message = 'Invalid Email';
+    }
+    return message;
+  }
+
+  String validatePassword(String v) {
     RegExp re = new RegExp(
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     String message = '';
@@ -102,15 +114,17 @@ class UserModel extends Model {
       userType = UserType.doctor;
     } else if (_currentUser.userType.toString() == UserType.nurse.toString()) {
       userType = UserType.nurse;
-    } else if (_currentUser.userType.toString() == UserType.patient.toString()) {
+    } else if (_currentUser.userType.toString() ==
+        UserType.patient.toString()) {
       userType = UserType.patient;
-    }else if (_currentUser.userType.toString() == UserType.accountant.toString()) {
+    } else if (_currentUser.userType.toString() ==
+        UserType.accountant.toString()) {
       userType = UserType.accountant;
     }
     userPermission.setPermission(userType);
   }
 
-  Future<bool> checkEmail(String email,bool isGet) async {
+  Future<bool> checkEmail(String email, bool isGet) async {
     bool isTaken = false;
 
     List<String> fields = <String>[];
@@ -128,7 +142,7 @@ class UserModel extends Model {
         if (isGet == true) {
           User user = userList[0];
           _currentUser = user;
-          print('check email:'+_currentUser.email);
+          print('check email:' + _currentUser.email);
         }
         isTaken = true;
       }
@@ -214,7 +228,6 @@ class UserModel extends Model {
     userList = userListMap.map((e) => User.fromJson(e)).toList();
 
     print(userList.length);
-
   }
 
   Future<bool> create() async {

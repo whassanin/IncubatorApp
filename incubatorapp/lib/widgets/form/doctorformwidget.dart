@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
 
 enum DoctorColumns {
@@ -101,7 +102,14 @@ class _DoctorFormWidgetState extends State<DoctorFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (doctorColumns == DoctorColumns.password){
+            if (doctorColumns == DoctorColumns.email) {
+              String m = userModel.validateEmail(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            } else if (doctorColumns == DoctorColumns.password){
               String m = userModel.validatePassword(v);
               if(m.isEmpty){
                 return null;

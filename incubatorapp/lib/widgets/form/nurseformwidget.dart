@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
+import 'package:incubatorapp/scopedmodels/usermodel.dart';
 import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
 
 enum NurseColumns {
@@ -102,7 +103,14 @@ class _NurseFormWidgetState extends State<NurseFormWidget> {
           if (v.isEmpty) {
             return 'Required';
           } else {
-            if (nurseColumns == NurseColumns.password) {
+            if (nurseColumns == NurseColumns.email) {
+              String m = userModel.validateEmail(v);
+              if (m.isEmpty) {
+                return null;
+              } else {
+                return m;
+              }
+            } else if (nurseColumns == NurseColumns.password) {
               String m = userModel.validatePassword(v);
               if (m.isEmpty) {
                 return null;
