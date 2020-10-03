@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
+import 'package:incubatorapp/screens/connectivityscreen/connectivityscreen.dart';
 import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -35,10 +37,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       Duration(seconds: 2),
       (timer) {
         timer.cancel();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context)=>SignInScreen()),
-        );
+        if (incubatorModel.incubatorList.length > 0 &&
+            conditionModel.conditionList.length > 0 &&
+            shiftModel.shiftList.length > 0 &&
+            laboratoryModel.laboratoryList.length > 0 &&
+            xRayModel.xRayList.length > 0 &&
+            medicineModel.medicineList.length > 0 &&
+            consumableModel.consumableList.length > 0 &&
+            extraModel.extraList.length > 0 &&
+            stateTypeModel.stateTypeList.length > 0) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => SignInScreen()),
+          );
+        }else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ConnectivityScreen()),
+          );
+        }
+
       },
     );
   }
