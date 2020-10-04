@@ -9,10 +9,9 @@ class PatientExtra{
   int id;
   int patientId;
   int extraId;
-  String billStatus;
   DateTime createdDate;
 
-  PatientExtra(this.id,this.patientId,this.extraId,this.billStatus,this.createdDate);
+  PatientExtra(this.id,this.patientId,this.extraId,this.createdDate);
 
   factory PatientExtra.fromJson(Map<String, dynamic> json) => _$PatientExtraFromJson(json);
 

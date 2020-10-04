@@ -17,7 +17,7 @@ class PatientExtraModel extends Model {
   PatientExtra get patientExtra => _currentPatientExtra;
 
   void createPatientExtra() {
-    _currentPatientExtra = new PatientExtra(0, 0,0,'Pending', DateTime.now());
+    _currentPatientExtra = new PatientExtra(0, 0,0, DateTime.now());
   }
 
   void editPatientExtra(PatientExtra editPatientExtra) {
@@ -47,15 +47,6 @@ class PatientExtraModel extends Model {
 
   int getExtraId() {
     return _currentPatientExtra.extraId;
-  }
-
-  void setBillStatus(String val) {
-    _currentPatientExtra.billStatus = val;
-    notifyListeners();
-  }
-
-  String getBillStatus() {
-    return _currentPatientExtra.billStatus;
   }
 
   DateTime getCreatedDate() {

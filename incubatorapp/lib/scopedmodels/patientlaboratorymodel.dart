@@ -18,7 +18,7 @@ class PatientLaboratoryModel extends Model {
 
   void createPatientLaboratory() {
     _currentPatientLaboratory =
-        new PatientLaboratory(0, 0, 0, ' ', 'Pending', DateTime.now());
+        new PatientLaboratory(0, 0, 0, ' ', DateTime.now());
   }
 
   void editPatientLaboratory(PatientLaboratory editPatientLaboratory) {
@@ -55,15 +55,6 @@ class PatientLaboratoryModel extends Model {
 
   String getResult() {
     return _currentPatientLaboratory.result;
-  }
-
-  void setBillStatus(String val) {
-    _currentPatientLaboratory.billStatus = val;
-    notifyListeners();
-  }
-
-  String getBillStatus() {
-    return _currentPatientLaboratory.billStatus;
   }
 
   DateTime getCreatedDate() {

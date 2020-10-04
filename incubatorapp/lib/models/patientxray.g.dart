@@ -12,7 +12,6 @@ PatientXRay _$PatientXRayFromJson(Map<String, dynamic> json) {
     json['patientId'] as int,
     json['xRayId'] as int,
     json['comment'] as String,
-    json['billStatus'] as String,
     json['createdDate'] == null
         ? null
         : DateTime.parse(json['createdDate'] as String),
@@ -26,5 +25,4 @@ Map<String, dynamic> _$PatientXRayToJson(PatientXRay instance) =>
       'xRayId': instance.xRayId,
       'createdDate': instance.createdDate?.toIso8601String(),
       'comment': instance.comment,
-      'billStatus': instance.billStatus,
     };

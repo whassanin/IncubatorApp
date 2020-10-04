@@ -19,7 +19,7 @@ class PatientConsumableNurseModel extends Model {
 
   void createPatientConsumableNurse() {
     _currentPatientConsumableNurse =
-        new PatientConsumableNurse(0, 0, 0, 0, 0, 'Pending', DateTime.now());
+        new PatientConsumableNurse(0, 0, 0, 0, 0, DateTime.now());
   }
 
   void editPatientConsumableNurse(
@@ -66,15 +66,6 @@ class PatientConsumableNurseModel extends Model {
 
   int getQuantity() {
     return _currentPatientConsumableNurse.quantity;
-  }
-
-  void setBillStatus(String val) {
-    _currentPatientConsumableNurse.billStatus = val;
-    notifyListeners();
-  }
-
-  String getBillStatus() {
-    return _currentPatientConsumableNurse.billStatus;
   }
 
   DateTime getCreatedDate() {

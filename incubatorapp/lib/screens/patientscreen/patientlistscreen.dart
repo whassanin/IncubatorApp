@@ -11,7 +11,7 @@ class PatientListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patientModel.filterByStateType(2);
+    patientModel.filterByStateType(3);
 
     return ScopedModel<PatientModel>(
       model: patientModel,
