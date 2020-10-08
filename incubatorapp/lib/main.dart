@@ -76,6 +76,7 @@ import 'package:huawei_push/constants/channel.dart' as Channel;
 import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
 import 'package:incubatorapp/util/basicdata.dart';
 import 'package:incubatorapp/util/userdata.dart';
+import 'package:incubatorapp/webpages/homepage.dart';
 
 // basic Data
 IncubatorModel incubatorModel = new IncubatorModel();
@@ -194,7 +195,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: WelcomeScreen(),
+      home: HomePage(),
     );
   }
 }

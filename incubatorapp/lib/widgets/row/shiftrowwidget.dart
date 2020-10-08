@@ -72,34 +72,31 @@ class _ShiftRowWidgetState extends State<ShiftRowWidget> {
 
     Widget totalTimeRow = Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text('Total Hours: '+
-        calculateTotalHours().toString(),
+      child: Text(
+        'Total Hours: ' + calculateTotalHours().toString(),
       ),
     );
 
     Widget dataColumn = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        nameRow,
-        startTimeRow,
-        endTimeRow,
-        totalTimeRow
-      ],
+      children: <Widget>[nameRow, startTimeRow, endTimeRow, totalTimeRow],
     );
 
     Widget shiftCard = Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0))
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: dataColumn,
     );
 
     return GestureDetector(
-      onTap: (){
-        shiftModel.editShift(widget.shift);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditShiftScreen()));
+      onTap: () {
+        if (userPermission.isAccountant) {
+          shiftModel.editShift(widget.shift);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EditShiftScreen()));
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
