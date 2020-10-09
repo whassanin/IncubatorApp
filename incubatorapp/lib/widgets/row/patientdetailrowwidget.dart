@@ -91,7 +91,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => IncubatorScreen(true),
+        builder: (context) => IncubatorScreen(true,false),
       ),
     );
   }

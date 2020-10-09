@@ -27,6 +27,7 @@ import 'package:incubatorapp/scopedmodels/shiftmodel.dart';
 import 'package:incubatorapp/scopedmodels/statetypemodel.dart';
 import 'package:incubatorapp/scopedmodels/statusmodel.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
+import 'package:incubatorapp/scopedmodels/webpagemodel.dart';
 import 'package:incubatorapp/scopedmodels/xraymodel.dart';
 import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
 import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
@@ -115,6 +116,8 @@ NurseShiftModel nurseShiftModel = new NurseShiftModel();
 
 UserPermission userPermission = new UserPermission();
 
+WebPageModel webPageModel = new WebPageModel();
+
 void main() {
   runApp(MyApp());
 }
@@ -165,7 +168,7 @@ class MyApp extends StatelessWidget {
         NewDoctorScreen.routeName: (context) => NewDoctorScreen(),
         HistoryScreen.routeName: (context) => HistoryScreen(),
         EditIncubatorScreen.routeName: (context) => EditIncubatorScreen(),
-        IncubatorScreen.routeName: (context) => IncubatorScreen(false),
+        IncubatorScreen.routeName: (context) => IncubatorScreen(false,false),
         NewIncubatorScreen.routeName: (context) => NewIncubatorScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),

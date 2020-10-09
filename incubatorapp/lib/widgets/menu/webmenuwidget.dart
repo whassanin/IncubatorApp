@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
 import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
 import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
@@ -21,8 +22,7 @@ class _WebMenuWidgetState extends State<WebMenuWidget> {
   }
 
   void navigateToIncubator() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => IncubatorScreen(false)));
+    webPageModel.setCurrentPage(IncubatorScreen(false, true));
   }
 
   void navigateToCondition() {
