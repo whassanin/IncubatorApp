@@ -10,10 +10,9 @@ class PatientConsumableNurse{
   int patientId;
   int nurseId;
   int quantity;
-  String billStatus;
   DateTime createdDate;
 
-  PatientConsumableNurse(this.id,this.consumableId,this.patientId,this.nurseId,this.quantity,this.billStatus,this.createdDate);
+  PatientConsumableNurse(this.id,this.consumableId,this.patientId,this.nurseId,this.quantity,this.createdDate);
 
   factory PatientConsumableNurse.fromJson(Map<String, dynamic> json) => _$PatientConsumableNurseFromJson(json);
 

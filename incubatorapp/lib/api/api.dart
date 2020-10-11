@@ -9,7 +9,7 @@ class Api {
 
   //http://192.168.1.12:8000
 
-  String _url = 'https://incubatorsystem.herokuapp.com';
+  String _url = 'http://incubatorsystem.herokuapp.com';
 
   Api(this.name) {
     _url += '/' + this.name;

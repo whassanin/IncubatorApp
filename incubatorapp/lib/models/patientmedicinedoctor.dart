@@ -12,7 +12,6 @@ class PatientMedicineDoctor {
   String description;
   String status;
   DateTime date;
-  String billStatus;
   DateTime createdDate;
 
   PatientMedicineDoctor(
@@ -24,7 +23,6 @@ class PatientMedicineDoctor {
     this.description,
     this.status,
     this.date,
-    this.billStatus,
     this.createdDate,
   );
 

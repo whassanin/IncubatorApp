@@ -19,7 +19,7 @@ class PatientMedicineDoctorModel extends Model {
 
   void createPatientMedicineDoctor() {
     _currentPatientMedicineDoctor =
-        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(),'Pending', DateTime.now());
+        new PatientMedicineDoctor(0, 0, 0, 0, 0,'','Pending',DateTime.now(), DateTime.now());
   }
 
   void editPatientMedicineDoctor(
@@ -76,15 +76,6 @@ class PatientMedicineDoctorModel extends Model {
 
   String getDescription(){
     return _currentPatientMedicineDoctor.description;
-  }
-
-  void setBillStatus(String val) {
-    _currentPatientMedicineDoctor.billStatus = val;
-    notifyListeners();
-  }
-
-  String getBillStatus() {
-    return _currentPatientMedicineDoctor.billStatus;
   }
 
   DateTime getCreatedDate() {

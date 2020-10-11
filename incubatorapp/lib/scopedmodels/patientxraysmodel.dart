@@ -19,7 +19,7 @@ class PatientXRayModel extends Model{
   PatientXRay get patientXRay => _currentPatientXRay;
 
   void createPatientXRay() {
-    _currentPatientXRay = new PatientXRay(0, 0, 0, '','Pending', DateTime.now());
+    _currentPatientXRay = new PatientXRay(0, 0, 0, '', DateTime.now());
   }
 
   void editPatientXRay(PatientXRay editPatientXRay) {
@@ -56,15 +56,6 @@ class PatientXRayModel extends Model{
 
   String getComment(){
     return _currentPatientXRay.comment;
-  }
-
-  void setBillStatus(String val) {
-    _currentPatientXRay.billStatus = val;
-    notifyListeners();
-  }
-
-  String getBillStatus() {
-    return _currentPatientXRay.billStatus;
   }
 
   DateTime getCreatedDate(){

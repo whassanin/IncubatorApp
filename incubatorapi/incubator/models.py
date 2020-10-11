@@ -178,14 +178,12 @@ class PatientLaboratory(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientlaboratory')
     laboratoryId = models.ForeignKey(Laboratory,on_delete=models.CASCADE,related_name='laboratorypatient')
     result = models.CharField(max_length=500,blank=True)
-    billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # 21
 class PatientExtra(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientextra')
     extraId = models.ForeignKey(Extra,on_delete=models.CASCADE,related_name='extrapatient')
-    billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # 22
@@ -193,7 +191,6 @@ class PatientXRay(models.Model):
     patientId = models.ForeignKey(Patient,on_delete=models.CASCADE,related_name='patientxray')
     xRayId = models.ForeignKey(XRay,on_delete=models.CASCADE,related_name='xraypatient')
     comment = models.CharField(max_length=500,blank=True)
-    billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # 23
@@ -202,7 +199,6 @@ class PatientConsumableNurse(models.Model):
     consumableId = models.ForeignKey(Consumable,on_delete=models.CASCADE,related_name='consumbalepatientnurse')
     nurseId = models.ForeignKey(Nurse,on_delete=models.CASCADE,related_name='nursepatientconsumable')
     quantity = models.IntegerField()
-    billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # 24
@@ -213,7 +209,6 @@ class PatientMedicineDoctor(models.Model):
     quantity = models.IntegerField()
     description = models.CharField(max_length=500,blank=True)
     date = models.DateTimeField()
-    billStatus = models.CharField(max_length=50,blank=True)
     createdDate = models.DateTimeField()
 
 # Multi value

@@ -87,7 +87,6 @@ class PatientLaboratorySerializer(serializers.ModelSerializer):
             'patientId',
             'laboratoryId',
             'result',
-            'billStatus',
             'createdDate',
         ]
 
@@ -100,7 +99,6 @@ class PatientExtraSerializer(serializers.ModelSerializer):
             'id',
             'patientId',
             'extraId',
-            'billStatus',
             'createdDate',
         ]
 
@@ -114,7 +112,6 @@ class PatientXRaySerializer(serializers.ModelSerializer):
             'patientId',
             'xRayId',
             'comment',
-            'billStatus',
             'createdDate',
         ]
 
@@ -129,7 +126,6 @@ class PatientConsumableNurseSerializer(serializers.ModelSerializer):
             'consumableId',
             'nurseId',
             'quantity',
-            'billStatus',
             'createdDate',
         ]
 
@@ -146,7 +142,6 @@ class PatientMedicineDoctorSerializer(serializers.ModelSerializer):
             'quantity',
             'description',
             'date',
-            'billStatus',
             'createdDate',
         ]
 

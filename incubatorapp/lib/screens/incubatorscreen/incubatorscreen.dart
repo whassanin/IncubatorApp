@@ -10,7 +10,8 @@ class IncubatorScreen extends StatelessWidget {
   static const routeName = '/incubatorscreen';
 
   final bool isPatient;
-  IncubatorScreen(this.isPatient);
+  final bool isWeb;
+  IncubatorScreen(this.isPatient,this.isWeb);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class IncubatorScreen extends StatelessWidget {
         builder: (BuildContext context, Widget childWidget,
             IncubatorModel incubatorModel) {
           return Scaffold(
-            appBar: AppBar(
+            appBar: (this.isWeb?null:AppBar(
               leading: BackButton(
                 color: Colors.white,
               ),
@@ -41,7 +42,7 @@ class IncubatorScreen extends StatelessWidget {
                   },
                 )
               ],
-            ),
+            )),
             body: IncubatorListWidget(
               incubatorList: incubatorModel.incubatorList,
             ),

@@ -337,7 +337,6 @@ class UserData {
       patientLaboratoryModel.setPatientId(element.userId);
       patientLaboratoryModel.setLaboratoryId(8);
       patientLaboratoryModel.setResult('Results is ok');
-      patientLaboratoryModel.setBillStatus('Pending');
       patientLaboratoryModel.create();
     });
   }
@@ -345,7 +344,6 @@ class UserData {
   void updatePatientLaboratory() {
     patientLaboratoryModel.patientLaboratoryList.forEach((element) {
       patientLaboratoryModel.editPatientLaboratory(element);
-      patientLaboratoryModel.setBillStatus('Pending');
       patientLaboratoryModel.update();
     });
   }
@@ -360,7 +358,6 @@ class UserData {
       patientXRayModel.setPatientId(element.userId);
       patientXRayModel.setXRayId(7);
       patientXRayModel.setComment('Results is ok');
-      patientXRayModel.setBillStatus('Pending');
       patientXRayModel.create();
     });
   }
@@ -368,7 +365,6 @@ class UserData {
   void updatePatientXRay() {
     patientXRayModel.patientXRayList.forEach((element) {
       patientXRayModel.editPatientXRay(element);
-      patientXRayModel.setBillStatus('Pending');
       patientXRayModel.update();
     });
   }
@@ -384,7 +380,6 @@ class UserData {
       patientMedicineDoctorModel.setMedicineId(4);
       patientMedicineDoctorModel.setDoctorId(1);
       patientMedicineDoctorModel.setQuantity(1);
-      patientMedicineDoctorModel.setBillStatus('Pending');
       patientMedicineDoctorModel.create();
     });
   }
@@ -393,7 +388,6 @@ class UserData {
     patientMedicineDoctorModel.patientMedicineDoctorList.forEach((element) {
       patientMedicineDoctorModel.editPatientMedicineDoctor(element);
       patientMedicineDoctorModel.setQuantity(1);
-      patientMedicineDoctorModel.setBillStatus('Pending');
       patientMedicineDoctorModel.update();
     });
   }
@@ -409,7 +403,6 @@ class UserData {
       patientConsumableNurseModel.setConsumableId(7);
       patientConsumableNurseModel.setNurseId(2);
       patientConsumableNurseModel.setQuantity(1);
-      patientConsumableNurseModel.setBillStatus('Pending');
       patientConsumableNurseModel.create();
     });
   }
@@ -418,7 +411,6 @@ class UserData {
     patientConsumableNurseModel.patientConsumableNurseList.forEach((element) {
       patientConsumableNurseModel.editPatientConsumableNurse(element);
       patientConsumableNurseModel.setQuantity(1);
-      patientConsumableNurseModel.setBillStatus('Pending');
       patientConsumableNurseModel.update();
     });
   }
@@ -432,7 +424,6 @@ class UserData {
       patientExtraModel.createPatientExtra();
       patientExtraModel.setPatientId(element.userId);
       patientExtraModel.setExtraId(2);
-      patientExtraModel.setBillStatus('Pending');
       patientExtraModel.create();
     });
   }
@@ -440,7 +431,6 @@ class UserData {
   void updatePatientExtra() {
     patientExtraModel.patientExtraList.forEach((element) {
       patientExtraModel.editPatientExtra(element);
-      patientExtraModel.setBillStatus('Pending');
       patientExtraModel.update();
     });
   }

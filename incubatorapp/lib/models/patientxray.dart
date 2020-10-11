@@ -9,14 +9,12 @@ class PatientXRay {
   int xRayId;
   DateTime createdDate;
   String comment;
-  String billStatus;
 
   PatientXRay(
     this.id,
     this.patientId,
     this.xRayId,
     this.comment,
-    this.billStatus,
     this.createdDate,
   );
 
