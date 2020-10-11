@@ -198,7 +198,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: HomePage(),
+      home: WelcomeScreen(),
     );
   }
 }
