@@ -55,7 +55,7 @@ class XRayModel extends Model {
   void search(String val) async {
     _searchName = val;
 
-    xRayList
+    xRayList = xRayList
         .where((element) => element.name.toLowerCase().contains(val))
         .toList();
 
