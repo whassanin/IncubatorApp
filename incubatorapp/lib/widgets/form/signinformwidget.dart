@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
-import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
-import 'package:incubatorapp/screens/doctorscreen/doctorprofilescreen.dart';
-import 'package:incubatorapp/screens/loginscreen/forgetpasswordscreen.dart';
-import 'package:incubatorapp/screens/loginscreen/usertypescreen.dart';
-import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
+import 'package:incubatorapp/views/accountant/accountantscreen/accountantprofilescreen.dart';
+import 'package:incubatorapp/views/doctor/doctorscreen/doctorprofilescreen.dart';
+import 'package:incubatorapp/views/login/loginscreen/forgetpasswordscreen.dart';
+import 'package:incubatorapp/views/login/loginscreen/usertypescreen.dart';
+import 'package:incubatorapp/views/nurse/nursescreen/nurseprofilescreen.dart';
+import 'package:incubatorapp/views/patient/patientscreen/patientprofilescreen.dart';
 
 enum UserColumn { email, password }
 

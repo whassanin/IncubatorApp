@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/medicine.dart';
 import 'package:incubatorapp/models/patientmedicinedoctor.dart';
-import 'package:incubatorapp/screens/patientmedicinedoctorscreen/editpatientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/views/patientmedicinedoctor/patientmedicinedoctorscreen/editpatientmedicinedoctorscreen.dart';
 
 class PatientMedicineDoctorRowWidget extends StatefulWidget {
   final PatientMedicineDoctor patientMedicineDoctor;

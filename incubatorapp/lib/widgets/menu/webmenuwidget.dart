@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
-import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
-import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
-import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
-import 'package:incubatorapp/screens/laboratoryscreen/laboratoryscreen.dart';
-import 'package:incubatorapp/screens/medicinescreen/medicinescreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientlistscreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
-import 'package:incubatorapp/screens/xrayscreen/xrayscreen.dart';
+import 'package:incubatorapp/views/condition/conditionwebpage/conditionwebpage.dart';
+import 'package:incubatorapp/views/consumable/consumablescreen/consumablescreen.dart';
+import 'package:incubatorapp/views/extra/extrascreen/extrascreen.dart';
+import 'package:incubatorapp/views/incubator/incubatorwebpage/incubatorwebpage.dart';
+import 'package:incubatorapp/views/laboratory/laboratorywebpage/laboratorywebpage.dart';
+import 'package:incubatorapp/views/medicine/medicinescreen/medicinescreen.dart';
+import 'package:incubatorapp/views/shift/shiftscreen/shiftscreen.dart';
+import 'package:incubatorapp/views/xray/xrayscreen/xrayscreen.dart';
 
 class WebMenuWidget extends StatefulWidget {
   @override
@@ -17,22 +16,20 @@ class WebMenuWidget extends StatefulWidget {
 
 class _WebMenuWidgetState extends State<WebMenuWidget> {
   void navigateToPatientList() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PatientListScreen()));
+    /*Navigator.push(context,
+        MaterialPageRoute(builder: (context) => PatientListScreen()));*/
   }
 
   void navigateToIncubator() {
-    webPageModel.setCurrentPage(IncubatorScreen(false, true));
+    webPageModel.setCurrentPage(IncubatorWebPage());
   }
 
   void navigateToCondition() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ConditionScreen(false)));
+    webPageModel.setCurrentPage(ConditionWebPage());
   }
 
   void navigateToLaboratory() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LaboratoryScreen()));
+    webPageModel.setCurrentPage(LaboratoryWebPage());
   }
 
   void navigateToMedicine() {

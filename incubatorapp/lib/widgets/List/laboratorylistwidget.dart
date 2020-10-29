@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/laboratory.dart';
-import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/laboratoryscreen/searchlaboratoryscreen.dart';
+import 'package:incubatorapp/views/laboratory/laboratoryscreen/searchlaboratoryscreen.dart';
 import 'package:incubatorapp/widgets/row/laboratoryrowwidget.dart';
 
 class LaboratoryListWidget extends StatefulWidget {
@@ -16,6 +15,7 @@ class LaboratoryListWidget extends StatefulWidget {
 }
 
 class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
+
   void clearSearch() {
     laboratoryModel.setSearchName('');
     laboratoryModel.readAll();
@@ -103,24 +103,42 @@ class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
 
     if (widget.laboratoryList != null) {
       if (widget.laboratoryList.length > 0) {
-        currentWidget = Column(
-          children: <Widget>[
-            searchTextField(),
-            Expanded(
-              child: ListView.builder(
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.laboratoryList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return LaboratoryRowWidget(
-                    patient: patientModel.currentPatient,
-                    laboratory: widget.laboratoryList[index],
-                  );
-                },
-              ),
+        if (webPageModel.isWeb) {
+          currentWidget = GridView.count(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 5,
+            childAspectRatio: 16 / 9,
+            children: List.generate(
+              widget.laboratoryList.length,
+                  (index) {
+                return LaboratoryRowWidget(
+                  patient: patientModel.currentPatient,
+                  laboratory: widget.laboratoryList[index],
+                );
+              },
             ),
-          ],
-        );
+          );
+        } else {
+          currentWidget = Column(
+            children: <Widget>[
+              searchTextField(),
+              Expanded(
+                child: ListView.builder(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: widget.laboratoryList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return LaboratoryRowWidget(
+                      patient: patientModel.currentPatient,
+                      laboratory: widget.laboratoryList[index],
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        }
       } else {
         currentWidget = Center(
           child: Container(

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/accountantscreen/newaccountantscreen.dart';
-import 'package:incubatorapp/screens/doctorscreen/newdoctorscreen.dart';
-import 'package:incubatorapp/screens/nursescreen/newnursescreen.dart';
-import 'package:incubatorapp/screens/patientscreen/newpatientscreen.dart';
+import 'package:incubatorapp/views/accountant/accountantscreen/newaccountantscreen.dart';
+import 'package:incubatorapp/views/doctor/doctorscreen/newdoctorscreen.dart';
+import 'package:incubatorapp/views/nurse/nursescreen/newnursescreen.dart';
+import 'package:incubatorapp/views/patient/patientscreen/newpatientscreen.dart';
 
 class UserTypeFromWidget extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/statetype.dart';
-import 'package:incubatorapp/screens/statescreen/editstatescreen.dart';
+import 'package:incubatorapp/views/stateview/statescreen/editstatescreen.dart';
 
 class StateTypeRowWidget extends StatefulWidget {
   final StateType stateType;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/contactusscreen/contactusscreen.dart';
-import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
-import 'package:incubatorapp/screens/historyscreen/historyscreen.dart';
-import 'package:incubatorapp/screens/loginscreen/signinscreen.dart';
-import 'package:incubatorapp/screens/reportscreen/reportscreen.dart';
+import 'package:incubatorapp/views/contactus/contactusscreen/contactusscreen.dart';
+import 'package:incubatorapp/views/creditcard/creditcardscreen/creditcardscreen.dart';
+import 'package:incubatorapp/views/history/historyscreen/historyscreen.dart';
+import 'package:incubatorapp/views/login/loginscreen/signinscreen.dart';
+import 'package:incubatorapp/views/report/reportscreen/reportscreen.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override

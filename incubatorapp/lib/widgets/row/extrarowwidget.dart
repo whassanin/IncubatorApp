@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/extra.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/extrascreen/editextrascreen.dart';
+import 'package:incubatorapp/views/extra/extrascreen/editextrascreen.dart';
 
 class ExtraRowWidget extends StatefulWidget {
   final Patient patient;

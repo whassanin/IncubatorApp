@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
-import 'package:incubatorapp/screens/creditcardscreen/creditcardscreen.dart';
+import 'package:incubatorapp/views/creditcard/creditcardscreen/creditcardscreen.dart';
 import 'package:incubatorapp/widgets/row/billrowwidget.dart';
 
 class BillListWidget extends StatefulWidget {

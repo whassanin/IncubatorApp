@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/usermodel.dart';
-import 'package:incubatorapp/screens/accountantscreen/accountantprofilescreen.dart';
+import 'package:incubatorapp/views/accountant/accountantscreen/accountantprofilescreen.dart';
 
 enum AccountantColumns {
   firstName,

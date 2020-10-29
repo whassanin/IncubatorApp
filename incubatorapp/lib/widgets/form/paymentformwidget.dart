@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
-import 'package:incubatorapp/screens/paymentscreen/errormessagescreen.dart';
-import 'package:incubatorapp/screens/paymentscreen/successfullmessagescreen.dart';
+import 'package:incubatorapp/views/payment/paymentscreen/errormessagescreen.dart';
+import 'package:incubatorapp/views/payment/paymentscreen/successfullmessagescreen.dart';
 
 class PaymentFormWidget extends StatefulWidget {
   PaymentFormWidget();

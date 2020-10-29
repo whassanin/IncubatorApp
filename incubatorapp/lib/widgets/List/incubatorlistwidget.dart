@@ -12,31 +12,55 @@ class IncubatorListWidget extends StatefulWidget {
 
 class _IncubatorListWidgetState extends State<IncubatorListWidget> {
   Widget _getList() {
-    Widget current = Center(
+    Widget currentWidget = Center(
       child: Container(
         child: CircularProgressIndicator(),
       ),
     );
 
-
-    if(widget.incubatorList!=null){
-      if(widget.incubatorList.length > 0){
-        current = ListView.builder(
-          itemCount: widget.incubatorList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return IncubatorRowWidget(
-              incubator: widget.incubatorList[index],
-            );
-          },
+    if (widget.incubatorList != null) {
+      if (widget.incubatorList.length > 0) {
+        if (webPageModel.isWeb) {
+          currentWidget = GridView.count(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 5,
+            childAspectRatio: 16/9,
+            children: List.generate(
+              widget.incubatorList.length,
+              (index) {
+                return IncubatorRowWidget(
+                  incubator: widget.incubatorList[index],
+                );
+              },
+            ),
+          );
+        } else {
+          currentWidget = ListView.builder(
+            itemCount: widget.incubatorList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return IncubatorRowWidget(
+                incubator: widget.incubatorList[index],
+              );
+            },
+          );
+        }
+      } else {
+        currentWidget = Center(
+          child: Container(
+            child: Text('No Credit Card(s) Available'),
+          ),
         );
-      }else {
-
       }
-    }else {
-
+    } else {
+      currentWidget = Center(
+        child: Container(
+          child: Text('No Credit Card(s) Available'),
+        ),
+      );
     }
 
-    return current;
+    return currentWidget;
   }
 
   @override
@@ -51,7 +75,8 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           child: Container(
-            height: (userPermission.isDoctor||userPermission.isNurse?70:0),
+            height:
+                (userPermission.isDoctor || userPermission.isNurse ? 70 : 0),
             decoration: BoxDecoration(
               color: Colors.cyan,
             ),

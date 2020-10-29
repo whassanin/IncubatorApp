@@ -3,8 +3,8 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/billscreen/billscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/patientdetailscreen.dart';
+import 'package:incubatorapp/views/bill/billscreen/billscreen.dart';
+import 'package:incubatorapp/views/patient/patientscreen/patientdetailscreen.dart';
 
 class PatientRowWidget extends StatefulWidget {
   final Patient patient;

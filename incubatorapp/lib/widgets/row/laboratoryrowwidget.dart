@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/laboratoryscreen/editlaboratoryscreen.dart';
+import 'package:incubatorapp/views/laboratory/laboratoryscreen/editlaboratoryscreen.dart';
+import 'package:incubatorapp/views/laboratory/laboratorywebpage/editlaboratorywebpage.dart';
 
 class LaboratoryRowWidget extends StatefulWidget {
   final Patient patient;
@@ -17,6 +18,22 @@ class LaboratoryRowWidget extends StatefulWidget {
 
 class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
   bool isSelected = false;
+
+  void navigate() {
+    if (webPageModel.isWeb) {
+      laboratoryModel.editLaboratory(widget.laboratory);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => EditLaboratoryWebPage()));
+    } else {
+      if (userPermission.isDoctor) {
+        update();
+      } else if (userPermission.isAccountant) {
+        laboratoryModel.editLaboratory(widget.laboratory);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditLaboratoryScreen()));
+      }
+    }
+  }
 
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
@@ -35,10 +52,6 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
     }
   }
 
-  void navigateToEditLaboratoryScreen() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => EditLaboratoryScreen()));
-  }
 
   int findLaboratory() {
     String dn = dateFormat(DateTime.now());
@@ -122,12 +135,7 @@ class _LaboratoryRowWidgetState extends State<LaboratoryRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (userPermission.isDoctor) {
-          update();
-        } else if (userPermission.isAccountant) {
-          laboratoryModel.editLaboratory(widget.laboratory);
-          navigateToEditLaboratoryScreen();
-        }
+        navigate();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

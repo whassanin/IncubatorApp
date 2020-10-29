@@ -5,16 +5,16 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
 import 'package:incubatorapp/models/incubator.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
-import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
-import 'package:incubatorapp/screens/patientconsumablenursescreen/patientconsumablenursescreen.dart';
-import 'package:incubatorapp/screens/patientextrascreen/patientextrascreen.dart';
-import 'package:incubatorapp/screens/patientlaboratoryscreen/patientlaboratoryscreen.dart';
-import 'package:incubatorapp/screens/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
-import 'package:incubatorapp/screens/patientscreen/livescreen.dart';
-import 'package:incubatorapp/screens/patientxrayscreen/patientxrayscreen.dart';
-import 'package:incubatorapp/screens/statescreen/statescreen.dart';
-import 'package:incubatorapp/screens/statusscreen/statusscreen.dart';
+import 'package:incubatorapp/views/condition/conditionscreen/conditionscreen.dart';
+import 'package:incubatorapp/views/incubator/incubatorscreen/incubatorscreen.dart';
+import 'package:incubatorapp/views/patient/patientscreen/livescreen.dart';
+import 'package:incubatorapp/views/patientconsumablenurse/patientconsumablenursescreen/patientconsumablenursescreen.dart';
+import 'package:incubatorapp/views/patientextra/patientextrascreen/patientextrascreen.dart';
+import 'package:incubatorapp/views/patientlaboratory/patientlaboratoryscreen/patientlaboratoryscreen.dart';
+import 'package:incubatorapp/views/patientmedicinedoctor/patientmedicinedoctorscreen/patientmedicinedoctorscreen.dart';
+import 'package:incubatorapp/views/patientxray/patientxrayscreen/patientxrayscreen.dart';
+import 'package:incubatorapp/views/stateview/statescreen/statescreen.dart';
+import 'package:incubatorapp/views/status/statewebpage/statusscreen.dart';
 
 class PatientDetailRowWidget extends StatefulWidget {
   final Patient patient;
@@ -91,7 +91,7 @@ class _PatientDetailRowWidgetState extends State<PatientDetailRowWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => IncubatorScreen(true,false),
+        builder: (context) => IncubatorScreen(true),
       ),
     );
   }

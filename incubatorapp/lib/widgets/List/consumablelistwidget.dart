@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patient.dart';
-import 'package:incubatorapp/screens/consumablescreen/searchconsumablescreen.dart';
+import 'package:incubatorapp/views/consumable/consumablescreen/searchconsumablescreen.dart';
 import 'package:incubatorapp/widgets/row/consumablerowwidget.dart';
 
 class ConsumableListWidget extends StatefulWidget {

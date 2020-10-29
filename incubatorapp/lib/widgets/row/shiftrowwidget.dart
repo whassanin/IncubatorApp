@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/shift.dart';
-import 'package:incubatorapp/screens/shiftscreen/editshiftscreen.dart';
+import 'package:incubatorapp/views/shift/shiftscreen/editshiftscreen.dart';
 
 class ShiftRowWidget extends StatefulWidget {
   final Shift shift;

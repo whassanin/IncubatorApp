@@ -7,6 +7,8 @@ class LaboratoryModel extends Model {
 
   List<Laboratory> laboratoryList = [];
 
+  List<Laboratory> searchLaboratoryList = [];
+
   String _searchName;
 
   String get searchName => _searchName;
@@ -55,7 +57,7 @@ class LaboratoryModel extends Model {
   void search(String val) async {
     _searchName = val;
 
-    laboratoryList = laboratoryList
+    searchLaboratoryList = laboratoryList
         .where((element) => element.name.toLowerCase().contains(val))
         .toList();
 

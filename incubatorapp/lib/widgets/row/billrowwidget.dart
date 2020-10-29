@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
-import 'package:incubatorapp/screens/billscreen/billdetailscreen.dart';
+import 'package:incubatorapp/views/bill/billscreen/billdetailscreen.dart';
 
 class BillRowWidget extends StatefulWidget {
   final Bill bill;

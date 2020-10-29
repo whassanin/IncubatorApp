@@ -5,7 +5,7 @@ import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/consumable.dart';
 import 'package:incubatorapp/models/patientconsumablenurse.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/screens/patientconsumablenursescreen/editconsumablenursescreen.dart';
+import 'package:incubatorapp/views/patientconsumablenurse/patientconsumablenursescreen/editconsumablenursescreen.dart';
 
 class PatientConsumableNurseRowWidget extends StatefulWidget {
   final PatientConsumableNurse patientConsumableNurse;

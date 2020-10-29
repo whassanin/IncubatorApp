@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
-import 'package:incubatorapp/scopedmodels/usermodel.dart';
-import 'package:incubatorapp/screens/patientscreen/patientprofilescreen.dart';
+import 'package:incubatorapp/views/patient/patientscreen/patientprofilescreen.dart';
 
 enum PatientColumns {
   motherName,

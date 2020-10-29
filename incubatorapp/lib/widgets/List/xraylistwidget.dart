@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/xray.dart';
-import 'package:incubatorapp/screens/xrayscreen/searchxrayscreen.dart';
+import 'package:incubatorapp/views/xray/xrayscreen/searchxrayscreen.dart';
 import 'package:incubatorapp/widgets/row/xrayrowwidget.dart';
 import 'package:incubatorapp/models/patient.dart';
 

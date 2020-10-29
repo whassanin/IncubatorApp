@@ -5,7 +5,9 @@ import 'package:incubatorapp/widgets/row/conditionrowwidget.dart';
 
 class ConditionListWidget extends StatefulWidget {
   final List<Condition> conditionList;
-  ConditionListWidget({this.conditionList,});
+  ConditionListWidget({
+    this.conditionList,
+  });
 
   @override
   _ConditionListWidgetState createState() => _ConditionListWidgetState();
@@ -21,14 +23,31 @@ class _ConditionListWidgetState extends State<ConditionListWidget> {
 
     if (widget.conditionList != null) {
       if (widget.conditionList.length > 0) {
-        currentWidget = ListView.builder(
-          itemCount: widget.conditionList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ConditionRowWidget(
-              condition: widget.conditionList[index],
-            );
-          },
-        );
+        if (webPageModel.isWeb) {
+          currentWidget = GridView.count(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 5,
+            childAspectRatio: 16 / 9,
+            children: List.generate(
+              widget.conditionList.length,
+              (index) {
+                return ConditionRowWidget(
+                  condition: widget.conditionList[index],
+                );
+              },
+            ),
+          );
+        } else {
+          currentWidget = ListView.builder(
+            itemCount: widget.conditionList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ConditionRowWidget(
+                condition: widget.conditionList[index],
+              );
+            },
+          );
+        }
       } else {
         currentWidget = Center(
           child: Container(
@@ -86,7 +105,6 @@ class _ConditionListWidgetState extends State<ConditionListWidget> {
         children: <Widget>[positionList, positionSaveButton],
       );
     }
-
 
     return currentWidget;
   }

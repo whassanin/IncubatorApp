@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/laboratory.dart';
 import 'package:incubatorapp/models/patientlaboratory.dart';
-import 'package:incubatorapp/screens/patientlaboratoryscreen/editpatientlaboratoryscreen.dart';
+import 'package:incubatorapp/views/patientlaboratory/patientlaboratoryscreen/editpatientlaboratoryscreen.dart';
 
 class PatientLaboratoryRowWidget extends StatefulWidget {
   final PatientLaboratory patientLaboratory;

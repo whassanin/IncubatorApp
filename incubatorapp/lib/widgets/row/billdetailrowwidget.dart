@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/bill.dart';
 import 'package:incubatorapp/models/patientextra.dart';
-import 'package:incubatorapp/screens/billscreen/editbillscreen.dart';
+import 'package:incubatorapp/views/bill/billscreen/editbillscreen.dart';
 
 class BillDetailRowWidget extends StatefulWidget {
   final Bill bill;

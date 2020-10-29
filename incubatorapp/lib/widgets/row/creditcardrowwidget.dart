@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/creditcard.dart';
-import 'package:incubatorapp/screens/creditcardscreen/editcreditcardscreen.dart';
-import 'package:incubatorapp/screens/paymentscreen/paymentscreen.dart';
+import 'package:incubatorapp/views/creditcard/creditcardscreen/editcreditcardscreen.dart';
+import 'package:incubatorapp/views/payment/paymentscreen/paymentscreen.dart';
 
 class CreditCardRowWidget extends StatefulWidget {
   final CreditCard creditCard;

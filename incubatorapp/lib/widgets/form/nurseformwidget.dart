@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/userpermission.dart';
 import 'package:incubatorapp/scopedmodels/usermodel.dart';
-import 'package:incubatorapp/screens/nursescreen/nurseprofilescreen.dart';
+import 'package:incubatorapp/views/nurse/nursescreen/nurseprofilescreen.dart';
 
 enum NurseColumns {
   firstName,

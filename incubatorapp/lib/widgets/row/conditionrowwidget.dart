@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/condition.dart';
-import 'package:incubatorapp/screens/conditionscreen/editconditionscreen.dart';
+import 'package:incubatorapp/views/condition/conditionscreen/editconditionscreen.dart';
+import 'package:incubatorapp/views/condition/conditionwebpage/editconditionwebpage.dart';
 
 class ConditionRowWidget extends StatefulWidget {
   final Condition condition;
@@ -14,6 +15,26 @@ class ConditionRowWidget extends StatefulWidget {
 
 class _ConditionRowWidgetState extends State<ConditionRowWidget> {
   bool isSelected = false;
+
+  void navigate() {
+    if (webPageModel.isWeb) {
+      conditionModel.editCondition(widget.condition);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => EditConditionWebPage()));
+    } else {
+      if (userPermission.isDoctor) {
+        update();
+      } else if (userPermission.isAccountant) {
+        conditionModel.editCondition(widget.condition);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditConditionScreen()));
+      }
+    }
+  }
+
+  void navigateToEditConditionScreen() {
+
+  }
 
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
@@ -29,11 +50,6 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
     }
   }
 
-  void navigateToEditConditionScreen() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => EditConditionScreen()));
-  }
-
   int findCondition() {
     String dn = dateFormat(DateTime.now());
 
@@ -41,9 +57,9 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
 
     if (userPermission.isDoctor || userPermission.isNurse) {
       if (patientModel.currentPatient != null) {
-       if(widget.condition.id == patientModel.currentPatient.conditionId){
-         index = 1;
-       }
+        if (widget.condition.id == patientModel.currentPatient.conditionId) {
+          index = 1;
+        }
       }
     }
     return index;
@@ -107,12 +123,7 @@ class _ConditionRowWidgetState extends State<ConditionRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if (userPermission.isDoctor) {
-          update();
-        } else if (userPermission.isAccountant) {
-          conditionModel.editCondition(widget.condition);
-          navigateToEditConditionScreen();
-        }
+        navigate();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

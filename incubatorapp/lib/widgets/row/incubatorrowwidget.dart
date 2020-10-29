@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/incubator.dart';
-import 'package:incubatorapp/screens/incubatorscreen/editincubatorscreen.dart';
+import 'package:incubatorapp/views/incubator/incubatorscreen/editincubatorscreen.dart';
+import 'package:incubatorapp/views/incubator/incubatorwebpage/editincubatorwebpage.dart';
 
 class IncubatorRowWidget extends StatefulWidget {
   final Incubator incubator;
@@ -11,6 +12,31 @@ class IncubatorRowWidget extends StatefulWidget {
 }
 
 class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
+
+  void navigate(){
+    if (webPageModel.isWeb) {
+      incubatorModel.editIncubator(widget.incubator);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditIncubatorWebPage(),
+        ),
+      );
+    } else {
+      if (userPermission.isDoctor) {
+        update();
+      } else if (userPermission.isAccountant) {
+        incubatorModel.editIncubator(widget.incubator);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditIncubatorScreen(),
+          ),
+        );
+      }
+    }
+  }
+
   String dateFormat(DateTime dateTime) {
     String v = dateTime.day.toString();
     v = v + '/' + dateTime.month.toString();
@@ -19,19 +45,18 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
   }
 
   void update() {
-    int index = findCondition();
+    int index = findIncubator();
     if (index < 0) {
       save();
     }
   }
 
-  int findCondition() {
-
+  int findIncubator() {
     int index = -1;
 
     if (userPermission.isDoctor || userPermission.isNurse) {
       if (patientModel.currentPatient != null) {
-        if(widget.incubator.id == patientModel.currentPatient.incubatorId){
+        if (widget.incubator.id == patientModel.currentPatient.incubatorId) {
           index = 1;
         }
       }
@@ -45,7 +70,7 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
   }
 
   Widget row() {
-    int index = findCondition();
+    int index = findIncubator();
 
     Color cardColor = Colors.white;
     Color textColor = Colors.black;
@@ -87,18 +112,7 @@ class _IncubatorRowWidgetState extends State<IncubatorRowWidget> {
 
     return GestureDetector(
       onTap: () {
-        if(userPermission.isDoctor){
-          update();
-        }
-        else if (userPermission.isAccountant) {
-          incubatorModel.editIncubator(widget.incubator);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EditIncubatorScreen(),
-            ),
-          );
-        }
+        navigate();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:incubatorapp/main.dart';
 import 'package:incubatorapp/models/patientxray.dart';
 import 'package:incubatorapp/models/xray.dart';
-import 'package:incubatorapp/screens/patientxrayscreen/editpatientxrayscreen.dart';
+import 'package:incubatorapp/views/patientxray/patientxrayscreen/editpatientxrayscreen.dart';
 
 class PatientXRayRowWidget extends StatefulWidget {
   final PatientXRay patientXRay;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:incubatorapp/screens/conditionscreen/conditionscreen.dart';
-import 'package:incubatorapp/screens/consumablescreen/consumablescreen.dart';
-import 'package:incubatorapp/screens/extrascreen/extrascreen.dart';
-import 'package:incubatorapp/screens/incubatorscreen/incubatorscreen.dart';
-import 'package:incubatorapp/screens/laboratoryscreen/laboratoryscreen.dart';
-import 'package:incubatorapp/screens/medicinescreen/medicinescreen.dart';
-import 'package:incubatorapp/screens/shiftscreen/shiftscreen.dart';
-import 'package:incubatorapp/screens/xrayscreen/xrayscreen.dart';
+import 'package:incubatorapp/views/condition/conditionscreen/conditionscreen.dart';
+import 'package:incubatorapp/views/consumable/consumablescreen/consumablescreen.dart';
+import 'package:incubatorapp/views/extra/extrascreen/extrascreen.dart';
+import 'package:incubatorapp/views/incubator/incubatorscreen/incubatorscreen.dart';
+import 'package:incubatorapp/views/laboratory/laboratoryscreen/laboratoryscreen.dart';
+import 'package:incubatorapp/views/medicine/medicinescreen/medicinescreen.dart';
+import 'package:incubatorapp/views/shift/shiftscreen/shiftscreen.dart';
+import 'package:incubatorapp/views/xray/xrayscreen/xrayscreen.dart';
 
 class MenuWidget extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class MenuWidget extends StatefulWidget {
 class _MenuWidgetState extends State<MenuWidget> {
 
   void navigateToIncubator(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>IncubatorScreen(false,false)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>IncubatorScreen(false)));
   }
 
   void navigateToCondition(){
