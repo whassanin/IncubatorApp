@@ -28,7 +28,7 @@ class _ConditionListWidgetState extends State<ConditionListWidget> {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             crossAxisCount: 5,
-            childAspectRatio: 16 / 9,
+            childAspectRatio: 24 / 9,
             children: List.generate(
               widget.conditionList.length,
               (index) {

@@ -8,6 +8,8 @@ class MedicineModel extends Model {
   List<Medicine> medicineList = [];
   String _searchName;
 
+  List<Medicine> searchMedicineList = [];
+
   String get searchName => _searchName;
   Medicine _currentMedicine;
 
@@ -62,7 +64,7 @@ class MedicineModel extends Model {
   void search(String val) async {
     _searchName = val;
 
-    medicineList = medicineList
+    searchMedicineList = medicineList
         .where((element) => element.name.toLowerCase().contains(val))
         .toList();
 

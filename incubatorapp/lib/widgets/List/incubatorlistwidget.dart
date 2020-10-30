@@ -25,7 +25,7 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             crossAxisCount: 5,
-            childAspectRatio: 16/9,
+            childAspectRatio: 24 / 9,
             children: List.generate(
               widget.incubatorList.length,
               (index) {
@@ -48,14 +48,14 @@ class _IncubatorListWidgetState extends State<IncubatorListWidget> {
       } else {
         currentWidget = Center(
           child: Container(
-            child: Text('No Credit Card(s) Available'),
+            child: Text('No Incubator(s) Available'),
           ),
         );
       }
     } else {
       currentWidget = Center(
         child: Container(
-          child: Text('No Credit Card(s) Available'),
+          child: Text('No Incubator(s) Available'),
         ),
       );
     }

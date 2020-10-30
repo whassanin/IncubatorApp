@@ -101,43 +101,67 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
       ),
     );
 
-    Widget currentList = Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 70),
-        child: ListView.builder(
-          itemCount: widget.medicineList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return MedicineRowWidget(
-              patient: patientModel.currentPatient,
-              medicine: widget.medicineList[index],
-            );
-          },
-        ),
-      ),
-    );
-
-    if(userPermission.isAccountant){
-      currentList = Expanded(
-        child: ListView.builder(
-          itemCount: widget.medicineList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return MedicineRowWidget(
-              patient: patientModel.currentPatient,
-              medicine: widget.medicineList[index],
-            );
-          },
-        ),
-      );
-    }
+    Widget currentList = Container();
 
     if (widget.medicineList != null) {
       if (widget.medicineList.length > 0) {
-        currentWidget = Column(
-          children: <Widget>[
-            searchTextField(),
-            currentList
-          ],
-        );
+
+        if(webPageModel.isWeb){
+          currentList = GridView.count(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 5,
+            childAspectRatio: 24 / 9,
+            children: List.generate(
+              widget.medicineList.length,
+                  (index) {
+                return MedicineRowWidget(
+                  patient: patientModel.currentPatient,
+                  medicine: widget.medicineList[index],
+                );
+              },
+            ),
+          );
+          currentWidget = currentList;
+        }else {
+          if(userPermission.isAccountant){
+            currentList = Expanded(
+              child: ListView.builder(
+                itemCount: widget.medicineList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return MedicineRowWidget(
+                    patient: patientModel.currentPatient,
+                    medicine: widget.medicineList[index],
+                  );
+                },
+              ),
+            );
+          }
+          else {
+            currentList = Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: ListView.builder(
+                  itemCount: widget.medicineList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MedicineRowWidget(
+                      patient: patientModel.currentPatient,
+                      medicine: widget.medicineList[index],
+                    );
+                  },
+                ),
+              ),
+            );
+          }
+
+          currentWidget = Column(
+            children: <Widget>[
+              searchTextField(),
+              currentList
+            ],
+          );
+        }
+
       } else {
         currentWidget = Center(
           child: Container(

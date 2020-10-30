@@ -6,6 +6,7 @@ import 'package:incubatorapp/views/extra/extrascreen/extrascreen.dart';
 import 'package:incubatorapp/views/incubator/incubatorwebpage/incubatorwebpage.dart';
 import 'package:incubatorapp/views/laboratory/laboratorywebpage/laboratorywebpage.dart';
 import 'package:incubatorapp/views/medicine/medicinescreen/medicinescreen.dart';
+import 'package:incubatorapp/views/medicine/medicinewebpage/medicinewebpage.dart';
 import 'package:incubatorapp/views/shift/shiftscreen/shiftscreen.dart';
 import 'package:incubatorapp/views/xray/xrayscreen/xrayscreen.dart';
 
@@ -33,8 +34,7 @@ class _WebMenuWidgetState extends State<WebMenuWidget> {
   }
 
   void navigateToMedicine() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MedicineScreen()));
+    webPageModel.setCurrentPage(MedicineWebPage());
   }
 
   void navigateToConsumable() {

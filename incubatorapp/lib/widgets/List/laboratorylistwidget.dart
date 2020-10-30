@@ -108,7 +108,7 @@ class _LaboratoryListWidgetState extends State<LaboratoryListWidget> {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             crossAxisCount: 5,
-            childAspectRatio: 16 / 9,
+            childAspectRatio: 24 / 9,
             children: List.generate(
               widget.laboratoryList.length,
                   (index) {
