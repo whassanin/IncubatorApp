@@ -47,6 +47,7 @@ import 'package:incubatorapp/views/doctorshift/doctorshiftscreen/editdoctorshift
 import 'package:incubatorapp/views/doctorshift/doctorshiftscreen/newdoctorshiftscreen.dart';
 import 'package:incubatorapp/views/history/historyscreen/historyscreen.dart';
 import 'package:incubatorapp/views/home/homepage.dart';
+import 'package:incubatorapp/views/home/welcomescreen.dart';
 import 'package:incubatorapp/views/incubator/incubatorscreen/editincubatorscreen.dart';
 import 'package:incubatorapp/views/incubator/incubatorscreen/incubatorscreen.dart';
 import 'package:incubatorapp/views/incubator/incubatorscreen/newincubatorscreen.dart';
@@ -199,7 +200,7 @@ class MyApp extends StatelessWidget {
         SearchMedicineScreen.routeName: (context) => SearchMedicineScreen(),
         SearchConsumableScreen.routeName: (context) => SearchConsumableScreen()
       },
-      home: HomePage(),
+      home: WelcomeScreen(),
     );
   }
 }

@@ -9,7 +9,7 @@ class Api {
 
   //http://192.168.1.12:8000
 
-  String _url = 'http://192.168.1.9:8000';
+  String _url = 'http://192.168.1.4:8000';
 
   Api(this.name) {
     _url += '/' + this.name;
@@ -23,6 +23,10 @@ class Api {
         'content-type': 'application/json',
       },
     );
+
+    /*Map<String,dynamic> list = jsonDecode(data.body);
+
+    list.forEach((key, value) { print(key);print(value); });*/
 
     List<dynamic> listMap = jsonDecode(data.body);
 

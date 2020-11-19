@@ -1,0 +1,5 @@
+1. Add Line in Settings Project
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+
