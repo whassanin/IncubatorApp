@@ -9,7 +9,6 @@ from django.db import models
 # 1
 class Incubator(models.Model):
     name = models.CharField(max_length=200)
-
 # 2
 class StateType(models.Model):
     name = models.CharField(max_length=20)
